@@ -1,0 +1,172 @@
+/* =========================================================================
+   About page — letterhead editorial
+   ========================================================================= */
+
+.rcd-about-hero {
+  padding-top: calc(80px + var(--s-7));
+  padding-bottom: var(--s-9);
+  background: var(--surface-page);
+}
+
+.rcd-about-hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 0.9fr;
+  gap: var(--s-8);
+  align-items: end;
+}
+@media (max-width: 880px) {
+  .rcd-about-hero-inner {
+    grid-template-columns: 1fr;
+    gap: var(--s-7);
+  }
+}
+
+.rcd-about-portrait {
+  aspect-ratio: 4 / 5;
+  background: var(--surface-sunken);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-md);
+}
+.rcd-about-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rcd-about-letter {
+  background: var(--surface-default);
+  border: 1px solid var(--line-default);
+  border-radius: var(--r-xl);
+  padding: var(--s-8);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+@media (max-width: 720px) {
+  .rcd-about-letter { padding: var(--s-6); }
+}
+.rcd-about-letter::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid var(--line-default);
+  border-radius: calc(var(--r-xl) - 4px);
+  pointer-events: none;
+}
+.rcd-about-letter-meta {
+  font: 600 11.5px/1 var(--font-mono), monospace;
+  letter-spacing: 0.16em;
+  color: var(--ink-tertiary);
+  margin: 0 0 var(--s-5);
+}
+.rcd-about-letter h1 {
+  margin: 0 0 var(--s-5);
+  font: 700 italic clamp(28px, 3vw, 40px) / 1.2 Georgia, "Times New Roman", serif;
+  text-transform: none;
+  color: var(--ink-primary);
+  letter-spacing: -0.005em;
+}
+.rcd-about-letter p {
+  font: 400 16.5px/1.7 var(--font-inter), sans-serif;
+  color: var(--ink-primary);
+  margin: 0 0 var(--s-4);
+}
+.rcd-about-letter p:first-of-type::first-letter {
+  font-family: var(--font-barlow), "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: 3.2em;
+  float: left;
+  line-height: 0.92;
+  margin: 0.04em 12px 0 0;
+  color: var(--accent-hover);
+}
+.rcd-about-letter-sign {
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line-default);
+  font: 500 italic 18px/1.4 Georgia, "Times New Roman", serif;
+  color: var(--ink-secondary);
+}
+.rcd-about-letter-sign strong {
+  display: block;
+  font: 600 14px/1.4 var(--font-inter), sans-serif;
+  color: var(--ink-primary);
+  margin-top: 6px;
+}
+
+/* Studio photo essay */
+.rcd-studio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-4);
+}
+@media (max-width: 720px) {
+  .rcd-studio-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.rcd-studio-tile {
+  aspect-ratio: 4 / 3;
+  background: var(--surface-sunken);
+  border-radius: var(--r-md);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.rcd-studio-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-6) var(--ease-out);
+}
+.rcd-studio-tile:hover img {
+  transform: scale(1.04);
+}
+.rcd-studio-tile::after {
+  content: attr(data-label);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+  font: 600 11.5px/1.3 var(--font-mono), monospace;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: linear-gradient(180deg, transparent 60%, rgba(15, 30, 51, 0.6) 100%);
+  pointer-events: none;
+}
+
+/* What we read / use */
+.rcd-pulls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-7);
+}
+@media (max-width: 720px) {
+  .rcd-pulls { grid-template-columns: 1fr; }
+}
+.rcd-pull h3 {
+  font: 600 13px/1 var(--font-inter), sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  margin: 0 0 var(--s-4);
+}
+.rcd-pull ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rcd-pull li {
+  font: 400 16px/1.55 var(--font-inter), sans-serif;
+  color: var(--ink-primary);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line-default);
+}
+.rcd-pull li:last-child { border-bottom: 0; }
+.rcd-pull li em {
+  font-style: italic;
+  color: var(--ink-secondary);
+}

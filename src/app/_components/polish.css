@@ -1,0 +1,957 @@
+/* =========================================================================
+   Polish layer v2 — bold color, texture, and decorative flourishes
+   in the spirit of the risograph hero illustrations.
+   ========================================================================= */
+
+/* Letterhead and sunken sections — kept clean, no grain. The
+   isolation context stays so .section--bg-* layers still work. */
+.section--letterhead,
+.section--sunken {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Civic / dark sections — soft teal radial glows, no grain. */
+.section--civic,
+.section--civic-deep {
+  position: relative;
+  isolation: isolate;
+}
+.section--civic::before,
+.section--civic-deep::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(76, 165, 173, 0.18), transparent 70%),
+    radial-gradient(ellipse 50% 30% at 10% 90%, rgba(76, 165, 173, 0.12), transparent 65%);
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* ---- Section ornament — bigger, more decorative -------------------- */
+.section-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-5);
+  padding: var(--s-8) 0;
+  position: relative;
+  background: var(--surface-page);
+  z-index: 1;
+}
+.section-ornament::before,
+.section-ornament::after {
+  content: "";
+  flex: 1;
+  max-width: 280px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--line-strong) 50%, transparent 100%);
+}
+.section-ornament-mark {
+  position: relative;
+  width: 64px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.section-ornament-mark::before,
+.section-ornament-mark::after {
+  content: "";
+  width: 10px;
+  height: 1px;
+  background: var(--accent);
+}
+.section-ornament-mark span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(76, 165, 173, 0.20);
+  display: inline-block;
+}
+
+/* ---- Decorative SVG flourishes for dark heroes ---------------------- */
+.rcd-hero[data-mode="civic-deep"]::after,
+.rcd-hero[data-mode="civic"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    /* topo lines, top-right corner */
+    radial-gradient(ellipse 600px 240px at 100% 0%, transparent 0%, transparent 30%, rgba(76, 165, 173, 0.08) 30.5%, transparent 32%),
+    radial-gradient(ellipse 500px 200px at 100% 0%, transparent 0%, transparent 38%, rgba(76, 165, 173, 0.06) 38.5%, transparent 40%),
+    radial-gradient(ellipse 400px 160px at 100% 0%, transparent 0%, transparent 46%, rgba(76, 165, 173, 0.05) 46.5%, transparent 48%);
+  z-index: 0;
+}
+
+/* Hero-content container needs to sit above flourishes */
+.rcd-hero > .container,
+.rcd-hero > .rcd-hero-inner,
+.rcd-hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---- Hero scrim gradient — asymmetric, cinematic --------------------
+   Editorial 2025-26 pattern: directional scrim that reveals the photo on
+   the side opposite the type, plus a teal radial highlight in the
+   "negative space" so the image actually does narrative work. */
+.rcd-hero[data-mode="civic-deep"] .rcd-hero-bg::after,
+.rcd-hero[data-mode="civic"] .rcd-hero-bg::after {
+  background:
+    linear-gradient(115deg,
+      rgba(16, 29, 49, 0.92) 0%,
+      rgba(16, 29, 49, 0.72) 28%,
+      rgba(16, 29, 49, 0.42) 58%,
+      rgba(16, 29, 49, 0.18) 88%),
+    radial-gradient(ellipse 80% 60% at 78% 32%, rgba(76, 165, 173, 0.20), transparent 65%) !important;
+}
+
+/* Page-mood modifiers — three hero recipes that share the photo system
+   but feel distinct. Apply data-mood to the .rcd-hero element. */
+.rcd-hero[data-mood="quiet"] .rcd-hero-bg::after {
+  background:
+    linear-gradient(170deg,
+      rgba(16, 29, 49, 0.78) 0%,
+      rgba(16, 29, 49, 0.58) 50%,
+      rgba(16, 29, 49, 0.32) 100%),
+    radial-gradient(ellipse 90% 70% at 50% 90%, rgba(76, 165, 173, 0.10), transparent 60%) !important;
+}
+.rcd-hero[data-mood="quiet"] .rcd-hero-bg img {
+  filter: saturate(0.88) hue-rotate(-4deg);
+}
+.rcd-hero[data-mood="live"] .rcd-hero-bg::after {
+  background:
+    linear-gradient(180deg,
+      rgba(16, 29, 49, 0.82) 0%,
+      rgba(16, 29, 49, 0.55) 45%,
+      rgba(16, 29, 49, 0.35) 100%),
+    radial-gradient(ellipse 70% 60% at 25% 55%, rgba(76, 165, 173, 0.26), transparent 60%) !important;
+}
+.rcd-hero[data-mood="live"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* ---- Stats — make them big and dramatic ----------------------------- */
+.rcd-stat-num {
+  font-size: clamp(80px, 10vw, 168px) !important;
+  letter-spacing: -0.02em !important;
+  line-height: 0.92 !important;
+}
+.rcd-stat {
+  position: relative;
+  overflow: hidden;
+}
+.rcd-stat::after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  bottom: -30px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(76, 165, 173, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ---- Hero typography polish — mixed faces ---------------------------- */
+.rcd-hero h1 .rcd-hero-italic {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: -0.005em;
+  color: var(--rcd-teal-400);
+}
+.rcd-hero[data-mode="letterhead"] h1 .rcd-hero-italic {
+  color: var(--accent-hover);
+}
+
+/* Hero scroll cue — subtle indicator at bottom */
+.rcd-hero-scroll-cue {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font: 600 11px/1 var(--font-mono), monospace;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  animation: rcd-cue-bob 2.4s ease-in-out infinite;
+  z-index: 3;
+}
+.rcd-hero[data-mode="letterhead"] .rcd-hero-scroll-cue {
+  color: var(--ink-tertiary);
+}
+.rcd-hero-scroll-cue::after {
+  content: "";
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(180deg, currentColor 0%, transparent 100%);
+}
+@keyframes rcd-cue-bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 6px); }
+}
+
+/* ---- Marginalia ----------------------------------------------------- */
+.rcd-marginalia {
+  position: relative;
+}
+@media (min-width: 1100px) {
+  .rcd-marginalia {
+    padding-left: 180px;
+  }
+  .rcd-marginalia-note {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 140px;
+    font: 600 11px/1.4 var(--font-mono), monospace;
+    letter-spacing: 0.10em;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+  }
+  .rcd-marginalia-note::before {
+    content: "";
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: var(--accent);
+    margin-bottom: 8px;
+  }
+}
+
+/* ---- Pull quote ----------------------------------------------------- */
+.rcd-pullquote {
+  margin: var(--s-8) auto;
+  max-width: 820px;
+  text-align: center;
+  position: relative;
+  padding: var(--s-7) var(--s-6);
+}
+.rcd-pullquote::before,
+.rcd-pullquote::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 1px;
+  background: var(--accent);
+  margin: 0 auto;
+}
+.rcd-pullquote::before { margin-bottom: var(--s-5); }
+.rcd-pullquote::after  { margin-top: var(--s-5); }
+.rcd-pullquote blockquote {
+  margin: 0;
+  font: 500 italic clamp(24px, 2.6vw, 36px) / 1.35 Georgia, "Times New Roman", serif;
+  color: var(--ink-primary);
+  letter-spacing: -0.005em;
+}
+[data-theme="dark"] .rcd-pullquote blockquote {
+  color: #fff;
+}
+.rcd-pullquote-cite {
+  margin-top: var(--s-4);
+  font: 600 12px/1 var(--font-mono), monospace;
+  letter-spacing: 0.18em;
+  color: var(--accent-hover);
+}
+
+/* ---- Section heading polish ---------------------------------------- */
+.section-head h2 {
+  letter-spacing: -0.005em;
+}
+
+/* ---- Receipt photo — angled paper backdrop ----------------------- */
+.rcd-receipt-figure {
+  position: relative;
+}
+.rcd-receipt-figure::before {
+  content: "";
+  position: absolute;
+  inset: 24px -8px -8px 24px;
+  z-index: -1;
+  background: var(--rcd-cream-300);
+  border: 1px solid var(--line-default);
+  border-radius: var(--r-xl);
+  transform: rotate(-1.4deg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---- Better card hover --------------------------------------------- */
+.rcd-process-card,
+.rcd-stage-card,
+.rcd-list-card,
+.rcd-quote,
+.rcd-area-card,
+.rcd-stat {
+  transition:
+    transform var(--dur-2) var(--ease-out),
+    box-shadow var(--dur-3) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out);
+}
+.rcd-process-card:hover,
+.rcd-stage-card:hover,
+.rcd-list-card:hover,
+.rcd-area-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--line-strong);
+}
+
+/* ---- Hero meta dot accent ------------------------------------------ */
+.rcd-hero-meta-item::before {
+  width: 6px !important;
+  height: 6px !important;
+  box-shadow: 0 0 0 3px rgba(76, 165, 173, 0.25);
+}
+
+/* ---- Areas hero map — paper-edge offset ---------------------------- */
+.rcd-areas-hero-map {
+  position: relative;
+}
+.rcd-areas-hero-map::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  z-index: -1;
+  background: var(--rcd-cream-300);
+  border-radius: var(--r-xl);
+  transform: rotate(-0.5deg);
+  opacity: 0.55;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================================
+   COLOR FLAIR — bold teal accents and decorative section variants
+   ============================================================ */
+
+/* Teal-tinted "Highlight" section — for stats or feature strips */
+.section--teal-tint {
+  background: linear-gradient(180deg, var(--rcd-teal-100) 0%, var(--rcd-cream-200) 100%);
+  position: relative;
+  isolation: isolate;
+}
+.section--teal-tint::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 0% 100%, rgba(76, 165, 173, 0.15), transparent 65%),
+    radial-gradient(ellipse 50% 40% at 100% 0%, rgba(76, 165, 173, 0.12), transparent 60%);
+}
+
+/* Decorative river-ribbon SVG — usable as a section divider */
+.river-ribbon {
+  width: 100%;
+  height: 80px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80' preserveAspectRatio='none'%3E%3Cpath d='M0 40 Q 200 10 400 40 T 800 40 T 1200 40' stroke='%234CA5AD' stroke-width='3' fill='none' opacity='0.50'/%3E%3Cpath d='M0 50 Q 200 20 400 50 T 800 50 T 1200 50' stroke='%234CA5AD' stroke-width='2' fill='none' opacity='0.32'/%3E%3Cpath d='M0 30 Q 200 0 400 30 T 800 30 T 1200 30' stroke='%231E3A5F' stroke-width='1.5' fill='none' opacity='0.20'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Topo line decorative pattern — for hero corners and section accents */
+.topo-decoration {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.35;
+}
+.topo-decoration svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Big Missouri silhouette watermark — mostly applied via attribute */
+[data-watermark="missouri-right"] {
+  position: relative;
+  isolation: isolate;
+}
+[data-watermark="missouri-right"]::after {
+  content: "";
+  position: absolute;
+  right: -120px;
+  top: 50%;
+  width: 540px;
+  height: 680px;
+  z-index: -1;
+  pointer-events: none;
+  transform: translateY(-50%);
+  background-image: url("/assets/missouri.svg");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.05;
+  filter: brightness(0) saturate(100%) invert(11%) sepia(19%) saturate(2890%) hue-rotate(192deg) brightness(94%) contrast(89%);
+}
+[data-watermark="missouri-left"] {
+  position: relative;
+  isolation: isolate;
+}
+[data-watermark="missouri-left"]::after {
+  content: "";
+  position: absolute;
+  left: -160px;
+  top: 50%;
+  width: 540px;
+  height: 680px;
+  z-index: -1;
+  pointer-events: none;
+  transform: translateY(-50%) scaleX(-1);
+  background-image: url("/assets/missouri.svg");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.04;
+  filter: brightness(0) saturate(100%);
+}
+
+/* Colored side-rule for editorial sections */
+.section-rule-left {
+  position: relative;
+}
+.section-rule-left::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--s-7);
+  bottom: var(--s-7);
+  width: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* Pinned mono caption (top-left corner of section) */
+.rcd-section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  font: 700 11px/1 var(--font-mono), monospace;
+  letter-spacing: 0.18em;
+  margin-bottom: var(--s-5);
+}
+.rcd-section-tag::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Halftone teal panel — for feature highlights */
+.rcd-halftone-panel {
+  background:
+    radial-gradient(circle at 1px 1px, var(--accent) 1px, transparent 1px) 0 0 / 8px 8px,
+    var(--rcd-teal-100);
+  border-radius: var(--r-xl);
+  padding: var(--s-8);
+  position: relative;
+}
+
+/* Eyebrow with leading dot + rule — bigger and more visible */
+.t-eyebrow {
+  position: relative;
+}
+.t-eyebrow::before {
+  width: 24px !important;
+  background: var(--accent);
+  height: 2px !important;
+}
+
+/* CTA band — make it more dramatic */
+.rcd-cta-band {
+  position: relative;
+  isolation: isolate;
+}
+.rcd-cta-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(135deg, rgba(76, 165, 173, 0.18) 0%, transparent 35%),
+    linear-gradient(225deg, rgba(76, 165, 173, 0.12) 0%, transparent 35%);
+  pointer-events: none;
+}
+.rcd-cta-band > .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Hero copy — add a small decorative ornament under the H1 */
+.rcd-hero-copy::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 2px;
+  background: var(--rcd-teal-400);
+  margin-top: var(--s-4);
+  border-radius: 2px;
+}
+.rcd-hero[data-mode="letterhead"] .rcd-hero-copy::after {
+  background: var(--accent);
+}
+
+/* Footer prelude — adds teal accent rule */
+.rcd-footer-prelude {
+  position: relative;
+}
+.rcd-footer-prelude::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+/* River ribbon between sections — visible on light pages */
+.river-divider-light {
+  background: var(--surface-page);
+  padding: var(--s-6) 0;
+  border-top: 1px solid var(--line-default);
+  border-bottom: 1px solid var(--line-default);
+}
+
+/* ============================================================
+   Editorial backdrop system — tasteful risograph-style
+   illustrations layered behind sections at low opacity, with
+   feathered edges so they read as paper textures, not pasted-in
+   photos. Each variant tunes image / position / opacity / mask.
+   ============================================================ */
+
+[class*="section--bg-"] {
+  position: relative;
+  isolation: isolate;
+}
+[class*="section--bg-"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  /* Default: luminosity blend preserves color richness on cream pages */
+  mix-blend-mode: luminosity;
+  opacity: var(--bg-opacity, 0.20);
+  background-position: var(--bg-pos, center right);
+  background-size: var(--bg-size, contain);
+  /* Feather toward the inset where the eye lives so type stays clean */
+  -webkit-mask-image: var(--bg-mask, linear-gradient(to left, #000 0%, #000 30%, transparent 75%));
+          mask-image: var(--bg-mask, linear-gradient(to left, #000 0%, #000 30%, transparent 75%));
+}
+/* Dark sections need screen, not luminosity, and lower opacity */
+.section--civic[class*="section--bg-"]::after,
+.section--civic-deep[class*="section--bg-"]::after {
+  mix-blend-mode: screen;
+  opacity: var(--bg-opacity, 0.08);
+}
+
+/* --- Named backdrops (each curated for a particular section) ----- */
+
+.section--bg-pins::after {
+  background-image: url("/assets/areas-missouri-pins.webp");
+  /* Anchor the Missouri silhouette to the right, faded toward type */
+}
+.section--bg-pins {
+  --bg-pos: right -8% center;
+  --bg-size: auto 92%;
+  --bg-opacity: 0.10;
+  --bg-mask: linear-gradient(to left, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 30%, transparent 70%);
+}
+
+.section--bg-faq::after {
+  background-image: url("/assets/bg-faq.webp");
+}
+.section--bg-faq {
+  --bg-pos: right center;
+  --bg-size: auto 110%;
+  --bg-opacity: 0.09;
+  --bg-mask: radial-gradient(ellipse 65% 80% at 80% 50%, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.40) 50%, transparent 80%);
+}
+
+.section--bg-strategy::after {
+  background-image: url("/assets/bg-strategy.webp");
+}
+.section--bg-strategy {
+  --bg-pos: left -10% top -8%;
+  --bg-size: 60% auto;
+  --bg-opacity: 0.07;
+  --bg-mask: radial-gradient(ellipse 70% 70% at 25% 30%, rgba(0,0,0,0.8) 0%, transparent 75%);
+}
+
+.section--bg-grow::after {
+  background-image: url("/assets/bg-grow.webp");
+}
+.section--bg-grow {
+  --bg-pos: right -6% bottom -8%;
+  --bg-size: 55% auto;
+  --bg-opacity: 0.08;
+  --bg-mask: radial-gradient(ellipse 65% 65% at 80% 75%, rgba(0,0,0,0.85) 0%, transparent 75%);
+}
+
+.section--bg-data::after {
+  background-image: url("/assets/bg-data-results.webp");
+}
+.section--bg-data {
+  --bg-pos: center right;
+  --bg-size: 50% auto;
+  --bg-opacity: 0.08;
+  --bg-mask: linear-gradient(to left, rgba(0,0,0,0.85) 0%, transparent 65%);
+}
+
+.section--bg-street::after {
+  background-image: url("/assets/bg-st-louis-street.webp");
+}
+.section--bg-street {
+  --bg-pos: center;
+  --bg-size: cover;
+  --bg-opacity: 0.10;
+  --bg-mask: radial-gradient(ellipse 100% 100% at 50% 50%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+}
+
+.section--bg-coffee::after {
+  background-image: url("/assets/bg-coffee-arch.webp");
+}
+.section--bg-coffee {
+  --bg-pos: left center;
+  --bg-size: 55% auto;
+  --bg-opacity: 0.10;
+  --bg-mask: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 35%, transparent 75%);
+}
+
+.section--bg-build::after {
+  background-image: url("/assets/bg-build-launch.webp");
+}
+.section--bg-build {
+  --bg-pos: right top;
+  --bg-size: 55% auto;
+  --bg-opacity: 0.08;
+  --bg-mask: radial-gradient(ellipse 70% 60% at 80% 25%, rgba(0,0,0,0.85) 0%, transparent 75%);
+}
+
+/* --- New neighborhood photo backdrops ------------------------------- */
+.section--bg-soulard::after { background-image: url("/assets/bg-soulard.webp"); }
+.section--bg-soulard {
+  --bg-pos: center right;
+  --bg-size: cover;
+  --bg-opacity: 0.10;
+  --bg-mask: linear-gradient(to left, rgba(0,0,0,0.8) 0%, transparent 70%);
+}
+
+.section--bg-the-hill::after { background-image: url("/assets/bg-the-hill.webp"); }
+.section--bg-the-hill {
+  --bg-pos: center;
+  --bg-size: cover;
+  --bg-opacity: 0.10;
+  --bg-mask: radial-gradient(ellipse 70% 70% at 30% 50%, rgba(0,0,0,0.85) 0%, transparent 75%);
+}
+
+.section--bg-clayton::after { background-image: url("/assets/bg-clayton.webp"); }
+.section--bg-clayton {
+  --bg-pos: right center;
+  --bg-size: cover;
+  --bg-opacity: 0.09;
+  --bg-mask: linear-gradient(to left, rgba(0,0,0,0.9) 0%, transparent 70%);
+}
+
+.section--bg-river::after { background-image: url("/assets/bg-river.webp"); }
+.section--bg-river {
+  --bg-pos: center;
+  --bg-size: cover;
+  --bg-opacity: 0.18;
+  --bg-mask: radial-gradient(ellipse 100% 80% at 50% 50%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+}
+
+/* --- New pop-art accent backdrops ------------------------------------
+   Use NORMAL blend for these (saturated colors); higher opacity is OK
+   because they're intentionally an energy moment. */
+.section--bg-pop-arrows::after { background-image: url("/assets/pop-arrows-grow.webp"); }
+.section--bg-pop-arrows {
+  --bg-pos: center right;
+  --bg-size: 38% auto;
+  --bg-opacity: 0.20;
+  --bg-mask: radial-gradient(ellipse 60% 70% at 80% 50%, rgba(0,0,0,0.85) 0%, transparent 70%);
+}
+.section--bg-pop-arrows::after { mix-blend-mode: normal; }
+
+.section--bg-pop-chat::after { background-image: url("/assets/pop-chat-bubble.webp"); }
+.section--bg-pop-chat {
+  --bg-pos: right -8% center;
+  --bg-size: 36% auto;
+  --bg-opacity: 0.18;
+  --bg-mask: radial-gradient(ellipse 60% 70% at 80% 50%, rgba(0,0,0,0.85) 0%, transparent 70%);
+}
+.section--bg-pop-chat::after { mix-blend-mode: normal; }
+
+.section--bg-pop-map::after { background-image: url("/assets/pop-map-pin.webp"); }
+.section--bg-pop-map {
+  --bg-pos: right -10% bottom -10%;
+  --bg-size: 36% auto;
+  --bg-opacity: 0.20;
+  --bg-mask: radial-gradient(ellipse 60% 60% at 85% 75%, rgba(0,0,0,0.85) 0%, transparent 75%);
+}
+.section--bg-pop-map::after { mix-blend-mode: normal; }
+
+.section--bg-pop-laptop::after { background-image: url("/assets/pop-laptop.webp"); }
+.section--bg-pop-laptop {
+  --bg-pos: left -8% center;
+  --bg-size: 36% auto;
+  --bg-opacity: 0.18;
+  --bg-mask: radial-gradient(ellipse 60% 70% at 20% 50%, rgba(0,0,0,0.85) 0%, transparent 70%);
+}
+.section--bg-pop-laptop::after { mix-blend-mode: normal; }
+
+/* Wide pop-art river-sunset — use as a CTA band or footer-prelude backdrop */
+.section--bg-pop-river::after { background-image: url("/assets/pop-river-sunset.webp"); }
+.section--bg-pop-river {
+  --bg-pos: center;
+  --bg-size: cover;
+  --bg-opacity: 0.32;
+  --bg-mask: radial-gradient(ellipse 110% 80% at 50% 50%, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+}
+.section--bg-pop-river::after { mix-blend-mode: normal; }
+
+/* Mobile: dial back the backdrops so they don't compete with type
+   on small screens where the layout is single-column. */
+@media (max-width: 880px) {
+  [class*="section--bg-"] {
+    --bg-opacity: 0.10;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Reduced-motion users often prefer calmer surfaces too. */
+  [class*="section--bg-"] {
+    --bg-opacity: 0.12;
+  }
+}
+
+/* ============================================================
+   View Transitions — page-level fade for cross-page navigation
+   Powered by React's <ViewTransition> in layout.tsx and the
+   browser's native View Transitions API. Degrades gracefully
+   in browsers that don't support it.
+   ============================================================ */
+
+::view-transition-old(.rcd-page-exit) {
+  animation: 200ms ease-out both rcd-page-fade reverse,
+             280ms ease-out both rcd-page-rise reverse;
+}
+::view-transition-new(.rcd-page-enter) {
+  animation: 280ms ease-out 120ms both rcd-page-fade,
+             420ms cubic-bezier(0.22, 1, 0.36, 1) both rcd-page-rise;
+}
+
+@keyframes rcd-page-fade {
+  from { opacity: 0; filter: blur(2px); }
+  to   { opacity: 1; filter: blur(0); }
+}
+@keyframes rcd-page-rise {
+  from { transform: translateY(8px); }
+  to   { transform: translateY(0); }
+}
+
+/* Anchor the nav so it stays put while content cross-fades.
+   The :root rule pins the site nav by name everywhere. */
+.rcd-nav {
+  view-transition-name: rcd-site-header;
+}
+::view-transition-group(rcd-site-header) {
+  animation: none;
+  z-index: var(--z-nav);
+}
+::view-transition-old(rcd-site-header) {
+  display: none;
+}
+::view-transition-new(rcd-site-header) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* ============================================================
+   Mobile sticky CTA — appears after the hero on small screens
+   ============================================================ */
+.rcd-mobile-cta {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: var(--z-nav);
+  display: none;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(140%);
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-4) var(--ease-out);
+}
+.rcd-mobile-cta[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.rcd-mobile-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 22px;
+  background: var(--accent);
+  color: #fff;
+  font: 700 16px/1 var(--font-inter), sans-serif;
+  letter-spacing: 0.01em;
+  border-radius: var(--r-md);
+  box-shadow:
+    0 18px 40px -10px rgba(15, 30, 51, 0.45),
+    0 4px 12px rgba(15, 30, 51, 0.18);
+  transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+  text-decoration: none;
+}
+.rcd-mobile-cta-btn:active {
+  background: var(--accent-hover);
+  transform: scale(0.98);
+}
+.rcd-mobile-cta-arr {
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+  position: relative;
+}
+.rcd-mobile-cta-arr::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+}
+@media (max-width: 768px) {
+  .rcd-mobile-cta {
+    display: block;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rcd-mobile-cta {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Back-to-top floating button — appears after 600px scroll.
+   Editorial — small teal echo, "Top" label hidden on mobile.
+   ============================================================ */
+.rcd-back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: var(--z-nav);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px 10px 12px;
+  background: var(--rcd-navy-900);
+  color: #fff;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 0 4px rgba(76, 165, 173, 0.10),
+    var(--shadow-lg);
+  font: 700 12px/1 var(--font-mono), monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(140%);
+  pointer-events: none;
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-4) var(--ease-out),
+    box-shadow var(--dur-3) var(--ease-out),
+    background var(--dur-2) var(--ease-out);
+}
+.rcd-back-to-top[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.rcd-back-to-top:hover {
+  background: var(--rcd-navy-800);
+  box-shadow:
+    0 0 0 4px rgba(76, 165, 173, 0.18),
+    var(--shadow-xl);
+}
+.rcd-back-to-top:active {
+  transform: translateY(1px);
+}
+.rcd-back-to-top svg {
+  color: var(--rcd-teal-300);
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.rcd-back-to-top:hover svg {
+  transform: translateY(-2px);
+}
+.rcd-back-to-top-label {
+  font-variant-caps: all-small-caps;
+  text-transform: none;
+}
+@media (max-width: 720px) {
+  .rcd-back-to-top {
+    right: 16px;
+    bottom: 84px; /* sit above the mobile sticky CTA */
+    padding: 10px;
+  }
+  .rcd-back-to-top-label {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rcd-back-to-top {
+    transition: opacity var(--dur-2) var(--ease-out);
+    transform: none;
+  }
+  .rcd-back-to-top[data-visible="true"] {
+    transform: none;
+  }
+}

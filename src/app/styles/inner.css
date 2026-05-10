@@ -1,0 +1,251 @@
+/* =========================================================================
+   Shared layout pieces used across the inner service pages
+   ========================================================================= */
+
+.rcd-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-5);
+}
+@media (max-width: 880px) {
+  .rcd-stat-grid { grid-template-columns: 1fr; }
+}
+
+/* "Then & Now" two-column compare ---------------------------------------- */
+
+.rcd-then-now {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-5);
+  background: var(--surface-default);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--line-default);
+  padding: var(--s-7);
+  box-shadow: var(--shadow-sm);
+}
+@media (max-width: 720px) {
+  .rcd-then-now {
+    grid-template-columns: 1fr;
+    padding: var(--s-6);
+  }
+}
+.rcd-then-now-side ul {
+  list-style: none;
+  margin: var(--s-5) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rcd-then-now-side[data-side="then"] ul li,
+.rcd-then-now-side[data-side="now"] ul li {
+  position: relative;
+  padding-left: 26px;
+  font: 400 16px/1.55 var(--font-inter), sans-serif;
+  color: var(--ink-secondary);
+}
+.rcd-then-now-side[data-side="then"] ul li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--ink-tertiary);
+  font-weight: 700;
+}
+.rcd-then-now-side[data-side="now"] ul li::before {
+  content: "+";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+.rcd-then-now-label {
+  font: 700 11.5px/1 var(--font-inter), sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.rcd-then-now-side[data-side="then"] .rcd-then-now-label { color: var(--ink-tertiary); }
+.rcd-then-now-side[data-side="now"] .rcd-then-now-label { color: var(--accent-hover); }
+
+/* Stages diagram (5-step or 4-step) -------------------------------------- */
+
+.rcd-stages {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--s-4);
+}
+@media (max-width: 980px) {
+  .rcd-stages { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+  .rcd-stages { grid-template-columns: 1fr; }
+}
+.rcd-stage-card {
+  background: var(--surface-default);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line-default);
+  padding: var(--s-5);
+  box-shadow: var(--shadow-sm);
+}
+[data-theme="dark"] .rcd-stage-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-on-dark-2);
+}
+.rcd-stage-num {
+  font: 700 13px/1 var(--font-mono), monospace;
+  color: var(--accent);
+  letter-spacing: 0.18em;
+  margin-bottom: var(--s-4);
+}
+.rcd-stage-card h3 {
+  margin: 0 0 var(--s-3);
+  font: 700 17px/1.3 var(--font-inter), sans-serif;
+  color: var(--ink-primary);
+}
+[data-theme="dark"] .rcd-stage-card h3 { color: #fff; }
+.rcd-stage-card p {
+  margin: 0;
+  font: 400 14.5px/1.55 var(--font-inter), sans-serif;
+  color: var(--ink-secondary);
+}
+[data-theme="dark"] .rcd-stage-card p { color: var(--ink-on-dark-2); }
+
+/* Field Reports ---------------------------------------------------------- */
+
+.rcd-field-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-5);
+}
+@media (max-width: 980px) {
+  .rcd-field-grid { grid-template-columns: 1fr; }
+}
+.rcd-field-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-lg);
+  padding: var(--s-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.rcd-field-meta {
+  font: 700 11px/1 var(--font-mono), monospace;
+  letter-spacing: 0.16em;
+  color: var(--rcd-teal-400);
+  margin: 0;
+}
+.rcd-field-subject {
+  font: 600 italic 18px/1.4 Georgia, "Times New Roman", serif;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0;
+}
+.rcd-field-body {
+  font: 400 15px/1.6 var(--font-inter), sans-serif;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+}
+
+/* Cross-link block ------------------------------------------------------- */
+
+.rcd-cross {
+  background: var(--surface-default);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--line-default);
+  padding: var(--s-7);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+/* List of services / tactics --------------------------------------------- */
+
+.rcd-list-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-5);
+}
+@media (max-width: 720px) {
+  .rcd-list-grid { grid-template-columns: 1fr; }
+}
+.rcd-list-card {
+  background: var(--surface-default);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line-default);
+  padding: var(--s-6);
+  box-shadow: var(--shadow-sm);
+}
+[data-theme="dark"] .rcd-list-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-on-dark-2);
+}
+.rcd-list-card h3 {
+  margin: 0 0 var(--s-3);
+  font: 700 18px/1.3 var(--font-inter), sans-serif;
+  color: var(--ink-primary);
+}
+[data-theme="dark"] .rcd-list-card h3 { color: #fff; }
+.rcd-list-card p {
+  margin: 0;
+  font: 400 15px/1.6 var(--font-inter), sans-serif;
+  color: var(--ink-secondary);
+}
+[data-theme="dark"] .rcd-list-card p { color: var(--ink-on-dark-2); }
+.rcd-list-card-icon {
+  width: 44px; height: 44px;
+  border-radius: var(--r-md);
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  margin-bottom: var(--s-4);
+}
+[data-theme="dark"] .rcd-list-card-icon {
+  background: rgba(76, 165, 173, 0.18);
+  color: var(--rcd-teal-400);
+}
+
+/* Pain-point manifesto (digital marketing) ------------------------------ */
+
+.rcd-pain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+.rcd-pain-line {
+  font-family: var(--font-barlow), "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 56px);
+  line-height: 1.05;
+  color: var(--ink-primary);
+  letter-spacing: 0;
+  padding: var(--s-6) 0;
+  border-top: 1px solid var(--line-default);
+  text-transform: uppercase;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--s-5);
+  align-items: baseline;
+}
+.rcd-pain-line:last-child { border-bottom: 1px solid var(--line-default); }
+.rcd-pain-line .num {
+  font-size: clamp(16px, 1.4vw, 20px);
+  color: var(--accent);
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.2em;
+  text-transform: none;
+}
+[data-theme="dark"] .rcd-pain-line { color: #fff; border-color: var(--line-on-dark-2); }
+
+/* Hero meta override on cream-mode hero */
+.rcd-hero[data-mode="letterhead"] .rcd-hero-meta { color: var(--ink-tertiary); }
+.rcd-hero[data-mode="letterhead"] .rcd-hero-meta-item::before { background: var(--accent); }
+
+/* Editorial figure (annotated illustration / chart inside body copy) */
+.rcd-editorial-figure {
+  text-align: center;
+}
+.rcd-editorial-figure img {
+  border: 1px solid var(--line-default);
+  box-shadow: var(--shadow-md);
+  background: var(--surface-default);
+}

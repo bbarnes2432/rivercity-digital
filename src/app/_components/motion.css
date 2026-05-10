@@ -1,0 +1,445 @@
+/* =========================================================================
+   Motion library — animation primitives applied via class.
+   Most are intersect-driven (use ScrollReveal data-revealed attr).
+   All respect prefers-reduced-motion.
+   ========================================================================= */
+
+/* ---- BLUR-IN ---------------------------------------------------------
+   Element starts soft-blurred and fades to focus on intersect. */
+.fx-blur-in {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(12px);
+  transition:
+    opacity 700ms var(--ease-out),
+    filter 700ms var(--ease-out),
+    transform 700ms var(--ease-out);
+}
+.fx-blur-in[data-revealed="true"] {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+/* ---- SCALE-IN --------------------------------------------------------
+   Slight zoom from 0.96 to 1 on intersect, with fade. */
+.fx-scale-in {
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 600ms var(--ease-out),
+    transform 700ms var(--ease-spring);
+}
+.fx-scale-in[data-revealed="true"] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---- SLIDE-IN (directional) ---------------------------------------- */
+.fx-slide-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out);
+}
+.fx-slide-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out);
+}
+.fx-slide-left[data-revealed="true"],
+.fx-slide-right[data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- LETTER STAGGER --------------------------------------------------
+   Wrap each word/letter in <span class="fx-word">, the parent gets
+   .fx-letter. Words rise into place with a 60ms stagger. */
+.fx-letter .fx-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.6em);
+  transition:
+    opacity 600ms var(--ease-out) calc(var(--w, 0) * 70ms),
+    transform 700ms var(--ease-out) calc(var(--w, 0) * 70ms);
+}
+.fx-letter[data-revealed="true"] .fx-word {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- FLOAT -----------------------------------------------------------
+   Gentle perpetual vertical drift — for decorative marks, ornaments. */
+@keyframes rcd-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.fx-float {
+  animation: rcd-float 5s var(--ease-in-out) infinite;
+}
+.fx-float-slow {
+  animation: rcd-float 8s var(--ease-in-out) infinite;
+}
+
+/* ---- SHIMMER ---------------------------------------------------------
+   Light passes across an element (use on stat numbers, headlines). */
+@keyframes rcd-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.fx-shimmer {
+  background: linear-gradient(
+    100deg,
+    currentColor 0%,
+    currentColor 40%,
+    rgba(76, 165, 173, 0.5) 50%,
+    currentColor 60%,
+    currentColor 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rcd-shimmer 3.6s linear infinite;
+}
+
+/* ---- SHINE -----------------------------------------------------------
+   One-shot diagonal sheen across primary CTAs. Editorial — fires every
+   ~9s rather than pulsing constantly. Replaces the older glow-pulse. */
+@keyframes rcd-shine {
+  0%   { background-position: -120% 0; }
+  18%  { background-position: 220% 0; }
+  100% { background-position: 220% 0; }
+}
+.fx-shine {
+  position: relative;
+  overflow: hidden;
+}
+.fx-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.22) 48%,
+    rgba(255, 255, 255, 0.32) 50%,
+    rgba(255, 255, 255, 0.22) 52%,
+    transparent 65%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  background-position: -120% 0;
+  animation: rcd-shine 9s var(--ease-out) infinite;
+  mix-blend-mode: overlay;
+}
+@media (hover: none) {
+  .fx-shine::after { animation: none; opacity: 0; }
+}
+
+/* Legacy alias — old class name still in markup; render as shine. */
+.fx-glow-pulse {
+  position: relative;
+  overflow: hidden;
+}
+.fx-glow-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.22) 48%,
+    rgba(255, 255, 255, 0.32) 50%,
+    rgba(255, 255, 255, 0.22) 52%,
+    transparent 65%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  background-position: -120% 0;
+  animation: rcd-shine 9s var(--ease-out) infinite;
+  mix-blend-mode: overlay;
+}
+@media (hover: none) {
+  .fx-glow-pulse::after { animation: none; opacity: 0; }
+}
+
+/* ---- TILT ON HOVER --------------------------------------------------
+   Subtle 3D tilt — for cards. Use on parents that already have shadow. */
+.fx-tilt {
+  transition: transform 320ms var(--ease-out), box-shadow 320ms var(--ease-out);
+  transform-style: preserve-3d;
+  perspective: 800px;
+}
+.fx-tilt:hover {
+  transform: perspective(800px) rotateX(2deg) rotateY(-2deg) translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ---- MARQUEE ---------------------------------------------------------
+   Infinite horizontal scroll. Wrap content twice inside .fx-marquee-track. */
+.fx-marquee {
+  overflow: hidden;
+  position: relative;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.fx-marquee-track {
+  display: inline-flex;
+  gap: var(--s-7);
+  white-space: nowrap;
+  animation: rcd-marquee 32s linear infinite;
+  will-change: transform;
+}
+.fx-marquee:hover .fx-marquee-track {
+  animation-play-state: paused;
+}
+@keyframes rcd-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---- LINK UNDERLINE DRAW -------------------------------------------
+   In-line link with an underline that draws on hover. */
+.fx-link {
+  position: relative;
+  color: var(--accent-hover);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.fx-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 280ms var(--ease-out);
+}
+.fx-link:hover::after,
+.fx-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ---- ARROW NUDGE -----------------------------------------------------
+   For ".arr" elements — hover lengthens the bar by ~8px. Already exists in
+   globals.css for .btn-link, this generalizes it. */
+.fx-arrow .arr,
+a.fx-arrow .arr {
+  display: inline-block;
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+  transition: width 280ms var(--ease-out);
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.fx-arrow:hover .arr,
+a.fx-arrow:hover .arr {
+  width: 24px;
+}
+
+/* ---- TYPING / ROLLING NUMBERS / TICKER ---
+   Used by numeric counters; the JS in CountUp handles the actual ticker. */
+
+/* ---- HERO PARALLAX --------------------------------------------------
+   Hero background drifts upward as page scrolls. Subtle — 48px max.
+   Headline drifts up and dims slightly as scroll progresses. */
+@supports (animation-timeline: scroll()) {
+  .fx-parallax-hero .rcd-hero-bg {
+    animation: rcd-parallax linear;
+    animation-timeline: scroll();
+    animation-range: 0 80vh;
+  }
+  .fx-parallax-hero .rcd-hero-copy {
+    animation: rcd-hero-drift linear;
+    animation-timeline: scroll();
+    animation-range: 0 60vh;
+  }
+}
+@keyframes rcd-parallax {
+  to { transform: translateY(48px) scale(1.02); }
+}
+@keyframes rcd-hero-drift {
+  to { transform: translateY(-24px); opacity: 0.55; }
+}
+
+/* ---- SCROLL-DRIVEN VIEW REVEAL --------------------------------------
+   Native scroll-linked entrance for sections. When in viewport, fades
+   and rises in. Re-engages on scroll-up — feels like pages turning.
+   Falls back to ScrollReveal IntersectionObserver in non-supporting
+   browsers (the .fx-reveal/.fx-blur-in classes still work). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .fx-view-rise {
+      animation: rcd-view-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 28%;
+    }
+  }
+}
+@keyframes rcd-view-rise {
+  from { opacity: 0; transform: translateY(28px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+/* ---- HEADLINE CLIP-PATH MASK REVEAL ---------------------------------
+   Letterpress feel — text rises from behind a horizontal mask.
+   Slower than letter-stagger, but more considered. Per-line if multiple. */
+@keyframes rcd-mask-rise {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.18em);
+  }
+  to {
+    clip-path: inset(0);
+    transform: translateY(0);
+  }
+}
+.fx-mask-rise {
+  display: inline-block;
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(0.18em);
+  transition:
+    clip-path 720ms cubic-bezier(0.65, 0.05, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 720ms cubic-bezier(0.65, 0.05, 0.36, 1) var(--reveal-delay, 0ms);
+}
+.fx-mask-rise[data-revealed="true"] {
+  clip-path: inset(0);
+  transform: translateY(0);
+}
+
+/* ---- SECTION HEADLINE — slow gradient sweep ------------------------ */
+.fx-headline-sweep {
+  background: linear-gradient(
+    100deg,
+    currentColor 0%,
+    currentColor 45%,
+    var(--accent) 50%,
+    currentColor 55%,
+    currentColor 100%
+  );
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rcd-shimmer 5s linear infinite;
+}
+
+/* ---- HOVER LIFT (cards) — small but consistent ---------------------- */
+.fx-lift {
+  transition: transform 240ms var(--ease-out), box-shadow 280ms var(--ease-out);
+}
+.fx-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* ---- HOVER ZOOM (image inside a clipped wrapper) -------------------- */
+.fx-zoom-wrap {
+  overflow: hidden;
+  position: relative;
+}
+.fx-zoom-wrap img,
+.fx-zoom-wrap > picture > img {
+  transition: transform 700ms var(--ease-out);
+}
+.fx-zoom-wrap:hover img,
+.fx-zoom-wrap:hover > picture > img {
+  transform: scale(1.06);
+}
+
+/* ---- ANIMATED CHEVRON -----------------------------------------------
+   Used by FAQ accordion or dropdowns — chevron rotates 180° when open. */
+.fx-chev {
+  transition: transform 220ms var(--ease-out);
+}
+[aria-expanded="true"] .fx-chev,
+[data-open="true"] .fx-chev,
+[open] .fx-chev {
+  transform: rotate(180deg);
+}
+
+/* ---- BLINK-CURSOR (typing-feel decoration) -------------------------- */
+@keyframes rcd-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.fx-cursor::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 0.95em;
+  background: var(--accent);
+  margin-left: 4px;
+  vertical-align: -2px;
+  animation: rcd-blink 1s steps(1) infinite;
+}
+
+/* ---- ICON SPIN (slow rotation) -------------------------------------- */
+@keyframes rcd-spin-slow {
+  to { transform: rotate(360deg); }
+}
+.fx-spin-slow {
+  animation: rcd-spin-slow 22s linear infinite;
+  transform-origin: center;
+}
+
+/* ---- TICK / NUDGE  --------------------------------------------------
+   One-shot bounce on intersect, useful for stat icons. */
+@keyframes rcd-tick {
+  0%   { transform: translateY(-12px) scale(0.85); opacity: 0; }
+  60%  { transform: translateY(2px)   scale(1.05); opacity: 1; }
+  100% { transform: translateY(0)     scale(1);    opacity: 1; }
+}
+.fx-tick { opacity: 0; }
+.fx-tick[data-revealed="true"] {
+  animation: rcd-tick 700ms var(--ease-spring) forwards;
+}
+
+/* ---- REDUCED MOTION OVERRIDE --------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .fx-blur-in,
+  .fx-scale-in,
+  .fx-slide-left,
+  .fx-slide-right {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+  .fx-letter .fx-word {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .fx-mask-rise {
+    clip-path: none;
+    transform: none;
+    transition: none;
+  }
+  .fx-float,
+  .fx-float-slow,
+  .fx-shimmer,
+  .fx-shine::after,
+  .fx-glow-pulse::after,
+  .fx-headline-sweep,
+  .fx-spin-slow {
+    animation: none;
+  }
+  .fx-tilt:hover,
+  .fx-lift:hover {
+    transform: none;
+  }
+  .fx-zoom-wrap:hover img {
+    transform: none;
+  }
+  .fx-marquee-track {
+    animation: none;
+  }
+}

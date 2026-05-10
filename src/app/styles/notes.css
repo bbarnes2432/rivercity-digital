@@ -1,0 +1,404 @@
+.rcd-notes-hero {
+  background: var(--surface-page);
+  padding-top: calc(80px + var(--s-7));
+  padding-bottom: var(--s-8);
+  border-bottom: 1px solid var(--line-default);
+}
+
+.rcd-notes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rcd-note-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-7) 0;
+  border-top: 1px solid var(--line-default);
+  transition: background var(--dur-2) var(--ease-out);
+}
+.rcd-notes-list li:last-child .rcd-note-card { border-bottom: 1px solid var(--line-default); }
+.rcd-note-card:hover { background: var(--surface-default); padding-left: var(--s-4); padding-right: var(--s-4); border-radius: var(--r-md); }
+
+.rcd-note-meta {
+  font: 500 12.5px/1 var(--font-mono), monospace;
+  letter-spacing: 0.06em;
+  color: var(--ink-tertiary);
+  display: inline-flex;
+  gap: 12px;
+}
+
+.rcd-note-title {
+  font: 700 italic clamp(28px, 3vw, 40px) / 1.2 Georgia, "Times New Roman", serif;
+  color: var(--ink-primary);
+  margin: 0;
+  letter-spacing: -0.005em;
+  text-transform: none;
+}
+
+.rcd-note-excerpt {
+  font: 400 17px/1.6 var(--font-inter), sans-serif;
+  color: var(--ink-secondary);
+  margin: 0;
+  max-width: 640px;
+}
+
+.rcd-note-cta {
+  font: 600 13px/1 var(--font-inter), sans-serif;
+  letter-spacing: 0.06em;
+  color: var(--accent-hover);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--s-2);
+}
+.rcd-note-cta .arr {
+  display: inline-block;
+  width: 14px; height: 1px;
+  background: currentColor;
+  transition: width var(--dur-2) var(--ease-out);
+}
+.rcd-note-card:hover .rcd-note-cta .arr { width: 22px; }
+
+/* =========================================================================
+   Article layout — /notes/[slug]
+   ========================================================================= */
+
+.rcd-article-hero {
+  padding-top: calc(80px + var(--s-7));
+  padding-bottom: var(--s-8);
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--line-default);
+}
+
+.rcd-article-hero-inner {
+  margin-top: var(--s-7);
+  max-width: 760px;
+}
+
+.rcd-article-meta {
+  font: 500 12.5px/1 var(--font-mono), monospace;
+  letter-spacing: 0.10em;
+  color: var(--ink-tertiary);
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: var(--s-5);
+  text-transform: uppercase;
+}
+.rcd-article-category {
+  color: var(--accent-hover);
+}
+
+.rcd-article-title {
+  font: 700 italic clamp(36px, 5vw, 64px) / 1.10 Georgia, "Times New Roman", serif;
+  color: var(--ink-primary);
+  letter-spacing: -0.005em;
+  margin: 0 0 var(--s-5);
+  text-wrap: balance;
+}
+
+.rcd-article-deck {
+  font: 400 italic clamp(18px, 1.6vw, 22px) / 1.55 Georgia, "Times New Roman", serif;
+  color: var(--ink-secondary);
+  margin: 0;
+  max-width: 640px;
+}
+
+.rcd-article-body {
+  max-width: 640px;
+  margin: 0 auto;
+  padding-block: var(--s-5);
+}
+
+/* Two-column layout — TOC on left, body on right.
+   Stacks below 1024px. */
+.rcd-article-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-7);
+}
+@media (min-width: 1024px) {
+  .rcd-article-layout {
+    grid-template-columns: 220px 1fr;
+    gap: var(--s-9);
+    align-items: start;
+  }
+}
+.rcd-article-toc {
+  order: -1;
+}
+@media (min-width: 1024px) {
+  .rcd-article-toc {
+    position: sticky;
+    top: 110px;
+    align-self: start;
+  }
+}
+.rcd-article-layout .rcd-article-body {
+  margin: 0;
+  max-width: 640px;
+}
+
+.rcd-article-h2 {
+  font: 700 22px/1.30 var(--font-inter), sans-serif;
+  letter-spacing: -0.005em;
+  color: var(--ink-primary);
+  margin: var(--s-8) 0 var(--s-4);
+  text-wrap: balance;
+  scroll-margin-top: 110px;
+}
+.rcd-article-h2::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 2px;
+  background: var(--accent);
+  margin-bottom: var(--s-3);
+}
+
+.rcd-article-p {
+  font: 400 17.5px/1.7 var(--font-inter), sans-serif;
+  color: var(--ink-primary);
+  margin: 0 0 var(--s-4);
+  text-wrap: pretty;
+}
+.rcd-article-p:first-of-type::first-letter {
+  font: 700 64px/0.9 Georgia, "Times New Roman", serif;
+  float: left;
+  margin: 6px 8px 0 0;
+  color: var(--accent-hover);
+}
+
+.rcd-article-list {
+  list-style: none;
+  margin: 0 0 var(--s-5);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.rcd-article-list li {
+  position: relative;
+  padding-left: 28px;
+  font: 400 17px/1.65 var(--font-inter), sans-serif;
+  color: var(--ink-primary);
+}
+.rcd-article-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 14px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.rcd-article-pullquote {
+  margin: var(--s-8) 0;
+  padding: var(--s-6) 0;
+  border-top: 1px solid var(--line-default);
+  border-bottom: 1px solid var(--line-default);
+  text-align: center;
+}
+.rcd-article-pullquote blockquote {
+  margin: 0;
+  font: 500 italic clamp(22px, 2.4vw, 30px) / 1.4 Georgia, "Times New Roman", serif;
+  color: var(--ink-primary);
+  letter-spacing: -0.005em;
+}
+.rcd-article-pullquote figcaption {
+  margin-top: var(--s-3);
+  font: 600 12px/1 var(--font-mono), monospace;
+  letter-spacing: 0.18em;
+  color: var(--accent-hover);
+  text-transform: uppercase;
+}
+
+.rcd-article-callout {
+  margin: var(--s-7) 0;
+  padding: var(--s-5) var(--s-6);
+  background: var(--rcd-cream-200);
+  border: 1px solid var(--line-default);
+  border-radius: var(--r-lg);
+  position: relative;
+}
+.rcd-article-callout::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 0 3px 3px 0;
+}
+.rcd-article-callout-eyebrow {
+  font: 700 11px/1 var(--font-mono), monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-hover);
+  margin: 0 0 var(--s-2);
+}
+.rcd-article-callout-body {
+  font: 400 16px/1.6 var(--font-inter), sans-serif;
+  color: var(--ink-primary);
+  margin: 0;
+}
+
+.rcd-article-signature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  margin-top: var(--s-9);
+  color: var(--accent);
+  font: 700 11px/1 var(--font-mono), monospace;
+  letter-spacing: 0.30em;
+}
+.rcd-article-signature span:nth-child(1),
+.rcd-article-signature span:nth-child(3) {
+  flex: 0 0 56px;
+  height: 1px;
+  background: currentColor;
+}
+
+.rcd-article-next {
+  display: block;
+  padding: var(--s-6);
+  border: 1px solid var(--line-default);
+  border-radius: var(--r-lg);
+  background: var(--surface-default);
+  transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-3) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+.rcd-article-next:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--line-strong);
+}
+.rcd-article-next-label {
+  font: 700 11px/1 var(--font-mono), monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-hover);
+  margin: 0 0 var(--s-3);
+}
+.rcd-article-next-title {
+  font: 700 italic 24px/1.2 Georgia, "Times New Roman", serif;
+  color: var(--ink-primary);
+  margin: 0 0 var(--s-3);
+}
+.rcd-article-next-excerpt {
+  font: 400 16px/1.55 var(--font-inter), sans-serif;
+  color: var(--ink-secondary);
+  margin: 0;
+}
+
+/* =========================================================================
+   Reading progress bar — narrow teal hairline under the nav.
+   Scroll-driven where supported, JS-driven otherwise.
+   ========================================================================= */
+.rcd-reading-progress {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: calc(var(--z-nav) - 1);
+  pointer-events: none;
+  background: rgba(76, 165, 173, 0.10);
+}
+.rcd-reading-progress-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--rcd-teal-500), var(--rcd-teal-300));
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 80ms linear;
+  box-shadow: 0 0 8px rgba(76, 165, 173, 0.50);
+}
+@supports (animation-timeline: scroll()) {
+  .rcd-reading-progress-fill {
+    transition: none;
+    animation: rcd-reading-fill linear both;
+    animation-timeline: scroll();
+  }
+  @keyframes rcd-reading-fill {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rcd-reading-progress-fill {
+    transition: none;
+  }
+}
+
+/* =========================================================================
+   Article TOC — sticky sidebar with auto-spy active state.
+   ========================================================================= */
+.rcd-toc {
+  font-family: var(--font-inter), sans-serif;
+}
+.rcd-toc-label {
+  margin: 0 0 var(--s-4);
+  font: 700 11px/1 var(--font-mono), monospace;
+  letter-spacing: 0.22em;
+  font-variant-caps: all-small-caps;
+  text-transform: none;
+  color: var(--accent-hover);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--line-default);
+}
+.rcd-toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  counter-reset: toc;
+}
+.rcd-toc-item a {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  align-items: baseline;
+  padding: 10px 4px 10px 10px;
+  color: var(--ink-tertiary);
+  font: 500 13.5px/1.4 var(--font-inter), sans-serif;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  margin-left: -10px;
+  transition:
+    color var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out),
+    background var(--dur-2) var(--ease-out);
+  border-radius: 0 6px 6px 0;
+}
+.rcd-toc-item a:hover {
+  color: var(--ink-primary);
+  background: rgba(76, 165, 173, 0.06);
+}
+.rcd-toc-item[data-active="true"] a {
+  color: var(--ink-primary);
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+.rcd-toc-num {
+  font: 600 11px/1 var(--font-mono), monospace;
+  color: var(--ink-tertiary);
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.rcd-toc-item[data-active="true"] .rcd-toc-num {
+  color: var(--accent-hover);
+}
+.rcd-toc-text {
+  text-wrap: pretty;
+}

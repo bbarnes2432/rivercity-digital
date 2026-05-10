@@ -1,0 +1,58 @@
+/* =========================================================================
+   Home page-specific layout (everything else lives in component CSS)
+   ========================================================================= */
+
+.rcd-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-5);
+}
+@media (max-width: 880px) {
+  .rcd-stat-grid { grid-template-columns: 1fr; }
+}
+
+.rcd-svc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-4);
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.rcd-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: var(--s-9);
+  align-items: start;
+}
+@media (max-width: 880px) {
+  .rcd-contact-grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-7);
+  }
+}
+
+.rcd-contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+.rcd-contact-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--line-default);
+}
+.rcd-contact-list li:last-child { border-bottom: 0; }
+.rcd-contact-list a {
+  color: var(--ink-primary);
+  font: 500 16px/1.4 var(--font-inter), sans-serif;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-2) var(--ease-out);
+  align-self: flex-start;
+}
+.rcd-contact-list a:hover { border-bottom-color: var(--accent); }

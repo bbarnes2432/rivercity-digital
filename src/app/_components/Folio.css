@@ -1,0 +1,74 @@
+/* =========================================================================
+   Folio — section-opener "ledger entry" component
+   ========================================================================= */
+
+.rcd-folio {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  margin: 0 0 var(--s-6);
+  font: 700 11px/1 var(--font-mono), monospace;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.rcd-folio-num {
+  color: var(--accent-hover);
+  flex: 0 0 auto;
+}
+
+.rcd-folio-slash {
+  color: var(--ink-tertiary);
+  flex: 0 0 auto;
+}
+
+.rcd-folio-title {
+  color: var(--ink-primary);
+  flex: 0 0 auto;
+}
+
+.rcd-folio-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--line-default);
+  min-width: 16px;
+}
+
+.rcd-folio-date {
+  color: var(--ink-tertiary);
+  flex: 0 0 auto;
+}
+
+/* Dark variant — civic / civic-deep sections */
+.rcd-folio[data-tone="dark"] {
+  color: rgba(255, 255, 255, 0.7);
+}
+.rcd-folio[data-tone="dark"] .rcd-folio-num {
+  color: var(--rcd-teal-400);
+}
+.rcd-folio[data-tone="dark"] .rcd-folio-slash {
+  color: rgba(255, 255, 255, 0.45);
+}
+.rcd-folio[data-tone="dark"] .rcd-folio-title {
+  color: #fff;
+}
+.rcd-folio[data-tone="dark"] .rcd-folio-rule {
+  background: rgba(255, 255, 255, 0.20);
+}
+.rcd-folio[data-tone="dark"] .rcd-folio-date {
+  color: rgba(255, 255, 255, 0.50);
+}
+
+/* Sit folio nicely inside section headers */
+.section-head .rcd-folio {
+  justify-content: center;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-head[data-align="left"] .rcd-folio {
+  justify-content: flex-start;
+}
