@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
 import Nav from "../_components/Nav";
 import Footer from "../_components/Footer";
@@ -8,6 +7,7 @@ import Container from "../_components/Container";
 import SectionHeader from "../_components/SectionHeader";
 import Button from "../_components/Button";
 import CtaBand from "../_components/CtaBand";
+import ContactForm from "../_components/contact-form";
 import Stat from "../_components/Stat";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
@@ -182,22 +182,36 @@ export default function WebsiteDesignPage() {
           </Container>
         </Section>
 
-        {/* Pricing band */}
-        <Section mode="sunken" pad="tight">
+        {/* Inline contact form */}
+        <Section mode="working" id="start" className="tex-dots rcd-inline-contact-section">
           <Container narrow>
-            <div className="rcd-cross fx-reveal" style={{ background: "var(--surface-default)" }}>
-              <p className="t-eyebrow">What it costs</p>
-              <h3 className="t-h2" style={{ margin: "16px 0" }}>
-                Honest ranges, before the call.
-              </h3>
-              <p className="t-lede" style={{ marginBottom: 24 }}>
-                Landing pages from <strong>$2,500</strong>. Custom marketing sites <strong>$8k–$18k</strong>.
-                E-commerce from <strong>$15k+</strong>. We give you a real quote in writing after the discovery call.
-              </p>
-              <Link href="/contact" className="btn-link">
-                Get a quote
-                <span className="arr" />
-              </Link>
+            <div className="rcd-inline-contact fx-stagger">
+              <div className="rcd-inline-contact-head">
+                <p className="t-eyebrow">Start a build</p>
+                <h2 className="t-h2">Tell us about your project.</h2>
+                <p className="t-lede">
+                  A few sentences is plenty. We&apos;ll come back with questions,
+                  a real timeline, and a real number. Same-day reply most days.
+                </p>
+              </div>
+
+              <div className="rcd-inline-contact-fast">
+                <a
+                  href="https://cal.com/rivercitydigital/15min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-secondary btn-md"
+                >
+                  Book a 15-min call
+                </a>
+                <span className="rcd-inline-contact-or" aria-hidden="true">
+                  <span>or write us below</span>
+                </span>
+              </div>
+
+              <div className="rcd-inline-contact-card">
+                <ContactForm defaultService="New website" />
+              </div>
             </div>
           </Container>
         </Section>

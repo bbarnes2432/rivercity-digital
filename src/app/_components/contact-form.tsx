@@ -4,7 +4,11 @@ import { FormEvent, useState } from "react";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export default function ContactForm() {
+type Props = {
+  defaultService?: string;
+};
+
+export default function ContactForm({ defaultService = "" }: Props) {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -76,7 +80,7 @@ export default function ContactForm() {
 
       <div className="field">
         <label htmlFor="service">What are we looking at?</label>
-        <select id="service" name="service" required defaultValue="">
+        <select id="service" name="service" required defaultValue={defaultService}>
           <option value="" disabled>Pick one…</option>
           <option>New website</option>
           <option>Website redesign</option>

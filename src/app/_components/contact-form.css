@@ -23,3 +23,105 @@
 .rcd-contact-status[data-state="success"] { color: var(--accent-hover); }
 .rcd-contact-status[data-state="error"] { color: var(--rcd-red-500); }
 .rcd-contact-status a { color: inherit; text-decoration: underline; }
+
+/* =========================================================================
+   Inline contact form — service-page embed (e.g. /website-design#start)
+   ========================================================================= */
+
+.rcd-inline-contact-section {
+  scroll-margin-top: 96px;
+}
+
+.rcd-inline-contact {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.rcd-inline-contact-head {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto;
+}
+.rcd-inline-contact-head .t-h2 {
+  margin: var(--s-3) 0 var(--s-3);
+}
+.rcd-inline-contact-head .t-lede {
+  margin: 0;
+}
+
+/* High-intent "book a call" action above the form, with editorial OR divider */
+.rcd-inline-contact-fast {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-4);
+  margin-top: var(--s-2);
+}
+.rcd-inline-contact-fast .btn {
+  min-width: 240px;
+  justify-content: center;
+}
+
+.rcd-inline-contact-or {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+}
+.rcd-inline-contact-or::before,
+.rcd-inline-contact-or::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 80px);
+  height: 1px;
+  background: var(--line-default);
+}
+.rcd-inline-contact-or::before { left: 0; }
+.rcd-inline-contact-or::after  { right: 0; }
+.rcd-inline-contact-or > span {
+  font: 700 11.5px/1 var(--font-inter), sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  background: var(--surface-default);
+  padding: 0 var(--s-3);
+}
+
+/* Card around the form — same vocabulary as .rcd-contact-page-form */
+.rcd-inline-contact-card {
+  background: var(--surface-default);
+  border: 1px solid var(--line-default);
+  border-radius: var(--r-xl);
+  padding: var(--s-7);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+@media (max-width: 720px) {
+  .rcd-inline-contact-card {
+    padding: var(--s-5);
+    border-radius: var(--r-lg);
+  }
+}
+
+/* Pair name+email and phone+website on desktop to reduce vertical weight.
+   Form fields stay single-column on narrow screens. */
+@media (min-width: 720px) {
+  .rcd-inline-contact-card .rcd-contact-form {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--s-5);
+  }
+  /* Honeypot input is a direct child but visually offscreen — span both
+     columns so it doesn't displace the name field into column 2. */
+  .rcd-inline-contact-card .rcd-contact-form > input[name="bot-field"] {
+    grid-column: 1 / -1;
+  }
+  /* Service, message, submit, and status span full width below the pairs. */
+  .rcd-inline-contact-card .rcd-contact-form > .field:nth-of-type(5),  /* service */
+  .rcd-inline-contact-card .rcd-contact-form > .field:nth-of-type(6),  /* message */
+  .rcd-inline-contact-card .rcd-contact-form > .rcd-contact-submit,
+  .rcd-inline-contact-card .rcd-contact-form > .rcd-contact-status {
+    grid-column: 1 / -1;
+  }
+}
