@@ -161,16 +161,16 @@ export default function ContactPage() {
                     Or just book a call
                   </p>
                   <p className="rcd-contact-page-book-body">
-                    Pick a 15-minute slot. We come back with a real read on your
+                    Pick a 30-minute slot. We come back with a real read on your
                     project before the call ends.
                   </p>
                   <a
-                    href="https://cal.com/rivercitydigital/15min"
+                    href="https://calendly.com/hello-rivercitydigitalco/30min"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-primary btn-md"
                   >
-                    Book a 15-min call
+                    Book a 30-min call
                     <span className="btn-arr" aria-hidden="true">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14" />
@@ -179,7 +179,7 @@ export default function ContactPage() {
                     </span>
                   </a>
                   <p className="rcd-contact-page-book-fine">
-                    Opens cal.com in a new tab.
+                    Opens Calendly in a new tab.
                   </p>
                 </div>
 

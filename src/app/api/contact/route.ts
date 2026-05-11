@@ -10,6 +10,7 @@ type Payload = {
   website?: string;
   service?: string;
   message?: string;
+  source?: string;
   "bot-field"?: string;
 };
 
@@ -34,6 +35,7 @@ export async function POST(req: Request) {
   const phone = trim(body.phone);
   const website = trim(body.website);
   const service = trim(body.service);
+  const source = trim(body.source).slice(0, 80);
 
   if (!name || !email || !service) {
     return NextResponse.json(
@@ -52,12 +54,13 @@ export async function POST(req: Request) {
   const toAddress = process.env.CONTACT_TO_EMAIL || "hello@rivercitydigitalco.com";
   const fromAddress = process.env.CONTACT_FROM_EMAIL || "River City Digital <noreply@rivercitydigitalco.com>";
 
-  const subject = `New inquiry — ${service} (${name})`;
+  const subject = `New inquiry — ${service} (${name})${source ? ` [${source}]` : ""}`;
   const text = [
     `New inquiry from ${name} <${email}>`,
     phone && `Phone: ${phone}`,
     website && `Site:  ${website}`,
     `Service: ${service}`,
+    source && `Source:  ${source}`,
     "",
     message || "(no message)",
     "",

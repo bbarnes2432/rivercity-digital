@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { ViewTransition } from "react";
+import { Suspense, ViewTransition } from "react";
 import { Inter, Barlow_Condensed, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import BackToTop from "./_components/BackToTop";
+import PopupForm from "./_components/PopupForm";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -146,6 +147,9 @@ export default function RootLayout({
           {children}
         </ViewTransition>
         <BackToTop />
+        <Suspense fallback={null}>
+          <PopupForm />
+        </Suspense>
       </body>
     </html>
   );

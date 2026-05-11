@@ -197,12 +197,12 @@ export default function WebsiteDesignPage() {
 
               <div className="rcd-inline-contact-fast">
                 <a
-                  href="https://cal.com/rivercitydigital/15min"
+                  href="https://calendly.com/hello-rivercitydigitalco/30min"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-secondary btn-md"
                 >
-                  Book a 15-min call
+                  Book a 30-min call
                 </a>
                 <span className="rcd-inline-contact-or" aria-hidden="true">
                   <span>or write us below</span>
