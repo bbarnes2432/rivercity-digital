@@ -339,52 +339,83 @@
   transform: translateX(4px);
 }
 
-/* ---- STL BREAK ------------------------------------------------------- */
+/* ---- STL BREAK — restored 1:1 from the original index.html ---------- */
 .rcd-stl-break {
-  background: var(--rcd-navy-700);
+  position: relative;
+  min-height: 620px;
+  background-image: url("/assets/bg-coffee-arch.webp");
+  background-size: cover;
+  background-position: center;
   color: #fff;
-  padding: clamp(48px, 6vw, 72px) 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.rcd-stl-break::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    rgba(11, 18, 30, 0.86) 0%,
+    rgba(11, 18, 30, 0.65) 40%,
+    rgba(11, 18, 30, 0.18) 75%,
+    rgba(11, 18, 30, 0.00) 100%);
+}
+.rcd-stl-break .container {
+  position: relative;
+  z-index: 1;
 }
 .rcd-stl-break-inner {
-  max-width: 720px;
-  margin: 0 auto;
-  text-align: center;
-  padding: 0 var(--container-pad);
+  max-width: 620px;
+  padding: 150px 0;
 }
 .rcd-stl-break-label {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin: 0 0 14px;
-  font: 700 12px/1 var(--font-inter), sans-serif;
-  letter-spacing: 0.22em;
-  color: var(--rcd-teal-300);
-  font-variant-caps: all-small-caps;
+  gap: 10px;
+  font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 22px;
 }
 .rcd-stl-break-label .dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--rcd-teal-400);
-  box-shadow: 0 0 0 3px rgba(76, 165, 173, 0.20);
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(76, 165, 173, 0.20);
 }
 .rcd-stl-break h2 {
   font-family: var(--font-barlow), "Barlow Condensed", sans-serif;
   font-weight: 700;
-  font-size: clamp(28px, 3.6vw, 44px);
-  line-height: 1.06;
-  letter-spacing: -0.005em;
   text-transform: uppercase;
-  margin: 0 0 14px;
+  letter-spacing: 0.02em;
+  font-size: clamp(36px, 4.6vw, 58px);
+  line-height: 1.05;
+  margin: 0 0 22px;
   color: #fff;
+  text-wrap: balance;
 }
 .rcd-stl-break p {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 17px;
+  line-height: 1.65;
+  max-width: 540px;
   margin: 0;
-  font-size: clamp(16px, 1.2vw, 18px);
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.80);
+}
+@media (max-width: 760px) {
+  .rcd-stl-break {
+    min-height: 0;
+  }
+  .rcd-stl-break::before {
+    background: linear-gradient(180deg,
+      rgba(11, 18, 30, 0.78) 0%,
+      rgba(11, 18, 30, 0.78) 100%);
+  }
+  .rcd-stl-break-inner {
+    padding: 72px 0;
+  }
 }
 
 /* ---- WHY RCD --------------------------------------------------------- */

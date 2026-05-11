@@ -353,16 +353,18 @@ export default function HomePage() {
 
         {/* ============ STL BREAK ============ */}
         <section className="rcd-stl-break" aria-label="Built for St. Louis businesses">
-          <div className="rcd-stl-break-inner fx-reveal">
-            <span className="rcd-stl-break-label">
-              <span className="dot" />
-              Built for St. Louis
-            </span>
-            <h2>Built for Real St. Louis Businesses</h2>
-            <p>
-              We know this market because we live and work here. Every project is shaped by an understanding
-              of how St. Louis customers actually search, shop, and choose.
-            </p>
+          <div className="container">
+            <div className="rcd-stl-break-inner fx-reveal">
+              <span className="rcd-stl-break-label">
+                <span className="dot" />
+                Built for St. Louis
+              </span>
+              <h2>Built for Real St. Louis Businesses</h2>
+              <p>
+                We know this market because we live and work here. Every project is shaped by an understanding
+                of how St. Louis customers actually search, shop, and choose.
+              </p>
+            </div>
           </div>
         </section>
 
