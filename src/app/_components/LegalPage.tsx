@@ -3,7 +3,6 @@ import Nav from "./Nav";
 import Footer from "./Footer";
 import Container from "./Container";
 import Breadcrumbs from "./Breadcrumbs";
-import MissouriMark from "./MissouriMark";
 
 type Section = { id: string; heading: string; body: ReactNode };
 
@@ -74,9 +73,6 @@ export default function LegalPage({
             <p className="t-mono rcd-legal-foot-meta">
               FILED IN ST. LOUIS, MISSOURI · {lastUpdated.toUpperCase()} · BY THE SAME PEOPLE WHO BUILT THIS WEBSITE.
             </p>
-            <div className="rcd-legal-stamp" aria-hidden="true">
-              <MissouriMark size={48} showPin outlineColor="var(--ink-tertiary)" />
-            </div>
           </footer>
         </Container>
       </main>

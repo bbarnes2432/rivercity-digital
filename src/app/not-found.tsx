@@ -3,7 +3,6 @@ import "./styles/not-found.css";
 import Nav from "./_components/Nav";
 import Footer from "./_components/Footer";
 import Container from "./_components/Container";
-import MissouriMark from "./_components/MissouriMark";
 
 export const metadata = {
   title: "Page not found",
@@ -23,7 +22,10 @@ export default function NotFound() {
             </p>
 
             <div className="rcd-404-mark" aria-hidden="true">
-              <MissouriMark size={200} outlineColor="var(--ink-primary)" />
+              <svg className="rcd-404-pin" width="180" height="180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
               <svg className="rcd-404-x" width="48" height="48" viewBox="0 0 24 24">
                 <path d="M5 5 L19 19 M19 5 L5 19" stroke="var(--rcd-red-500)" strokeWidth="2.5" strokeLinecap="round" />
               </svg>

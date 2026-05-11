@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import MissouriMark from "./MissouriMark";
 import NewsletterForm from "./NewsletterForm";
 
 const SERVICES = [
@@ -96,9 +95,6 @@ export default function Footer() {
               <li>Established 2026</li>
               <li>By appointment</li>
             </ul>
-            <div className="rcd-footer-stamp fx-float-slow" aria-hidden="true">
-              <MissouriMark size={56} showPin outlineColor="rgba(255,255,255,0.32)" />
-            </div>
           </div>
         </div>
       </div>

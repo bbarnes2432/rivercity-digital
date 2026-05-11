@@ -6,7 +6,6 @@ import Section from "../_components/Section";
 import Container from "../_components/Container";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
-import MissouriMark from "../_components/MissouriMark";
 import ContactForm from "../_components/contact-form";
 import "./contact.css";
 
@@ -184,9 +183,6 @@ export default function ContactPage() {
                   </p>
                 </div>
 
-                <div className="rcd-contact-page-stamp" aria-hidden="true">
-                  <MissouriMark size={84} showPin outlineColor="var(--ink-secondary)" />
-                </div>
               </aside>
 
               <div className="rcd-contact-page-form">

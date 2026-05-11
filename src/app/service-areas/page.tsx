@@ -9,7 +9,6 @@ import Button from "../_components/Button";
 import CtaBand from "../_components/CtaBand";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
-import MissouriMark from "../_components/MissouriMark";
 import Ticker from "../_components/Ticker";
 import "../styles/service-areas.css";
 
@@ -315,8 +314,11 @@ export default function ServiceAreasPage() {
                   <article key={a.id} id={a.id} className="rcd-area-card">
                     <header className="rcd-area-card-head">
                       <h3>{a.name}</h3>
-                      <span className="rcd-area-pin">
-                        <MissouriMark size={32} showPin outlineColor="currentColor" />
+                      <span className="rcd-area-pin" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                          <circle cx="12" cy="10" r="3" />
+                        </svg>
                       </span>
                     </header>
                     <p className="rcd-area-blurb">{a.blurb}</p>

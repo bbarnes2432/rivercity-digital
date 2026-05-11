@@ -129,6 +129,24 @@
   --tex-opacity: 0.04;
 }
 
+/* ---- Newsprint grain — SVG noise overlay ---- */
+.tex-grain {
+  position: relative;
+  isolation: isolate;
+}
+.tex-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.18 0 0 0 0 0.31 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+}
+
 /* ---- Splatter (subtle teal pinpricks for energy moments) ---- */
 .tex-splatter::before {
   background-image:

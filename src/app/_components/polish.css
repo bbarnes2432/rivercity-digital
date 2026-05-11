@@ -383,49 +383,6 @@
   display: block;
 }
 
-/* Big Missouri silhouette watermark — mostly applied via attribute */
-[data-watermark="missouri-right"] {
-  position: relative;
-  isolation: isolate;
-}
-[data-watermark="missouri-right"]::after {
-  content: "";
-  position: absolute;
-  right: -120px;
-  top: 50%;
-  width: 540px;
-  height: 680px;
-  z-index: -1;
-  pointer-events: none;
-  transform: translateY(-50%);
-  background-image: url("/assets/missouri.svg");
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.05;
-  filter: brightness(0) saturate(100%) invert(11%) sepia(19%) saturate(2890%) hue-rotate(192deg) brightness(94%) contrast(89%);
-}
-[data-watermark="missouri-left"] {
-  position: relative;
-  isolation: isolate;
-}
-[data-watermark="missouri-left"]::after {
-  content: "";
-  position: absolute;
-  left: -160px;
-  top: 50%;
-  width: 540px;
-  height: 680px;
-  z-index: -1;
-  pointer-events: none;
-  transform: translateY(-50%) scaleX(-1);
-  background-image: url("/assets/missouri.svg");
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.04;
-  filter: brightness(0) saturate(100%);
-}
 
 /* Colored side-rule for editorial sections */
 .section-rule-left {

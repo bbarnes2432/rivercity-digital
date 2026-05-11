@@ -316,7 +316,7 @@ export default function HomePage() {
         </section>
 
         {/* ============ SERVICES ============ */}
-        <section id="services" className="rcd-home-sec light">
+        <section id="services" className="rcd-home-sec light tex-grain">
           <div className="container">
             <div className="rcd-home-sec-head fx-reveal">
               <div className="label">What We Do</div>
@@ -370,7 +370,7 @@ export default function HomePage() {
 
         {/* ============ WHY RIVER CITY DIGITAL ============ */}
         <section className="rcd-home-sec dark bg-deeper">
-          <div className="rcd-why-grid">
+          <div className="rcd-why-grid fx-reveal">
             <div className="rcd-why-copy fx-reveal">
               <div className="label">Why River City Digital</div>
               <h2>Real People.<br />Real Work.<br /><span className="accent">Real Results.</span></h2>
@@ -425,7 +425,7 @@ export default function HomePage() {
         </section>
 
         {/* ============ STATS BAR ============ */}
-        <section className="rcd-home-sec light" style={{ paddingTop: 80, paddingBottom: 80 }}>
+        <section className="rcd-home-sec light tex-grain" style={{ paddingTop: 80, paddingBottom: 80 }}>
           <div className="rcd-stats-grid fx-stagger">
             <div className="rcd-stat-cell fx-reveal">
               <div className="num">87<small>%</small></div>
@@ -544,7 +544,7 @@ export default function HomePage() {
         </section>
 
         {/* ============ FAQ ============ */}
-        <section id="faq" className="rcd-home-sec light">
+        <section id="faq" className="rcd-home-sec light tex-grain">
           <div className="container">
             <div className="rcd-home-sec-head fx-reveal">
               <div className="label">FAQ</div>
@@ -576,7 +576,7 @@ export default function HomePage() {
         </section>
 
         {/* ============ CONTACT ============ */}
-        <section id="contact" className="rcd-home-sec bg-cream rcd-home-contact">
+        <section id="contact" className="rcd-home-sec bg-cream rcd-home-contact tex-grain">
           <div className="container">
             <div className="rcd-home-sec-head fx-reveal" style={{ textAlign: "left", maxWidth: "none", marginBottom: "var(--s-7)" }}>
               <div className="rcd-home-contact-eyebrow">Contact</div>

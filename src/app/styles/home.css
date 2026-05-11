@@ -890,3 +890,260 @@
 .rcd-home-contact-row .ctext a:hover {
   border-bottom-color: var(--accent);
 }
+
+/* =========================================================================
+   SPECIAL FEATURES — parallax, textures, motion, atmosphere.
+   Every effect gates on prefers-reduced-motion: no-preference.
+   ========================================================================= */
+
+/* ---- 1. Hero photo parallax + idle Ken-Burns drift ------------------- */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rcd-home-hero-bg {
+      animation: rcd-hero-parallax linear;
+      animation-timeline: scroll();
+      animation-range: 0 90vh;
+    }
+  }
+}
+@keyframes rcd-hero-parallax {
+  to { transform: translate3d(0, 56px, 0) scale(1.04); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rcd-home-hero-bg img {
+    animation: rcd-hero-idle 24s var(--ease-in-out) infinite alternate;
+    will-change: transform;
+  }
+}
+@keyframes rcd-hero-idle {
+  from { transform: scale(1.00) translate3d(0, 0, 0); }
+  to   { transform: scale(1.035) translate3d(-8px, 0, 0); }
+}
+
+/* ---- 2. Hero copy lift on scroll ------------------------------------- */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rcd-home-hero-copy {
+      animation: rcd-hero-copy-leave linear;
+      animation-timeline: scroll();
+      animation-range: 20vh 100vh;
+      will-change: transform, opacity;
+    }
+  }
+}
+@keyframes rcd-hero-copy-leave {
+  to { transform: translateY(-40px); opacity: 0.35; }
+}
+
+/* ---- 4. Section-head tick — vertical hairline above each h2 -------- */
+.rcd-home-sec-head {
+  position: relative;
+}
+.rcd-home-sec-head::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -28px;
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: top center;
+  width: 2px;
+  height: 22px;
+  background: var(--accent);
+  transition: transform 700ms var(--ease-out);
+}
+.rcd-home-sec.dark .rcd-home-sec-head::before {
+  background: var(--rcd-teal-300);
+}
+.rcd-home-sec-head[data-revealed="true"]::before,
+.fx-reveal[data-revealed="true"].rcd-home-sec-head::before {
+  transform: translateX(-50%) scaleY(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rcd-home-sec-head::before {
+    transform: translateX(-50%) scaleY(1);
+    transition: none;
+  }
+}
+
+/* ---- 5. Trust bar — column hairlines + idle teal halo on icons ----- */
+.rcd-trust-item {
+  position: relative;
+}
+.rcd-trust-item + .rcd-trust-item::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 22%;
+  bottom: 22%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.10);
+}
+@media (max-width: 540px) {
+  .rcd-trust-item + .rcd-trust-item::before { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rcd-trust-item .ico {
+    animation: rcd-ico-breathe 6s var(--ease-in-out) infinite;
+  }
+  .rcd-trust-item:nth-child(2) .ico { animation-delay: 1.5s; }
+  .rcd-trust-item:nth-child(3) .ico { animation-delay: 3s; }
+  .rcd-trust-item:nth-child(4) .ico { animation-delay: 4.5s; }
+}
+@keyframes rcd-ico-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(76, 165, 173, 0.00); }
+  50%      { box-shadow: 0 0 0 6px rgba(76, 165, 173, 0.10); }
+}
+
+/* ---- 6. STL Break — slow scroll-driven background pan -------------- */
+.rcd-stl-break {
+  background-image: none;
+  isolation: isolate;
+}
+.rcd-stl-break::after {
+  content: "";
+  position: absolute;
+  inset: -8% 0;
+  z-index: -1;
+  background: url("/assets/bg-coffee-arch.webp") center / cover no-repeat;
+  will-change: transform;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rcd-stl-break::after {
+      animation: rcd-bg-pan linear;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+@keyframes rcd-bg-pan {
+  from { transform: translateY(-5%); }
+  to   { transform: translateY(5%); }
+}
+
+/* ---- 7. Why-RCD — animated column rule between copy & tiles -------- */
+@media (min-width: 981px) {
+  .rcd-why-grid {
+    position: relative;
+  }
+  .rcd-why-grid::before {
+    content: "";
+    position: absolute;
+    left: calc(50% - var(--s-9) / 2);
+    top: 8%;
+    bottom: 8%;
+    width: 1px;
+    background: linear-gradient(180deg,
+      transparent,
+      rgba(127, 195, 200, 0.42) 18%,
+      rgba(127, 195, 200, 0.42) 82%,
+      transparent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 1100ms var(--ease-out) 200ms;
+  }
+  .rcd-why-grid[data-revealed="true"]::before,
+  .fx-reveal[data-revealed="true"] + .rcd-why-grid::before {
+    transform: scaleY(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rcd-why-grid::before {
+      transform: scaleY(1);
+      transition: none;
+    }
+  }
+}
+
+/* ---- 8. Stat numbers — clip-path mask reveal + draw-in rule -------- */
+.rcd-stat-cell .num {
+  display: inline-block;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 900ms cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+.rcd-stat-cell[data-revealed="true"] .num {
+  clip-path: inset(0);
+}
+.rcd-stat-cell .rule {
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 800ms var(--ease-out) 400ms;
+}
+.rcd-stat-cell[data-revealed="true"] .rule {
+  transform: scaleX(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rcd-stat-cell .num { clip-path: none; transition: none; }
+  .rcd-stat-cell .rule { transform: scaleX(1); transition: none; }
+}
+
+/* ---- 9. CTA band — slow aurora drift -------------------------------- */
+.rcd-home-cta::after {
+  will-change: transform, opacity;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rcd-home-cta::after {
+      animation: rcd-cta-aurora linear;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+@keyframes rcd-cta-aurora {
+  0%   { transform: translate3d(-2%, 0, 0) scale(1.02); opacity: 0.6; }
+  50%  { transform: translate3d(0, 0, 0)    scale(1.05); opacity: 1.0; }
+  100% { transform: translate3d(2%, 0, 0)   scale(1.02); opacity: 0.6; }
+}
+
+/* ---- 10. Service cards — corner numeral + top-edge hairline draw --- */
+.rcd-svc-grid--image { counter-reset: svc; }
+.rcd-svc-grid--image .rcd-svc-card {
+  counter-increment: svc;
+}
+.rcd-svc-grid--image .rcd-svc-card::after {
+  content: "0" counter(svc);
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font: 700 11px/1 var(--font-mono), monospace;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(15, 30, 51, 0.55);
+  padding: 5px 9px;
+  border-radius: var(--r-pill);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+  pointer-events: none;
+}
+.rcd-svc-grid--image .rcd-svc-card:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+.rcd-svc-grid--image .rcd-svc-card .rcd-svc-card-img::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  transition: width 420ms var(--ease-out);
+  z-index: 3;
+  pointer-events: none;
+}
+.rcd-svc-grid--image .rcd-svc-card-img {
+  position: relative;
+}
+.rcd-svc-grid--image .rcd-svc-card:hover .rcd-svc-card-img::after {
+  width: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rcd-svc-grid--image .rcd-svc-card::after,
+  .rcd-svc-grid--image .rcd-svc-card-img::after {
+    transition: none;
+  }
+}

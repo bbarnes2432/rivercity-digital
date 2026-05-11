@@ -7,6 +7,75 @@
   color: var(--ink-on-dark);
   padding-top: var(--s-9);
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* St. Louis roads-map backdrop. The source image is bright (near-white
+   roads on navy) and densest at the downtown core — exactly where the
+   newsletter form and brand text sit. So we:
+     1. Push the map down/right via background-position so the river and
+        downtown knot fall under the brand column gutter, not under the
+        copy.
+     2. Use mask-image with an INVERSE radial — map is dimmest in the
+        horizontal middle band (where text columns live), and recovers
+        toward top corners + bottom edge where there's no text.
+     3. Layer a navy veil (::after, behind text) at ~55% so even the
+        visible road segments read as a quiet texture, not a feature.
+     4. A subtle teal wash pulls the cool-blue source toward our brand.
+   If the image file is missing the footer falls back to plain navy. */
+.rcd-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: url("/assets/stl-roads-map.webp");
+  background-size: 130% auto;
+  background-position: 28% 18%;
+  background-repeat: no-repeat;
+  opacity: 0.55;
+  -webkit-mask-image:
+    radial-gradient(ellipse 95% 70% at 50% 55%,
+      transparent 0%,
+      rgba(0, 0, 0, 0.20) 28%,
+      rgba(0, 0, 0, 0.65) 60%,
+      rgba(0, 0, 0, 0.95) 90%,
+      rgba(0, 0, 0, 1.00) 100%),
+    linear-gradient(to bottom,
+      rgba(0, 0, 0, 1.00) 0%,
+      rgba(0, 0, 0, 0.85) 50%,
+      rgba(0, 0, 0, 0.40) 100%);
+  -webkit-mask-composite: source-in;
+          mask-image:
+    radial-gradient(ellipse 95% 70% at 50% 55%,
+      transparent 0%,
+      rgba(0, 0, 0, 0.20) 28%,
+      rgba(0, 0, 0, 0.65) 60%,
+      rgba(0, 0, 0, 0.95) 90%,
+      rgba(0, 0, 0, 1.00) 100%),
+    linear-gradient(to bottom,
+      rgba(0, 0, 0, 1.00) 0%,
+      rgba(0, 0, 0, 0.85) 50%,
+      rgba(0, 0, 0, 0.40) 100%);
+          mask-composite: intersect;
+}
+/* Navy veil + brand-teal washes sit BETWEEN the map and the text.
+   The veil is the legibility workhorse — without it the brightest
+   road segments still punch through and fight the 50–72% white text. */
+.rcd-footer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom,
+      rgba(16, 29, 49, 0.35) 0%,
+      rgba(16, 29, 49, 0.55) 40%,
+      rgba(16, 29, 49, 0.78) 100%),
+    radial-gradient(ellipse 60% 40% at 18% 22%, rgba(76, 165, 173, 0.10), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 82% 78%, rgba(76, 165, 173, 0.07), transparent 70%);
 }
 
 .rcd-footer-prelude {

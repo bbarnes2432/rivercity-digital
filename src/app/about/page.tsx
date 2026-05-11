@@ -9,7 +9,6 @@ import CtaBand from "../_components/CtaBand";
 import Button from "../_components/Button";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
-import MissouriMark from "../_components/MissouriMark";
 
 export const metadata: Metadata = {
   title: "About — Two of Us. One City. The Work.",
