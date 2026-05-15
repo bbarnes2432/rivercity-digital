@@ -13,6 +13,16 @@
   overflow: hidden;
   isolation: isolate;
 }
+@media (max-width: 760px) {
+  .rcd-home-hero {
+    min-height: auto;
+    padding-top: 104px;
+    padding-bottom: 64px;
+  }
+  .rcd-home-hero-inner {
+    min-height: auto;
+  }
+}
 .rcd-home-hero-bg {
   position: absolute;
   inset: 0;
@@ -74,7 +84,7 @@
 .rcd-home-hero h1 {
   font-family: var(--font-barlow), "Barlow Condensed", sans-serif;
   font-weight: 700;
-  font-size: clamp(48px, 8.5vw, 104px);
+  font-size: clamp(40px, 8.5vw, 104px);
   line-height: 0.95;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -109,6 +119,10 @@
   flex-wrap: wrap;
   gap: 14px;
   margin-bottom: 36px;
+}
+@media (max-width: 480px) {
+  .rcd-home-hero-cta { flex-direction: column; align-items: stretch; }
+  .rcd-home-hero-cta .btn { justify-content: center; width: 100%; }
 }
 .rcd-home-hero-chips {
   display: flex;
@@ -237,7 +251,7 @@
   .rcd-svc-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 540px) {
-  .rcd-svc-grid { grid-template-columns: 1fr; }
+  .rcd-svc-grid { grid-template-columns: 1fr; gap: var(--s-4); }
 }
 
 /* Override the column-style override so this page uses card layout */
@@ -685,6 +699,11 @@
     padding: var(--s-6);
   }
 }
+@media (max-width: 540px) {
+  .rcd-next-success {
+    padding: var(--s-5);
+  }
+}
 .rcd-next-success-img {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -692,6 +711,9 @@
   overflow: hidden;
   background: var(--rcd-navy-800);
   box-shadow: var(--shadow-md);
+}
+@media (max-width: 880px) {
+  .rcd-next-success-img { aspect-ratio: 16 / 10; }
 }
 .rcd-next-success-img img {
   width: 100%;
@@ -796,6 +818,15 @@
   justify-content: center;
   gap: 14px;
   margin-bottom: 16px;
+}
+@media (max-width: 480px) {
+  .rcd-home-cta-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .rcd-home-cta-buttons .btn { justify-content: center; width: 100%; }
 }
 .rcd-home-cta-email {
   display: block;

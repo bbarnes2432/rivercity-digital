@@ -234,6 +234,14 @@
   letter-spacing: 0.2em;
   text-transform: none;
 }
+@media (max-width: 540px) {
+  .rcd-pain-line {
+    grid-template-columns: 1fr;
+    gap: var(--s-2);
+    padding: var(--s-5) 0;
+    font-size: clamp(22px, 7vw, 30px);
+  }
+}
 [data-theme="dark"] .rcd-pain-line { color: #fff; border-color: var(--line-on-dark-2); }
 
 /* Hero meta override on cream-mode hero */

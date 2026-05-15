@@ -9,6 +9,12 @@
   padding-bottom: var(--s-9);
   overflow: hidden;
 }
+@media (max-width: 760px) {
+  .rcd-hero {
+    padding-top: calc(72px + var(--s-6));
+    padding-bottom: var(--s-7);
+  }
+}
 .rcd-hero[data-mode="civic"] {
   background: var(--rcd-navy-700);
   color: #fff;
@@ -91,6 +97,15 @@
   display: inline-flex;
   flex-wrap: wrap;
   gap: var(--s-4);
+}
+@media (max-width: 480px) {
+  .rcd-hero-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .rcd-hero-actions .btn { justify-content: center; width: 100%; }
 }
 
 .rcd-hero-meta {

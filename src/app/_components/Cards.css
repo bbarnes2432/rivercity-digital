@@ -163,6 +163,24 @@
     display: none;
   }
 }
+@media (max-width: 480px) {
+  .rcd-svc-card {
+    padding: var(--s-5);
+    gap: var(--s-4);
+  }
+  .rcd-svc-card-num {
+    min-width: 56px;
+  }
+  .rcd-svc-card-num-glyph {
+    font-size: 48px;
+  }
+  .rcd-svc-card h3 {
+    font-size: 22px;
+  }
+  .rcd-svc-card p {
+    font-size: 15px;
+  }
+}
 
 /* ---- Process card ---- */
 .rcd-process {

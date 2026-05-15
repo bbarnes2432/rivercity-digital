@@ -104,6 +104,11 @@
     border-radius: var(--r-lg);
   }
 }
+@media (max-width: 480px) {
+  .rcd-inline-contact-card {
+    padding: var(--s-4);
+  }
+}
 
 /* Pair name+email and phone+website on desktop to reduce vertical weight.
    Form fields stay single-column on narrow screens. */

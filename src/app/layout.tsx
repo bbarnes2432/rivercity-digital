@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Suspense, ViewTransition } from "react";
 import { Inter, Barlow_Condensed, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
@@ -70,6 +70,12 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 const ORG_LD = {
