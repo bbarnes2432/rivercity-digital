@@ -80,6 +80,14 @@
 @media (max-width: 540px) {
   .rcd-stages { grid-template-columns: 1fr; }
 }
+/* 4-step variant — responsive, replaces inline grid overrides that broke mobile */
+.rcd-stages--4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 980px) {
+  .rcd-stages--4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+  .rcd-stages--4 { grid-template-columns: 1fr; }
+}
 .rcd-stage-card {
   background: var(--surface-default);
   border-radius: var(--r-lg);

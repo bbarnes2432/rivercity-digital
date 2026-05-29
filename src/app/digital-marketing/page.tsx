@@ -96,7 +96,7 @@ export default function DigitalMarketingPage() {
                   Every dollar accounted for.
                 </p>
                 <div className="rcd-hero-actions">
-                  <Button href="/contact" size="lg" arrow>Plan my $1k</Button>
+                  <Button href="/contact" size="lg" arrow>Get my free audit</Button>
                   <Button href="#how" size="lg" variant="ghost">How it works</Button>
                 </div>
               </div>
@@ -183,7 +183,7 @@ export default function DigitalMarketingPage() {
               eyebrow="How we run it"
               title="What the first 90 days looks like."
             />
-            <div className="rcd-stages fx-stagger" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+            <div className="rcd-stages rcd-stages--4 fx-stagger">
               {TIMELINE.map((s) => (
                 <article key={s.n} className="rcd-stage-card">
                   <div className="rcd-stage-num">{s.n} · {s.w.toUpperCase()}</div>
