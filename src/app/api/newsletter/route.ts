@@ -50,7 +50,15 @@ export async function POST(req: Request) {
   ].join("\n");
 
   if (!apiKey) {
-    console.log("[newsletter] RESEND_API_KEY not set — would have notified:\n" + text);
+    // See contact route — never fake a success in production.
+    if (process.env.NODE_ENV === "production") {
+      console.error("[newsletter] RESEND_API_KEY missing in production — signup NOT sent:\n" + text);
+      return NextResponse.json(
+        { ok: false, error: "Couldn't subscribe right now. Please email us directly." },
+        { status: 500 },
+      );
+    }
+    console.log("[newsletter] RESEND_API_KEY not set (dev) — would have notified:\n" + text);
     return NextResponse.json({ ok: true, dev: true });
   }
 

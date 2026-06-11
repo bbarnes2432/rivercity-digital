@@ -71,7 +71,17 @@ export async function POST(req: Request) {
     .join("\n");
 
   if (!apiKey) {
-    console.log("[contact] RESEND_API_KEY not set — would have sent:\n" + text);
+    // In production a missing key is an outage, not a no-op. Returning a fake
+    // success here silently swallows real inquiries — surface it instead so the
+    // visitor gets the "email us directly" fallback and we can see it's broken.
+    if (process.env.NODE_ENV === "production") {
+      console.error("[contact] RESEND_API_KEY missing in production — inquiry NOT sent:\n" + text);
+      return NextResponse.json(
+        { ok: false, error: "We couldn't send the message. Please email us directly." },
+        { status: 500 },
+      );
+    }
+    console.log("[contact] RESEND_API_KEY not set (dev) — would have sent:\n" + text);
     return NextResponse.json({ ok: true, dev: true });
   }
 
