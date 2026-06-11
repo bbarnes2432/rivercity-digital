@@ -140,6 +140,58 @@ export const PROJECTS: CaseStudy[] = [
     reflection:
       "Email turned out to be the lever. We'd have started flow rebuilds during the migration freeze, not after.",
   },
+  {
+    slug: "the-sauce-fix",
+    name: "The Sauce Fix",
+    where: "Iowa",
+    sector: "Small-batch hot sauce",
+    year: "2026",
+    services: ["Website", "E-commerce"],
+    blurb:
+      "A custom direct-to-consumer storefront for a maker who grows, ferments, and bottles every batch by hand — built to sell out drops and grow the list between them.",
+    img: "/assets/portfolio-sauce-fix.webp",
+    brief:
+      "A small-batch sauce maker in Iowa who grows their own peppers and bottles only one or two batches a year. The product was the easy part — the brief was to build a storefront that could handle a limited drop, take orders cleanly, and keep fans warm during the long stretches when nothing's in stock.",
+    approach: [
+      "Built a fast custom storefront from scratch — product pages, cart, and checkout tuned for a single-maker shop rather than a bloated platform template.",
+      "Designed the experience around the drop model: a clear in-stock / sold-out state, and an email capture for 'join the list for the next batch' front and center.",
+      "Leaned the design into the brand — the hand-illustrated flame-and-skull identity carried through the site instead of a generic e-commerce theme.",
+      "Set up the basics for direct-to-consumer ordering and shipping so the maker can run the whole thing without an agency in the loop.",
+    ],
+    results: [
+      { value: "Live", label: "Custom DTC storefront" },
+      { value: "Drop-ready", label: "Built for limited batches" },
+      { value: "List", label: "Email capture between drops" },
+    ],
+    reflection:
+      "The drop model rewards anticipation. Next iteration we'd build a proper notify-when-live flow so the list converts the moment a batch goes up, not a day later.",
+  },
+  {
+    slug: "confetti-and-co",
+    name: "Confetti & Co.",
+    where: "Troy, MO",
+    sector: "Event styling & party rentals",
+    year: "2026",
+    services: ["Website", "Local SEO"],
+    blurb:
+      "A bright, bookable site for a family-run party styling business — balloon garlands and luxury teepee sleepovers across the St. Louis metro.",
+    img: "/assets/portfolio-confetti-co.webp",
+    brief:
+      "A family-run business styling balloon garlands and luxury teepee sleepovers for Troy, Wentzville, and the wider St. Louis metro. They were booking through DMs and word of mouth. The brief: a site that looks as polished as the parties and makes it easy for a parent to picture the setup and reach out.",
+    approach: [
+      "Built a custom site that leads with the look — full-bleed imagery of real setups so the styling sells itself before a word of copy.",
+      "Made inquiry the through-line: clear calls to book on every page so a visitor can reach out the moment they're sold.",
+      "Wrote local copy around the actual service area — Troy, Wentzville, and the St. Louis metro — so the business shows up for the towns it actually serves.",
+      "Carried the soft, celebratory brand palette through the whole build instead of forcing it into an off-the-shelf template.",
+    ],
+    results: [
+      { value: "Live", label: "Custom bookable site" },
+      { value: "Metro", label: "Local service-area copy" },
+      { value: "Brand", label: "Styled to match the work" },
+    ],
+    reflection:
+      "A gallery this visual wants fresh photos often. Next step we'd set up an easy way for the owners to drop in new event shots themselves, so the site stays as current as their last party.",
+  },
 ];
 
 export const PROJECT_SLUGS = PROJECTS.map((p) => p.slug);
