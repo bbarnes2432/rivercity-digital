@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { trackContactConversion } from "./gtag";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -38,6 +39,7 @@ export default function ContactForm({ defaultService = "" }: Props) {
         setStatus("error");
         return;
       }
+      trackContactConversion();
       setStatus("success");
       form.reset();
     } catch {

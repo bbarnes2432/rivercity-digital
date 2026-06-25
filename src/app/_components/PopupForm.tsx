@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { usePopupTrigger } from "./usePopupTrigger";
+import { trackContactConversion } from "./gtag";
 import "./PopupForm.css";
 
 type Step = "qualify" | "lead" | "curious" | "success-lead" | "success-curious";
@@ -103,6 +104,7 @@ export default function PopupForm() {
         setSubmitting(false);
         return;
       }
+      trackContactConversion({ source: SOURCE_QUALIFIED });
       recordSubmit();
       setStep("success-lead");
       setSubmitting(false);

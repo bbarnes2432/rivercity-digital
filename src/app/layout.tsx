@@ -4,6 +4,7 @@ import { Inter, Barlow_Condensed, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import BackToTop from "./_components/BackToTop";
 import PopupForm from "./_components/PopupForm";
+import GoogleTag from "./_components/GoogleTag";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -135,6 +136,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${barlow.variable} ${mono.variable}`}>
+      <GoogleTag />
       <body>
         <a href="#main" className="skip-link">Skip to main content</a>
         <script
