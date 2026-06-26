@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { trackContactConversion } from "./gtag";
+import { useRouter } from "next/navigation";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -10,6 +10,7 @@ type Props = {
 };
 
 export default function ContactForm({ defaultService = "" }: Props) {
+  const router = useRouter();
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -39,9 +40,11 @@ export default function ContactForm({ defaultService = "" }: Props) {
         setStatus("error");
         return;
       }
-      trackContactConversion();
-      setStatus("success");
+      // Keep the button disabled and redirect to the thank-you page, where
+      // the Google Ads conversion fires. Status stays "submitting" so the UI
+      // doesn't flicker back to idle during the navigation.
       form.reset();
+      router.push("/thank-you");
     } catch {
       setErrorMsg("Network hiccup — try again or email us directly.");
       setStatus("error");

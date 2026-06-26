@@ -1,8 +1,8 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { usePopupTrigger } from "./usePopupTrigger";
-import { trackContactConversion } from "./gtag";
 import "./PopupForm.css";
 
 type Step = "qualify" | "lead" | "curious" | "success-lead" | "success-curious";
@@ -11,6 +11,7 @@ const SOURCE_QUALIFIED = "popup-qualifier";
 const SOURCE_CURIOUS = "popup-curious";
 
 export default function PopupForm() {
+  const router = useRouter();
   const { shouldOpen, dismiss, recordSubmit } = usePopupTrigger();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [step, setStep] = useState<Step>("qualify");
@@ -104,11 +105,11 @@ export default function PopupForm() {
         setSubmitting(false);
         return;
       }
-      trackContactConversion({ source: SOURCE_QUALIFIED });
+      // Close the popup and send the lead to the thank-you page, where the
+      // Google Ads conversion fires (same as the main contact form).
       recordSubmit();
-      setStep("success-lead");
-      setSubmitting(false);
-      autoCloseRef.current = window.setTimeout(() => handleClose("submitted"), 4000);
+      handleClose("submitted");
+      router.push("/thank-you");
     } catch {
       setErrorMsg("Network hiccup — try again or email us directly.");
       setSubmitting(false);
