@@ -18,6 +18,18 @@ export default function ContactForm({ defaultService = "" }: Props) {
     e.preventDefault();
     if (status === "submitting") return;
     const form = e.currentTarget;
+
+    // The website field is type="url", whose HTML5 validation rejects a bare
+    // domain like "yoursite.com". Prepend https:// so people don't have to type
+    // the protocol themselves before validation runs.
+    const websiteEl = form.elements.namedItem("website") as HTMLInputElement | null;
+    if (websiteEl) {
+      const value = websiteEl.value.trim();
+      if (value && !/^https?:\/\//i.test(value)) {
+        websiteEl.value = `https://${value}`;
+      }
+    }
+
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
