@@ -11,6 +11,7 @@ import ContactForm from "../_components/contact-form";
 import Stat from "../_components/Stat";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
+import HookVideo from "../_components/HookVideo";
 import { Globe, Rocket, ShoppingBag, RefreshCw } from "lucide-react";
 import "../styles/inner.css";
 
@@ -123,6 +124,24 @@ export default function WebsiteDesignPage() {
           </Container>
         </Section>
 
+        {/* Video */}
+        <Section mode="working">
+          <Container>
+            <SectionHeader
+              eyebrow="Watch · 40 Sec"
+              title="See how we build."
+              lede="A quick look at how we design and build custom, search-ready websites for St. Louis businesses."
+            />
+            <div className="rcd-hook-video-wrap fx-reveal">
+              <HookVideo
+                src="/assets/web-design-video.mp4"
+                poster="/assets/web-design-poster.jpg"
+                ctaLabel="See how we build your site"
+              />
+            </div>
+          </Container>
+        </Section>
+
         {/* What we build */}
         <Section mode="working" className="section--bg-build">
           <Container>
@@ -161,6 +180,58 @@ export default function WebsiteDesignPage() {
                   <p>{s.d}</p>
                 </article>
               ))}
+            </div>
+          </Container>
+        </Section>
+
+        {/* Featured Website of the Month */}
+        <Section mode="sunken">
+          <Container>
+            <div className="rcd-featured fx-reveal">
+              <a
+                href="https://thesaucefix.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rcd-featured-media"
+                aria-label="Visit The Sauce Fix — opens in a new tab"
+              >
+                <Image
+                  src="/assets/portfolio-sauce-fix.webp"
+                  alt="The Sauce Fix — custom direct-to-consumer hot sauce storefront"
+                  fill
+                  sizes="(max-width: 900px) 100vw, 560px"
+                  style={{ objectFit: "cover" }}
+                />
+                <span className="rcd-featured-badge">Featured Website of the Month</span>
+              </a>
+              <div className="rcd-featured-body">
+                <p className="t-eyebrow">The Sauce Fix · Small-batch hot sauce</p>
+                <h2 className="t-h2">A custom storefront built to sell out every drop.</h2>
+                <p className="t-lede">
+                  A direct-to-consumer site for a maker who grows, ferments, and bottles every
+                  batch by hand — designed around the drop model, with clean in-stock / sold-out
+                  states and email capture to keep fans warm between batches.
+                </p>
+                <ul className="list-check" style={{ margin: "20px 0 28px" }}>
+                  <li>Custom DTC storefront — no bloated template</li>
+                  <li>Built for limited drops and clean checkout</li>
+                  <li>Email capture between batches</li>
+                </ul>
+                <div className="rcd-featured-actions">
+                  <Button
+                    href="https://thesaucefix.com"
+                    size="lg"
+                    arrow
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit the live site
+                  </Button>
+                  <Button href="/work/the-sauce-fix" size="lg" variant="ghost">
+                    Read the case study
+                  </Button>
+                </div>
+              </div>
             </div>
           </Container>
         </Section>

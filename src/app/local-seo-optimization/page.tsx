@@ -11,6 +11,7 @@ import CtaBand from "../_components/CtaBand";
 import Stat from "../_components/Stat";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
+import HookVideo from "../_components/HookVideo";
 import {
   Building2,
   Code2,
@@ -114,6 +115,24 @@ export default function LocalSeoPage() {
               <Stat value={46} suffix="%" label="Local intent" caption="Share of Google searches with local intent. Most call within an hour." />
               <Stat value={76} suffix="%" label="Visit same day" caption="Of mobile-local-searchers visit a related business within 24 hours." />
               <Stat value={3} prefix="Top " label="Map Pack" caption="Where 80% of clicks land. Anything below the pack is rounding error." />
+            </div>
+          </Container>
+        </Section>
+
+        {/* Video */}
+        <Section mode="working">
+          <Container>
+            <SectionHeader
+              eyebrow="Watch · 1 Min"
+              title="See how we get you found."
+              lede="A quick look at how we get St. Louis businesses ranking on Google Maps and the local Map Pack."
+            />
+            <div className="rcd-hook-video-wrap fx-reveal">
+              <HookVideo
+                src="/assets/local-seo-video.mp4"
+                poster="/assets/local-seo-poster.jpg"
+                ctaLabel="See how we get you ranked"
+              />
             </div>
           </Container>
         </Section>

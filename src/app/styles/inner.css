@@ -265,3 +265,52 @@
   box-shadow: var(--shadow-md);
   background: var(--surface-default);
 }
+
+/* Featured Website of the Month */
+.rcd-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: var(--s-7);
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .rcd-featured {
+    grid-template-columns: 1fr;
+    gap: var(--s-5);
+  }
+}
+.rcd-featured-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 11;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--line-default);
+  box-shadow: var(--shadow-xl);
+}
+.rcd-featured-media img {
+  transition: transform 0.4s ease;
+}
+.rcd-featured-media:hover img {
+  transform: scale(1.04);
+}
+.rcd-featured-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+}
+.rcd-featured-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}

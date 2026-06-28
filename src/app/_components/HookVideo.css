@@ -1,0 +1,100 @@
+/* ============================================================
+   HookVideo — click-to-play video with poster + CTA overlay
+   Self-contained (own frame), reused across home + service pages.
+   ============================================================ */
+
+.rcd-hook-video-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 var(--container-pad, 24px);
+}
+
+.rcd-hook-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: var(--r-lg, 18px);
+  overflow: hidden;
+  border: 1px solid rgba(76, 165, 173, 0.32);
+  box-shadow: var(--shadow-xl, 0 30px 60px -20px rgba(8, 22, 33, 0.45));
+  background: #000;
+}
+
+.rcd-hook-video-el {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+/* CTA overlay (hidden once playing) */
+.rcd-hook-video-cta {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+  cursor: pointer;
+  border: 0;
+  padding: var(--s-5, 32px);
+  color: #fff;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 22, 33, 0.22) 0%,
+    rgba(8, 22, 33, 0.58) 100%
+  );
+  transition: background 0.25s ease;
+}
+.rcd-hook-video-cta:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 22, 33, 0.32) 0%,
+    rgba(8, 22, 33, 0.66) 100%
+  );
+}
+.rcd-hook-video-cta:focus-visible {
+  outline: 3px solid var(--accent, #4ca5ad);
+  outline-offset: -4px;
+}
+
+.rcd-hook-video-play {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 999px;
+  background: var(--accent, #4ca5ad);
+  color: #fff;
+  padding-left: 5px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease;
+}
+.rcd-hook-video-cta:hover .rcd-hook-video-play {
+  transform: scale(1.07);
+}
+
+.rcd-hook-video-cta-text {
+  font-weight: 700;
+  font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+  max-width: 22ch;
+}
+.rcd-hook-video-cta-sub {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  opacity: 0.85;
+}
+
+@media (max-width: 540px) {
+  .rcd-hook-video-play {
+    width: 64px;
+    height: 64px;
+  }
+}

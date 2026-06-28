@@ -10,6 +10,7 @@ import ContactForm from "./_components/contact-form";
 import Testimonials from "./_components/testimonials";
 import ScrollReveal from "./_components/ScrollReveal";
 import MobileStickyCta from "./_components/MobileStickyCta";
+import HookVideo from "./_components/HookVideo";
 
 export const metadata: Metadata = {
   title: "St. Louis Digital Marketing Studio — Local Roots. Built to Be Found.",
@@ -406,20 +407,16 @@ export default function HomePage() {
         <section className="rcd-home-sec light bg-white">
           <div className="container">
             <div className="rcd-home-sec-head fx-reveal">
-              <div className="label">Watch · 90 Sec</div>
+              <div className="label">Watch · 1 Min</div>
               <h2>Why Choose <span className="accent">River City Digital</span></h2>
               <p>See why St. Louis businesses choose River City Digital Co. to get found on Google and recommended by AI.</p>
             </div>
-            <div className="rcd-video-wrap fx-reveal">
-              <div className="rcd-video-frame">
-                <iframe
-                  src="https://www.youtube.com/embed/SVxiP1kDhE4"
-                  title="Why Choose River City Digital"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                />
-              </div>
+            <div className="rcd-hook-video-wrap fx-reveal">
+              <HookVideo
+                src="/assets/why-river-city-digital.mp4"
+                poster="/assets/why-river-city-digital-poster.jpg"
+                ctaLabel="Learn all about why us here"
+              />
             </div>
           </div>
         </section>
