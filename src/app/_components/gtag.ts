@@ -1,8 +1,11 @@
 // Helpers for firing Google Ads conversion events via gtag.js.
 // The base tag is loaded by <GoogleTag /> in the root layout.
 
-// Conversion goal: "Contact Us" (from the Google Ads event snippet).
-export const CONTACT_CONVERSION_EVENT = "ads_conversion_Contact_Us_1";
+// Conversion action: "Form Submission – Thank You Page" (from the Google Ads
+// event snippet). This is the send_to target — account ID + conversion label —
+// exactly as Google generates it. The conversion only records when we fire
+// gtag('event', 'conversion', { send_to: <this> }).
+export const CONTACT_CONVERSION_SEND_TO = "AW-18272669855/2Bt9COmvsMccEJ-hi4lE";
 
 declare global {
   interface Window {
@@ -10,7 +13,7 @@ declare global {
   }
 }
 
-// Fire the Contact Us conversion. The Google tag loads with strategy
+// Fire the form-submission conversion. The Google tag loads with strategy
 // "afterInteractive", so on a slow or direct page load gtag may not exist yet
 // at the moment this runs. Rather than dropping the conversion (the old
 // behavior), we retry briefly until the tag is ready, then fire exactly once.
@@ -21,7 +24,10 @@ export function trackContactConversion(
 
   const fire = () => {
     if (typeof window.gtag !== "function") return false;
-    window.gtag("event", CONTACT_CONVERSION_EVENT, params);
+    window.gtag("event", "conversion", {
+      send_to: CONTACT_CONVERSION_SEND_TO,
+      ...params,
+    });
     return true;
   };
 
