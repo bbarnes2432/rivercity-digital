@@ -139,6 +139,26 @@
 }
 .rcd-footer-mail:hover { border-bottom-color: var(--rcd-teal-400); }
 
+/* Chamber of Commerce verified-member badge */
+.rcd-footer-badge {
+  align-self: flex-start;
+  margin-top: var(--s-2);
+  line-height: 0;                 /* kill inline-image descender gap */
+  border-radius: var(--r-sm);
+  transition: transform var(--dur-2) var(--ease-out), opacity var(--dur-2) var(--ease-out);
+}
+.rcd-footer-badge:hover { transform: translateY(-2px); opacity: 0.9; }
+.rcd-footer-badge:focus-visible {
+  outline: 2px solid var(--rcd-teal-400);
+  outline-offset: 4px;
+}
+.rcd-footer-badge img {
+  display: block;
+  width: auto;
+  height: 132px;                  /* reads as a credential, not a billboard */
+  max-width: 100%;
+}
+
 .rcd-footer-col ul {
   list-style: none;
   margin: 0;

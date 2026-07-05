@@ -68,6 +68,25 @@ export default function Footer() {
             <a className="rcd-footer-mail" href="mailto:hello@rivercitydigitalco.com">
               hello@rivercitydigitalco.com
             </a>
+
+            {/* Live ChamberofCommerce.com verified-member badge. Served straight
+                from coc.codes (unproxied) so it stays current and the chamber
+                can verify it — hence a plain <img>, not next/image. */}
+            <a
+              id="COCBadgeURL"
+              className="rcd-footer-badge"
+              href="https://www.chamberofcommerce.com/business-directory/missouri/saint-charles/marketing-agency/2034358117-river-city-digital-co?source=memberwebsite"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="River City Digital Co. — verified member on ChamberofCommerce.com"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element -- live third-party badge, must load unoptimized from source */}
+              <img
+                id="COCBadgeIMG"
+                src="https://coc.codes/images/badge/2034358117"
+                alt="ChamberofCommerce.com verified member"
+              />
+            </a>
           </div>
 
           <div className="rcd-footer-col">
