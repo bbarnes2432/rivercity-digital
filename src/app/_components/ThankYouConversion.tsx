@@ -3,9 +3,11 @@
 import { useEffect } from "react";
 import { trackContactConversion } from "./gtag";
 
-// Fires the Google Ads "Contact Us" conversion once, on mount, when a
-// visitor lands on /thank-you after submitting a form. Centralizing the
-// conversion here means every contact-style form counts the same way.
+// Fires the Google Ads "Contact Us" conversion when a visitor lands on
+// /thank-you after submitting a form. The fire is gated on the pending flag
+// the forms arm before redirecting, so it counts once per submission —
+// refreshes, back-button returns, direct visits, and StrictMode's
+// double-invoked dev effect don't register extra conversions.
 export default function ThankYouConversion() {
   useEffect(() => {
     trackContactConversion({ source: "thank-you" });

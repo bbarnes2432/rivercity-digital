@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePopupTrigger } from "./usePopupTrigger";
+import { markContactConversionPending } from "./gtag";
 import "./PopupForm.css";
 
 type Step = "qualify" | "lead" | "curious" | "success-lead" | "success-curious";
@@ -109,6 +110,7 @@ export default function PopupForm() {
       // Google Ads conversion fires (same as the main contact form).
       recordSubmit();
       handleClose("submitted");
+      markContactConversionPending();
       router.push("/thank-you");
     } catch {
       setErrorMsg("Network hiccup — try again or email us directly.");

@@ -13,6 +13,42 @@ declare global {
   }
 }
 
+// The conversion must fire once per *form submission*, not once per visit to
+// /thank-you. Otherwise a refresh, a back-button return, a bookmarked visit,
+// or React StrictMode's double-invoked effect in dev each register an extra
+// conversion. The forms arm this flag just before redirecting, and
+// trackContactConversion consumes it — no flag, no fire.
+//
+// The in-memory flag covers the normal client-side redirect (router.push keeps
+// the JS context alive); sessionStorage is a fallback in case the navigation
+// ever happens as a full page load (e.g. version skew after a deploy).
+const PENDING_KEY = "rcd-contact-conversion-pending";
+let pendingInMemory = false;
+
+export function markContactConversionPending(): void {
+  if (typeof window === "undefined") return;
+  pendingInMemory = true;
+  try {
+    sessionStorage.setItem(PENDING_KEY, "1");
+  } catch {
+    // Storage blocked — the in-memory flag still covers the SPA redirect.
+  }
+}
+
+function consumeContactConversionPending(): boolean {
+  let pending = pendingInMemory;
+  pendingInMemory = false;
+  try {
+    if (sessionStorage.getItem(PENDING_KEY) === "1") {
+      pending = true;
+      sessionStorage.removeItem(PENDING_KEY);
+    }
+  } catch {
+    // Storage blocked — fall through with the in-memory result.
+  }
+  return pending;
+}
+
 // Fire the form-submission conversion. The Google tag loads with strategy
 // "afterInteractive", so on a slow or direct page load gtag may not exist yet
 // at the moment this runs. Rather than dropping the conversion (the old
@@ -21,6 +57,7 @@ export function trackContactConversion(
   params: Record<string, unknown> = {},
 ): void {
   if (typeof window === "undefined") return;
+  if (!consumeContactConversionPending()) return;
 
   const fire = () => {
     if (typeof window.gtag !== "function") return false;

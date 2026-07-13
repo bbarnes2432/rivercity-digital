@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { markContactConversionPending } from "./gtag";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -57,6 +58,7 @@ export default function ContactForm({ defaultService = "" }: Props) {
       // the Google Ads conversion fires. Status stays "submitting" so the UI
       // doesn't flicker back to idle during the navigation.
       form.reset();
+      markContactConversionPending();
       router.push("/thank-you");
     } catch {
       setErrorMsg("Network hiccup — try again or email us directly.");
