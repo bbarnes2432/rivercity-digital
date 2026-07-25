@@ -5,7 +5,6 @@ import Nav from "../_components/Nav";
 import Footer from "../_components/Footer";
 import Section from "../_components/Section";
 import Container from "../_components/Container";
-import SectionHeader from "../_components/SectionHeader";
 import CtaBand from "../_components/CtaBand";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
