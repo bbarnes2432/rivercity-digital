@@ -19,6 +19,134 @@ export type Note = {
 
 export const NOTES: Note[] = [
   {
+    slug: "ai-search-st-louis-dentist-test",
+    title:
+      "We asked ChatGPT to recommend a St. Louis dentist 50 times. It named the same handful every time.",
+    excerpt:
+      "Hundreds of practices in the metro. A handful got named repeatedly — and the difference wasn&rsquo;t clinical.",
+    date: "2026-05-21",
+    readTime: "10 min read",
+    category: "AI Search",
+    deck:
+      "Here&rsquo;s a thing that&rsquo;s true now and wasn&rsquo;t eighteen months ago: a meaningful share of people looking for a dentist in St. Louis never open Google. They open ChatGPT, or Gemini, or the AI answer sitting on top of their search — and they take the answer at face value.",
+    body: [
+      {
+        type: "p",
+        text:
+          "So we ran a test. We asked ChatGPT to recommend a dentist in St. Louis fifty times — varying the neighborhood, the phrasing, the specialty (general, cosmetic, pediatric, emergency) — and logged every practice it named. We wanted to know two things. Which practices get recommended. And <em>why those and not the others.</em>",
+      },
+      {
+        type: "p",
+        text:
+          "The &ldquo;why&rdquo; is the part that matters, because it&rsquo;s the part you can change.",
+      },
+      { type: "h2", text: "What we found" },
+      {
+        type: "p",
+        text:
+          "Two findings stood out before we even got to the analysis.",
+      },
+      {
+        type: "p",
+        text:
+          "<strong>First: most practices were never mentioned. Not once.</strong> The St. Louis metro has hundreds of dental practices. Across fifty prompts, a small cluster came up again and again, a slightly larger group came up occasionally, and the vast majority — including some large, well-reviewed, decades-old practices — didn&rsquo;t surface a single time. Being established did not protect you. Being invisible to the model did.",
+      },
+      {
+        type: "p",
+        text:
+          "<strong>Second: the practices that won weren&rsquo;t always the ones you&rsquo;d expect.</strong> A couple of the most-recommended weren&rsquo;t the biggest names in town. They were mid-sized practices that happened to have done a few specific things right — things that have nothing to do with the quality of their dentistry and everything to do with how machine-readable their business is.",
+      },
+      {
+        type: "pullquote",
+        text:
+          "That gap — between being a good practice and being a findable one — is the whole story.",
+      },
+      { type: "h2", text: "The three traits the recommended practices shared" },
+      {
+        type: "p",
+        text:
+          "When we lined up the practices ChatGPT named repeatedly against the ones it ignored, three structural traits separated them. Not marketing budget. Not age. Not even review count, entirely. These three.",
+      },
+      {
+        type: "h2",
+        text: "1. Their business facts were identical everywhere the model could check",
+      },
+      {
+        type: "p",
+        text:
+          "The practices that got recommended had the exact same name, address, and phone number on their website, their Google Business Profile, their Facebook page, and the big directories — down to the punctuation. &ldquo;St.&rdquo; vs &ldquo;Saint.&rdquo; Suite number or not. &ldquo;Dr. Jane Smith, DDS&rdquo; vs &ldquo;Jane Smith Dentistry.&rdquo;",
+      },
+      {
+        type: "p",
+        text:
+          "This sounds trivial. It is not. AI models assemble their answer from many sources, and when those sources disagree about who you even are, the model gets less confident about you and reaches for a business it&rsquo;s <em>sure</em> about instead. Consistency isn&rsquo;t a nicety here — it&rsquo;s how the model decides you&rsquo;re real.",
+      },
+      {
+        type: "p",
+        text:
+          "The ignored practices, almost without exception, had drift. A different phone number on an old directory listing. An address from a location they moved out of in 2019. Two slightly different business names floating around. Every inconsistency is a small reason for the model to trust you a little less.",
+      },
+      { type: "h2", text: "2. Their site told a machine exactly what they were" },
+      {
+        type: "p",
+        text:
+          "The recommended practices had structured data — the behind-the-scenes labels that tell a crawler <em>&ldquo;this is a dental practice, here&rsquo;s its name, here&rsquo;s where it is, here are its services, here&rsquo;s how to reach it&rdquo;</em> — in place and error-free. Dentist or LocalBusiness schema. Named services. A real address block a machine could read without guessing.",
+      },
+      {
+        type: "p",
+        text:
+          "The ignored ones mostly had a website that <em>looked</em> fine to a human and said almost nothing to a machine. Pretty photos, a booking button, and underneath the hood, no structured signal about what the business actually is. A person can tell it&rsquo;s a dentist. A crawler assembling an AI answer often can&rsquo;t, quickly and confidently, and so it moves on.",
+      },
+      { type: "h2", text: "3. They had authority signals the model could find and trust" },
+      {
+        type: "p",
+        text:
+          "The practices that came up repeatedly had a footprint beyond their own website — mentions, citations, and references on sources the model already trusts. Local press. Legitimate directories. Community involvement that got written about somewhere other than their own &ldquo;About&rdquo; page.",
+      },
+      {
+        type: "p",
+        text:
+          "This is the hardest of the three to fake and the most valuable to earn. Anyone can write &ldquo;the best dentist in St. Louis&rdquo; on their own homepage. The model doesn&rsquo;t care what you say about yourself. It cares what <em>other trusted sources</em> say about you. The recommended practices had built that, usually slowly, over time. The ignored ones were talking only to themselves.",
+      },
+      { type: "h2", text: "The uncomfortable part" },
+      {
+        type: "p",
+        text: "None of these three traits is about being a better dentist.",
+      },
+      {
+        type: "p",
+        text:
+          "You can be the finest clinician in the city, with the gentlest hygienists and the shortest wait times and a wall of genuinely thrilled patients — and if your name, address, and phone drift across the web, your site says nothing to a machine, and no trusted source has ever mentioned you, the AI recommending dentists to your future patients will not know you exist. It will confidently name three other practices, and the person asking will call one of them.",
+      },
+      {
+        type: "p",
+        text: "That&rsquo;s not a knock on the model. It&rsquo;s just how it works.",
+      },
+      {
+        type: "pullquote",
+        text:
+          "It recommends what it can understand and trust. If it can&rsquo;t understand and trust you, your quality never enters the equation.",
+      },
+      { type: "h2", text: "What this means if you run a St. Louis business" },
+      {
+        type: "p",
+        text:
+          "We used dentists because it&rsquo;s a crowded, high-stakes local category and the query is one people genuinely type. But the pattern holds for every local service business we&rsquo;ve tested — HVAC, law, chiropractic, med spas, home services. The three traits are the same. The businesses AI recommends have consistent facts, machine-readable sites, and earned authority. The ones it ignores are usually missing at least two of the three.",
+      },
+      {
+        type: "p",
+        text:
+          "The good news is that all three are fixable, and most of your competitors haven&rsquo;t fixed them yet. This is early. The businesses that get machine-readable <em>now</em> are the ones AI will still be recommending when the rest of your market finally notices the shift.",
+      },
+      {
+        type: "callout",
+        eyebrow: "Where do you stand?",
+        text:
+          "Whether AI is recommending you, your competitor, or nobody — that&rsquo;s exactly the kind of thing our free audit looks at. No pitch. We&rsquo;ll just tell you what we see.",
+      },
+    ],
+  },
+  {
     slug: "ai-search-st-louis-hvac-test",
     title:
       "We tested 47 St. Louis HVAC contractors on ChatGPT. Here&rsquo;s what we found.",
