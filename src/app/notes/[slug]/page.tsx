@@ -97,7 +97,10 @@ function renderBlock(b: Block, i: number) {
     case "callout":
       return (
         <aside key={i} className="rcd-article-callout">
-          <p className="rcd-article-callout-eyebrow">{b.eyebrow}</p>
+          <p
+            className="rcd-article-callout-eyebrow"
+            dangerouslySetInnerHTML={{ __html: b.eyebrow }}
+          />
           <p
             className="rcd-article-callout-body"
             dangerouslySetInnerHTML={{ __html: b.text }}
