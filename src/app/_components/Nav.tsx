@@ -26,6 +26,7 @@ export default function Nav({ overlayMode = "light-on-dark" }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [ddOpen, setDdOpen] = useState(false);
+  const [lastPathname, setLastPathname] = useState(pathname);
   const ddCloseTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const drawerPanelRef = useRef<HTMLDivElement | null>(null);
   const drawerCloseRef = useRef<HTMLButtonElement | null>(null);
@@ -62,6 +63,9 @@ export default function Nav({ overlayMode = "light-on-dark" }: Props) {
     const panel = drawerPanelRef.current;
     if (!panel) return;
     const previouslyFocused = document.activeElement as HTMLElement | null;
+    // Captured now so the cleanup doesn't read a ref that may have changed.
+    // The hamburger is unconditionally rendered, so this is the same node.
+    const trigger = menuTriggerRef.current;
     drawerCloseRef.current?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -87,15 +91,18 @@ export default function Nav({ overlayMode = "light-on-dark" }: Props) {
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       // Restore focus to whatever opened the drawer (the hamburger button).
-      if (menuTriggerRef.current) menuTriggerRef.current.focus();
+      if (trigger) trigger.focus();
       else if (previouslyFocused?.focus) previouslyFocused.focus();
     };
   }, [drawerOpen]);
 
-  useEffect(() => {
+  /* Close both menus on navigation. Adjusted during render rather than from an
+   * effect so the new route never paints with the drawer still open. */
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
     setDrawerOpen(false);
     setDdOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
