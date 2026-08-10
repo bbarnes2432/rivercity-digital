@@ -7,6 +7,12 @@ const SUPPRESS_PATHS = new Set<string>([
   "/contact",
   "/privacy-policy",
   "/terms-of-use",
+  // Paid-traffic landing page and its thank-you URL. Google and Meta both
+  // police intrusive interstitials on ad destinations, and the page already
+  // puts a form in front of the visitor — a modal on top of it is a policy
+  // risk for no conversion gain.
+  "/quad-cities",
+  "/quad-cities/thank-you",
 ]);
 
 const KEY_DISMISSED = "rcd-popup-dismissed";

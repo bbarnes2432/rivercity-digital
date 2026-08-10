@@ -8,10 +8,13 @@ import { trackContactConversion } from "./gtag";
 // the forms arm before redirecting, so it counts once per submission —
 // refreshes, back-button returns, direct visits, and StrictMode's
 // double-invoked dev effect don't register extra conversions.
-export default function ThankYouConversion() {
+export default function ThankYouConversion({
+  /** Distinguishes which thank-you page fired it in reporting. */
+  source = "thank-you",
+}: { source?: string } = {}) {
   useEffect(() => {
-    trackContactConversion({ source: "thank-you" });
-  }, []);
+    trackContactConversion({ source });
+  }, [source]);
 
   return null;
 }

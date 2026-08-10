@@ -1,0 +1,875 @@
+/* =========================================================================
+   /quad-cities — paid landing page
+   =========================================================================
+
+   Reads from the canonical token system in globals.css so the page feels like
+   part of rivercitydigitalco.com rather than a separate microsite. Layout is
+   page-local because a landing page wants a tighter vertical rhythm than the
+   marketing site's section scale.
+
+   The river is a thread, not a theme: a current motif behind the dark
+   sections, river-gauge marks in the local-angle section, a shift toward the
+   blue end of the brand teal. The page still has to read as a professional
+   agency, not a tourism site.
+   ========================================================================= */
+
+/* Declared on every root this page renders — the header, footer and call bar
+   are siblings of <main>, not children, so scoping these to .qc-page alone
+   leaves them with undefined vars and no background at all. */
+.qc-page,
+.qc-header,
+.qc-footer,
+.qc-sticky {
+  /* Brand teal, for rules, ticks, marks and accents — decorative only. */
+  --qc-river: #4CA5AD;
+  /* Anything carrying white text uses this instead. White on --qc-river is
+     2.9:1, which fails WCAG AA; this is 4.9:1 and still unmistakably the brand
+     teal. Applies to CTAs on this page only — changing the site-wide button
+     token is a main-site decision, not a landing-page one. */
+  --qc-cta: #367A82;
+  --qc-cta-hover: #2C6970;
+  --qc-ink-dark: #0B1522;
+  --qc-navy: #101D31;
+}
+
+.qc-page {
+  background: var(--surface-page);
+}
+
+.qc-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.qc-narrow {
+  max-width: 760px;
+}
+@media (min-width: 900px) {
+  .qc-container { padding: 0 40px; }
+}
+
+/* =========================================================================
+   Header — logo and click-to-call, no site navigation
+   ========================================================================= */
+
+.qc-header {
+  background: var(--qc-navy);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.qc-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.qc-header-logo {
+  width: clamp(150px, 42vw, 214px);
+  height: auto;
+}
+.qc-header-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  padding: 10px 16px;
+  min-height: 44px;
+  border-radius: var(--r-pill);
+  background: var(--qc-cta);
+  color: #fff;
+  font: 600 14.5px/1 var(--font-inter), sans-serif;
+  letter-spacing: 0.01em;
+  transition: background var(--dur-2) var(--ease-out);
+}
+.qc-header-call:hover { background: var(--qc-cta-hover); }
+.qc-header-call-short { display: none; }
+@media (max-width: 420px) {
+  .qc-header-call-full { display: none; }
+  .qc-header-call-short { display: inline; }
+}
+.qc-call-icon { flex: none; }
+
+/* =========================================================================
+   1 · Hero
+   =========================================================================
+   No hero photograph anywhere in here on purpose. The headline is the LCP
+   element, which makes it a text node with nothing queued in front of it —
+   the cheapest possible LCP, on a page where speed feeds Quality Score. */
+
+.qc-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(165deg, #16283F 0%, var(--qc-navy) 58%, var(--qc-ink-dark) 100%);
+  color: #fff;
+  /* Tight on purpose: every pixel here is a pixel of form pushed below the
+     fold on a small phone, which is the one thing this page can't afford. */
+  padding: 22px 0 34px;
+}
+@media (min-width: 900px) {
+  .qc-hero { padding: 64px 0 76px; }
+}
+
+/* The current motif. Sits behind everything, masked out toward the bottom so
+   type never fights it. */
+.qc-hero-water {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("/assets/qc-current.svg") 0 0 / 1200px 620px repeat;
+  opacity: 0.16;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.35) 62%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.35) 62%, transparent 100%);
+  pointer-events: none;
+}
+
+.qc-hero-inner {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 900px) {
+  .qc-hero-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(400px, 470px);
+    gap: 56px;
+    align-items: start;
+  }
+}
+
+.qc-hero-eyebrow {
+  margin: 0 0 12px;
+  font: 700 11.5px/1.35 var(--font-inter), sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rcd-teal-400);
+}
+
+.qc-hero-title {
+  margin: 0 0 12px;
+  font-family: var(--font-barlow), "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  /* Capped tighter than the site's display scale: on a phone this headline has
+     to leave room for the form below it without scrolling. */
+  font-size: clamp(33px, 8.6vw, 62px);
+  line-height: 1.02;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.qc-hero-sub {
+  margin: 0;
+  max-width: 30em;
+  font: 400 15.5px/1.45 var(--font-inter), sans-serif;
+  color: rgba(255, 255, 255, 0.78);
+}
+@media (min-width: 900px) {
+  .qc-hero-sub { font-size: 18.5px; line-height: 1.55; }
+}
+
+.qc-hero-proof {
+  display: none;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  gap: 10px 26px;
+  flex-wrap: wrap;
+}
+@media (min-width: 900px) {
+  .qc-hero-proof { display: flex; }
+}
+.qc-hero-proof li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font: 500 14.5px/1.3 var(--font-inter), sans-serif;
+  color: rgba(255, 255, 255, 0.62);
+}
+.qc-hero-proof li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--qc-river);
+  flex: none;
+}
+
+/* ---- Form card ---------------------------------------------------------- */
+
+.qc-hero-form {
+  background: #fff;
+  border-radius: var(--r-lg);
+  padding: 20px 18px 18px;
+  box-shadow: var(--shadow-lg);
+  color: var(--ink-primary);
+}
+@media (min-width: 900px) {
+  .qc-hero-form { padding: 28px 26px 24px; }
+}
+
+.qc-form-heading {
+  margin: 0 0 14px;
+  font: 700 18px/1.25 var(--font-inter), sans-serif;
+  letter-spacing: -0.01em;
+}
+@media (min-width: 900px) {
+  .qc-form-heading { font-size: 19px; margin-bottom: 16px; }
+}
+
+.qc-form-grid {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 560px) {
+  .qc-form-grid { grid-template-columns: 1fr 1fr; }
+  .qc-form-wide { grid-column: 1 / -1; }
+}
+
+.qc-form .field label {
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+.qc-form .field input,
+.qc-form .field select {
+  padding: 11px 13px;
+  /* Never below 16px: iOS Safari zooms the viewport on focus otherwise, which
+     on a landing page reads as the page breaking. */
+  font-size: 16px;
+  border-radius: var(--r-sm);
+  background: var(--rcd-navy-050);
+}
+.qc-form .field input:focus,
+.qc-form .field select:focus { background: #fff; }
+
+.qc-form-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 16px;
+  min-height: 52px;
+  padding: 14px 22px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--qc-cta);
+  color: #fff;
+  font: 700 16.5px/1 var(--font-inter), sans-serif;
+  cursor: pointer;
+  transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+}
+.qc-form-submit:hover:not(:disabled) { background: var(--qc-cta-hover); transform: translateY(-1px); }
+.qc-form-submit:disabled { opacity: 0.55; cursor: default; }
+
+.qc-form-status {
+  margin: 12px 0 0;
+  font: 500 13.5px/1.5 var(--font-inter), sans-serif;
+  color: var(--rcd-red-500);
+}
+.qc-form-status[data-state="idle"],
+.qc-form-status[data-state="submitting"] { display: none; }
+.qc-form-status a { text-decoration: underline; }
+
+.qc-form-foot {
+  margin: 12px 0 0;
+  font: 400 13px/1.5 var(--font-inter), sans-serif;
+  color: var(--ink-tertiary);
+}
+.qc-form-call {
+  display: inline;
+  font-weight: 700;
+  color: var(--rcd-teal-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* =========================================================================
+   Section shells
+   ========================================================================= */
+
+.qc-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 56px 0;
+}
+@media (min-width: 900px) {
+  .qc-section { padding: 88px 0; }
+}
+.qc-section--tight { padding: 44px 0; }
+
+.qc-section--paper { background: var(--surface-page); }
+.qc-section--sunken { background: var(--rcd-cream-400); }
+.qc-section--deep {
+  background: linear-gradient(170deg, var(--qc-navy) 0%, var(--qc-ink-dark) 100%);
+  color: #fff;
+}
+
+/* A hairline current at the top edge of every light section — the thread,
+   carried through at almost no visual cost. */
+.qc-section--paper::before,
+.qc-section--sunken::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 62px;
+  background: url("/assets/qc-current.svg") center top / 1200px 620px repeat-x;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.qc-h2 {
+  margin: 14px 0 14px;
+  font-family: var(--font-barlow), "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: clamp(28px, 4.6vw, 45px);
+  line-height: 1.06;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.qc-h2--light { color: #fff; }
+
+.qc-lede {
+  margin: 0 0 8px;
+  max-width: 46em;
+  font: 400 17px/1.6 var(--font-inter), sans-serif;
+  color: var(--ink-secondary);
+}
+.qc-lede--light { color: rgba(255, 255, 255, 0.74); }
+.qc-lede--strong {
+  font-weight: 600;
+  font-size: 19.5px;
+  color: var(--ink-primary);
+}
+
+/* =========================================================================
+   2 · The local angle
+   ========================================================================= */
+
+.qc-angle-body p {
+  margin: 0 0 16px;
+  font: 400 17.5px/1.66 var(--font-inter), sans-serif;
+  color: var(--ink-secondary);
+}
+.qc-angle-body p:first-child {
+  font-size: 20px;
+  color: var(--ink-primary);
+}
+@media (min-width: 900px) {
+  .qc-angle-body p { font-size: 18.5px; }
+  .qc-angle-body p:first-child { font-size: 22px; }
+}
+
+/* River gauge — two mile markers on one river, drawn like a survey datum. */
+.qc-gauge {
+  display: flex;
+  gap: 20px;
+  margin: 36px 0 10px;
+  padding: 22px 0 0;
+  border-top: 1px solid var(--line-default);
+}
+.qc-gauge-point {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.qc-gauge-mile {
+  display: block;
+  font: 700 13px/1 var(--font-mono), monospace;
+  letter-spacing: 0.08em;
+  color: var(--rcd-teal-700);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.qc-gauge-tick {
+  display: block;
+  height: 14px;
+  margin: 8px 0;
+  border-left: 2px solid var(--qc-river);
+  border-bottom: 1px solid var(--line-strong);
+}
+.qc-gauge-place {
+  display: block;
+  font: 700 15px/1.2 var(--font-inter), sans-serif;
+  color: var(--ink-primary);
+}
+.qc-gauge-span {
+  position: absolute;
+  top: -2px;
+  right: 12px;
+  font: 500 11.5px/1 var(--font-mono), monospace;
+  letter-spacing: 0.06em;
+  color: var(--ink-tertiary);
+}
+@media (max-width: 560px) {
+  .qc-gauge-span { display: none; }
+}
+.qc-gauge-note {
+  margin: 14px 0 0;
+  font: 400 12.5px/1.5 var(--font-inter), sans-serif;
+  color: var(--ink-tertiary);
+}
+
+/* =========================================================================
+   3 · Work samples
+   ========================================================================= */
+
+.qc-samples {
+  display: grid;
+  gap: 32px;
+  margin-top: 38px;
+}
+@media (min-width: 860px) {
+  .qc-samples { grid-template-columns: 1fr 1fr; gap: 44px 40px; }
+}
+
+.qc-sample { margin: 0; }
+
+.qc-sample-frame {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0F1B2C;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 26px 50px -22px rgba(0, 0, 0, 0.7);
+}
+
+.qc-sample-chrome {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  background: rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.qc-sample-dots {
+  display: flex;
+  gap: 5px;
+  flex: none;
+}
+.qc-sample-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+}
+.qc-sample-url {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: rgba(0, 0, 0, 0.28);
+  font: 500 11.5px/1.3 var(--font-mono), monospace;
+  color: rgba(255, 255, 255, 0.55);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qc-sample-shot img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.qc-sample-caption { margin-top: 16px; }
+.qc-sample-name {
+  margin: 0 0 6px;
+  font: 700 18px/1.25 var(--font-inter), sans-serif;
+  color: #fff;
+}
+.qc-sample-what {
+  margin: 0 0 8px;
+  font: 400 14.5px/1.6 var(--font-inter), sans-serif;
+  color: rgba(255, 255, 255, 0.66);
+}
+.qc-sample-credit {
+  margin: 0;
+  font: 600 11.5px/1.3 var(--font-inter), sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rcd-teal-400);
+}
+
+/* =========================================================================
+   4 · What a custom site gets you
+   ========================================================================= */
+
+.qc-blocks {
+  display: grid;
+  gap: 20px;
+  margin-top: 38px;
+}
+@media (min-width: 720px) {
+  .qc-blocks { grid-template-columns: 1fr 1fr; gap: 24px; }
+}
+
+.qc-block {
+  padding: 24px 22px;
+  background: #fff;
+  border: 1px solid var(--line-default);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-xs);
+}
+.qc-block-n {
+  display: block;
+  margin-bottom: 12px;
+  font: 700 12px/1 var(--font-mono), monospace;
+  letter-spacing: 0.1em;
+  color: var(--qc-river);
+}
+.qc-block-title {
+  margin: 0 0 8px;
+  font: 700 17.5px/1.3 var(--font-inter), sans-serif;
+}
+.qc-block-body {
+  margin: 0;
+  font: 400 15.5px/1.6 var(--font-inter), sans-serif;
+  color: var(--ink-secondary);
+}
+
+/* =========================================================================
+   5 · Getting found
+   ========================================================================= */
+
+.qc-points {
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.qc-points li {
+  position: relative;
+  margin-bottom: 18px;
+  padding-left: 30px;
+  font: 400 16.5px/1.62 var(--font-inter), sans-serif;
+  color: var(--ink-secondary);
+}
+.qc-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 16px;
+  height: 2px;
+  background: var(--qc-river);
+}
+/* The differentiator lands last and reads as an observation, not a bullet. */
+.qc-points li:last-child {
+  margin-top: 26px;
+  padding: 20px 22px;
+  border-left: 3px solid var(--qc-river);
+  background: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  font-size: 17.5px;
+  color: var(--ink-primary);
+}
+.qc-points li:last-child::before { display: none; }
+
+/* =========================================================================
+   6 · Video
+   ========================================================================= */
+
+.qc-video {
+  position: relative;
+  margin-top: 30px;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 16 / 9;
+}
+.qc-video-el {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.qc-video-cta {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(180deg, rgba(11, 21, 34, 0.25), rgba(11, 21, 34, 0.72));
+  color: #fff;
+  cursor: pointer;
+}
+.qc-video-play {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: var(--qc-cta);
+  color: #fff;
+  padding-left: 4px;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.qc-video-cta:hover .qc-video-play { transform: scale(1.06); }
+.qc-video-label { font: 700 16px/1.2 var(--font-inter), sans-serif; }
+.qc-video-sub {
+  font: 500 12.5px/1.2 var(--font-inter), sans-serif;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* =========================================================================
+   7 · Review
+   ========================================================================= */
+
+.qc-review {
+  margin: 0;
+  padding: 30px 26px;
+  background: #fff;
+  border: 1px solid var(--line-default);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+}
+@media (min-width: 720px) {
+  .qc-review { padding: 40px 40px 34px; }
+}
+.qc-review-stars {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 16px;
+  color: #E8A33D;
+}
+.qc-review-quote {
+  margin: 0 0 20px;
+  font: 400 19px/1.58 var(--font-inter), sans-serif;
+  color: var(--ink-primary);
+}
+@media (min-width: 720px) {
+  .qc-review-quote { font-size: 21px; }
+}
+.qc-review-quote::before { content: "\201C"; }
+.qc-review-quote::after { content: "\201D"; }
+.qc-review-cite {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  font: 400 14px/1.3 var(--font-inter), sans-serif;
+  color: var(--ink-tertiary);
+}
+.qc-review-cite strong { color: var(--ink-primary); font-weight: 700; }
+.qc-review-platform {
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  color: var(--rcd-teal-700);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* =========================================================================
+   8 · How it works
+   ========================================================================= */
+
+.qc-steps {
+  display: grid;
+  gap: 22px;
+  margin: 38px 0 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 780px) {
+  .qc-steps { grid-template-columns: repeat(3, 1fr); gap: 30px; }
+}
+.qc-step {
+  position: relative;
+  padding-top: 22px;
+  border-top: 2px solid var(--qc-river);
+}
+.qc-step-n {
+  display: block;
+  margin-bottom: 10px;
+  font: 700 12px/1 var(--font-mono), monospace;
+  letter-spacing: 0.12em;
+  color: var(--rcd-teal-700);
+}
+.qc-step-title {
+  margin: 0 0 8px;
+  font-family: var(--font-barlow), "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.qc-step-body {
+  margin: 0;
+  font: 400 15.5px/1.6 var(--font-inter), sans-serif;
+  color: var(--ink-secondary);
+}
+
+/* =========================================================================
+   9 · FAQ — inherits the site's Faq component styles
+   ========================================================================= */
+
+.qc-section .rcd-faq { margin-top: 30px; }
+
+/* =========================================================================
+   10 · Closing CTA
+   ========================================================================= */
+
+.qc-closing-inner {
+  display: grid;
+  gap: 30px;
+}
+@media (min-width: 900px) {
+  .qc-closing-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(400px, 470px);
+    gap: 56px;
+    align-items: start;
+  }
+}
+.qc-closing-call {
+  margin: 22px 0 0;
+  font: 400 15.5px/1.5 var(--font-inter), sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+}
+.qc-closing-call-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 4px;
+  font-weight: 700;
+  font-size: 17px;
+  color: #fff;
+  border-bottom: 2px solid var(--qc-river);
+  padding-bottom: 2px;
+}
+
+/* =========================================================================
+   Mobile sticky call bar
+   ========================================================================= */
+
+.qc-sticky {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: var(--z-nav);
+  display: flex;
+  gap: 10px;
+  transform: translateY(140%);
+  opacity: 0;
+  transition: transform var(--dur-3) var(--ease-out), opacity var(--dur-3) var(--ease-out);
+}
+.qc-sticky[data-visible="true"] { transform: none; opacity: 1; }
+@media (min-width: 780px) {
+  .qc-sticky { display: none; }
+}
+.qc-sticky-call,
+.qc-sticky-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-height: 52px;
+  border-radius: var(--r-sm);
+  font: 700 15.5px/1 var(--font-inter), sans-serif;
+  box-shadow: 0 10px 26px -8px rgba(11, 21, 34, 0.5);
+}
+.qc-sticky-call { background: var(--qc-cta); color: #fff; }
+.qc-sticky-ghost {
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--ink-primary);
+  border: 1px solid var(--line-strong);
+}
+
+/* =========================================================================
+   Footer — no site navigation, legal links only
+   ========================================================================= */
+
+.qc-footer {
+  background: var(--qc-ink-dark);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 44px 0 96px;
+}
+@media (min-width: 780px) {
+  .qc-footer { padding: 52px 0 40px; }
+}
+.qc-footer-inner img { width: clamp(160px, 44vw, 186px); height: auto; }
+.qc-footer-meta {
+  margin: 18px 0 0;
+  font: 400 14px/1.65 var(--font-inter), sans-serif;
+}
+.qc-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  margin-top: 18px;
+}
+.qc-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 14.5px/1 var(--font-inter), sans-serif;
+  color: #fff;
+}
+.qc-footer-link:hover { color: var(--rcd-teal-400); }
+.qc-footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px 20px;
+  margin-top: 30px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font: 400 12.5px/1.4 var(--font-inter), sans-serif;
+}
+.qc-footer-bottom p { margin: 0; }
+.qc-footer-bottom ul {
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qc-footer-bottom a:hover { color: #fff; text-decoration: underline; }
+
+/* =========================================================================
+   Thank-you page
+   ========================================================================= */
+
+.qc-thanks-hero { padding: 64px 0 80px; }
+.qc-thanks-title {
+  margin: 10px 0 16px;
+  font-family: var(--font-barlow), "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: clamp(38px, 8vw, 66px);
+  line-height: 1.02;
+  text-transform: uppercase;
+  color: #fff;
+}
+.qc-thanks-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 30px;
+}
+.qc-thanks-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 52px;
+  padding: 14px 24px;
+  border-radius: var(--r-sm);
+  background: var(--qc-cta);
+  color: #fff;
+  font: 700 16px/1 var(--font-inter), sans-serif;
+}
+.qc-thanks-call:hover { background: var(--qc-cta-hover); }
+.qc-thanks-mail {
+  font: 600 15px/1 var(--font-inter), sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 3px;
+}
+.qc-thanks-note {
+  margin: 24px 0 0;
+  font: 400 14px/1.6 var(--font-inter), sans-serif;
+  color: rgba(255, 255, 255, 0.55);
+}

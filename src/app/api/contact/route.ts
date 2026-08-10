@@ -8,11 +8,27 @@ type Payload = {
   email?: string;
   phone?: string;
   website?: string;
+  business?: string;
   service?: string;
   message?: string;
   source?: string;
   "bot-field"?: string;
-};
+} & Partial<Record<AttributionKey, string>>;
+
+// Campaign attribution carried by the /quad-cities landing form. The click IDs
+// matter most: they're what lets a closed deal be imported back into Google and
+// Meta as an offline conversion later, so the platforms optimize toward leads
+// that sign rather than leads that fill out forms.
+const ATTRIBUTION_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_term",
+  "utm_content",
+  "gclid",
+  "fbclid",
+] as const;
+type AttributionKey = (typeof ATTRIBUTION_KEYS)[number];
 
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 const trim = (v: unknown) => (typeof v === "string" ? v.trim() : "");
@@ -34,8 +50,12 @@ export async function POST(req: Request) {
   const message = trim(body.message);
   const phone = trim(body.phone);
   const website = trim(body.website);
+  const business = trim(body.business);
   const service = trim(body.service);
   const source = trim(body.source).slice(0, 80);
+
+  const attribution = ATTRIBUTION_KEYS.map((key) => [key, trim(body[key]).slice(0, 300)] as const)
+    .filter(([, value]) => value.length > 0);
 
   if (!name || !email || !service) {
     return NextResponse.json(
@@ -54,15 +74,19 @@ export async function POST(req: Request) {
   const toAddress = process.env.CONTACT_TO_EMAIL || "hello@rivercitydigitalco.com";
   const fromAddress = process.env.CONTACT_FROM_EMAIL || "River City Digital <noreply@rivercitydigitalco.com>";
 
-  const subject = `New inquiry — ${service} (${name})${source ? ` [${source}]` : ""}`;
+  const subject = `New inquiry — ${service} (${business || name})${source ? ` [${source}]` : ""}`;
   const text = [
     `New inquiry from ${name} <${email}>`,
+    business && `Business: ${business}`,
     phone && `Phone: ${phone}`,
     website && `Site:  ${website}`,
     `Service: ${service}`,
     source && `Source:  ${source}`,
     "",
     message || "(no message)",
+    ...(attribution.length
+      ? ["", "— Attribution —", ...attribution.map(([key, value]) => `${key}: ${value}`)]
+      : []),
     "",
     "—",
     "Submitted via rivercitydigitalco.com",
