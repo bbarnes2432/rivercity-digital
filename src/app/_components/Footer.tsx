@@ -85,6 +85,15 @@ export default function Footer() {
                 id="COCBadgeIMG"
                 src="https://coc.codes/images/badge/2034358117"
                 alt="ChamberofCommerce.com verified member"
+                // Eager by default, React hoists a <link rel="preload"> for it,
+                // and the not-found boundary — which renders this footer — is
+                // serialized into every route's payload. Net effect: a ~900ms
+                // third-party image was being preloaded in the <head> of pages
+                // that never display it, competing for bandwidth during LCP.
+                // It sits at the very bottom of the footer; lazy is correct
+                // regardless.
+                loading="lazy"
+                decoding="async"
               />
             </a>
           </div>
