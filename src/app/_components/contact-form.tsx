@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { markContactConversionPending } from "./gtag";
+import { markContactConversionPending, trackLeadEvent } from "./gtag";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -54,6 +54,12 @@ export default function ContactForm({ defaultService = "" }: Props) {
         setStatus("error");
         return;
       }
+      trackLeadEvent("form_submit", {
+        page: window.location.pathname,
+        form: "contact",
+        service: String(fd.get("service") ?? ""),
+      });
+
       // Keep the button disabled and redirect to the thank-you page, where
       // the Google Ads conversion fires. Status stays "submitting" so the UI
       // doesn't flicker back to idle during the navigation.

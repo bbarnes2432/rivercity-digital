@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePopupTrigger } from "./usePopupTrigger";
-import { markContactConversionPending } from "./gtag";
+import { markContactConversionPending, trackLeadEvent } from "./gtag";
 import "./PopupForm.css";
 
 type Step = "qualify" | "lead" | "curious" | "success-lead" | "success-curious";
@@ -106,6 +106,11 @@ export default function PopupForm() {
         setSubmitting(false);
         return;
       }
+      trackLeadEvent("form_submit", {
+        page: window.location.pathname,
+        form: SOURCE_QUALIFIED,
+      });
+
       // Close the popup and send the lead to the thank-you page, where the
       // Google Ads conversion fires (same as the main contact form).
       recordSubmit();

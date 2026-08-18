@@ -5,6 +5,7 @@ import "./globals.css";
 import BackToTop from "./_components/BackToTop";
 import PopupForm from "./_components/PopupForm";
 import GoogleTag from "./_components/GoogleTag";
+import OpenAiPixel from "./_components/OpenAiPixel";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -137,6 +138,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${barlow.variable} ${mono.variable}`}>
       <GoogleTag />
+      <OpenAiPixel />
       <body>
         <a href="#main" className="skip-link">Skip to main content</a>
         <script

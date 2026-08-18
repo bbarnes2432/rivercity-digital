@@ -37,7 +37,12 @@ const SECTIONS = [
           For prospective clients, that means we may follow up about a request, send a proposal, or share an audit summary.
           For active clients, we use business information solely to deliver agreed-upon services.
         </p>
-        <p>We don&apos;t sell your information. We don&apos;t share it with third parties for marketing.</p>
+        <p>
+          We don&apos;t sell your information, and we don&apos;t hand your contact details to anyone else for their own
+          marketing. One nuance worth stating plainly: the advertising tags described under{" "}
+          <a href="#cookies-and-analytics">Cookies and analytics</a> do send limited technical data — page views, and the
+          fact that a form was submitted — to Google and OpenAI so we can measure our own ads.
+        </p>
       </>
     ),
   },
@@ -63,9 +68,15 @@ const SECTIONS = [
     body: (
       <>
         <p>
-          This site uses minimal first-party analytics to understand which pages are useful and how visitors arrive. We do not
-          run third-party advertising trackers. If we add more granular analytics in the future, we&apos;ll show a consent banner
-          before any tracking begins.
+          This site uses cookies and similar technologies for two purposes: to understand which pages are useful and how
+          visitors arrive, and to measure our own advertising. That includes measurement tags from Google (Google Ads) and
+          OpenAI (ChatGPT Ads). These record page views and form submissions so we can tell which ads actually produced an
+          inquiry, and they may be used to show you our ads on other services.
+        </p>
+        <p>
+          We don&apos;t currently show a cookie consent banner. You can opt out at any time using your browser&apos;s
+          tracking-protection settings or an ad blocker, or through the ad-settings pages each provider maintains — both are
+          linked from their own privacy policies. Blocking them changes nothing about how this site works.
         </p>
       </>
     ),
@@ -89,10 +100,10 @@ const SECTIONS = [
     body: (
       <>
         <p>
-          We use a small set of third-party services to do our work: Google (Workspace, Search Console, Business Profile),
-          Microsoft / Bing (Webmaster Tools), Meta (Business Manager, when running campaigns), AWS / Vercel / Resend (hosting,
-          DNS, transactional email). Each has its own privacy policy. We share the minimum information required for the
-          service to function.
+          We use a small set of third-party services to do our work: Google (Workspace, Search Console, Business Profile,
+          Google Ads), OpenAI (ChatGPT Ads measurement), Microsoft / Bing (Webmaster Tools), Meta (Business Manager, when
+          running campaigns), AWS / Vercel / Resend (hosting, DNS, transactional email). Each has its own privacy policy.
+          We share the minimum information required for the service to function.
         </p>
       </>
     ),
@@ -128,7 +139,7 @@ export default function PrivacyPolicyPage() {
     <LegalPage
       title="Privacy Policy"
       preface="We've kept this short and tried to write it like a person. If anything's unclear, just email us."
-      lastUpdated="May 9, 2026"
+      lastUpdated="August 18, 2026"
       sections={SECTIONS}
       breadcrumbLabel="Privacy Policy"
     />

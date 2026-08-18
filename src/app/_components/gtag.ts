@@ -11,6 +11,7 @@ declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
     fbq?: (...args: unknown[]) => void;
+    oaiq?: (...args: unknown[]) => void;
   }
 }
 
@@ -19,6 +20,22 @@ declare global {
 // name. Fragmenting the names is how you end up with two platforms optimizing
 // against two different definitions of a conversion.
 export type LeadEvent = "form_submit" | "quote_request" | "click_to_call";
+
+// The OpenAI pixel accepts only its own closed vocabulary of event names, so
+// our names have to be translated rather than passed through — an unrecognized
+// name is dropped as "unsupported_event_name", not recorded as a custom event.
+//
+// click_to_call is deliberately NOT reported as lead_created. A tap on a phone
+// number is intent, not a completed hand-off; counting it as a lead would let
+// OpenAI optimize toward taps that never connect, which is the same
+// conversion-definition drift the closed LeadEvent list exists to prevent.
+// It goes through oaiq's documented "custom" escape hatch instead, keeping the
+// distinction visible in reporting without inflating the lead count.
+const OAIQ_LEAD_EVENT: Record<LeadEvent, "lead_created" | "custom"> = {
+  form_submit: "lead_created",
+  quote_request: "lead_created",
+  click_to_call: "custom",
+};
 
 // Report a lead event to every analytics destination configured on the page.
 //
@@ -29,6 +46,13 @@ export type LeadEvent = "form_submit" | "quote_request" | "click_to_call";
 // The fbq call is deliberately unguarded by any pixel ID of our own: when the
 // existing RCD Meta pixel is added to the layout, fbq becomes defined and these
 // start firing. Until then it's a no-op, not an error.
+//
+// oaiq is the odd one out and does not receive `params`. It validates event
+// props against a closed schema and *drops the whole event* on any field it
+// doesn't document — customer_action permits only type/amount/currency, so
+// forwarding our context keys would silently lose the conversion rather than
+// annotate it. The context is not lost: OpenAI records the page URL with the
+// event anyway, which is where `page` and `context` were being read from.
 export function trackLeadEvent(
   name: LeadEvent,
   params: Record<string, unknown> = {},
@@ -36,6 +60,13 @@ export function trackLeadEvent(
   if (typeof window === "undefined") return;
   window.gtag?.("event", name, params);
   window.fbq?.("trackCustom", name, params);
+
+  if (OAIQ_LEAD_EVENT[name] === "custom") {
+    // custom_event_name belongs in the options argument, not the props.
+    window.oaiq?.("measure", "custom", { type: "custom" }, { custom_event_name: name });
+  } else {
+    window.oaiq?.("measure", "lead_created", { type: "customer_action" });
+  }
 }
 
 // The conversion must fire once per *form submission*, not once per visit to
