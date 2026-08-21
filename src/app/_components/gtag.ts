@@ -1,11 +1,21 @@
 // Helpers for firing Google Ads conversion events via gtag.js.
 // The base tag is loaded by <GoogleTag /> in the root layout.
 
-// Conversion action: "Form Submission – Thank You Page" (from the Google Ads
-// event snippet). This is the send_to target — account ID + conversion label —
+// Conversion action: "Lead form submission" (from the Google Ads event
+// snippet). This is the send_to target — account ID + conversion label —
 // exactly as Google generates it. The conversion only records when we fire
 // gtag('event', 'conversion', { send_to: <this> }).
-export const CONTACT_CONVERSION_SEND_TO = "AW-18272669855/2Bt9COmvsMccEJ-hi4lE";
+//
+// Replaces "Form Submission – Thank You Page", whose label was
+// AW-18272669855/2Bt9COmvsMccEJ-hi4lE. That action sat in Google's "Page views"
+// category, so the account was nominally optimizing toward people viewing a
+// page rather than toward leads. Category is fixed to the action, not editable,
+// so correcting it meant a new action and a new label. The old one keeps its
+// history and is demoted to a secondary action.
+//
+// Copy this string by hand at your peril — it contains both a digit 1 and a
+// lowercase L. Take it from the event snippet in the Ads UI.
+export const CONTACT_CONVERSION_SEND_TO = "AW-18272669855/Xo1xCOeAm-UcEJ-hi4lE";
 
 declare global {
   interface Window {
