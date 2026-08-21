@@ -9,6 +9,8 @@ import CtaBand from "../_components/CtaBand";
 import Button from "../_components/Button";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
+import InlineContactSection from "../_components/InlineContactSection";
+import MobileStickyCta from "../_components/MobileStickyCta";
 
 export const metadata: Metadata = {
   title: "About — Two of Us. One City. The Work.",
@@ -213,14 +215,26 @@ export default function AboutPage() {
           </Container>
         </Section>
 
+        {/* A paid click can land here from an ad sitelink, so the page
+            has to be able to close rather than punting to /contact. */}
+        <InlineContactSection
+          id="start"
+          eyebrow="Talk to us"
+          title="Tell us what you&rsquo;re working with."
+          context="about-form"
+        />
+
         <CtaBand
+          id="closing"
           eyebrow="If we&apos;re a fit"
           title="The only way to find out is to talk."
           lede="A 30-minute call. Real conversation. We tell you whether we can help, and if not, who can."
-          primaryHref="/contact"
+          primaryHref="#start"
           primaryLabel="Start the conversation"
         />
       </main>
+
+      <MobileStickyCta href="#start" label="Start the conversation" hideNearId="start" />
 
       <Footer />
       <ScrollReveal />

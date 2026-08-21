@@ -11,6 +11,8 @@ import CtaBand from "../_components/CtaBand";
 import Stat from "../_components/Stat";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
+import InlineContactSection from "../_components/InlineContactSection";
+import MobileStickyCta from "../_components/MobileStickyCta";
 import "../styles/inner.css";
 
 export const metadata: Metadata = {
@@ -254,14 +256,28 @@ export default function AiSearchVisibilityPage() {
           </Container>
         </Section>
 
+        {/* A paid click can land here from an ad sitelink, so the page
+            has to be able to close rather than punting to /contact. */}
+        <InlineContactSection
+          id="start"
+          eyebrow="Start with an audit"
+          title="See what AI says about you."
+          lede="What ChatGPT, Gemini and Perplexity say about your business today &mdash; and what to fix first. Free, no commitment."
+          defaultService="AI search visibility"
+          context="ai-search-form"
+        />
+
         <CtaBand
+          id="closing"
           eyebrow="Ready to be the answer"
           title="Run your business through AI."
           lede="We'll show you exactly what ChatGPT, Gemini, and Perplexity say about you today — and what to fix first. Free, no commitment."
-          primaryHref="/contact"
+          primaryHref="#start"
           primaryLabel="Start with a free audit"
         />
       </main>
+
+      <MobileStickyCta href="#start" label="Start with a free audit" hideNearId="start" />
 
       <Footer />
       <ScrollReveal />

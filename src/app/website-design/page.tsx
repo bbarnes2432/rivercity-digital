@@ -7,13 +7,12 @@ import Container from "../_components/Container";
 import SectionHeader from "../_components/SectionHeader";
 import Button from "../_components/Button";
 import CtaBand from "../_components/CtaBand";
-import ContactForm from "../_components/contact-form";
 import Stat from "../_components/Stat";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
 import HookVideo from "../_components/HookVideo";
 import CallLink from "../_components/CallLink";
-import BookCallLink from "../_components/BookCallLink";
+import InlineContactSection from "../_components/InlineContactSection";
 import Testimonials from "../_components/testimonials";
 import MobileStickyCta from "../_components/MobileStickyCta";
 import { Globe, Rocket, ShoppingBag, RefreshCw } from "lucide-react";
@@ -288,39 +287,17 @@ export default function WebsiteDesignPage() {
           </Container>
         </Section>
 
-        {/* Inline contact form */}
-        <Section mode="working" id="start" className="tex-dots rcd-inline-contact-section">
-          <Container narrow>
-            <div className="rcd-inline-contact fx-stagger">
-              <div className="rcd-inline-contact-head">
-                <p className="t-eyebrow">Start a build</p>
-                <h2 className="t-h2">Tell us about your project.</h2>
-                <p className="t-lede">
-                  A few sentences is plenty. We&apos;ll come back with questions,
-                  a real timeline, and a real number. Same-day reply most days.
-                </p>
-              </div>
-
-              {/* Three ways to start, in descending order of how much the
-                  visitor has to commit. The phone is new: the page has always
-                  claimed "we still answer the phone" a few sections up and then
-                  offered no number to call. */}
-              <div className="rcd-inline-contact-fast">
-                <CallLink context="form-section" className="btn btn-primary btn-md" />
-                <BookCallLink context="form-section" className="btn btn-secondary btn-md">
-                  Book a 30-min call
-                </BookCallLink>
-                <span className="rcd-inline-contact-or" aria-hidden="true">
-                  <span>or write us below</span>
-                </span>
-              </div>
-
-              <div className="rcd-inline-contact-card">
-                <ContactForm defaultService="New website" />
-              </div>
-            </div>
-          </Container>
-        </Section>
+        {/* Inline contact form. The block itself lives in
+            <InlineContactSection /> now that /about and the other sitelink
+            destinations need the same thing. */}
+        <InlineContactSection
+          id="start"
+          eyebrow="Start a build"
+          title="Tell us about your project."
+          lede="A few sentences is plenty. We&rsquo;ll come back with questions, a real timeline, and a real number. Same-day reply most days."
+          defaultService="New website"
+          context="form-section"
+        />
 
         <CtaBand
           id="closing"

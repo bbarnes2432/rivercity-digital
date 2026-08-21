@@ -11,6 +11,8 @@ import CtaBand from "../_components/CtaBand";
 import Stat from "../_components/Stat";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
+import InlineContactSection from "../_components/InlineContactSection";
+import MobileStickyCta from "../_components/MobileStickyCta";
 import HookVideo from "../_components/HookVideo";
 import {
   Building2,
@@ -230,14 +232,28 @@ export default function LocalSeoPage() {
           </Container>
         </Section>
 
+        {/* A paid click can land here from an ad sitelink, so the page
+            has to be able to close rather than punting to /contact. */}
+        <InlineContactSection
+          id="start"
+          eyebrow="Check your rankings"
+          title="See where you actually rank."
+          lede="Where you sit today, where your top three competitors sit, and the gap between you. No commitment."
+          defaultService="Local SEO"
+          context="local-seo-form"
+        />
+
         <CtaBand
+          id="closing"
           eyebrow="Ready to climb"
           title="Check where you rank — free."
           lede="We'll show your current rankings, your top 3 competitors' rankings, and the gap. No commitment."
-          primaryHref="/contact"
+          primaryHref="#start"
           primaryLabel="Check where I rank"
         />
       </main>
+
+      <MobileStickyCta href="#start" label="Check where I rank" hideNearId="start" />
 
       <Footer />
       <ScrollReveal />
