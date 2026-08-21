@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { CALENDLY_URL } from "./contact-info";
-import { trackLeadEvent } from "./gtag";
+import { trackBookCallConversion, trackLeadEvent } from "./gtag";
 
 type Props = {
   /** Where on the page this instance sits, reported with the event. */
@@ -14,21 +14,25 @@ type Props = {
 
 /* "Book a 30-min call" — the outbound Calendly link.
  *
- * Every one of these was a plain <a> until now, which meant the highest-intent
- * action on the site was the one action no platform could see. Someone could
- * click a $30 ad, read the page, book a discovery call, and Google Ads would
- * record a bounce.
+ * Every one of these was a plain <a>, which meant the highest-intent action on
+ * the site was the one action no platform could see. Someone could click a $30
+ * ad, read the page, book a discovery call, and Google Ads would record a
+ * bounce.
  *
- * What this fires is a *click*, not a booking — the visitor leaves for
- * calendly.com and whether they finish the flow happens somewhere we cannot
- * observe. So it is reported as book_call_click and, like click_to_call,
- * deliberately not counted as a completed lead. Counting the click would let
- * the bidding algorithms optimize toward people who open a scheduler and
- * abandon it, which is worse than not counting it at all.
+ * Two things fire here, and the split is the whole point. Google Ads gets a
+ * real conversion, so the click stops being invisible in the reporting — but
+ * against the "Book appointment" action, which is deliberately not one of the
+ * campaign's bidding goals. Meta and OpenAI get book_call_click as a custom
+ * event rather than a lead.
+ *
+ * Nothing counts it as a completed lead, because it isn't one: what we observe
+ * is a *click*, and whether the visitor finishes scheduling happens on
+ * calendly.com where we cannot see it. Feeding it to bidding as a lead would
+ * teach the algorithms to buy people who open a scheduler and abandon it.
  *
  * Closing that last gap properly means importing completed bookings back from
  * Calendly as offline conversions against the stored gclid. Until that exists,
- * this at least makes the intent visible instead of invisible. */
+ * this counts the intent honestly and keeps it out of the bidding. */
 export default function BookCallLink({ context, className, children }: Props) {
   const pathname = usePathname();
 
@@ -38,7 +42,10 @@ export default function BookCallLink({ context, className, children }: Props) {
       target="_blank"
       rel="noopener noreferrer"
       className={className}
-      onClick={() => trackLeadEvent("book_call_click", { context, page: pathname })}
+      onClick={() => {
+        trackLeadEvent("book_call_click", { context, page: pathname });
+        trackBookCallConversion();
+      }}
     >
       {children}
     </a>

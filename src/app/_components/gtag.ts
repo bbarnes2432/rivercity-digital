@@ -17,6 +17,24 @@
 // lowercase L. Take it from the event snippet in the Ads UI.
 export const CONTACT_CONVERSION_SEND_TO = "AW-18272669855/Xo1xCOeAm-UcEJ-hi4lE";
 
+// Conversion action: "Calendly booking click", in Google's "Book appointment"
+// category. Same warning as above — this label contains a lowercase L, not a
+// one, and both an o and an O. Take it from the event snippet, never a
+// screenshot.
+//
+// The action carries a fixed $375 value set in the Ads UI, so nothing here
+// passes `value`: with "use the same value for each conversion" Google ignores
+// whatever the tag sends. $375 is half of the $750 a lead is worth, because
+// opening a scheduler is not the same as booking, and the drop-off in between
+// belongs in the number rather than being quietly rounded up.
+//
+// It is deliberately NOT one of the campaign's conversion goals. Creating it
+// promoted "Book appointment" to an account-default goal, which silently added
+// it to what Smart Bidding chases; the campaign has since been pinned to
+// campaign-specific goals (phone call leads + lead form submissions) so this
+// one is recorded and reported without steering the bidding.
+export const BOOK_CALL_CONVERSION_SEND_TO = "AW-18272669855/8xdTCKT7oOUcEJ-hi4lE";
+
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
@@ -129,27 +147,26 @@ function consumeContactConversionPending(): boolean {
   return pending;
 }
 
-// Fire the form-submission conversion. The Google tag loads with strategy
-// "afterInteractive", so on a slow or direct page load gtag may not exist yet
-// at the moment this runs. Rather than dropping the conversion (the old
-// behavior), we retry briefly until the tag is ready, then fire exactly once.
-export function trackContactConversion(
-  params: Record<string, unknown> = {},
+// Report a conversion to Google Ads, waiting for the tag if it isn't up yet.
+//
+// The Google tag loads with strategy "afterInteractive", so on a slow or direct
+// page load gtag may not exist at the moment a conversion happens. Rather than
+// dropping it (the old behavior), we retry until the tag is ready and then fire
+// exactly once. Every conversion on the site goes through here, so this retry
+// exists once instead of being reinvented, subtly differently, per call site.
+function fireConversion(
+  sendTo: string,
+  params: Record<string, unknown>,
 ): void {
-  if (typeof window === "undefined") return;
-  if (!consumeContactConversionPending()) return;
-
   const fire = () => {
     if (typeof window.gtag !== "function") return false;
-    window.gtag("event", "conversion", {
-      send_to: CONTACT_CONVERSION_SEND_TO,
-      ...params,
-    });
+    window.gtag("event", "conversion", { send_to: sendTo, ...params });
     return true;
   };
 
-  // Fast path: tag already present (the usual case after a client-side
-  // redirect from the form page, where gtag loaded on the prior page).
+  // Fast path: tag already present. The usual case, whether we arrived by
+  // client-side redirect from the form page or the visitor has been reading
+  // long enough for the tag to have loaded.
   if (fire()) return;
 
   // Slow/direct load: poll until gtag is available, up to ~10s.
@@ -158,4 +175,30 @@ export function trackContactConversion(
     tries += 1;
     if (fire() || tries > 40) clearInterval(timer);
   }, 250);
+}
+
+// Fire the form-submission conversion. Gated on the pending flag above, so a
+// refresh of /thank-you cannot mint a second conversion out of one submission.
+export function trackContactConversion(
+  params: Record<string, unknown> = {},
+): void {
+  if (typeof window === "undefined") return;
+  if (!consumeContactConversionPending()) return;
+  fireConversion(CONTACT_CONVERSION_SEND_TO, params);
+}
+
+// Fire the Calendly conversion. No pending-flag gate here, and that asymmetry
+// is deliberate: the form has to arm a flag because the conversion happens on a
+// *different page* than the submission, and any other arrival at that page must
+// not count. A Calendly click has no redirect to survive — the click is the
+// event, on the page where it happens.
+//
+// Repeat clicks are collapsed by the action's "count: one" setting in Google
+// Ads, which dedupes to one conversion per ad click server-side, where it can
+// see across page loads and sessions and we cannot.
+export function trackBookCallConversion(
+  params: Record<string, unknown> = {},
+): void {
+  if (typeof window === "undefined") return;
+  fireConversion(BOOK_CALL_CONVERSION_SEND_TO, params);
 }
