@@ -12,6 +12,10 @@ import Stat from "../_components/Stat";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
 import HookVideo from "../_components/HookVideo";
+import CallLink from "../_components/CallLink";
+import BookCallLink from "../_components/BookCallLink";
+import Testimonials from "../_components/testimonials";
+import MobileStickyCta from "../_components/MobileStickyCta";
 import { Globe, Rocket, ShoppingBag, RefreshCw } from "lucide-react";
 import "../styles/inner.css";
 
@@ -94,19 +98,31 @@ export default function WebsiteDesignPage() {
             <div className="rcd-hero-inner" style={{ marginTop: 32 }}>
               <div className="rcd-hero-copy">
                 <p className="t-eyebrow rcd-hero-eyebrow">Service · 03</p>
-                <h1 className="t-display-1">No themes.<br />No templates.</h1>
-                <p className="rcd-hero-tagline">Built here. Built to be found.</p>
+                {/* The H1 answers the search that pays to get here. Ads for
+                    this page bid on "st louis web design" and "website design
+                    st louis"; the old H1 ("No themes. No templates.") was a
+                    positioning line that matched neither, and Google rated
+                    landing page experience Below average on every one of those
+                    keywords. The brand line keeps its place as the tagline. */}
+                <h1 className="t-display-1">St. Louis<br />website design.</h1>
+                <p className="rcd-hero-tagline">No themes. No templates.</p>
                 <p className="rcd-hero-lede">
                   Custom websites for St. Louis businesses. Hand-coded. Fast.
                   Designed for Google and AI search from the first wireframe.
                 </p>
+                {/* The ads promise a free website audit in the headline, the
+                    callout and a sitelink. The hero used to answer that with
+                    "Start a build" — a much larger commitment — and send people
+                    to /contact, a second page load away from the form sitting
+                    further down this one. Now it offers what was advertised and
+                    scrolls to the form in place. */}
                 <div className="rcd-hero-actions">
-                  <Button href="/contact" size="lg" arrow>Start a build</Button>
-                  <Button href="/work" size="lg" variant="ghost">See selected work</Button>
+                  <Button href="#start" size="lg" arrow>Get my free website audit</Button>
+                  <CallLink context="hero" className="btn btn-ghost btn-lg" />
                 </div>
                 <div className="rcd-hero-meta">
                   <span className="rcd-hero-meta-item">2-week typical launch</span>
-                  <span className="rcd-hero-meta-item">No theme. No template.</span>
+                  <span className="rcd-hero-meta-item">Free, no-obligation audit</span>
                 </div>
               </div>
             </div>
@@ -253,6 +269,25 @@ export default function WebsiteDesignPage() {
           </Container>
         </Section>
 
+        {/* Proof.
+            This page asked people to spend money on a custom build and showed
+            them no evidence anyone had ever been happy with one — the ads even
+            run a "5.0 Star Google Rating" callout that the page did nothing
+            with. These are the same testimonials the homepage has been using;
+            they belong in front of paid traffic more than anywhere else. */}
+        <Section mode="working" className="section--bg-coffee">
+          <Container>
+            <SectionHeader
+              eyebrow="Testimonials"
+              title="What St. Louis businesses say."
+              lede="Restaurants, contractors, salons and shops around the metro — the people these builds are actually for."
+            />
+            <div className="fx-reveal">
+              <Testimonials count={3} />
+            </div>
+          </Container>
+        </Section>
+
         {/* Inline contact form */}
         <Section mode="working" id="start" className="tex-dots rcd-inline-contact-section">
           <Container narrow>
@@ -266,15 +301,15 @@ export default function WebsiteDesignPage() {
                 </p>
               </div>
 
+              {/* Three ways to start, in descending order of how much the
+                  visitor has to commit. The phone is new: the page has always
+                  claimed "we still answer the phone" a few sections up and then
+                  offered no number to call. */}
               <div className="rcd-inline-contact-fast">
-                <a
-                  href="https://calendly.com/hello-rivercitydigitalco/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary btn-md"
-                >
+                <CallLink context="form-section" className="btn btn-primary btn-md" />
+                <BookCallLink context="form-section" className="btn btn-secondary btn-md">
                   Book a 30-min call
-                </a>
+                </BookCallLink>
                 <span className="rcd-inline-contact-or" aria-hidden="true">
                   <span>or write us below</span>
                 </span>
@@ -288,13 +323,22 @@ export default function WebsiteDesignPage() {
         </Section>
 
         <CtaBand
+          id="closing"
           eyebrow="Ready to build"
           title="Start a website that earns its keep."
           lede="Free 30-minute discovery call. We come back with a real plan, a real timeline, and a real number."
-          primaryHref="/contact"
-          primaryLabel="Start a build"
+          primaryHref="#start"
+          primaryLabel="Get my free website audit"
         />
       </main>
+
+      {/* Mobile shortcut back to the form once the hero has scrolled away.
+          Hidden again near the form itself so it never covers its own target. */}
+      <MobileStickyCta
+        href="#start"
+        label="Get my free website audit"
+        hideNearId="start"
+      />
 
       <Footer />
       <ScrollReveal />

@@ -19,15 +19,13 @@
 
 /* ---------- Phone ---------------------------------------------------------
    One constant, one component (<CallLink />). A call-tracking number can be
-   swapped in here without touching a single section of the page. */
-export const PHONE = {
-  /** What a visitor reads. */
-  display: "(636) 338-1408",
-  /** E.164 for the tel: href. */
-  href: "tel:+16363381408",
-} as const;
+   swapped in without touching a single section of the page.
 
-export const EMAIL = "hello@rivercitydigitalco.com";
+   The constants themselves now live in _components/contact-info.ts, because
+   the St. Louis pages started showing a phone number too and two copies of a
+   number is one copy too many. Re-exported here so every existing import in
+   this route keeps working. */
+export { PHONE, EMAIL } from "../_components/contact-info";
 
 /* ---------- 1 · Hero ---------------------------------------------------- */
 export const HERO = {

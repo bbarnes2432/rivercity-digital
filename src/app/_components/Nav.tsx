@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Button from "./Button";
+import CallLink from "./CallLink";
 
 const SERVICES = [
   { href: "/ai-search-visibility", label: "AI Search Visibility", desc: "Be the answer ChatGPT, Gemini and Perplexity give." },
@@ -188,7 +189,12 @@ export default function Nav({ overlayMode = "light-on-dark" }: Props) {
             </li>
           </ul>
 
+          {/* The number sits left of the Free Audit button so the cheapest
+              action to take is also the first one read. Desktop only — this
+              whole block is display:none under 920px, where the call shortcut
+              is the sticky bar instead. */}
           <div className="rcd-nav-cta">
+            <CallLink context="nav" className="rcd-nav-call" />
             <Button href="/contact" size="sm" arrow>Free Audit</Button>
           </div>
 

@@ -19,7 +19,15 @@ declare global {
 // distinguished in reporting by page path and UTM, never by inventing an event
 // name. Fragmenting the names is how you end up with two platforms optimizing
 // against two different definitions of a conversion.
-export type LeadEvent = "form_submit" | "quote_request" | "click_to_call";
+//
+// book_call_click was added when the Calendly links were finally instrumented.
+// It is a new *kind* of action rather than a per-page rename of an existing one
+// — which is the thing this list exists to prevent — so it earns a name.
+export type LeadEvent =
+  | "form_submit"
+  | "quote_request"
+  | "click_to_call"
+  | "book_call_click";
 
 // The OpenAI pixel accepts only its own closed vocabulary of event names, so
 // our names have to be translated rather than passed through — an unrecognized
@@ -31,10 +39,16 @@ export type LeadEvent = "form_submit" | "quote_request" | "click_to_call";
 // conversion-definition drift the closed LeadEvent list exists to prevent.
 // It goes through oaiq's documented "custom" escape hatch instead, keeping the
 // distinction visible in reporting without inflating the lead count.
+//
+// book_call_click sits in the same bucket and for the same reason: the visitor
+// leaves for calendly.com and whether they finish scheduling happens off-site,
+// where we cannot observe it. A completed booking becomes a real lead only when
+// it is imported back as an offline conversion against the stored gclid.
 const OAIQ_LEAD_EVENT: Record<LeadEvent, "lead_created" | "custom"> = {
   form_submit: "lead_created",
   quote_request: "lead_created",
   click_to_call: "custom",
+  book_call_click: "custom",
 };
 
 // Report a lead event to every analytics destination configured on the page.

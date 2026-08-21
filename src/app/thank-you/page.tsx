@@ -7,6 +7,7 @@ import Section from "../_components/Section";
 import Container from "../_components/Container";
 import ScrollReveal from "../_components/ScrollReveal";
 import ThankYouConversion from "../_components/ThankYouConversion";
+import BookCallLink from "../_components/BookCallLink";
 
 export const metadata: Metadata = {
   title: "Thank You",
@@ -74,10 +75,8 @@ export default function ThankYouPage() {
               </p>
 
               <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-                <a
-                  href="https://calendly.com/hello-rivercitydigitalco/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <BookCallLink
+                  context="thank-you"
                   className="btn btn-primary btn-md"
                 >
                   Book a 30-min call
@@ -87,7 +86,7 @@ export default function ThankYouPage() {
                       <path d="m13 6 6 6-6 6" />
                     </svg>
                   </span>
-                </a>
+                </BookCallLink>
                 <Link href="/work" className="btn btn-secondary btn-md">
                   See our recent work
                 </Link>

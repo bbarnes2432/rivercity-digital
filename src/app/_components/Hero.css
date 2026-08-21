@@ -98,6 +98,24 @@
   flex-wrap: wrap;
   gap: var(--s-4);
 }
+
+/* Ghost buttons sitting on a dark hero.
+   .btn-ghost defaults to dark ink on a faint dark border — correct on the cream
+   sections, invisible here: it computes to #1E3A5F over a #101D31 photo
+   overlay, about 1.5:1. The [data-theme="dark"] override in globals.css never
+   reaches these heroes because they set data-mode, not data-theme, so the
+   secondary action has been rendering as barely-there text. */
+.rcd-hero[data-mode="civic"] .rcd-hero-actions .btn-ghost,
+.rcd-hero[data-mode="civic-deep"] .rcd-hero-actions .btn-ghost {
+  color: #fff;
+  border-color: var(--line-on-dark-2);
+}
+.rcd-hero[data-mode="civic"] .rcd-hero-actions .btn-ghost:hover,
+.rcd-hero[data-mode="civic-deep"] .rcd-hero-actions .btn-ghost:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent);
+}
 @media (max-width: 480px) {
   .rcd-hero-actions {
     display: flex;

@@ -7,6 +7,7 @@ import Container from "../_components/Container";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
 import ContactForm from "../_components/contact-form";
+import BookCallLink from "../_components/BookCallLink";
 import "./contact.css";
 
 const SITE_URL = "https://rivercitydigitalco.com";
@@ -164,10 +165,8 @@ export default function ContactPage() {
                     Pick a 30-minute slot. We come back with a real read on your
                     project before the call ends.
                   </p>
-                  <a
-                    href="https://calendly.com/hello-rivercitydigitalco/30min"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <BookCallLink
+                    context="contact-page-book"
                     className="btn btn-primary btn-md"
                   >
                     Book a 30-min call
@@ -177,7 +176,7 @@ export default function ContactPage() {
                         <path d="m13 6 6 6-6 6" />
                       </svg>
                     </span>
-                  </a>
+                  </BookCallLink>
                   <p className="rcd-contact-page-book-fine">
                     Opens Calendly in a new tab.
                   </p>

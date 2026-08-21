@@ -229,10 +229,45 @@
 .rcd-nav-cta {
   display: none;
   flex-shrink: 0;
+  align-items: center;
+  gap: 18px;
 }
 @media (min-width: 920px) {
   .rcd-nav-cta { display: inline-flex; }
 }
+
+/* Phone number in the header. Reads as nav text, not as a second button —
+   two buttons side by side would leave neither one obviously primary.
+
+   Colour follows the same convention as .rcd-nav-links: light by default and
+   dark only under data-overlay="dark-on-light", which is the one state where
+   the bar itself is cream. data-elevated is NOT that state — it darkens the
+   bar to rgba(15,30,51,.94), so the links stay light through it and only drop
+   their text-shadow. Inheriting instead would pick up .rcd-nav's own dark ink
+   and render navy on navy. */
+.rcd-nav-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: 600 14.5px/1 var(--font-inter), sans-serif;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 2px rgba(15, 30, 51, 0.30);
+  transition: color var(--dur-1) var(--ease-out);
+}
+.rcd-nav[data-elevated="true"] .rcd-nav-call { text-shadow: none; }
+.rcd-nav[data-overlay="dark-on-light"] .rcd-nav-call {
+  color: var(--ink-primary);
+  text-shadow: none;
+}
+.rcd-nav-call:hover { color: var(--rcd-teal-200); }
+.rcd-nav[data-overlay="dark-on-light"] .rcd-nav-call:hover {
+  color: var(--accent-hover);
+}
+.rcd-nav-call svg { flex: none; opacity: 0.8; }
+.rcd-nav-call:hover svg { opacity: 1; }
 
 /* Mobile menu button */
 .rcd-nav-menu-btn {
