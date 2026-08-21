@@ -28,11 +28,20 @@ export const CONTACT_CONVERSION_SEND_TO = "AW-18272669855/Xo1xCOeAm-UcEJ-hi4lE";
 // opening a scheduler is not the same as booking, and the drop-off in between
 // belongs in the number rather than being quietly rounded up.
 //
-// It is deliberately NOT one of the campaign's conversion goals. Creating it
-// promoted "Book appointment" to an account-default goal, which silently added
-// it to what Smart Bidding chases; the campaign has since been pinned to
-// campaign-specific goals (phone call leads + lead form submissions) so this
-// one is recorded and reported without steering the bidding.
+// It is deliberately kept out of bidding, behind two independent guards, because
+// creating it promoted "Book appointment" to an account-default goal and thereby
+// silently added it to what Smart Bidding chases:
+//
+//   1. The action itself is marked *secondary*, so it reports into "All
+//      conversions" and is never used for optimization. (Google forces the first
+//      action in a category to be primary at creation time and only lets you
+//      demote it afterwards, so this cannot be set until the action exists.)
+//   2. The campaign is pinned to campaign-specific conversion goals — phone call
+//      leads and lead form submissions — rather than account-default, so it is
+//      also immune to whatever else lands in the account defaults later.
+//
+// Either one alone would do it. Both, because the failure is silent and the
+// symptom is money spent buying people who open a scheduler and abandon it.
 export const BOOK_CALL_CONVERSION_SEND_TO = "AW-18272669855/8xdTCKT7oOUcEJ-hi4lE";
 
 declare global {
