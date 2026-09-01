@@ -316,14 +316,14 @@
 }
 
 /* Recent examples — screenshots in a browser frame -----------------------
-   Three-up on desktop, stacking to one column. Each card links to the live
+   Two-up on desktop, stacking to one column. Each card links to the live
    site; the domain in the chrome is the canonical one, so the frame reads as
    a real address bar rather than decoration. Shots are lazy — this section
    sits well below the fold and must not compete with the hero for LCP. */
 
 .rcd-examples {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--s-6);
   margin-top: var(--s-7);
 }

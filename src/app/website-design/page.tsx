@@ -77,16 +77,6 @@ const EXAMPLES = [
     img: "/assets/portfolio-wellness-collective.webp",
     alt: "The Wellness Collective homepage — illustrated lavender field under the words Find your way home",
   },
-  {
-    name: "Always Clean",
-    domain: "alwaysclean.biz",
-    href: "https://alwaysclean.biz/",
-    meta: "Commercial cleaning · Quad Cities",
-    what:
-      "Commercial janitorial and exterior cleaning under one roof. Service-area pages across the Quad Cities, with a quote request never more than a click away.",
-    img: "/assets/portfolio-always-clean-davenport.webp",
-    alt: "Always Clean homepage — a sunlit window wall behind the words The Quad Cities' one crew for inside and out",
-  },
 ];
 
 const STANDARDS = [
@@ -291,7 +281,7 @@ export default function WebsiteDesignPage() {
           <Container>
             <SectionHeader
               eyebrow="Recent examples"
-              title="Three we shipped lately."
+              title="Two we shipped lately."
               lede="Different industries, same approach. Every one of these is a live site — click any of them through."
             />
             <div className="rcd-examples fx-stagger">
@@ -319,7 +309,7 @@ export default function WebsiteDesignPage() {
                         width={1440}
                         height={798}
                         loading="lazy"
-                        sizes="(max-width: 900px) 92vw, 33vw"
+                        sizes="(max-width: 900px) 92vw, 50vw"
                       />
                     </span>
                   </a>

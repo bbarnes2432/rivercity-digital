@@ -253,33 +253,6 @@ export const PROJECTS: CaseStudy[] = [
     reflection:
       "The protected resource library is still a later phase. Knowing it was coming, we'd have wired the gated-content plumbing during the build instead of leaving it as a retrofit.",
   },
-  {
-    slug: "always-clean",
-    name: "Always Clean",
-    where: "Eldridge, IA",
-    sector: "Commercial cleaning",
-    year: "2026",
-    services: ["Website", "Local SEO"],
-    blurb:
-      "Four service lines, two customer types and ten towns on one site — janitorial, window cleaning, power washing and deck restoration across the Quad Cities.",
-    img: "/assets/portfolio-always-clean-davenport.webp",
-    brief:
-      "A family-owned outfit running four different services that don't share a customer. Janitorial is commercial only. Window cleaning and power washing sell to both homes and businesses. Deck restoration is mostly residential. The brief: one site that keeps those straight for the visitor, gets found across both sides of the river, and doesn't make an office manager wade through deck-staining copy to find what they came for.",
-    approach: [
-      "Gave each service line its own page — janitorial, window cleaning, power washing, deck and wood restoration — instead of one services page doing four jobs badly.",
-      "Made the commercial/residential split explicit on each page, so an office manager and a homeowner both know within a sentence whether they're in the right place.",
-      "Built service-area pages across the Iowa and Illinois sides — Davenport, Bettendorf, Eldridge, LeClaire, Blue Grass, Walcott, Moline, Rock Island, East Moline — rather than one page claiming \"the Quad Cities\".",
-      "Matched the quote path to the job: a form or a phone call for the exterior work, and an in-person building walkthrough for janitorial, which can't be priced sight-unseen.",
-      "Kept the phone number in the header and the hero on every page. For this kind of work the call is the conversion.",
-    ],
-    results: [
-      { value: "4", label: "Service lines, one site" },
-      { value: "9", label: "Towns with their own page" },
-      { value: "2", label: "Quote routes, matched to the job" },
-    ],
-    reflection:
-      "Four service lines across two states is a lot of surface area for one site. We'd watch which pages actually earn traffic over the first few months and consolidate the ones that don't, rather than assuming every town needs its own page forever.",
-  },
 ];
 
 export const PROJECT_SLUGS = PROJECTS.map((p) => p.slug);
