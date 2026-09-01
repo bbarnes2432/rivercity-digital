@@ -81,7 +81,7 @@ const EXAMPLES = [
     name: "Always Clean",
     domain: "alwaysclean.biz",
     href: "https://alwaysclean.biz/",
-    meta: "Commercial cleaning · Davenport, IA",
+    meta: "Commercial cleaning · Quad Cities",
     what:
       "Commercial janitorial and exterior cleaning under one roof. Service-area pages across the Quad Cities, with a quote request never more than a click away.",
     img: "/assets/portfolio-always-clean-davenport.webp",

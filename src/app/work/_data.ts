@@ -192,6 +192,94 @@ export const PROJECTS: CaseStudy[] = [
     reflection:
       "A gallery this visual wants fresh photos often. Next step we'd set up an easy way for the owners to drop in new event shots themselves, so the site stays as current as their last party.",
   },
+  {
+    slug: "mend-health",
+    name: "Mend Health",
+    where: "Kirkwood, MO",
+    sector: "Chiropractic & soft tissue",
+    year: "2026",
+    services: ["Website", "Local SEO"],
+    blurb:
+      "A custom site for a solo chiropractic and soft tissue practice — a page per service, six service-area pages, and booking from anywhere on the site.",
+    img: "/assets/portfolio-mend-health.webp",
+    brief:
+      "A solo practice run by a chiropractor who spent close to a decade doing clinical massage before earning the DC. That combination is the whole value proposition, and it doesn't fit the standard chiropractic-site mould — neither does a direct-pay model where you book time rather than a procedure. The brief: a site that explains both before somebody books, and that shows up in the specific suburbs the practice draws from.",
+    approach: [
+      "Built the service architecture around what's actually sold — soft tissue therapy and chiropractic care each get their own page, under an overview that explains why they're offered together.",
+      "Gave the direct-pay model a Pricing page of its own. \"You book time, not a procedure\" is a real differentiator, but only if a visitor hits it before the booking form.",
+      "Wrote a service-area page per town — Kirkwood, Clayton, Frontenac, Ladue, Webster Groves, Des Peres — rather than one page listing all six.",
+      "Structured the blog by condition instead of by date: TMJ, upper cross syndrome, head-forward posture, psoas and lower back, desk-work injuries. People search the symptom, not the treatment.",
+      "Put booking one click from every page, with the contact form doubling as the booking path so there's no second system to maintain.",
+    ],
+    results: [
+      { value: "6", label: "Service-area pages" },
+      { value: "By condition", label: "Blog built for how people search" },
+      { value: "Direct pay", label: "Explained before the booking form" },
+    ],
+    reflection:
+      "A condition-led blog only compounds if it keeps getting written. We'd agree a realistic cadence up front — even one post a month — rather than launching with five and letting it go quiet.",
+  },
+  {
+    slug: "the-wellness-collective",
+    name: "The Wellness Collective",
+    where: "St. Louis, MO",
+    sector: "Therapy & wellness",
+    year: "2026",
+    services: ["Website"],
+    blurb:
+      "A brand-led build for a practice that spans clinical therapy and spiritual work — custom illustration, its own type system, and booking on the page.",
+    img: "/assets/portfolio-wellness-collective.webp",
+    brief:
+      "A licensed clinical social worker whose practice covers therapy and coaching on one side and Reiki, tarot, intuitive readings, workshops and dance fitness on the other — plus Sacred Compass, her own framework of practical tools. The hard part isn't any one of those. It's holding them on a single site without the clinical credentials making the spiritual work look unserious, or the spiritual work making the clinical credentials look negotiable.",
+    approach: [
+      "Built a visual identity for the site rather than picking one — illustrated lavender field, custom type pairing, a palette that reads calm without tipping into cliché.",
+      "Structured Services so therapy and coaching sit alongside readings, Reiki and workshops as peers, so a visitor arriving for one doesn't feel they've landed in the wrong place.",
+      "Gave Sacred Compass a named place on the homepage as the throughline connecting the clinical and the intuitive, instead of burying it as a product.",
+      "Put session booking directly on the page, so the path from reading about a service to holding a slot is one click.",
+    ],
+    results: [
+      { value: "Custom", label: "Illustration and type system" },
+      { value: "One site", label: "Clinical and spiritual work, side by side" },
+      { value: "On page", label: "Session booking" },
+    ],
+    /* A real, verbatim Google review — two non-adjacent passages from Angelita
+       Pritchett's review joined with an ellipsis, wording untouched inside each.
+       Same review quoted on /quad-cities. Never paraphrase this. */
+    pullquote: {
+      text:
+        "From our very first meeting, they took the time to truly understand not just what I wanted my website to look like, but where I want my business to grow over the next several years. […] They aren't just building me a website—they're helping me build a brand.",
+      cite: "Angelita Pritchett, The Wellness Collective (Google review)",
+    },
+    reflection:
+      "The protected resource library is still a later phase. Knowing it was coming, we'd have wired the gated-content plumbing during the build instead of leaving it as a retrofit.",
+  },
+  {
+    slug: "always-clean",
+    name: "Always Clean",
+    where: "Eldridge, IA",
+    sector: "Commercial cleaning",
+    year: "2026",
+    services: ["Website", "Local SEO"],
+    blurb:
+      "Four service lines, two customer types and ten towns on one site — janitorial, window cleaning, power washing and deck restoration across the Quad Cities.",
+    img: "/assets/portfolio-always-clean-davenport.webp",
+    brief:
+      "A family-owned outfit running four different services that don't share a customer. Janitorial is commercial only. Window cleaning and power washing sell to both homes and businesses. Deck restoration is mostly residential. The brief: one site that keeps those straight for the visitor, gets found across both sides of the river, and doesn't make an office manager wade through deck-staining copy to find what they came for.",
+    approach: [
+      "Gave each service line its own page — janitorial, window cleaning, power washing, deck and wood restoration — instead of one services page doing four jobs badly.",
+      "Made the commercial/residential split explicit on each page, so an office manager and a homeowner both know within a sentence whether they're in the right place.",
+      "Built service-area pages across the Iowa and Illinois sides — Davenport, Bettendorf, Eldridge, LeClaire, Blue Grass, Walcott, Moline, Rock Island, East Moline — rather than one page claiming \"the Quad Cities\".",
+      "Matched the quote path to the job: a form or a phone call for the exterior work, and an in-person building walkthrough for janitorial, which can't be priced sight-unseen.",
+      "Kept the phone number in the header and the hero on every page. For this kind of work the call is the conversion.",
+    ],
+    results: [
+      { value: "4", label: "Service lines, one site" },
+      { value: "9", label: "Towns with their own page" },
+      { value: "2", label: "Quote routes, matched to the job" },
+    ],
+    reflection:
+      "Four service lines across two states is a lot of surface area for one site. We'd watch which pages actually earn traffic over the first few months and consolidate the ones that don't, rather than assuming every town needs its own page forever.",
+  },
 ];
 
 export const PROJECT_SLUGS = PROJECTS.map((p) => p.slug);
