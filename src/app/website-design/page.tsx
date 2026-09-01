@@ -54,6 +54,41 @@ const TIMELINE = [
   { n: "05", w: "Day 14", t: "Launch", d: "DNS, monitoring, analytics. We hand off the keys (we still answer the phone)." },
 ];
 
+/* Recent examples. `domain` is the canonical live host — it renders in the
+   browser chrome, so a staging URL here would read as unfinished work. */
+const EXAMPLES = [
+  {
+    name: "Mend Health",
+    domain: "mendhealthmo.com",
+    href: "https://www.mendhealthmo.com/",
+    meta: "Chiropractic · Kirkwood, MO",
+    what:
+      "Soft tissue and chiropractic care. Deep service architecture, service-area pages, and booking built into the site.",
+    img: "/assets/portfolio-mend-health.webp",
+    alt: "Mend Health homepage — a deep green hero reading Soft Tissue Expertise to Keep You Active",
+  },
+  {
+    name: "The Wellness Collective",
+    domain: "wellnesscollectivehub.com",
+    href: "https://wellnesscollectivehub.com/",
+    meta: "Wellness practice · St. Louis",
+    what:
+      "A brand-led build for a wellness and therapy practice — custom illustration, its own type system, and session booking on the page.",
+    img: "/assets/portfolio-wellness-collective.webp",
+    alt: "The Wellness Collective homepage — illustrated lavender field under the words Find your way home",
+  },
+  {
+    name: "Always Clean",
+    domain: "alwaysclean.biz",
+    href: "https://alwaysclean.biz/",
+    meta: "Commercial cleaning · Davenport, IA",
+    what:
+      "Commercial janitorial and exterior cleaning under one roof. Service-area pages across the Quad Cities, with a quote request never more than a click away.",
+    img: "/assets/portfolio-always-clean-davenport.webp",
+    alt: "Always Clean homepage — a sunlit window wall behind the words The Quad Cities' one crew for inside and out",
+  },
+];
+
 const STANDARDS = [
   "Lighthouse 95+ on Performance, Accessibility, SEO, Best Practices",
   "First Contentful Paint under 1.2 seconds",
@@ -247,6 +282,54 @@ export default function WebsiteDesignPage() {
                   </Button>
                 </div>
               </div>
+            </div>
+          </Container>
+        </Section>
+
+        {/* Recent examples */}
+        <Section mode="working">
+          <Container>
+            <SectionHeader
+              eyebrow="Recent examples"
+              title="Three we shipped lately."
+              lede="Different industries, same approach. Every one of these is a live site — click any of them through."
+            />
+            <div className="rcd-examples fx-stagger">
+              {EXAMPLES.map((ex) => (
+                <figure key={ex.domain} className="rcd-example">
+                  <a
+                    href={ex.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rcd-example-frame fx-lift"
+                    aria-label={`Visit ${ex.name} — opens in a new tab`}
+                  >
+                    <span className="rcd-example-chrome" aria-hidden="true">
+                      <span className="rcd-example-dots">
+                        <i />
+                        <i />
+                        <i />
+                      </span>
+                      <span className="rcd-example-url">{ex.domain}</span>
+                    </span>
+                    <span className="rcd-example-shot">
+                      <Image
+                        src={ex.img}
+                        alt={ex.alt}
+                        width={1440}
+                        height={798}
+                        loading="lazy"
+                        sizes="(max-width: 900px) 92vw, 33vw"
+                      />
+                    </span>
+                  </a>
+                  <figcaption className="rcd-example-body">
+                    <p className="rcd-example-meta">{ex.meta}</p>
+                    <h3 className="rcd-example-name">{ex.name}</h3>
+                    <p className="rcd-example-what">{ex.what}</p>
+                  </figcaption>
+                </figure>
+              ))}
             </div>
           </Container>
         </Section>
