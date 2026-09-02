@@ -425,3 +425,208 @@
   color: var(--ink-secondary);
 }
 [data-theme="dark"] .rcd-example-what { color: var(--ink-on-dark-2); }
+
+/* ═══ Selected work rail ═══════════════════════════════════════════════════
+   Eight cards on a native horizontal scroll with snap. No scroll-jacking: the
+   wheel, the trackpad, a finger and the two arrow buttons all just scroll it.
+   The 3D slab is painted over .rcd-rail-shot by the shared Stage canvas; the
+   <img> inside stays underneath as the fallback and the loading state. */
+.rcd-rail-section { position: relative; }
+.rcd-rail-section .section-head { margin-bottom: var(--s-5); }
+
+.rcd-rail-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0 0 var(--s-5);
+}
+.rcd-rail-nav button {
+  width: 42px; height: 42px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--line-on-dark-2);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  cursor: pointer;
+  transition: background var(--dur-3) var(--ease-out), border-color var(--dur-3) var(--ease-out);
+}
+.rcd-rail-nav button:hover { background: rgba(255, 255, 255, 0.12); border-color: var(--accent); }
+.rcd-rail-nav button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 720px) { .rcd-rail-nav { display: none; } }
+
+.rcd-rail {
+  --rail-gap: 24px;
+  --rail-card: min(560px, 86vw);
+  display: flex;
+  gap: var(--rail-gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: max(var(--s-5), calc((100% - var(--container-max)) / 2 + var(--s-5)));
+  padding-inline: max(var(--s-5), calc((100% - var(--container-max)) / 2 + var(--s-5)));
+  padding-bottom: var(--s-4);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+.rcd-rail::-webkit-scrollbar { height: 6px; }
+.rcd-rail::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.25); border-radius: 3px; }
+
+.rcd-rail-card {
+  flex: 0 0 var(--rail-card);
+  /* Both lines matter. A flex item's default min-width is `auto` — its
+     min-content — and measured on a phone the cards were coming out 348–383px
+     against a 322px basis, one of them wider than the viewport. Pinning width
+     and zeroing min-width makes the basis the size. */
+  width: var(--rail-card);
+  min-width: 0;
+  margin: 0;
+  scroll-snap-align: start;
+  perspective: 1600px;
+}
+
+/* The turn. The card is a flat plane that rotates; each face hides its back.
+   The two faces share one grid cell rather than the back being absolutely
+   positioned: the container is then as tall as the TALLER face, so a results
+   side with three numbers, a quote and three buttons can never overflow the
+   screenshot side on a narrow card (measured: it was, by 10px, before the
+   width fix would have made it worse). */
+.rcd-rail-flip {
+  position: relative;
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 720ms var(--ease-out);
+  border-radius: var(--r-lg);
+}
+.rcd-rail-flip > .rcd-rail-face { grid-area: 1 / 1; }
+.rcd-rail-card[data-flipped="true"] .rcd-rail-flip { transform: rotateY(180deg); }
+
+.rcd-rail-face {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line-on-dark-2);
+  background: rgba(255, 255, 255, 0.04);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+.rcd-rail-front { position: relative; }
+.rcd-rail-back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-6);
+  background: var(--rcd-navy-800);
+}
+
+/* The 3D box. Taller than the screenshot on purpose — the lower band is where
+   the reflection lives. Its aspect is fixed so the space exists before
+   three.js does (CLS stays 0), and the image sits at the top so the fallback
+   is framed exactly like the slab. */
+.rcd-rail-shot {
+  position: relative;
+  aspect-ratio: 1440 / 1000;
+  overflow: hidden;
+  background: var(--rcd-navy-900);
+}
+.rcd-rail-shot img {
+  display: block;
+  width: 100%;
+  /* The screenshots are not one aspect (measured: they load at ~1.6:1, not
+     1440/798). Forcing the slab's ratio and cropping from the top keeps every
+     card framed identically and keeps the 3D slab exactly over the photo,
+     rather than 40px short of it on the taller files. */
+  aspect-ratio: 1440 / 798;
+  height: auto;
+  object-fit: cover;
+  object-position: top center;
+  pointer-events: none;   /* the box must be the pointer target, not the image */
+  user-select: none;
+}
+/* drei's own View element: fills the box so its tracked rect IS the box. */
+.rcd-rail-view {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;   /* input is handled on .rcd-rail-shot, the parent */
+}
+/* Faint floor line where the reflection would begin, so the fallback still
+   reads as an object on a surface rather than an image with a gap. */
+.rcd-rail-shot::after {
+  content: "";
+  position: absolute;
+  left: 4%; right: 4%;
+  top: calc(100% * 798 / 1000 + 6px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(76, 165, 173, 0.45), transparent);
+}
+
+.rcd-rail-flipbtn {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin: 14px 14px 16px;
+  padding: 8px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-on-dark-2);
+  background: transparent;
+  color: var(--ink-on-dark-2);
+  font: 600 12.5px/1 var(--font-inter), sans-serif;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: color var(--dur-3) var(--ease-out), border-color var(--dur-3) var(--ease-out);
+}
+.rcd-rail-flipbtn:hover { color: #fff; border-color: var(--accent); }
+.rcd-rail-flipbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rcd-rail-flipbtn--back { margin: 0; }
+
+.rcd-rail-back-eyebrow {
+  margin: 0 0 var(--s-5);
+  font: 600 11.5px/1.3 var(--font-mono), monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rcd-teal-400);
+}
+.rcd-rail-results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-4);
+  margin: 0 0 var(--s-5);
+}
+.rcd-rail-results dt {
+  font: 700 clamp(28px, 3.2vw, 40px)/1 var(--font-barlow), "Barlow Condensed", sans-serif;
+  color: #fff;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+.rcd-rail-results dd {
+  margin: 6px 0 0;
+  font: 500 12px/1.4 var(--font-inter), sans-serif;
+  color: var(--ink-on-dark-3);
+}
+.rcd-rail-quote {
+  margin: 0 0 var(--s-5);
+  padding-left: 14px;
+  border-left: 2px solid var(--rcd-teal-500);
+}
+.rcd-rail-quote p {
+  margin: 0 0 6px;
+  font: italic 500 15px/1.5 Georgia, "Times New Roman", serif;
+  color: var(--ink-on-dark);
+}
+.rcd-rail-quote cite {
+  font: 500 12px/1.3 var(--font-inter), sans-serif;
+  font-style: normal;
+  color: var(--ink-on-dark-3);
+}
+.rcd-rail-back-actions {
+  margin-top: auto;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+}
+.rcd-rail-back .btn-ghost { color: #fff; border-color: var(--line-on-dark-2); }
+.rcd-rail-back .btn-ghost:hover { border-color: var(--accent); background: rgba(255,255,255,.08); }
+
+@media (max-width: 720px) {
+  .rcd-rail-back { padding: var(--s-5) var(--s-4); }
+  .rcd-rail-results { gap: var(--s-3); margin-bottom: var(--s-4); }
+  .rcd-rail-results dt { font-size: 24px; }
+  .rcd-rail-results dd { font-size: 11px; }
+  .rcd-rail-quote { margin-bottom: var(--s-4); }
+  .rcd-rail-quote p { font-size: 13.5px; }
+  .rcd-rail-back-actions .btn { padding-inline: 14px; }
+}

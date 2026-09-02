@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Nav from "../_components/Nav";
 import Footer from "../_components/Footer";
 import Section from "../_components/Section";
@@ -18,6 +17,8 @@ import MobileStickyCta from "../_components/MobileStickyCta";
 import KineticMatrix from "@/components/ui/kinetic-matrix";
 import ShaderBackground from "@/components/ui/shader-background";
 import HeroPortal from "../_components/HeroPortal";
+import Stage from "@/components/three/Stage";
+import WorkRail from "./_components/WorkRail";
 import { Globe, Rocket, ShoppingBag, RefreshCw } from "lucide-react";
 import "../styles/inner.css";
 
@@ -57,31 +58,6 @@ const TIMELINE = [
   { n: "05", w: "Day 14", t: "Launch", d: "DNS, monitoring, analytics. We hand off the keys (we still answer the phone)." },
 ];
 
-/* Recent examples. `domain` is the canonical live host — it renders in the
-   browser chrome, so a staging URL here would read as unfinished work. */
-const EXAMPLES = [
-  {
-    name: "Mend Health",
-    domain: "mendhealthmo.com",
-    href: "https://www.mendhealthmo.com/",
-    meta: "Chiropractic · Kirkwood, MO",
-    what:
-      "Soft tissue and chiropractic care. Deep service architecture, service-area pages, and booking built into the site.",
-    img: "/assets/portfolio-mend-health.webp",
-    alt: "Mend Health homepage — a deep green hero reading Soft Tissue Expertise to Keep You Active",
-  },
-  {
-    name: "The Wellness Collective",
-    domain: "wellnesscollectivehub.com",
-    href: "https://wellnesscollectivehub.com/",
-    meta: "Wellness practice · St. Louis",
-    what:
-      "A brand-led build for a wellness and therapy practice — custom illustration, its own type system, and session booking on the page.",
-    img: "/assets/portfolio-wellness-collective.webp",
-    alt: "The Wellness Collective homepage — illustrated lavender field under the words Find your way home",
-  },
-];
-
 const STANDARDS = [
   "Lighthouse 95+ on Performance, Accessibility, SEO, Best Practices",
   "First Contentful Paint under 1.2 seconds",
@@ -101,6 +77,7 @@ export default function WebsiteDesignPage() {
       <HeroPortal />
       <Nav overlayMode="light-on-dark" />
 
+      <Stage>
       <main id="main">
         {/* Hero — the ad's first impression, so it does the one thing a
             screenshot of a competitor can't: it responds.
@@ -237,105 +214,14 @@ export default function WebsiteDesignPage() {
           </Container>
         </Section>
 
-        {/* Featured Website of the Month */}
-        <Section mode="sunken">
-          <Container>
-            <div className="rcd-featured fx-reveal">
-              <a
-                href="https://thesaucefix.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rcd-featured-media"
-                aria-label="Visit The Sauce Fix — opens in a new tab"
-              >
-                <Image
-                  src="/assets/portfolio-sauce-fix.webp"
-                  alt="The Sauce Fix — custom direct-to-consumer hot sauce storefront"
-                  fill
-                  sizes="(max-width: 900px) 100vw, 560px"
-                  style={{ objectFit: "cover" }}
-                />
-                <span className="rcd-featured-badge">Featured Website of the Month</span>
-              </a>
-              <div className="rcd-featured-body">
-                <p className="t-eyebrow">The Sauce Fix · Small-batch hot sauce</p>
-                <h2 className="t-h2">A custom storefront built to sell out every drop.</h2>
-                <p className="t-lede">
-                  A direct-to-consumer site for a maker who grows, ferments, and bottles every
-                  batch by hand — designed around the drop model, with clean in-stock / sold-out
-                  states and email capture to keep fans warm between batches.
-                </p>
-                <ul className="list-check" style={{ margin: "20px 0 28px" }}>
-                  <li>Custom DTC storefront — no bloated template</li>
-                  <li>Built for limited drops and clean checkout</li>
-                  <li>Email capture between batches</li>
-                </ul>
-                <div className="rcd-featured-actions">
-                  <Button
-                    href="https://thesaucefix.com"
-                    size="lg"
-                    arrow
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Visit the live site
-                  </Button>
-                  <Button href="/work/the-sauce-fix" size="lg" variant="ghost">
-                    Read the case study
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </Container>
-        </Section>
-
-        {/* Recent examples */}
-        <Section mode="working">
-          <Container>
-            <SectionHeader
-              eyebrow="Recent examples"
-              title="Two we shipped lately."
-              lede="Different industries, same approach. Every one of these is a live site — click any of them through."
-            />
-            <div className="rcd-examples fx-stagger">
-              {EXAMPLES.map((ex) => (
-                <figure key={ex.domain} className="rcd-example">
-                  <a
-                    href={ex.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rcd-example-frame fx-lift"
-                    aria-label={`Visit ${ex.name} — opens in a new tab`}
-                  >
-                    <span className="rcd-example-chrome" aria-hidden="true">
-                      <span className="rcd-example-dots">
-                        <i />
-                        <i />
-                        <i />
-                      </span>
-                      <span className="rcd-example-url">{ex.domain}</span>
-                    </span>
-                    <span className="rcd-example-shot">
-                      <Image
-                        src={ex.img}
-                        alt={ex.alt}
-                        width={1440}
-                        height={798}
-                        loading="lazy"
-                        sizes="(max-width: 900px) 92vw, 50vw"
-                      />
-                    </span>
-                  </a>
-                  <figcaption className="rcd-example-body">
-                    <p className="rcd-example-meta">{ex.meta}</p>
-                    <h3 className="rcd-example-name">{ex.name}</h3>
-                    <p className="rcd-example-what">{ex.what}</p>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </Container>
-        </Section>
+        {/* Selected work — every project, one rail, real results on the back
+            of each card. This replaced the "Featured Website of the Month"
+            block and the "Two we shipped lately" pair: three showings of the
+            same work had grown here, and paid traffic deserves all of it in
+            one place. The 3D slabs are painted by the single Stage canvas
+            mounted at the bottom of <main>; without it, this is a plain rail
+            of screenshots and the information is identical. */}
+        <WorkRail />
 
         {/* Standards */}
         <Section mode="working">
@@ -394,6 +280,7 @@ export default function WebsiteDesignPage() {
           primaryLabel="Get my free website audit"
         />
       </main>
+      </Stage>
 
       {/* Mobile shortcut back to the form once the hero has scrolled away.
           Hidden again near the form itself so it never covers its own target. */}
