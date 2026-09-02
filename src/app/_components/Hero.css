@@ -264,3 +264,179 @@
     max-height: 44vh;
   }
 }
+
+/* ── Interactive lattice hero (.rcd-hero--matrix) ──────────────────────────
+   <KineticMatrix> is a sibling placed straight after .rcd-hero-bg, so it
+   paints above the photograph and its gradient (both z-index -1) and below
+   .rcd-hero-inner, which is positioned and therefore paints later in the same
+   stacking context. No z-index needed — DOM order already says it.
+
+   The catch is hit testing, not painting. .rcd-hero-inner spans the full
+   container width and would swallow every pointer event before the canvas saw
+   one, leaving the lattice dead across the whole middle of the hero. So the
+   content layer opts out of hit testing and the genuinely interactive things
+   opt back in.
+
+   The cost is that hero copy can no longer be selected with the mouse. That is
+   the whole cost: pointer-events does not touch the accessibility tree, so
+   screen readers are unaffected, and links and buttons stay keyboard-focusable
+   and tabbable exactly as before. */
+.rcd-hero--matrix > .container,
+.rcd-hero--matrix > .container-narrow {
+  pointer-events: none;
+}
+.rcd-hero--matrix a,
+.rcd-hero--matrix button,
+.rcd-hero--matrix [role="button"] {
+  pointer-events: auto;
+}
+
+/* Give the lattice room to be seen. The copy occupies the left column on wide
+   screens, so the hero gets a little more height for the grid to breathe. */
+@media (min-width: 880px) {
+  .rcd-hero--matrix { min-height: 76vh; display: flex; align-items: center; }
+  .rcd-hero--matrix > .container { width: 100%; }
+}
+
+/* NOTE ON THE SHADER HERO'S SCRIM
+   Do not add a `.rcd-hero--matrix .rcd-hero-bg::after` override here — one was
+   tried and was dead CSS. `[data-mode="civic-deep"]` carries an attribute
+   selector, so its ::after wins on specificity, and its treatment is the better
+   one anyway: a 115deg wash from rgba(16,29,49,.92) down to .18, so it is
+   heaviest exactly where the copy sits and lightest out in the open where the
+   gradient should show. Measured behind the lede against the brightest pixel
+   the palette can produce, that lands around 7.4:1 on white.
+   Change the scrim at the civic-deep rule, and re-check contrast if you do. */
+
+/* ═══ Centred layout for the shader / lattice hero ═════════════════════════
+   The default hero is a 1.4fr / 1fr split with the copy hard left. With a
+   radial gradient behind it and a lattice that ripples out from the pointer,
+   an off-centre column fights the symmetry — and the portal entrance below
+   opens from dead centre, so the copy needs to be there to be revealed. */
+/* Two classes beats the one-class `.rcd-hero-inner` rule inside the 880px
+   media query, so this needs no media query of its own to win. */
+.rcd-hero--matrix .rcd-hero-inner {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: center;
+}
+.rcd-hero--matrix .rcd-hero-copy {
+  max-width: 880px;
+  margin-inline: auto;
+  text-align: center;
+}
+.rcd-hero--matrix .rcd-hero-actions,
+.rcd-hero--matrix .rcd-hero-meta,
+.rcd-hero--matrix .rcd-breadcrumbs {
+  justify-content: center;
+}
+/* The stacked mobile button column keeps full width but centres its labels. */
+@media (max-width: 480px) {
+  .rcd-hero--matrix .rcd-hero-actions { align-items: stretch; }
+}
+
+/* ═══ Portal entrance ══════════════════════════════════════════════════════
+   An aperture opens from the centre of the viewport. The veil is one element:
+   its background paints a teal rim that travels outward with the opening, and
+   its mask cuts the hole. Both read the same custom property, so they stay
+   locked together with no second element to keep in sync.
+
+   --rcd-portal-r has to be registered with @property or it is just a string
+   and will not animate. Where that registration is unsupported the radius
+   stays at 0 and the hole never opens, which is why the keyframes ALSO fade
+   opacity to 0 — and why <HeroPortal> unmounts the node on a timer regardless.
+   Three ways out, because a veil that fails open is a blank landing page. */
+@property --rcd-portal-r {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+.rcd-portal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-portal);
+  pointer-events: none;
+  --rcd-portal-r: 0%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(76, 165, 173, 0.55) calc(var(--rcd-portal-r) - 1%),
+    rgba(16, 29, 49, 0.97) calc(var(--rcd-portal-r) + 11%),
+    #06111e 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at 50% 50%,
+    transparent 0 var(--rcd-portal-r),
+    #000 calc(var(--rcd-portal-r) + 7%)
+  );
+  mask-image: radial-gradient(
+    circle at 50% 50%,
+    transparent 0 var(--rcd-portal-r),
+    #000 calc(var(--rcd-portal-r) + 7%)
+  );
+  /* easeOutQuint. Beyond taste, this is also why the tail no longer stutters:
+     the radius barely changes across the last third, so the frames that used to
+     be the most contended are now the ones doing the least work. */
+  animation: rcd-portal-open 1900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: opacity;
+}
+
+@keyframes rcd-portal-open {
+  0%   { --rcd-portal-r: 0%;  opacity: 1; }
+  /* The fade starts late and finishes alone: overlapping an opacity change with
+     the fastest part of the radius animation was compositing a whole extra
+     full-viewport layer during the busiest frames. */
+  78%  { opacity: 1; }
+  100% { --rcd-portal-r: 96%; opacity: 0; }
+}
+
+/* The push through the doorway: the copy starts slightly oversized and soft,
+   then settles. Paired with the opening aperture it reads as forward motion
+   rather than as a plain fade. */
+.rcd-hero--matrix .rcd-hero-copy {
+  animation: rcd-hero-arrive 1600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* No will-change here on purpose. A running transform animation gets its own
+     compositor layer regardless, and this element outlives the animation by the
+     whole session — the hint would retain that layer permanently for a 1.6s
+     entrance that never repeats. The portal keeps its hint because it unmounts. */
+}
+/* The blur is the single most expensive thing in this entrance — every frame
+   re-rasterises the whole copy block through a convolution — and it used to run
+   the full duration, landing right on top of the portal's finish. It now clears
+   by 34% (~545ms) and drops to `none` entirely, so the long elegant tail is a
+   pure transform the compositor can carry on its own. */
+@keyframes rcd-hero-arrive {
+  0%   { transform: scale(1.06); filter: blur(5px); }
+  34%  { filter: blur(0px); }
+  100% { transform: none; filter: none; }
+}
+
+/* Staggered lift for the individual lines. The <h1> is deliberately the
+   earliest and shortest of these: it is this page's Largest Contentful Paint,
+   an element at opacity 0 does not count as painted, and the page advertises
+   an LCP under 1.2 seconds. Everything else can afford to wait; the headline
+   cannot. */
+.rcd-hero--matrix .rcd-hero-copy > * {
+  animation: rcd-hero-line 840ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.rcd-hero--matrix .rcd-hero-copy h1  { animation-delay: 140ms; animation-duration: 640ms; }
+.rcd-hero--matrix .rcd-hero-eyebrow  { animation-delay: 300ms; }
+.rcd-hero--matrix .rcd-hero-tagline  { animation-delay: 560ms; }
+.rcd-hero--matrix .rcd-hero-lede     { animation-delay: 720ms; }
+.rcd-hero--matrix .rcd-hero-actions  { animation-delay: 900ms; }
+.rcd-hero--matrix .rcd-hero-meta     { animation-delay: 1060ms; }
+
+@keyframes rcd-hero-line {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Anyone who asked for less motion gets the finished state immediately —
+   no aperture, no push, no stagger. <HeroPortal> renders nothing at all. */
+@media (prefers-reduced-motion: reduce) {
+  .rcd-portal { display: none; }
+  .rcd-hero--matrix .rcd-hero-copy,
+  .rcd-hero--matrix .rcd-hero-copy > * {
+    animation: none;
+  }
+}

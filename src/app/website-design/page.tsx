@@ -15,6 +15,9 @@ import CallLink from "../_components/CallLink";
 import InlineContactSection from "../_components/InlineContactSection";
 import Testimonials from "../_components/testimonials";
 import MobileStickyCta from "../_components/MobileStickyCta";
+import KineticMatrix from "@/components/ui/kinetic-matrix";
+import ShaderBackground from "@/components/ui/shader-background";
+import HeroPortal from "../_components/HeroPortal";
 import { Globe, Rocket, ShoppingBag, RefreshCw } from "lucide-react";
 import "../styles/inner.css";
 
@@ -95,21 +98,31 @@ export default function WebsiteDesignPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_LD) }}
       />
+      <HeroPortal />
       <Nav overlayMode="light-on-dark" />
 
       <main id="main">
-        {/* Hero */}
-        <header className="rcd-hero" data-mode="civic-deep">
-          <div className="rcd-hero-bg" style={{ opacity: 0.42 }}>
-            <Image
-              src="/assets/bg-build-launch.webp"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              style={{ objectFit: "cover", objectPosition: "center" }}
-            />
+        {/* Hero — the ad's first impression, so it does the one thing a
+            screenshot of a competitor can't: it responds.
+
+            Three layers, bottom to top:
+              1. ShaderBackground — the drifting WebGL gradient, in the slot the
+                 photograph used to occupy. .rcd-hero-bg::after still paints its
+                 navy scrim over it, which is what keeps white type legible no
+                 matter where a bright blob drifts.
+              2. KineticMatrix — the spring lattice, reacting to cursor or finger.
+              3. The copy, the CTA and the phone number.
+            Both layers pause when the hero scrolls out of view. */}
+        <header className="rcd-hero rcd-hero--matrix" data-mode="civic-deep">
+          <div className="rcd-hero-bg">
+            <ShaderBackground className="absolute inset-0" />
           </div>
+          {/* Fires after the 1900ms portal has fully finished, not during it.
+              Overlapping the two put a canvas-wide shockwave on exactly the
+              frames the aperture was already contending for, which is what made
+              the tail of the entrance stutter. Now they read as a sequence:
+              the door opens, then the grid answers. */}
+          <KineticMatrix autoImpulseDelay={2050} />
           <div className="rcd-hero-grain" aria-hidden="true" />
           <Container>
             <Breadcrumbs

@@ -152,6 +152,9 @@
   --z-drawer: 80;
   --z-modal: 100;
   --z-toast: 110;
+  /* Above everything: the entrance veil must cover the nav too, or the
+     page appears to open around a navigation bar that was already there. */
+  --z-portal: 120;
 }
 
 /* Dark mode for inverse sections */
