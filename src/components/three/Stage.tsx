@@ -1,8 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useMemo, useState, type ComponentType, type ReactNode } from "react";
-import { StageContext, type SlabViewProps } from "./stage-context";
+import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
+import { StageContext, type StageComponents } from "./stage-context";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
 
 /* ONE canvas for the whole page.
@@ -38,15 +38,30 @@ export default function Stage({ children }: { children: ReactNode }) {
   const [degraded, setDegraded] = useState(false);
   const [dpr, setDpr] = useState(1);
   // Filled in by StageInner once its chunk has loaded.
-  const [components, setComponents] = useState<{ SlabView: ComponentType<SlabViewProps> } | null>(null);
+  const [components, setComponents] = useState<StageComponents | null>(null);
+  const pending = useRef(false);
 
   // The WebGL probe runs here, inside the request, rather than in a mount
   // effect: request() only ever fires on the client, and a synchronous
   // setState in an effect body is what the React 19 lint rejects.
   const request = useCallback(() => {
-    if (requested || !webglAvailable()) return;
-    setDpr(Math.min(1.5, window.devicePixelRatio || 1));
-    setRequested(true);
+    if (requested || pending.current || !webglAvailable()) return;
+    pending.current = true;
+    const go = () => {
+      setDpr(Math.min(1.5, window.devicePixelRatio || 1));
+      setRequested(true);
+    };
+    /* The build reveal sits right under the proof bar, so on a tall screen its
+       observer fires during initial load. The contract is that the 3D chunk is
+       requested only AFTER the hero has painted: wait for the load event, then
+       for an idle slot, before the ~190 KB download starts. */
+    const idle = () => {
+      const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+      if (w.requestIdleCallback) w.requestIdleCallback(go, { timeout: 2500 });
+      else window.setTimeout(go, 800);
+    };
+    if (document.readyState === "complete") idle();
+    else window.addEventListener("load", idle, { once: true });
   }, [requested]);
 
   const degrade = useCallback(() => setDegraded(true), []);
@@ -54,7 +69,13 @@ export default function Stage({ children }: { children: ReactNode }) {
   const enabled = requested && !degraded && !reducedMotion;
 
   const value = useMemo(
-    () => ({ enabled, request, degrade, SlabView: enabled ? (components?.SlabView ?? null) : null }),
+    () => ({
+      enabled,
+      request,
+      degrade,
+      SlabView: enabled ? (components?.SlabView ?? null) : null,
+      BuildView: enabled ? (components?.BuildView ?? null) : null,
+    }),
     [enabled, request, degrade, components],
   );
 

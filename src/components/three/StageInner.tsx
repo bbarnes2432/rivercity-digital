@@ -5,9 +5,10 @@ import { Canvas, advance, invalidate, useFrame, useThree } from "@react-three/fi
    and Turbopack did not shake it: importing two names cost the whole thing. */
 import { View } from "@react-three/drei/web/View";
 import { PerformanceMonitor } from "@react-three/drei/core/PerformanceMonitor";
-import { useEffect, type ComponentType } from "react";
+import { useEffect } from "react";
 import WorkSlabView from "./WorkSlabView";
-import type { SlabViewProps } from "./stage-context";
+import BuildSlabView from "./BuildSlabView";
+import type { StageComponents } from "./stage-context";
 
 type Props = {
   dpr: number;
@@ -15,7 +16,7 @@ type Props = {
   onFallback: () => void;
   /** Hands the rail its view component. Called once, on mount, so the only
    *  dynamic boundary on the page is this file and three.js ships once. */
-  onReady: (c: { SlabView: ComponentType<SlabViewProps> }) => void;
+  onReady: (c: StageComponents) => void;
 };
 
 /* Clears the whole canvas at the start of every frame, scissor off.
@@ -61,7 +62,7 @@ function DevHook() {
 
 export default function StageInner({ dpr, onDecline, onFallback, onReady }: Props) {
   useEffect(() => {
-    onReady({ SlabView: WorkSlabView });
+    onReady({ SlabView: WorkSlabView, BuildView: BuildSlabView });
   }, [onReady]);
 
   /* frameloop="demand" means nothing renders unless something calls

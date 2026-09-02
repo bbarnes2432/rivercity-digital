@@ -630,3 +630,109 @@
   .rcd-rail-quote p { font-size: 13.5px; }
   .rcd-rail-back-actions .btn { padding-inline: 14px; }
 }
+
+
+/* === The build reveal ======================================================= */
+.rcd-build-head { max-width: 62ch; margin-bottom: var(--s-7); }
+.rcd-build-head .t-eyebrow { margin-bottom: var(--s-4); }
+.rcd-build-head .t-h2 { margin: 0 0 var(--s-4); color: #fff; }
+.rcd-build-head .t-lede { margin: 0; color: var(--ink-on-dark-2); }
+
+.rcd-build-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr);
+  gap: var(--s-7);
+  align-items: start;
+}
+@media (max-width: 900px) { .rcd-build-grid { grid-template-columns: 1fr; gap: var(--s-6); } }
+
+/* The stage box. Fixed aspect so the space exists before three.js does. The
+   img is the fallback and the loading state; the View paints over it. */
+.rcd-build-shot {
+  position: relative;
+  aspect-ratio: 1440 / 798;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--rcd-navy-900);
+  border: 1px solid var(--line-on-dark-2);
+}
+.rcd-build-shot img {
+  display: block; width: 100%; aspect-ratio: 1440 / 798; height: auto;
+  object-fit: cover; object-position: top center;
+  pointer-events: none; user-select: none;
+  /* While the slab is being drawn the image sits behind it at low opacity so
+     the wireframe beat reads as lines on navy, not lines on a photograph. */
+  transition: opacity var(--dur-4) var(--ease-out);
+}
+.rcd-build[data-beat="1"] .rcd-build-shot img { opacity: 0.12; }
+.rcd-build[data-beat="2"] .rcd-build-shot img { opacity: 0.45; }
+.rcd-build[data-beat="3"] .rcd-build-shot img { opacity: 1; }
+.rcd-build-view { position: absolute; inset: 0; pointer-events: none; }
+
+.rcd-build-beats {
+  list-style: none; margin: var(--s-5) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4);
+}
+@media (max-width: 540px) { .rcd-build-beats { grid-template-columns: 1fr; } }
+.rcd-build-beat { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; align-items: baseline; opacity: 0.45; transition: opacity var(--dur-4) var(--ease-out); }
+.rcd-build-beat-n { font: 700 12px/1 var(--font-mono), monospace; letter-spacing: 0.14em; color: var(--rcd-teal-400); }
+.rcd-build-beat-t { font: 700 15px/1.2 var(--font-inter), sans-serif; color: #fff; }
+.rcd-build-beat-d { grid-column: 2; font: 400 13px/1.5 var(--font-inter), sans-serif; color: var(--ink-on-dark-3); }
+.rcd-build[data-beat="1"] .rcd-build-beat[data-index="1"],
+.rcd-build[data-beat="2"] .rcd-build-beat[data-index="2"],
+.rcd-build[data-beat="3"] .rcd-build-beat[data-index="3"] { opacity: 1; }
+
+.rcd-build-aside { padding-top: 4px; }
+.rcd-build-meta { margin: 0 0 var(--s-3); font: 600 11.5px/1.3 var(--font-mono), monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rcd-teal-400); }
+.rcd-build-name { margin: 0 0 var(--s-4); font: 700 clamp(26px, 2.4vw, 34px)/1.05 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; color: #fff; }
+.rcd-build-brief { margin: 0 0 var(--s-5); font-size: 15px; line-height: 1.6; color: var(--ink-on-dark-2); }
+.rcd-build-actions { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin-top: var(--s-5); }
+.rcd-build-actions .btn-ghost { color: #fff; border-color: var(--line-on-dark-2); }
+.rcd-build-actions .btn-ghost:hover { border-color: var(--accent); background: rgba(255,255,255,.08); }
+/* "Visit the live site" goes teal at the Live beat. */
+.rcd-build-live {
+  font: 600 15px/1 var(--font-inter), sans-serif;
+  color: var(--ink-on-dark-3);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color var(--dur-4) var(--ease-out), border-color var(--dur-4) var(--ease-out);
+}
+.rcd-build[data-beat="3"] .rcd-build-live { color: var(--rcd-teal-400); border-bottom-color: var(--rcd-teal-500); }
+.rcd-build-live:hover { color: #fff; }
+.rcd-build-live:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* === The 14-day build ======================================================= */
+.rcd-tl-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 1fr);
+  gap: var(--s-7);
+  align-items: start;
+}
+.rcd-tl-stage { position: sticky; top: 96px; }
+.rcd-tl-shot {
+  position: relative;
+  aspect-ratio: 1440 / 798;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--rcd-navy-900);
+  border: 1px solid var(--line-on-dark-2);
+}
+.rcd-tl-shot img {
+  display: block; width: 100%; aspect-ratio: 1440 / 798; height: auto;
+  object-fit: cover; object-position: top center; pointer-events: none; user-select: none;
+  /* The fallback for this box is the finished site, dimmed until Build. */
+  opacity: 0.16; transition: opacity var(--dur-4) var(--ease-out);
+}
+.rcd-tl[data-stage="3"] .rcd-tl-shot img, .rcd-tl[data-stage="4"] .rcd-tl-shot img { opacity: 1; }
+
+.rcd-tl-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); }
+.rcd-tl-card { transition: border-color var(--dur-4) var(--ease-out), background var(--dur-4) var(--ease-out); }
+.rcd-tl-card[data-active] { border-color: var(--rcd-teal-500); background: rgba(76, 165, 173, 0.08); }
+.rcd-tl-card[data-active] .rcd-stage-num { color: var(--rcd-teal-300); }
+
+@media (max-width: 900px) {
+  .rcd-tl-grid { grid-template-columns: 1fr; gap: var(--s-5); }
+  /* On a phone the stage rides above the cards for the section's length. */
+  .rcd-tl-stage { position: sticky; top: 64px; z-index: 2; }
+  .rcd-tl-shot { box-shadow: 0 18px 40px -20px rgba(0,0,0,.7); }
+}

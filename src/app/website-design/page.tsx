@@ -19,6 +19,8 @@ import ShaderBackground from "@/components/ui/shader-background";
 import HeroPortal from "../_components/HeroPortal";
 import Stage from "@/components/three/Stage";
 import WorkRail from "./_components/WorkRail";
+import BuildReveal from "./_components/BuildReveal";
+import BuildTimeline from "./_components/BuildTimeline";
 import { Globe, Rocket, ShoppingBag, RefreshCw } from "lucide-react";
 import "../styles/inner.css";
 
@@ -50,13 +52,6 @@ const WHAT = [
   { t: "Redesigns", d: "When the existing site is the constraint. We rebuild for speed, search, and the way customers actually use it.", Icon: RefreshCw },
 ];
 
-const TIMELINE = [
-  { n: "01", w: "Day 1", t: "Coffee", d: "We sit down — goals, customers, what's working, what's broken." },
-  { n: "02", w: "Days 2–4", t: "Wireframes", d: "Page-by-page wireframes. You approve before any visual work." },
-  { n: "03", w: "Days 5–8", t: "Design", d: "Custom design system + every page mocked. Real content, no lorem ipsum." },
-  { n: "04", w: "Days 9–12", t: "Build", d: "Hand-coded — Next.js, fast, accessible. Schema and SEO baked in." },
-  { n: "05", w: "Day 14", t: "Launch", d: "DNS, monitoring, analytics. We hand off the keys (we still answer the phone)." },
-];
 
 const STANDARDS = [
   "Lighthouse 95+ on Performance, Accessibility, SEO, Best Practices",
@@ -154,6 +149,10 @@ export default function WebsiteDesignPage() {
           </Container>
         </Section>
 
+        {/* The build reveal: The Sauce Fix assembling wireframe -> surface -> live
+            as it scrolls in. The centrepiece; the Stage canvas paints it. */}
+        <BuildReveal />
+
         {/* Video */}
         <Section mode="working">
           <Container>
@@ -194,25 +193,9 @@ export default function WebsiteDesignPage() {
           </Container>
         </Section>
 
-        {/* Timeline */}
-        <Section mode="sunken" className="section--bg-strategy">
-          <Container>
-            <SectionHeader
-              eyebrow="The 14-day build"
-              title="From coffee to launch."
-              lede="A real timeline for a real marketing-site build. Bigger projects scale, but the rhythm is the same."
-            />
-            <div className="rcd-stages fx-stagger">
-              {TIMELINE.map((s) => (
-                <article key={s.n} className="rcd-stage-card">
-                  <div className="rcd-stage-num">{s.w.toUpperCase()}</div>
-                  <h3>{s.t}</h3>
-                  <p>{s.d}</p>
-                </article>
-              ))}
-            </div>
-          </Container>
-        </Section>
+        {/* The 14-day build: the five cards, and beside them the same slab as
+            the build reveal stepping through five states on one uniform. */}
+        <BuildTimeline />
 
         {/* Selected work — every project, one rail, real results on the back
             of each card. This replaced the "Featured Website of the Month"

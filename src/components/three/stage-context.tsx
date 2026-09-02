@@ -11,22 +11,39 @@ export type SlabViewProps = {
   visible: boolean;
 };
 
+/* Props for the build slab (§02 reveal and §04 timeline share it). */
+export type BuildViewProps = {
+  track: RefObject<HTMLDivElement | null>;
+  src: string;
+  /** Where the section wants the slab, 0..4 — read every frame. */
+  getStage: () => number;
+  table?: boolean;
+  visible?: boolean;
+};
+
 /* The Stage is the page's single WebGL canvas. Sections that want to draw into
  * it read this context: `enabled` says whether a canvas exists to draw into,
  * `request()` asks for one (it loads lazily, on demand), `degrade()` is the
- * PerformanceMonitor's exit, and `SlabView` is the view component itself —
+ * PerformanceMonitor's exit, and the view components are delivered here —
  * null until the 3D chunk has arrived.
  *
- * SlabView is delivered THROUGH the context rather than imported by the rail
- * on purpose. Two dynamic imports that both reach three.js gave Turbopack two
- * async chunks with a full copy of three in each (measured: 866 KB, twice).
- * One boundary — StageInner — imports everything three-flavoured and hands
- * the rail its component; three exists in exactly one chunk. */
+ * Components are delivered THROUGH the context rather than imported by the
+ * sections on purpose. Two dynamic imports that both reach three.js gave
+ * Turbopack two async chunks with a full copy of three in each (measured:
+ * 866 KB, twice). One boundary — StageInner — imports everything
+ * three-flavoured and hands the sections their components; three exists in
+ * exactly one chunk. */
+export type StageComponents = {
+  SlabView: ComponentType<SlabViewProps>;
+  BuildView: ComponentType<BuildViewProps>;
+};
+
 export type StageState = {
   enabled: boolean;
   request: () => void;
   degrade: () => void;
   SlabView: ComponentType<SlabViewProps> | null;
+  BuildView: ComponentType<BuildViewProps> | null;
 };
 
 export const StageContext = createContext<StageState>({
@@ -34,6 +51,7 @@ export const StageContext = createContext<StageState>({
   request: () => {},
   degrade: () => {},
   SlabView: null,
+  BuildView: null,
 });
 
 export const useStage = () => useContext(StageContext);
