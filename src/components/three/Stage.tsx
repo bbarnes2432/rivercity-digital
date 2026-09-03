@@ -17,7 +17,9 @@ import { useReducedMotion } from "@/lib/use-reduced-motion";
  *      the initial bundle and never touches the LCP.
  *   2. prefers-reduced-motion, or no WebGL → the canvas never mounts. The DOM
  *      already carries the screenshots, so the page is simply the 2D page.
- *   3. PerformanceMonitor's fallback → degrade() → same thing, at runtime.
+ *   3. WebGL context loss -> degrade() -> same thing, at runtime. (drei's
+ *      PerformanceMonitor was tried and removed: it cannot read a
+ *      demand-rendered canvas and tore the Stage down while idle.)
  *
  * The canvas itself lives in StageInner, imported dynamically with ssr:false
  * so three.js lands in its own async chunk. */
@@ -85,7 +87,7 @@ export default function Stage({ children }: { children: ReactNode }) {
     <StageContext.Provider value={value}>
       {children}
       {enabled && (
-        <StageInner dpr={dpr} onDecline={() => setDpr(1)} onFallback={degrade} onReady={setComponents} />
+        <StageInner dpr={dpr} onFallback={degrade} onReady={setComponents} />
       )}
     </StageContext.Provider>
   );

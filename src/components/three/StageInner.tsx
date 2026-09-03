@@ -4,7 +4,6 @@ import { Canvas, advance, invalidate, useFrame, useThree } from "@react-three/fi
 /* Deep imports, not the drei barrel. The barrel re-exports ~100 components
    and Turbopack did not shake it: importing two names cost the whole thing. */
 import { View } from "@react-three/drei/web/View";
-import { PerformanceMonitor } from "@react-three/drei/core/PerformanceMonitor";
 import { useEffect } from "react";
 import WorkSlabView from "./WorkSlabView";
 import BuildSlabView from "./BuildSlabView";
@@ -14,7 +13,9 @@ import type { StageComponents } from "./stage-context";
 
 type Props = {
   dpr: number;
-  onDecline: () => void;
+  /** Called if the browser takes the WebGL context away (GPU reset, too many
+   *  contexts, a tab under memory pressure). The Stage unmounts and the page
+   *  is the plain 2D page. */
   onFallback: () => void;
   /** Hands the rail its view component. Called once, on mount, so the only
    *  dynamic boundary on the page is this file and three.js ships once. */
@@ -54,7 +55,10 @@ function DevHook() {
        frameloop="demand", advance() only renders roots that have a pending
        invalidation, so a probe must call invalidate() first or it reads back
        whatever frame was last presented — or nothing. */
-    w.__rcdStage = { gl, invalidate, advance: () => advance(performance.now(), true) };
+    /* advance takes an optional timestamp so a probe can step frames with a
+       fake clock, synchronously — a hidden tab throttles setTimeout to ~1s,
+       which made real-time stepping impossibly slow. */
+    w.__rcdStage = { gl, invalidate, advance: (ts?: number) => advance(ts ?? performance.now(), true) };
     return () => {
       delete w.__rcdStage;
     };
@@ -62,7 +66,29 @@ function DevHook() {
   return null;
 }
 
-export default function StageInner({ dpr, onDecline, onFallback, onReady }: Props) {
+/* Watches for the one genuine failure a shared canvas can have.
+ *
+ * There used to be a drei <PerformanceMonitor> here, per the brief. It was a
+ * mistake under frameloop="demand": the monitor counts rendered frames per
+ * elapsed time, and a canvas that only draws when something moves reads as a
+ * few frames per second while idle. It "declined", flip-flopped, and after
+ * three flips fired its fallback — which tore the Stage down seconds after it
+ * appeared. Live, that looked like the 3D flickering on and vanishing. */
+function ContextGuard({ onFallback }: { onFallback: () => void }) {
+  const gl = useThree((s) => s.gl);
+  useEffect(() => {
+    const el = gl.domElement;
+    const lost = (e: Event) => {
+      e.preventDefault();
+      onFallback();
+    };
+    el.addEventListener("webglcontextlost", lost);
+    return () => el.removeEventListener("webglcontextlost", lost);
+  }, [gl, onFallback]);
+  return null;
+}
+
+export default function StageInner({ dpr, onFallback, onReady }: Props) {
   useEffect(() => {
     onReady({ SlabView: WorkSlabView, BuildView: BuildSlabView, GlyphView, ConstellationView });
   }, [onReady]);
@@ -111,9 +137,8 @@ export default function StageInner({ dpr, onDecline, onFallback, onReady }: Prop
     >
       <ClearFirst />
       <DevHook />
-      <PerformanceMonitor onDecline={onDecline} onFallback={onFallback} flipflops={3}>
-        <View.Port />
-      </PerformanceMonitor>
+      <ContextGuard onFallback={onFallback} />
+      <View.Port />
     </Canvas>
   );
 }

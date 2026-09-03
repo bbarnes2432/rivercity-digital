@@ -7,10 +7,10 @@ import Section from "@/app/_components/Section";
 import SectionHeader from "@/app/_components/SectionHeader";
 import { useStage } from "@/components/three/stage-context";
 
-/* What we build — four cards, each with a living glyph in its icon slot once
- * the Stage exists: pages fanning, a single glowing path, tiles reshuffling,
- * a wireframe turning solid. The lucide icon stays in the DOM underneath and
- * is exactly what shows without WebGL. Hover the card, not the square. */
+/* What we build — four cards, each topped by a navy stage tile holding a
+ * living glyph once the Stage exists: pages fanning, a single glowing path,
+ * tiles reshuffling, a wireframe turning solid. The lucide icon sits in the
+ * tile underneath and is exactly what shows without WebGL. Hover the card. */
 
 type Kind = "panes" | "landing" | "grid" | "box";
 
@@ -26,15 +26,19 @@ function Card({ t, d, Icon, kind }: (typeof WHAT)[number]) {
   const card = useRef<HTMLElement>(null);
   const slot = useRef<HTMLDivElement>(null);
   return (
-    <article ref={card} className="rcd-list-card fx-lift" data-glyph={GlyphView ? "3d" : "icon"}>
-      <div ref={slot} className="rcd-glyph" aria-hidden="true">
-        <div className="rcd-list-card-icon">
-          <Icon size={20} strokeWidth={1.8} />
+    <article ref={card} className="rcd-list-card rcd-what-card fx-lift" data-glyph={GlyphView ? "3d" : "icon"}>
+      {/* The stage: a navy tile, 16:10, the full width of the card. The icon
+          is the fallback, drawn large in teal; the glyph paints over it. */}
+      <div ref={slot} className="rcd-glyph-stage" aria-hidden="true">
+        <div className="rcd-glyph-icon">
+          <Icon size={44} strokeWidth={1.5} />
         </div>
         {GlyphView && <GlyphView track={slot} hoverTrack={card} kind={kind} />}
       </div>
-      <h3>{t}</h3>
-      <p>{d}</p>
+      <div className="rcd-what-body">
+        <h3>{t}</h3>
+        <p>{d}</p>
+      </div>
     </article>
   );
 }

@@ -18,17 +18,15 @@ import { TEAL } from "./develop-material";
  * loads: no models, no textures. Materials and geometries are module
  * singletons shared by all four cards.
  *
- * Palette note: the brief's 3D palette is teal edges on white surfaces in a
- * navy void. These sit on the cream "working" section, where a white surface
- * would vanish, so the surfaces are navy here — same hue system, inverted for
- * the ground. Teal still means one thing: edges. */
+ * The brief's 3D palette, exactly: teal edges, white surfaces, navy void.
+ * Each glyph gets a navy stage tile of its own at the top of its card. */
 
 export type GlyphKind = "panes" | "landing" | "grid" | "box";
 
-const NAVY = new THREE.Color("#101D31");
+const SURFACE = new THREE.Color("#F6F2EA");
 let FILL: THREE.MeshBasicMaterial | null = null;
 let EDGE: THREE.LineBasicMaterial | null = null;
-const fill = () => (FILL ??= new THREE.MeshBasicMaterial({ color: NAVY, toneMapped: false }));
+const fill = () => (FILL ??= new THREE.MeshBasicMaterial({ color: SURFACE, toneMapped: false }));
 const edge = () => (EDGE ??= new THREE.LineBasicMaterial({ color: TEAL, toneMapped: false, transparent: true, opacity: 0.95 }));
 
 let PANE: THREE.PlaneGeometry | null = null;
@@ -48,11 +46,12 @@ type Props = {
   pointer: RefObject<{ x: number; y: number }>;
 };
 
+// Close enough that the object fills most of a 16:10 tile.
 const CAMERA: Record<GlyphKind, [number, number, number]> = {
-  panes: [0.9, 0.55, 2.9],
-  landing: [0.6, 0.5, 2.9],
-  grid: [1.5, 1.6, 2.4],
-  box: [1.7, 1.3, 2.4],
+  panes: [0.7, 0.45, 2.3],
+  landing: [0.5, 0.4, 2.3],
+  grid: [1.2, 1.3, 1.9],
+  box: [1.35, 1.05, 1.9],
 };
 
 function damp(cur: number, target: number, lambda: number, dt: number) {
@@ -161,7 +160,7 @@ export default function Glyph({ kind, hovered, pointer }: Props) {
         {kind === "box" && (
           <group ref={a} rotation={[0, 0, 0]}>
             <mesh geometry={boxGeo()} scale={0.98}>
-              <meshBasicMaterial ref={solid} color={NAVY} transparent opacity={0} toneMapped={false} />
+              <meshBasicMaterial ref={solid} color={SURFACE} transparent opacity={0} toneMapped={false} />
             </mesh>
             <lineSegments geometry={boxEdges()} material={edge()} />
           </group>

@@ -739,14 +739,26 @@
 
 
 /* === Living glyphs (What we build) ========================================== */
-.rcd-glyph {
+.rcd-what-card { padding: 0; overflow: hidden; }
+.rcd-what-body { padding: var(--s-5); }
+.rcd-what-body h3 { margin-top: 0; }
+/* The stage tile: the brief's navy void, a 16:10 field the card's full width.
+   Fixed aspect so the space exists before three.js does. */
+.rcd-glyph-stage {
   position: relative;
-  width: 96px;
-  height: 96px;
-  margin: -8px 0 8px -12px;   /* the 3D scene has air around it; pull it back to the card's edge */
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(120% 90% at 30% 20%, rgba(76, 165, 173, 0.16), transparent 60%),
+    var(--rcd-navy-900);
+  border-bottom: 1px solid var(--line-on-dark-2);
 }
-.rcd-glyph .rcd-list-card-icon { position: absolute; left: 12px; top: 8px; transition: opacity var(--dur-4) var(--ease-out); }
-.rcd-list-card[data-glyph="3d"] .rcd-list-card-icon { opacity: 0; }
+.rcd-glyph-icon {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--rcd-teal-400);
+  transition: opacity var(--dur-4) var(--ease-out);
+}
+.rcd-list-card[data-glyph="3d"] .rcd-glyph-icon { opacity: 0; }
 .rcd-glyph-view { position: absolute; inset: 0; pointer-events: none; }
 
 /* === Constellation (Standards) ============================================== */
