@@ -32,13 +32,13 @@ import { texUrl } from "./tex";
  * walk. It draws only while the hallway section is on screen. */
 
 const ORDER = [
-  "lucky-puppy",
-  "shear-fantasy",
+  "mend-health",
+  "the-wellness-collective",
   "lovely-nails",
   "pet-planet",
   "the-sauce-fix",
-  "mend-health",
-  "the-wellness-collective",
+  "lucky-puppy",
+  "shear-fantasy",
   "confetti-and-co",
 ];
 const SITES = ORDER.map((slug) => PROJECTS.find((p) => p.slug === slug)!);

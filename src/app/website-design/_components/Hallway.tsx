@@ -20,13 +20,13 @@ import { world } from "@/components/three/world-state";
  * degraded state. */
 
 const ORDER = [
-  "lucky-puppy",
-  "shear-fantasy",
+  "mend-health",
+  "the-wellness-collective",
   "lovely-nails",
   "pet-planet",
   "the-sauce-fix",
-  "mend-health",
-  "the-wellness-collective",
+  "lucky-puppy",
+  "shear-fantasy",
   "confetti-and-co",
 ];
 const LIVE: Record<string, string> = {
