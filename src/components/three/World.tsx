@@ -7,6 +7,7 @@ import * as THREE from "three";
 import { PROJECTS } from "@/app/work/_data";
 import { TEAL } from "./develop-material";
 import { world } from "./world-state";
+import { texUrl } from "./tex";
 
 /* The hallway.
  *
@@ -37,11 +38,6 @@ const FIRST_Z = -2.6;
 const LENGTH = FIRST_Z - SPACING * (SITES.length - 1) - 2.2; // where the camera ends
 const W = 1.8; // slab width; 1.8:1 is the screenshots' crop ratio
 const H = 1.0;
-
-/* Next's image optimiser serves a resized WebP for any /public image. The
- * originals are up to 2560×1600 — eight of those decoded on the GPU is well
- * over 100 MB on a phone. 1080 wide is plenty at this distance. */
-const texUrl = (src: string, w: number) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
 
 function makeCorridorLines() {
   const pts: number[] = [];

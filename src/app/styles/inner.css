@@ -842,3 +842,28 @@
   .rcd-hall-cap[data-side="right"] .rcd-hall-cap-links { justify-content: flex-start; }
   .rcd-hall-grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- What's possible: the showcase ---------- */
+.rcd-show-list { display: grid; gap: clamp(56px, 8vw, 112px); margin-top: 56px; }
+.rcd-show-tile { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 4vw, 64px); align-items: center; margin: 0; }
+.rcd-show-tile:nth-child(even) .rcd-show-stage { order: 2; }
+.rcd-show-stage {
+  position: relative; aspect-ratio: 16 / 9; overflow: hidden;
+  border: 1px solid var(--line-on-dark-2); background: rgba(255, 255, 255, 0.02);
+  cursor: crosshair;
+}
+.rcd-show-stage img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.rcd-show-stage[data-3d] img, .rcd-show-stage[data-3d] .rcd-show-words { opacity: 0; }
+.rcd-show-view { position: absolute; inset: 0; pointer-events: none; }
+.rcd-show-words { position: absolute; inset: 0; display: grid; place-items: center; }
+.rcd-show-words span { font: 700 clamp(56px, 9vw, 150px)/1 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.02em; color: var(--rcd-teal-400); }
+.rcd-show-cap { min-width: 0; }
+.rcd-show-n { display: block; font: 600 11px/1 var(--font-mono), monospace; letter-spacing: 0.16em; color: var(--rcd-teal-400); }
+.rcd-show-cap h3 { margin: 14px 0 12px; font: 700 clamp(30px, 3.2vw, 46px)/1 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; color: #fff; }
+.rcd-show-cap p { margin: 0 0 16px; font: 400 16px/1.6 var(--font-inter), sans-serif; color: var(--ink-on-dark-2); max-width: 46ch; }
+.rcd-show-hint { display: inline-block; font: 500 12px/1 var(--font-inter), sans-serif; letter-spacing: 0.04em; color: var(--ink-on-dark-3); padding: 8px 12px; border: 1px solid var(--line-on-dark); }
+@media (max-width: 900px) {
+  .rcd-show-tile { grid-template-columns: 1fr; gap: 20px; }
+  .rcd-show-tile:nth-child(even) .rcd-show-stage { order: 0; }
+  .rcd-show-stage { aspect-ratio: 4 / 3; }
+}

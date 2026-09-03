@@ -47,11 +47,22 @@ export type ConstellationViewProps = {
   getMask: () => [number, number];
 };
 
+/* The three demonstrations in "What's possible". */
+export type ShowcaseKind = "layers" | "ripple" | "words";
+export type ShowcaseViewProps = {
+  track: RefObject<HTMLDivElement | null>;
+  kind: ShowcaseKind;
+  src?: string;
+  /** Scroll progress of the tile, 0..1 — read every frame. */
+  getProgress: () => number;
+};
+
 export type StageComponents = {
   SlabView: ComponentType<SlabViewProps>;
   BuildView: ComponentType<BuildViewProps>;
   GlyphView: ComponentType<GlyphViewProps>;
   ConstellationView: ComponentType<ConstellationViewProps>;
+  ShowcaseView: ComponentType<ShowcaseViewProps>;
 };
 
 export type StageState = {
@@ -62,6 +73,7 @@ export type StageState = {
   BuildView: ComponentType<BuildViewProps> | null;
   GlyphView: ComponentType<GlyphViewProps> | null;
   ConstellationView: ComponentType<ConstellationViewProps> | null;
+  ShowcaseView: ComponentType<ShowcaseViewProps> | null;
 };
 
 export const StageContext = createContext<StageState>({
@@ -72,6 +84,7 @@ export const StageContext = createContext<StageState>({
   BuildView: null,
   GlyphView: null,
   ConstellationView: null,
+  ShowcaseView: null,
 });
 
 export const useStage = () => useContext(StageContext);

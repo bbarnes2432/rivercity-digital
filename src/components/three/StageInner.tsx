@@ -9,6 +9,7 @@ import WorkSlabView from "./WorkSlabView";
 import BuildSlabView from "./BuildSlabView";
 import GlyphView from "./GlyphView";
 import ConstellationView from "./ConstellationView";
+import ShowcaseView from "./ShowcaseView";
 import World from "./World";
 import CursorTubes from "./CursorTubes";
 import { world } from "./world-state";
@@ -94,7 +95,7 @@ function ContextGuard({ onFallback }: { onFallback: () => void }) {
 
 export default function StageInner({ dpr, onFallback, onReady }: Props) {
   useEffect(() => {
-    onReady({ SlabView: WorkSlabView, BuildView: BuildSlabView, GlyphView, ConstellationView });
+    onReady({ SlabView: WorkSlabView, BuildView: BuildSlabView, GlyphView, ConstellationView, ShowcaseView });
   }, [onReady]);
 
   /* frameloop="demand" means nothing renders unless something calls

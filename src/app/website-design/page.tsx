@@ -19,6 +19,7 @@ import ShaderBackground from "@/components/ui/shader-background";
 import HeroPortal from "../_components/HeroPortal";
 import Stage from "@/components/three/Stage";
 import Hallway from "./_components/Hallway";
+import Showcase from "./_components/Showcase";
 import BuildReveal from "./_components/BuildReveal";
 import BuildTimeline from "./_components/BuildTimeline";
 import WhatWeBuild from "./_components/WhatWeBuild";
@@ -130,6 +131,11 @@ export default function WebsiteDesignPage() {
         {/* The work, first: the hallway. The shared canvas draws the corridor
             behind this section; the captions and the fallback grid are DOM. */}
         <Hallway />
+
+        {/* What's possible: three live demonstrations on the shared canvas —
+            a site pulled into its parts, a surface that answers the cursor,
+            a word becoming another word. */}
+        <Showcase />
 
         {/* Stats */}
         <Section mode="civic-deep" pad="tight" className="rcd-proof">
