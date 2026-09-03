@@ -444,10 +444,6 @@
 .rcd-world-page > .section, .rcd-world-page > .rcd-hero, .rcd-world-page > .rcd-hall, .rcd-world-page > section { position: relative; z-index: 1; }
 .rcd-world-page .section--civic-deep,
 .rcd-world-page .section--sunken { background: transparent; }
-/* The canvas sits at z 2: above the sections, so the cursor's tubes cross
-   the hero and the dark chapters. The hall and the standards sit above it,
-   so their words read over the room and the constellation. */
-.rcd-world-page > .rcd-hall, .rcd-world-page > .rcd-standards { z-index: 3; }
 /* Boxes the views draw into: see-through now that the canvas is behind them,
    and the fallback image steps aside once the view is live. */
 .rcd-steps-shot { background: transparent; }
@@ -605,3 +601,14 @@
 @media (prefers-reduced-motion: reduce) { .rcd-tilt { transform: none !important; } }
 
 
+
+/* ---------- The tubes cursor ---------- */
+/* Its own transparent canvas over the page, under the navigation; it
+   listens to the body, so it needs no pointer events of its own. The
+   library's bloom pass writes an opaque frame — black where there is no
+   tube — so the canvas is composited additively: black adds nothing, the
+   tubes add their light to whatever is beneath. */
+.rcd-tubes { position: fixed; inset: 0; z-index: 49; pointer-events: none; mix-blend-mode: screen; }
+@supports (mix-blend-mode: plus-lighter) { .rcd-tubes { mix-blend-mode: plus-lighter; } }
+.rcd-tubes canvas { display: block; width: 100%; height: 100%; }
+@media (pointer: coarse), (prefers-reduced-motion: reduce) { .rcd-tubes { display: none; } }

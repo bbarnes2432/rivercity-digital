@@ -9,8 +9,7 @@ import BuildSlabView from "./BuildSlabView";
 import ConstellationView from "./ConstellationView";
 import ShowcaseView from "./ShowcaseView";
 import World from "./World";
-import CursorTubes from "./CursorTubes";
-import Composite from "./Composite";
+import CursorLights from "./CursorLights";
 import { world } from "./world-state";
 import type { StageComponents } from "./stage-context";
 
@@ -148,8 +147,7 @@ export default function StageInner({ dpr, onFallback, onReady }: Props) {
       <Suspense fallback={null}>
         <World />
       </Suspense>
-      <CursorTubes />
-      <Composite />
+      <CursorLights />
       <View.Port />
     </Canvas>
   );

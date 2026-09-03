@@ -12,12 +12,12 @@ import { texUrl } from "./tex";
  *
  * A dark room in the root of the shared canvas: matte walls, floor and
  * ceiling, and eight screens mounted along the walls, alternating left and
- * right. There are no lamps. The only light is the cursor's — the tubes it
- * trails (CursorTubes) hang in the room ahead of the camera and carry four
- * short-range lights, so the wall or floor they are near comes up in their
- * colours and everything else stays black. On touch there is no cursor, so
- * a small lantern rides with the camera instead. Fog takes the far end to
- * black.
+ * right. The screens are lit from within. The room itself has only a faint
+ * sky-and-ground light so its edges read, and the cursor's lights
+ * (CursorLights): four short-range lights in the cursor's colours that ride
+ * the path the cursor just took, so the wall or floor near it comes up a
+ * little. On touch there is no cursor, so a small lantern rides with the
+ * camera. Fog takes the far end to black.
  *
  * Scroll progress in the hallway section walks the camera. The room comes
  * up from nothing as the section enters the viewport. At the far end is a
@@ -60,32 +60,6 @@ const ROOM_NEAR = 4;
 const ROOM_FAR = DOOR_Z - 1.5;
 const ROOM_MID = (ROOM_NEAR + ROOM_FAR) / 2;
 
-/* The whole frame goes through the composer's ACES tone mapping, so a
- * surface that must come out exactly the page's navy has to start from the
- * colour that maps to it. Fixed-point inversion of three's fitted ACES
- * curve, done once. */
-function acesForward(c: THREE.Vector3): THREE.Vector3 {
-  const v = c.clone().multiplyScalar(1 / 0.6);
-  const m1 = new THREE.Matrix3().set(0.59719, 0.35458, 0.04823, 0.07600, 0.90834, 0.01566, 0.02840, 0.13383, 0.83777);
-  const m2 = new THREE.Matrix3().set(1.60475, -0.53108, -0.07367, -0.10208, 1.10813, -0.00605, -0.00327, -0.07276, 1.07602);
-  v.applyMatrix3(m1);
-  const fit = (x: number) => (x * (x + 0.0245786) - 0.000090537) / (x * (0.983729 * x + 0.4329510) + 0.238081);
-  v.set(fit(v.x), fit(v.y), fit(v.z));
-  v.applyMatrix3(m2);
-  return v.clampScalar(0, 1);
-}
-function acesInverse(target: THREE.Color): THREE.Color {
-  const want = new THREE.Vector3(target.r, target.g, target.b);
-  const x = want.clone();
-  for (let i = 0; i < 60; i++) {
-    const out = acesForward(x);
-    x.add(want.clone().sub(out).multiplyScalar(0.6));
-    x.clampScalar(0, 4);
-  }
-  return new THREE.Color(x.x, x.y, x.z);
-}
-const PAGE_NAVY = acesInverse(new THREE.Color("#101D31"));
-
 /* Module singletons: the render loop mutates these, and the React compiler
  * lint refuses a hook return value or a ref read during render. One World
  * per page; they live with it. */
@@ -111,8 +85,8 @@ function getRes(): Res {
     wallMat: new THREE.MeshStandardMaterial({ color: "#6e7684", roughness: 0.94, metalness: 0.0 }),
     floorMat: new THREE.MeshStandardMaterial({ color: "#4a525f", roughness: 0.7, metalness: 0.05 }),
     bezelMat: new THREE.MeshStandardMaterial({ color: "#1a1f29", roughness: 0.5, metalness: 0.3 }),
-    // The screens carry their picture as a faint emissive so they are just
-    // findable in the dark, and come up fully when the light reaches them.
+    // The screens are screens: their picture is emissive, full brightness,
+    // lit from within, whatever the room is doing.
     screenMats: Array.from({ length: n }, () => new THREE.MeshStandardMaterial({ roughness: 0.55, metalness: 0, emissive: new THREE.Color("#ffffff"), emissiveIntensity: 0 })),
     doorMat: new THREE.MeshBasicMaterial({ toneMapped: false, fog: false, color: "#101D31" }),
     fog: new THREE.FogExp2(new THREE.Color("#04070d"), 0.08),
@@ -198,7 +172,7 @@ export default function World() {
       const z = FIRST_Z - i * SPACING;
       const ahead = c.z - z;
       const near = 1 - THREE.MathUtils.smoothstep(ahead, 5, 11);
-      r.screenMats[i].emissiveIntensity = 0.12 * enter * near;
+      r.screenMats[i].emissiveIntensity = 1.0 * enter * near;
       const d = Math.abs(z - (c.z - 1.6));
       if (d < nearestD) { nearestD = d; nearest = i; }
     }
@@ -207,15 +181,23 @@ export default function World() {
     // The end wall is the next chapter's ground — the page navy — dark until
     // you are close, exactly navy when it fills the view.
     const doorNear = 1 - THREE.MathUtils.smoothstep(c.z - DOOR_Z, 3, 14);
-    r.doorMat.color.copy(PAGE_NAVY).multiplyScalar((0.08 + 0.92 * doorNear) * enter);
+    r.doorMat.color.set("#101D31").multiplyScalar((0.08 + 0.92 * doorNear) * enter);
 
     const moving = Math.abs(c.z + c.x + c.y - before) > 1e-4 || performance.now() - world.pointer.t < 120;
-    // Composite draws the room (with bloom) after this.
+    // r3f skips its own render pass once any useFrame subscriber has a
+    // priority above zero — the views do — so the root scene draws itself.
+    // Full viewport: the last view left it small.
+    s.gl.setScissorTest(false);
+    s.gl.setViewport(0, 0, s.size.width, s.size.height);
+    s.gl.render(s.scene, cam);
     if (moving) s.invalidate();
   });
 
   return (
     <group ref={group} visible={false}>
+      {/* Just enough on the walls, floor and ceiling that the room's edges read
+          in the dark; the screens and the cursor do the rest. */}
+      <hemisphereLight args={["#2b4a74", "#0b1220", 0.8]} />
       <pointLight ref={lantern} color="#fff4e2" distance={5} decay={2} intensity={0} />
 
       {/* The room. */}
