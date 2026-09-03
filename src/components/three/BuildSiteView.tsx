@@ -1,25 +1,24 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { View } from "@react-three/drei/web/View";
 import { invalidate } from "@react-three/fiber";
-import BuildSlab from "./BuildSlab";
+import BuildSite from "./BuildSite";
 
 type Props = {
   /** The DOM box this draws into — the parent that gets pointer events. */
   track: RefObject<HTMLDivElement | null>;
-  src: string;
+  src?: string;
   getStage: () => number;
   table?: boolean;
   visible?: boolean;
 };
 
-/* The boundary between a DOM section and the build slab on the shared canvas.
- * Same shape as WorkSlabView: pointer input from the DOM box, and — because
- * the stage is scroll-driven — a scroll listener that asks for a frame so the
- * slab can move toward wherever getStage() now points. Everything that knows
- * three.js lives on this side of the dynamic import. */
-export default function BuildSlabView({ track, src, getStage, table = false, visible = true }: Props) {
+/* The boundary between the build section and the site being built on the
+ * shared canvas: pointer input from the DOM box (the site tilts toward the
+ * cursor once launched), and a scroll listener that asks for a frame so the
+ * stage can move toward wherever getStage() now points. */
+export default function BuildSiteView({ track, getStage, visible = true }: Props) {
   const pointer = useRef({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
 
@@ -34,9 +33,6 @@ export default function BuildSlabView({ track, src, getStage, table = false, vis
     };
     const enter = () => { setHovered(true); invalidate(); };
     const leave = () => { setHovered(false); invalidate(); };
-    // Scroll changes the stage; one frame per scroll event is enough because
-    // the slab damps toward the target and keeps invalidating itself until it
-    // arrives.
     const onScroll = () => invalidate();
     el.addEventListener("pointermove", move, { passive: true });
     el.addEventListener("pointerenter", enter);
@@ -52,15 +48,11 @@ export default function BuildSlabView({ track, src, getStage, table = false, vis
     };
   }, [track]);
 
-  useEffect(() => {
-    invalidate();
-  }, [visible]);
+  useEffect(() => { invalidate(); }, [visible]);
 
   return (
     <View className="rcd-build-view" visible={visible}>
-      <Suspense fallback={null}>
-        <BuildSlab src={src} getStage={getStage} table={table} hovered={hovered} pointer={pointer} />
-      </Suspense>
+      <BuildSite getStage={getStage} hovered={hovered} pointer={pointer} />
     </View>
   );
 }

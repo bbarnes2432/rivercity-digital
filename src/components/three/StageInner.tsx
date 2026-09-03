@@ -5,7 +5,7 @@ import { Canvas, advance, invalidate, useFrame, useThree } from "@react-three/fi
    and Turbopack did not shake it: importing two names cost the whole thing. */
 import { View } from "@react-three/drei/web/View";
 import { Suspense, useEffect } from "react";
-import BuildSlabView from "./BuildSlabView";
+import BuildSiteView from "./BuildSiteView";
 import ConstellationView from "./ConstellationView";
 import ShowcaseView from "./ShowcaseView";
 import World from "./World";
@@ -93,7 +93,7 @@ function ContextGuard({ onFallback }: { onFallback: () => void }) {
 
 export default function StageInner({ dpr, onFallback, onReady }: Props) {
   useEffect(() => {
-    onReady({ BuildView: BuildSlabView, ConstellationView, ShowcaseView });
+    onReady({ BuildView: BuildSiteView, ConstellationView, ShowcaseView });
   }, [onReady]);
 
   /* frameloop="demand" means nothing renders unless something calls

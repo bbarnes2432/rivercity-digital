@@ -69,6 +69,15 @@ export default function TubesCursor() {
     if (document.readyState === "complete") go();
     else window.addEventListener("load", go, { once: true });
 
+    // Over a light chapter the cursor carries no light: the canvas fades out.
+    const LIGHT_SEL = ".rcd-light, .section--working, .section--bg-coffee, .rcd-inline-contact-section, footer";
+    const move = (e: PointerEvent) => {
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      const over = !!(el && el.closest(LIGHT_SEL));
+      wrap.current?.toggleAttribute("data-off", over);
+    };
+    window.addEventListener("pointermove", move, { passive: true });
+
     const click = () => {
       if (!app.current) return;
       const tubes = randomColors(3);
@@ -84,6 +93,7 @@ export default function TubesCursor() {
       cancelled = true;
       window.removeEventListener("load", go);
       window.removeEventListener("click", click);
+      window.removeEventListener("pointermove", move);
       window.clearTimeout(idle);
       app.current?.dispose();
       app.current = null;

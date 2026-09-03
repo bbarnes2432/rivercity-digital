@@ -12,12 +12,12 @@ import { texUrl } from "./tex";
  *
  * A dark room in the root of the shared canvas: matte walls, floor and
  * ceiling, and eight screens mounted along the walls, alternating left and
- * right. The screens are lit from within. The room itself has only a faint
- * sky-and-ground light so its edges read, and the cursor's lights
- * (CursorLights): four short-range lights in the cursor's colours that ride
- * the path the cursor just took, so the wall or floor near it comes up a
- * little. On touch there is no cursor, so a small lantern rides with the
- * camera. Fog takes the far end to black.
+ * right. The screens are lit from within. The room itself has no light: the
+ * walls, floor and ceiling exist only where the cursor's lights
+ * (CursorLights) reach them — four short-range lights in the cursor's
+ * colours that ride the path the cursor just took — and are black
+ * everywhere else. On touch there is no cursor, so a small lantern rides
+ * with the camera. Fog takes the far end to black.
  *
  * Scroll progress in the hallway section walks the camera. The room comes
  * up from nothing as the section enters the viewport. At the far end is a
@@ -58,7 +58,7 @@ const SH = SW / 1.8;
 const LEAN = 0.6; // radians from facing the walker: turned toward the wall, but mostly facing you
 const SCREEN_X = HALF - 1.05; // in from the wall enough that the turned screen's outer edge clears it, and the whole screen stays in frame
 const ROOM_NEAR = 4;
-const ROOM_FAR = DOOR_Z - 1.5;
+const ROOM_FAR = DOOR_Z + 0.02; // the room stops at the end wall: no floor or ceiling crosses it
 const ROOM_MID = (ROOM_NEAR + ROOM_FAR) / 2;
 
 /* Module singletons: the render loop mutates these, and the React compiler
@@ -116,7 +116,6 @@ function projectScreenPoint(cam: THREE.Camera, side: number, z: number, lx: numb
 export default function World() {
   const group = useRef<THREE.Group>(null!);
   const lantern = useRef<THREE.PointLight>(null!);
-  const sky = useRef<THREE.HemisphereLight>(null!);
   const st = useRef({ z: START_Z, x: 0, y: 0.05, wasActive: false, t: 0, index: -1 });
 
   const narrow = typeof window !== "undefined" && window.innerWidth < 720;
@@ -165,7 +164,9 @@ export default function World() {
     const targetX = fine ? world.pointer.nx * 0.16 : 0;
     const targetY = 0.05 + (fine ? world.pointer.ny * 0.06 : 0);
     const before = c.z + c.x + c.y;
-    c.z = THREE.MathUtils.damp(c.z, targetZ, 3.2, dt);
+    // Quicker to settle near the end, and exactly there by the end, so the
+    // wall fills the view when the section hands over.
+    c.z = p >= 0.995 ? targetZ : THREE.MathUtils.damp(c.z, targetZ, p > 0.9 ? 7 : 3.2, dt);
     c.x = THREE.MathUtils.damp(c.x, targetX, 4, dt);
     c.y = THREE.MathUtils.damp(c.y, targetY, 4, dt);
     cam.position.set(c.x, c.y, c.z);
@@ -199,9 +200,6 @@ export default function World() {
       if (d < nearestD) { nearestD = d; nearest = i; }
     }
     if (nearest !== c.index) { c.index = nearest; world.index = nearest; }
-
-    // The room's own light rises with the section.
-    if (sky.current) sky.current.intensity = 1.2 * enter;
 
     // The caption hangs from the nearest screen's bottom edge.
     {
@@ -252,9 +250,6 @@ export default function World() {
 
   return (
     <group ref={group} visible={false}>
-      {/* Just enough on the walls, floor and ceiling that the room's edges read
-          in the dark; the screens and the cursor do the rest. */}
-      <hemisphereLight ref={sky} args={["#c9d6ea", "#3a4250", 0]} />
       <pointLight ref={lantern} color="#fff4e2" distance={5} decay={2} intensity={0} />
 
       {/* The room. */}

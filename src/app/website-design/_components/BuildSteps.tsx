@@ -10,12 +10,13 @@ import { useStage } from "@/components/three/stage-context";
  *
  * A tall section with a sticky, viewport-high stage. On one side, one step
  * at a time — only the current step is on screen, and the next replaces it
- * as you scroll. On the other, one of our sites being built on the shared
- * canvas: the drafting table, the wireframe drawing in, the flat design
- * blocks developing like a print, the finished build, and at the last step
- * the launch — the slab lifts, lit, and a ring pulses across the table.
- * Scroll is the only control; the picture is exactly as far along as the
- * step beside it. Without a canvas, the finished site stands in. */
+ * as you scroll. On the other, a whole site being built in three dimensions
+ * on the shared canvas (BuildSite): the outline drawn in, the blocks
+ * filling with colour, the parts lifting to their depth, the headline set,
+ * and at the last step the launch — the site turns to face you and the
+ * buttons come forward. Scroll is the only control; the picture is exactly
+ * as far along as the step beside it. Without a canvas, one of our finished
+ * sites stands in. */
 
 const STEPS = [
   { day: "Day 1", t: "Coffee", d: "We sit down with you — goals, customers, what's working, what's broken, what a good month looks like. We leave with a page list and a plan, not a mood board." },
@@ -88,7 +89,7 @@ export default function BuildSteps() {
             </ol>
             <div ref={shot} className="rcd-steps-shot" data-3d={BuildView ? "" : undefined}>
               <Image src={SAUCE.img} alt={`${SAUCE.name} — the finished site`} width={1440} height={798} loading="lazy" sizes="(max-width: 900px) 92vw, 720px" />
-              {BuildView && <BuildView track={shot} src={SAUCE.img} getStage={getStage} table />}
+              {BuildView && <BuildView track={shot} getStage={getStage} />}
             </div>
           </div>
         </Container>

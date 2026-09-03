@@ -21,7 +21,7 @@ const DEPTH = 2.6;
 const LIFE = 1200; // ms a trail point survives
 const MAX_POINTS = 80;
 const AT = [1, 0.75, 0.5, 0.25]; // where along the trail each light rides (1 = head)
-const INTENSITY = [4.5, 2.5, 1.8, 1.2];
+const INTENSITY = [7, 4, 2.8, 2];
 
 const lightColor = (hex: string) => new THREE.Color(hex).lerp(new THREE.Color("#ffffff"), 0.35);
 
@@ -36,7 +36,7 @@ export default function CursorLights() {
     const group = new THREE.Group();
     const inner = new THREE.Group();
     group.add(inner);
-    const lights = AT.map(() => { const l = new THREE.PointLight("#ffffff", 0, 3.5, 2); inner.add(l); return l; });
+    const lights = AT.map(() => { const l = new THREE.PointLight("#ffffff", 0, 2.4, 2); inner.add(l); return l; });
     R.current = { group, inner, lights };
   }
   const points = useRef<{ x: number; y: number; t: number }[]>([]);

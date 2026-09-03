@@ -2,10 +2,10 @@
 
 import { createContext, useContext, type ComponentType, type RefObject } from "react";
 
-/* Props for the build slab (§02 reveal and §04 timeline share it). */
+/* Props for the site being built (the build section). */
 export type BuildViewProps = {
   track: RefObject<HTMLDivElement | null>;
-  src: string;
+  src?: string;
   /** Where the section wants the slab, 0..4 — read every frame. */
   getStage: () => number;
   table?: boolean;
