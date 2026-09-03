@@ -3,23 +3,23 @@
 import { useEffect, useRef, useState } from "react";
 import { Globe, Rocket, ShoppingBag, RefreshCw, type LucideIcon } from "lucide-react";
 import Container from "@/app/_components/Container";
-import Section from "@/app/_components/Section";
 import SectionHeader from "@/app/_components/SectionHeader";
 
-/* What we build — four cards on a light ground, each one tilting toward the
- * cursor in three dimensions with a sheen that follows the pointer, the
- * icon and the words lifted off the card at different depths. Plain CSS
- * transforms driven by four custom properties; no canvas. Under reduced
- * motion, or on touch, the cards are flat and just as readable. */
+/* What we build — four kinds of work as four dark glass cards, two by two,
+ * each tilting toward the cursor in three dimensions with a teal glow that
+ * follows the pointer, the icon and the words lifted off the card at
+ * different depths, and three things you get with each. Plain CSS
+ * transforms driven by custom properties; no canvas. Under reduced motion,
+ * or on touch, the cards are flat and just as readable. */
 
-const WHAT: { n: string; t: string; d: string; Icon: LucideIcon }[] = [
-  { n: "01", t: "Marketing sites", d: "Custom-designed websites for restaurants, contractors, professional services, salons, retail. Built to convert.", Icon: Globe },
-  { n: "02", t: "Landing pages", d: "Single-purpose pages for ad campaigns or one-time launches. Quick to ship, sharp to convert.", Icon: Rocket },
-  { n: "03", t: "E-commerce", d: "Shopify and headless storefronts when you need product. Fast, custom-themed, search-ready.", Icon: ShoppingBag },
-  { n: "04", t: "Redesigns", d: "When the existing site is the constraint. We rebuild for speed, search, and the way customers actually use it.", Icon: RefreshCw },
+const WHAT: { n: string; t: string; d: string; gets: [string, string, string]; Icon: LucideIcon }[] = [
+  { n: "01", t: "Marketing sites", d: "Custom-designed websites for restaurants, contractors, professional services, salons, retail. Built to convert.", gets: ["Custom design, no theme", "Schema and SEO built in", "Lighthouse 95+"], Icon: Globe },
+  { n: "02", t: "Landing pages", d: "Single-purpose pages for ad campaigns or one-time launches. Quick to ship, sharp to convert.", gets: ["One page, one goal", "Built for paid traffic", "Live in days"], Icon: Rocket },
+  { n: "03", t: "E-commerce", d: "Shopify and headless storefronts when you need product. Fast, custom-themed, search-ready.", gets: ["Shopify or headless", "Fast checkout", "Product pages that rank"], Icon: ShoppingBag },
+  { n: "04", t: "Redesigns", d: "When the existing site is the constraint. We rebuild for speed, search, and the way customers actually use it.", gets: ["Rankings kept, redirects mapped", "Faster on day one", "Same phone number, new site"], Icon: RefreshCw },
 ];
 
-function Card({ n, t, d, Icon }: (typeof WHAT)[number]) {
+function Card({ n, t, d, gets, Icon }: (typeof WHAT)[number]) {
   const el = useRef<HTMLElement>(null);
   const [hover, setHover] = useState(false);
 
@@ -32,8 +32,8 @@ function Card({ n, t, d, Icon }: (typeof WHAT)[number]) {
     let nx = 0, ny = 0;
     const apply = () => {
       raf = 0;
-      card.style.setProperty("--ry", `${(nx * 9).toFixed(2)}deg`);
-      card.style.setProperty("--rx", `${(-ny * 9).toFixed(2)}deg`);
+      card.style.setProperty("--ry", `${(nx * 8).toFixed(2)}deg`);
+      card.style.setProperty("--rx", `${(-ny * 8).toFixed(2)}deg`);
       card.style.setProperty("--mx", `${((nx + 1) * 50).toFixed(1)}%`);
       card.style.setProperty("--my", `${((ny + 1) * 50).toFixed(1)}%`);
     };
@@ -62,21 +62,27 @@ function Card({ n, t, d, Icon }: (typeof WHAT)[number]) {
 
   return (
     <article ref={el} className="rcd-tilt" data-hover={hover ? "" : undefined}>
-      <span className="rcd-tilt-n">{n}</span>
-      <div className="rcd-tilt-icon" aria-hidden="true">
-        <Icon size={30} strokeWidth={1.6} />
+      <div className="rcd-tilt-top">
+        <span className="rcd-tilt-n">{n}</span>
+        <div className="rcd-tilt-icon" aria-hidden="true">
+          <Icon size={26} strokeWidth={1.6} />
+        </div>
       </div>
       <h3>{t}</h3>
       <p>{d}</p>
+      <ul className="rcd-tilt-gets">
+        {gets.map((g) => <li key={g}>{g}</li>)}
+      </ul>
     </article>
   );
 }
 
 export default function WhatWeBuild() {
   return (
-    <Section mode="working" className="rcd-what rcd-light">
+    <section className="section section--civic-deep rcd-what" data-theme="dark">
       <Container>
         <SectionHeader
+          className="fx-reveal"
           eyebrow="What we build"
           title="Four kinds of work."
           lede="All custom. All hand-coded. All built to be found."
@@ -87,6 +93,6 @@ export default function WhatWeBuild() {
           ))}
         </div>
       </Container>
-    </Section>
+    </section>
   );
 }

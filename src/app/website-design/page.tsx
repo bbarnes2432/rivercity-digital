@@ -8,7 +8,6 @@ import Button from "../_components/Button";
 import CtaBand from "../_components/CtaBand";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
-import HookVideo from "../_components/HookVideo";
 import CallLink from "../_components/CallLink";
 import InlineContactSection from "../_components/InlineContactSection";
 import Testimonials from "../_components/testimonials";
@@ -20,6 +19,8 @@ import Stage from "@/components/three/Stage";
 import TubesCursor from "@/components/ui/tubes-cursor";
 import Hallway from "./_components/Hallway";
 import Showcase from "./_components/Showcase";
+import LocalSection from "./_components/LocalSection";
+import ButtonEnergy from "../_components/ButtonEnergy";
 import HowWeBuild from "./_components/HowWeBuild";
 import BuildSteps from "./_components/BuildSteps";
 import WhatWeBuild from "./_components/WhatWeBuild";
@@ -116,12 +117,12 @@ export default function WebsiteDesignPage() {
                     further down this one. Now it offers what was advertised and
                     scrolls to the form in place. */}
                 <div className="rcd-hero-actions">
-                  <Button href="#start" size="lg" arrow>Get my free website audit</Button>
+                  <Button href="#start" size="lg" arrow>Get a free mockup of my site</Button>
                   <CallLink context="hero" className="btn btn-ghost btn-lg" />
                 </div>
                 <div className="rcd-hero-meta">
                   <span className="rcd-hero-meta-item">2-week typical launch</span>
-                  <span className="rcd-hero-meta-item">Free, no-obligation audit</span>
+                  <span className="rcd-hero-meta-item">Free, no-obligation mockup</span>
                 </div>
               </div>
             </div>
@@ -146,29 +147,15 @@ export default function WebsiteDesignPage() {
             of our sites being built on the shared canvas. */}
         <BuildSteps />
 
-        {/* What we build: four cards that tilt toward the cursor. Light. */}
+        {/* What we build: four cards that tilt toward the cursor. */}
         <WhatWeBuild />
+
+        {/* Right here in St. Louis: local, and not a number. Light. */}
+        <LocalSection />
 
         {/* Standards: the checklist, a constellation behind it. */}
         <Standards />
 
-        {/* Video */}
-        <Section mode="working" className="rcd-video rcd-light">
-          <Container>
-            <SectionHeader
-              eyebrow="Watch · 40 Sec"
-              title="See how we build."
-              lede="A quick look at how we design and build custom, search-ready websites for St. Louis businesses."
-            />
-            <div className="rcd-hook-video-wrap fx-reveal">
-              <HookVideo
-                src="/assets/web-design-video.mp4"
-                poster="/assets/web-design-poster.jpg"
-                ctaLabel="See how we build your site"
-              />
-            </div>
-          </Container>
-        </Section>
 
         {/* Proof.
             This page asked people to spend money on a custom build and showed
@@ -207,7 +194,7 @@ export default function WebsiteDesignPage() {
           title="Start a website that earns its keep."
           lede="Free 30-minute discovery call. We come back with a real plan, a real timeline, and a real number."
           primaryHref="#start"
-          primaryLabel="Get my free website audit"
+          primaryLabel="Get a free mockup of my site"
         />
       </main>
       </Stage>
@@ -216,12 +203,13 @@ export default function WebsiteDesignPage() {
           Hidden again near the form itself so it never covers its own target. */}
       <MobileStickyCta
         href="#start"
-        label="Get my free website audit"
+        label="Get a free mockup of my site"
         hideNearId="start"
       />
 
       <Footer />
       <ScrollReveal />
+      <ButtonEnergy />
       {/* The tubes cursor: its own canvas over the whole page, mouse only. */}
       <TubesCursor />
     </>

@@ -66,8 +66,15 @@ export default function Hallway() {
       setIndex((i) => (i === show ? i : show));
       setStart(p < 0.03);
       place();
+      veil();
     };
     // The caption hangs under its screen, wherever the screen is.
+    // The last stretch fades to the page's own navy, in the DOM, so what
+    // meets the next chapter is the same colour it is.
+    const veil = () => {
+      const v = el.querySelector<HTMLElement>(".rcd-hall-veil");
+      if (v) v.style.opacity = String(Math.min(1, Math.max(0, (world.progress - 0.9) / 0.08)));
+    };
     const place = () => {
       const cap = el.querySelector<HTMLElement>(".rcd-hall-cap[data-active]");
       if (!cap) return;
@@ -108,6 +115,7 @@ export default function Hallway() {
   return (
     <section ref={section} className="rcd-hall" data-3d={enabled ? "" : undefined} data-index={index} data-start={start ? "" : undefined} aria-label="Selected work">
       <div className="rcd-hall-stage">
+        <div className="rcd-hall-veil" aria-hidden="true" />
         <Container>
           <header className="rcd-hall-head">
             <p className="t-eyebrow">Selected work · Filed from St. Louis</p>

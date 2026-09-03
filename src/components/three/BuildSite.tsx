@@ -4,6 +4,7 @@ import { useRef, type RefObject } from "react";
 import { useFrame } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei/core/PerspectiveCamera";
 import * as THREE from "three";
+import { world } from "./world-state";
 
 /* A website being built, in three dimensions.
  *
@@ -145,9 +146,13 @@ type Props = {
   getStage: () => number;
   hovered: boolean;
   pointer: RefObject<{ x: number; y: number }>;
+  /** The view's box in the viewport, for telling the cursor where the site is. */
+  getRect: () => DOMRect | null;
 };
 
-export default function BuildSite({ getStage, hovered, pointer }: Props) {
+const CORNER = new THREE.Vector3();
+
+export default function BuildSite({ getStage, hovered, pointer, getRect }: Props) {
   const site = useRef<THREE.Group>(null!);
   const parts = useRef<THREE.Group[]>([]);
   const textMesh = useRef<THREE.Mesh>(null!);
@@ -202,6 +207,23 @@ export default function BuildSite({ getStage, hovered, pointer }: Props) {
     if (!r.textMat.map) { r.textMat.map = headline(); r.textMat.needsUpdate = true; }
     r.textMat.opacity = ease((S - 2.9) / 0.5);
 
+    // Where the page is on the screen, for the cursor to pass behind it.
+    const rect = getRect();
+    if (rect && r.page.opacity > 0.05) {
+      site.current.updateMatrixWorld();
+      const poly: number[][] = [];
+      let ok = true;
+      for (const [lx, ly] of [[-W / 2, H / 2], [W / 2, H / 2], [W / 2, -H / 2], [-W / 2, -H / 2]]) {
+        CORNER.set(lx, ly, 0.02);
+        site.current.localToWorld(CORNER);
+        CORNER.project(s.camera);
+        if (CORNER.z > 1) { ok = false; break; }
+        poly.push([rect.left + ((CORNER.x + 1) / 2) * rect.width, rect.top + ((1 - CORNER.y) / 2) * rect.height]);
+      }
+      world.site = ok ? poly : null;
+      world.siteAt = performance.now();
+    }
+
     const moving = Math.abs(c.stage + c.rx + c.ry - before) > 1e-4 || launch > 0.001;
     if (moving) s.invalidate();
   });
@@ -209,7 +231,7 @@ export default function BuildSite({ getStage, hovered, pointer }: Props) {
   const r = getRes();
   return (
     <>
-      <PerspectiveCamera makeDefault fov={30} position={[0, 0.35, 4.6]} onUpdate={(cam) => cam.lookAt(0, -0.05, 0)} />
+      <PerspectiveCamera makeDefault fov={30} position={[0, 0.3, 4.15]} onUpdate={(cam) => cam.lookAt(0, -0.02, 0)} />
       <ambientLight intensity={1.4} />
       <directionalLight position={[2.5, 3.5, 4]} intensity={3.2} />
       <directionalLight position={[-3, 1, 2]} intensity={0.9} color="#a8d8dc" />

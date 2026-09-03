@@ -79,7 +79,7 @@ function Tile({ demo }: { demo: Demo }) {
   }, []);
 
   return (
-    <figure className="rcd-show-tile" data-kind={demo.kind}>
+    <figure className="rcd-show-tile fx-reveal" data-kind={demo.kind}>
       <div ref={box} className="rcd-show-stage" data-3d={ShowcaseView ? "" : undefined}>
         {demo.src ? (
           <Image src={demo.src} alt={demo.alt ?? ""} width={1440} height={798} loading="lazy" sizes="(max-width: 900px) 92vw, 720px" />
@@ -114,6 +114,7 @@ export default function Showcase() {
     <section ref={section} className="section section--civic-deep rcd-show" data-theme="dark">
       <Container>
         <SectionHeader
+          className="fx-reveal"
           eyebrow="What's possible · Live, not a video"
           title="Things a template can't do."
           lede="Three small demonstrations, running right now in this page. Every one is hand-written — the same way we would build yours."

@@ -11,17 +11,21 @@ import { texUrl } from "./tex";
 /* The hallway.
  *
  * A dark room in the root of the shared canvas: matte walls, floor and
- * ceiling, and eight screens mounted along the walls, alternating left and
- * right. The screens are lit from within. The room itself has no light: the
- * walls, floor and ceiling exist only where the cursor's lights
- * (CursorLights) reach them — four short-range lights in the cursor's
- * colours that ride the path the cursor just took — and are black
- * everywhere else. On touch there is no cursor, so a small lantern rides
- * with the camera. Fog takes the far end to black.
+ * ceiling, and eight screens along it. On a desktop they hang on the walls,
+ * alternating left and right, turned toward the walker. On a phone the hall
+ * is too narrow for that, so they stand in the middle of the corridor, one
+ * behind the next, and come toward you as you scroll, each fading as you
+ * pass through it.
  *
- * Scroll progress in the hallway section walks the camera. The room comes
- * up from nothing as the section enters the viewport. At the far end is a
- * wall in the page's own navy; by the end of the section it fills the
+ * The screens are lit from within. The room itself has no light: the walls,
+ * floor and ceiling exist only where the cursor's lights (CursorLights)
+ * reach them — four short-range lights in the cursor's colours that ride
+ * the path the cursor just took — and are black everywhere else. On touch
+ * there is no cursor, so a small lantern rides with the camera. Fog takes
+ * the far end to black.
+ *
+ * Scroll progress in the hallway section walks the camera. At the far end
+ * is a wall in the page's own navy; by the end of the section it fills the
  * view, and the next chapter scrolls up over it as if it were the wall.
  *
  * The DOM owns the words (captions, links, the no-WebGL grid). This owns the
@@ -38,6 +42,8 @@ const ORDER = [
   "confetti-and-co",
 ];
 const SITES = ORDER.map((slug) => PROJECTS.find((p) => p.slug === slug)!);
+
+const MOBILE = typeof window !== "undefined" && window.innerWidth < 720;
 
 const SPACING = 3.6; // metres between screens
 const FIRST_Z = -3.0;
@@ -56,10 +62,30 @@ const CEIL = 1.55;
 const SW = 2.0; // screen width; 1.8:1 is the screenshots' crop ratio
 const SH = SW / 1.8;
 const LEAN = 0.6; // radians from facing the walker: turned toward the wall, but mostly facing you
-const SCREEN_X = HALF - 1.05; // in from the wall enough that the turned screen's outer edge clears it, and the whole screen stays in frame
+const SCREEN_X = HALF - 1.05; // in from the wall enough that the turned screen's outer edge clears it
 const ROOM_NEAR = 4;
 const ROOM_FAR = DOOR_Z + 0.02; // the room stops at the end wall: no floor or ceiling crosses it
 const ROOM_MID = (ROOM_NEAR + ROOM_FAR) / 2;
+const CURSOR_DEPTH = 2.6; // where the tubes cursor's plane sits ahead of the camera
+
+/* Where screen i stands, and how it is turned and sized. */
+function placement(i: number) {
+  const side = i % 2 === 0 ? -1 : 1;
+  const z = FIRST_Z - i * SPACING;
+  if (MOBILE) return { x: 0, y: 0.05, z, rot: 0, sc: 0.62, side };
+  return { x: side * SCREEN_X, y: 0.1, z, rot: -side * LEAN, sc: 1, side };
+}
+
+const P = new THREE.Vector3();
+/* A point in screen i's own frame → viewport px, or null if behind the camera. */
+function projectScreenPoint(cam: THREE.Camera, i: number, lx: number, ly: number, lz: number, w: number, h: number): [number, number] | null {
+  const { x, y, z, rot, sc } = placement(i);
+  const sx = lx * sc, sy = ly * sc;
+  P.set(x + sx * Math.cos(rot) + lz * Math.sin(rot), y + sy, z - sx * Math.sin(rot) + lz * Math.cos(rot));
+  P.project(cam);
+  if (P.z > 1) return null;
+  return [((P.x + 1) / 2) * w, ((1 - P.y) / 2) * h];
+}
 
 /* Module singletons: the render loop mutates these, and the React compiler
  * lint refuses a hook return value or a ref read during render. One World
@@ -67,7 +93,7 @@ const ROOM_MID = (ROOM_NEAR + ROOM_FAR) / 2;
 type Res = {
   wallMat: THREE.MeshStandardMaterial;
   floorMat: THREE.MeshStandardMaterial;
-  bezelMat: THREE.MeshStandardMaterial;
+  bezelMats: THREE.MeshStandardMaterial[];
   screenMats: THREE.MeshStandardMaterial[];
   doorMat: THREE.MeshBasicMaterial;
   fog: THREE.FogExp2;
@@ -85,10 +111,10 @@ function getRes(): Res {
     // Neutral, mid-light surfaces: they show whatever colour lands on them.
     wallMat: new THREE.MeshStandardMaterial({ color: "#6e7684", roughness: 0.94, metalness: 0.0 }),
     floorMat: new THREE.MeshStandardMaterial({ color: "#4a525f", roughness: 0.7, metalness: 0.05 }),
-    bezelMat: new THREE.MeshStandardMaterial({ color: "#1a1f29", roughness: 0.5, metalness: 0.3 }),
+    bezelMats: Array.from({ length: n }, () => new THREE.MeshStandardMaterial({ color: "#1a1f29", roughness: 0.5, metalness: 0.3, transparent: true })),
     // The screens are screens: their picture is emissive, full brightness,
     // lit from within, whatever the room is doing.
-    screenMats: Array.from({ length: n }, () => new THREE.MeshStandardMaterial({ roughness: 0.55, metalness: 0, emissive: new THREE.Color("#ffffff"), emissiveIntensity: 0 })),
+    screenMats: Array.from({ length: n }, () => new THREE.MeshStandardMaterial({ roughness: 0.55, metalness: 0, emissive: new THREE.Color("#ffffff"), emissiveIntensity: 0, transparent: true })),
     doorMat: new THREE.MeshBasicMaterial({ toneMapped: false, fog: false, color: "#101D31" }),
     fog: new THREE.FogExp2(new THREE.Color("#04070d"), 0.08),
     screenGeo: new THREE.PlaneGeometry(SW, SH),
@@ -100,27 +126,13 @@ function getRes(): Res {
   return RES;
 }
 
-const CURSOR_DEPTH = 2.6; // where the tubes cursor's plane sits ahead of the camera
-const P = new THREE.Vector3();
-
-/* A point in a screen's own frame → viewport px, or null if behind the camera. */
-function projectScreenPoint(cam: THREE.Camera, side: number, z: number, lx: number, ly: number, lz: number, w: number, h: number): [number, number] | null {
-  const rot = -side * LEAN;
-  const x = side * SCREEN_X;
-  P.set(x + lx * Math.cos(rot) + lz * Math.sin(rot), 0.1 + ly, z - lx * Math.sin(rot) + lz * Math.cos(rot));
-  P.project(cam);
-  if (P.z > 1) return null;
-  return [((P.x + 1) / 2) * w, ((1 - P.y) / 2) * h];
-}
-
 export default function World() {
   const group = useRef<THREE.Group>(null!);
   const lantern = useRef<THREE.PointLight>(null!);
   const st = useRef({ z: START_Z, x: 0, y: 0.05, wasActive: false, t: 0, index: -1 });
 
-  const narrow = typeof window !== "undefined" && window.innerWidth < 720;
   const maps = useTexture(
-    SITES.map((p) => texUrl(p.img, narrow ? 640 : 1080)),
+    SITES.map((p) => texUrl(p.img, MOBILE ? 640 : 1080)),
     (t) => {
       (Array.isArray(t) ? t : [t]).forEach((tex) => {
         tex.colorSpace = THREE.SRGBColorSpace;
@@ -181,8 +193,9 @@ export default function World() {
       l.intensity = fine ? 0 : 3 * enter;
     }
 
-    // Screens ahead are just findable in the dark until the light reaches
-    // them; the nearest screen is the caption's.
+    // Screens ahead are dark until the walker is near; on a phone each one
+    // fades as you pass through it. The one about three metres ahead —
+    // framed, readable — gets the caption.
     let nearest = 0, nearestD = Infinity;
     for (let i = 0; i < SITES.length; i++) {
       // The picture onto the screen (also after a hot reload, when the effect
@@ -195,17 +208,21 @@ export default function World() {
       const z = FIRST_Z - i * SPACING;
       const ahead = c.z - z;
       const near = 1 - THREE.MathUtils.smoothstep(ahead, 5, 11);
+      // On a phone a screen fades out before it fills the view, so you are
+      // never inside a wall of pixels as you pass through it.
+      const passing = MOBILE ? THREE.MathUtils.smoothstep(ahead, 0.9, 1.9) : 1;
       r.screenMats[i].emissiveIntensity = 1.0 * enter * near;
-      const d = Math.abs(z - (c.z - 3.0)); // the screen about three metres ahead: framed, readable
+      r.screenMats[i].opacity = passing;
+      r.bezelMats[i].opacity = passing;
+      const d = Math.abs(z - (c.z - 3.0));
       if (d < nearestD) { nearestD = d; nearest = i; }
     }
     if (nearest !== c.index) { c.index = nearest; world.index = nearest; }
 
     // The caption hangs from the nearest screen's bottom edge.
     {
-      const side = nearest % 2 === 0 ? -1 : 1;
       const z = FIRST_Z - nearest * SPACING;
-      const pt = projectScreenPoint(cam, side, z, 0, -SH / 2 - 0.16, 0.06, s.size.width, s.size.height);
+      const pt = projectScreenPoint(cam, nearest, 0, -SH / 2 - 0.16, 0.06, s.size.width, s.size.height);
       // Only while the screen is comfortably ahead and its foot is on screen;
       // as it passes beside the camera the caption lets go.
       const inView = !!pt && pt[0] > 0 && pt[0] < s.size.width && pt[1] > 0 && pt[1] < s.size.height;
@@ -219,12 +236,11 @@ export default function World() {
     for (let i = 0; i < SITES.length; i++) {
       const z = FIRST_Z - i * SPACING;
       if (z < c.z - CURSOR_DEPTH || z > c.z + 0.2) continue;
-      const side = i % 2 === 0 ? -1 : 1;
       const hw = (SW + 0.12) / 2, hh = (SH + 0.12) / 2;
       const poly: number[][] = [];
       let ok = true;
       for (const [lx, ly] of [[-hw, hh], [hw, hh], [hw, -hh], [-hw, -hh]]) {
-        const pt = projectScreenPoint(cam, side, z, lx, ly, 0, s.size.width, s.size.height);
+        const pt = projectScreenPoint(cam, i, lx, ly, 0, s.size.width, s.size.height);
         if (!pt) { ok = false; break; }
         poly.push(pt);
       }
@@ -260,18 +276,16 @@ export default function World() {
 
       {/* The screens. */}
       {SITES.map((p, i) => {
-        const side = i % 2 === 0 ? -1 : 1;
-        const z = FIRST_Z - i * SPACING;
-        const x = side * SCREEN_X;
+        const { x, y, z, rot, sc } = placement(i);
         return (
-          <group key={p.slug} position={[x, 0.1, z]} rotation={[0, -side * LEAN, 0]}>
-            <mesh geometry={res.bezelGeo} material={res.bezelMat} position={[0, 0, -0.035]} />
+          <group key={p.slug} position={[x, y, z]} rotation={[0, rot, 0]} scale={[sc, sc, 1]}>
+            <mesh geometry={res.bezelGeo} material={res.bezelMats[i]} position={[0, 0, -0.035]} />
             <mesh geometry={res.screenGeo} material={res.screenMats[i]} />
           </group>
         );
       })}
 
-      {/* The doorway at the end. */}
+      {/* The end wall. */}
       <mesh geometry={res.doorGeo} material={res.doorMat} position={[0, 0.05, DOOR_Z]} />
     </group>
   );

@@ -48,6 +48,7 @@ export default function HowWeBuild() {
     <Section mode="working" className="rcd-how rcd-light">
       <Container>
         <SectionHeader
+          className="fx-reveal"
           eyebrow="How we build · The stack"
           title="Built on Next.js. Not WordPress. Not Wix."
           lede="Next.js is the framework behind some of the largest sites on the web. We hand-code every site on it — which is a different thing from a theme with your logo in it, and it shows in every number Google measures."
@@ -74,11 +75,6 @@ export default function HowWeBuild() {
             </tbody>
           </table>
         </div>
-        <p className="rcd-how-note">
-          None of this is a knock on the people who use them. WordPress and Wix are fine for a first
-          site. When the site has to earn its keep — rank, load fast on a phone, and turn a visit into a
-          call — the way it is built starts to matter, and that is what we do.
-        </p>
       </Container>
     </Section>
   );

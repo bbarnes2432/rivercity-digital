@@ -100,27 +100,34 @@ export default function TubesCursor() {
     };
   }, []);
 
-  /* In the hallway, a screen that has come nearer than the cursor's plane
-     is cut out of this canvas, so the tubes pass behind it as it goes by. A
-     polygon with holes: the outer rectangle, then each hole traced the
-     opposite way round, joined by zero-width seams (nonzero fill). */
+  /* Things the cursor passes behind are cut out of this canvas: in the
+     hallway, a screen that has come nearer than the cursor's plane; the
+     site being built while it is on screen; and any button the pointer is
+     over, so the button fills with light in front of the cursor rather
+     than under it. One clip-path polygon with holes: the outer rectangle,
+     then each hole traced the opposite way round, joined by zero-width
+     seams (nonzero fill). */
   useEffect(() => {
     let raf = 0;
-    let seen = -1;
+    let last = "";
     const tick = () => {
       raf = requestAnimationFrame(tick);
       const el = wrap.current;
       if (!el) return;
-      if (!world.active) {
-        if (seen !== -1) { el.style.clipPath = ""; seen = -1; }
+      const holes: number[][][] = [];
+      if (world.active) for (const p of world.occluders) holes.push(p);
+      if (world.site && performance.now() - world.siteAt < 400) holes.push(world.site);
+      document.querySelectorAll<HTMLElement>(".btn:hover").forEach((b) => {
+        const r = b.getBoundingClientRect();
+        holes.push([[r.left, r.top], [r.right, r.top], [r.right, r.bottom], [r.left, r.bottom]]);
+      });
+      if (holes.length === 0) {
+        if (last !== "") { el.style.clipPath = ""; last = ""; }
         return;
       }
-      if (world.occludersAt === seen) return;
-      seen = world.occludersAt;
       const W = window.innerWidth, H = window.innerHeight;
-      if (world.occluders.length === 0) { el.style.clipPath = ""; return; }
       let path = `0px 0px, ${W}px 0px, ${W}px ${H}px, 0px ${H}px, 0px 0px`;
-      for (const poly of world.occluders) {
+      for (const poly of holes) {
         // Outer runs clockwise (screen coordinates); the hole must not.
         let area = 0;
         for (let i = 0; i < poly.length; i++) { const a = poly[i], b = poly[(i + 1) % poly.length]; area += a[0] * b[1] - b[0] * a[1]; }
@@ -128,7 +135,8 @@ export default function TubesCursor() {
         const pts = ring.map(([x, y]) => `${x.toFixed(1)}px ${y.toFixed(1)}px`);
         path += `, ${pts[0]}, ${pts.join(", ")}, ${pts[0]}, 0px 0px`;
       }
-      el.style.clipPath = `polygon(nonzero, ${path})`;
+      const next = `polygon(nonzero, ${path})`;
+      if (next !== last) { el.style.clipPath = next; last = next; }
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);

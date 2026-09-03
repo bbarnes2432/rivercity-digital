@@ -50,9 +50,12 @@ export default function BuildSiteView({ track, getStage, visible = true }: Props
 
   useEffect(() => { invalidate(); }, [visible]);
 
+  // Read at call time, on the frame; not memoised, so the ref is never read in render.
+  const getRect = () => track.current?.getBoundingClientRect() ?? null;
+
   return (
     <View className="rcd-build-view" visible={visible}>
-      <BuildSite getStage={getStage} hovered={hovered} pointer={pointer} />
+      <BuildSite getStage={getStage} hovered={hovered} pointer={pointer} getRect={getRect} />
     </View>
   );
 }
