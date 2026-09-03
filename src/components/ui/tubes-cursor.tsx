@@ -31,6 +31,7 @@ const randomColors = (count: number) =>
 
 export default function TubesCursor() {
   const canvas = useRef<HTMLCanvasElement>(null);
+  const wrap = useRef<HTMLDivElement>(null);
   const app = useRef<TubesApp | null>(null);
 
   useEffect(() => {
@@ -89,8 +90,42 @@ export default function TubesCursor() {
     };
   }, []);
 
+  /* In the hallway, a screen that has come nearer than the cursor's plane
+     is cut out of this canvas, so the tubes pass behind it as it goes by. A
+     polygon with holes: the outer rectangle, then each hole traced the
+     opposite way round, joined by zero-width seams (nonzero fill). */
+  useEffect(() => {
+    let raf = 0;
+    let seen = -1;
+    const tick = () => {
+      raf = requestAnimationFrame(tick);
+      const el = wrap.current;
+      if (!el) return;
+      if (!world.active) {
+        if (seen !== -1) { el.style.clipPath = ""; seen = -1; }
+        return;
+      }
+      if (world.occludersAt === seen) return;
+      seen = world.occludersAt;
+      const W = window.innerWidth, H = window.innerHeight;
+      if (world.occluders.length === 0) { el.style.clipPath = ""; return; }
+      let path = `0px 0px, ${W}px 0px, ${W}px ${H}px, 0px ${H}px, 0px 0px`;
+      for (const poly of world.occluders) {
+        // Outer runs clockwise (screen coordinates); the hole must not.
+        let area = 0;
+        for (let i = 0; i < poly.length; i++) { const a = poly[i], b = poly[(i + 1) % poly.length]; area += a[0] * b[1] - b[0] * a[1]; }
+        const ring = area > 0 ? [...poly].reverse() : poly;
+        const pts = ring.map(([x, y]) => `${x.toFixed(1)}px ${y.toFixed(1)}px`);
+        path += `, ${pts[0]}, ${pts.join(", ")}, ${pts[0]}, 0px 0px`;
+      }
+      el.style.clipPath = `polygon(nonzero, ${path})`;
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   return (
-    <div className="rcd-tubes" aria-hidden="true">
+    <div ref={wrap} className="rcd-tubes" aria-hidden="true">
       <canvas ref={canvas} />
     </div>
   );

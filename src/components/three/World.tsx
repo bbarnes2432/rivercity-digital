@@ -50,12 +50,13 @@ const DOOR_H = 3.25;
 // by the middle of the wall; the wall is larger so the pointer parallax and
 // wider screens never show its edge.
 const END_Z = DOOR_Z + 2.25 / (2 * Math.tan((42 * Math.PI) / 360));
-const HALF = 2.7; // wall x
+const HALF = 2.4; // wall x
 const FLOOR = -1.45;
 const CEIL = 1.55;
 const SW = 2.0; // screen width; 1.8:1 is the screenshots' crop ratio
 const SH = SW / 1.8;
-const LEAN = Math.PI / 2 - 0.55; // a wall screen, angled a little toward the walker
+const LEAN = 0.6; // radians from facing the walker: turned toward the wall, but mostly facing you
+const SCREEN_X = HALF - 1.05; // in from the wall enough that the turned screen's outer edge clears it, and the whole screen stays in frame
 const ROOM_NEAR = 4;
 const ROOM_FAR = DOOR_Z - 1.5;
 const ROOM_MID = (ROOM_NEAR + ROOM_FAR) / 2;
@@ -99,9 +100,23 @@ function getRes(): Res {
   return RES;
 }
 
+const CURSOR_DEPTH = 2.6; // where the tubes cursor's plane sits ahead of the camera
+const P = new THREE.Vector3();
+
+/* A point in a screen's own frame → viewport px, or null if behind the camera. */
+function projectScreenPoint(cam: THREE.Camera, side: number, z: number, lx: number, ly: number, lz: number, w: number, h: number): [number, number] | null {
+  const rot = -side * LEAN;
+  const x = side * SCREEN_X;
+  P.set(x + lx * Math.cos(rot) + lz * Math.sin(rot), 0.1 + ly, z - lx * Math.sin(rot) + lz * Math.cos(rot));
+  P.project(cam);
+  if (P.z > 1) return null;
+  return [((P.x + 1) / 2) * w, ((1 - P.y) / 2) * h];
+}
+
 export default function World() {
   const group = useRef<THREE.Group>(null!);
   const lantern = useRef<THREE.PointLight>(null!);
+  const sky = useRef<THREE.HemisphereLight>(null!);
   const st = useRef({ z: START_Z, x: 0, y: 0.05, wasActive: false, t: 0, index: -1 });
 
   const narrow = typeof window !== "undefined" && window.innerWidth < 720;
@@ -169,14 +184,56 @@ export default function World() {
     // them; the nearest screen is the caption's.
     let nearest = 0, nearestD = Infinity;
     for (let i = 0; i < SITES.length; i++) {
+      // The picture onto the screen (also after a hot reload, when the effect
+      // above has already run against an older set of materials).
+      if (maps[i] && r.screenMats[i].map !== maps[i]) {
+        r.screenMats[i].map = maps[i];
+        r.screenMats[i].emissiveMap = maps[i];
+        r.screenMats[i].needsUpdate = true;
+      }
       const z = FIRST_Z - i * SPACING;
       const ahead = c.z - z;
       const near = 1 - THREE.MathUtils.smoothstep(ahead, 5, 11);
       r.screenMats[i].emissiveIntensity = 1.0 * enter * near;
-      const d = Math.abs(z - (c.z - 1.6));
+      const d = Math.abs(z - (c.z - 3.0)); // the screen about three metres ahead: framed, readable
       if (d < nearestD) { nearestD = d; nearest = i; }
     }
     if (nearest !== c.index) { c.index = nearest; world.index = nearest; }
+
+    // The room's own light rises with the section.
+    if (sky.current) sky.current.intensity = 1.2 * enter;
+
+    // The caption hangs from the nearest screen's bottom edge.
+    {
+      const side = nearest % 2 === 0 ? -1 : 1;
+      const z = FIRST_Z - nearest * SPACING;
+      const pt = projectScreenPoint(cam, side, z, 0, -SH / 2 - 0.16, 0.06, s.size.width, s.size.height);
+      // Only while the screen is comfortably ahead and its foot is on screen;
+      // as it passes beside the camera the caption lets go.
+      const inView = !!pt && pt[0] > 0 && pt[0] < s.size.width && pt[1] > 0 && pt[1] < s.size.height;
+      world.caption.on = inView && z < c.z - 1.0;
+      if (pt) { world.caption.x = pt[0]; world.caption.y = pt[1]; }
+    }
+
+    // Screens between the camera and the cursor's plane: the cursor passes
+    // behind them. Their bezels, as viewport polygons.
+    const occ: number[][][] = [];
+    for (let i = 0; i < SITES.length; i++) {
+      const z = FIRST_Z - i * SPACING;
+      if (z < c.z - CURSOR_DEPTH || z > c.z + 0.2) continue;
+      const side = i % 2 === 0 ? -1 : 1;
+      const hw = (SW + 0.12) / 2, hh = (SH + 0.12) / 2;
+      const poly: number[][] = [];
+      let ok = true;
+      for (const [lx, ly] of [[-hw, hh], [hw, hh], [hw, -hh], [-hw, -hh]]) {
+        const pt = projectScreenPoint(cam, side, z, lx, ly, 0, s.size.width, s.size.height);
+        if (!pt) { ok = false; break; }
+        poly.push(pt);
+      }
+      if (ok) occ.push(poly);
+    }
+    world.occluders = occ;
+    world.occludersAt++;
 
     // The end wall is the next chapter's ground — the page navy — dark until
     // you are close, exactly navy when it fills the view.
@@ -197,7 +254,7 @@ export default function World() {
     <group ref={group} visible={false}>
       {/* Just enough on the walls, floor and ceiling that the room's edges read
           in the dark; the screens and the cursor do the rest. */}
-      <hemisphereLight args={["#2b4a74", "#0b1220", 0.8]} />
+      <hemisphereLight ref={sky} args={["#c9d6ea", "#3a4250", 0]} />
       <pointLight ref={lantern} color="#fff4e2" distance={5} decay={2} intensity={0} />
 
       {/* The room. */}
@@ -210,7 +267,7 @@ export default function World() {
       {SITES.map((p, i) => {
         const side = i % 2 === 0 ? -1 : 1;
         const z = FIRST_Z - i * SPACING;
-        const x = side * (HALF - 0.6);
+        const x = side * SCREEN_X;
         return (
           <group key={p.slug} position={[x, 0.1, z]} rotation={[0, -side * LEAN, 0]}>
             <mesh geometry={res.bezelGeo} material={res.bezelMat} position={[0, 0, -0.035]} />

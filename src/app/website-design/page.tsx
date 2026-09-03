@@ -84,6 +84,8 @@ export default function WebsiteDesignPage() {
               the door opens, then the grid answers. */}
           <KineticMatrix autoImpulseDelay={2050} />
           <div className="rcd-hero-grain" aria-hidden="true" />
+          {/* The hero melts into the dark of the hall below. */}
+          <div className="rcd-hero-melt" aria-hidden="true" />
           <Container>
             <Breadcrumbs
               items={[

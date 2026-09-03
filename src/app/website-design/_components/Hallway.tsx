@@ -62,9 +62,19 @@ export default function Hallway() {
       // No caption in the first steps (the heading has the floor) or at the
       // door (the last screen has passed; the next chapter fills the view).
       const p = world.progress;
-      const show = world.active && p > 0.02 && p < 0.9 ? world.index : -1;
+      const show = world.active && p > 0.02 && p < 0.9 && world.caption.on ? world.index : -1;
       setIndex((i) => (i === show ? i : show));
       setStart(p < 0.03);
+      place();
+    };
+    // The caption hangs under its screen, wherever the screen is.
+    const place = () => {
+      const cap = el.querySelector<HTMLElement>(".rcd-hall-cap[data-active]");
+      if (!cap) return;
+      const half = cap.offsetWidth / 2 + 16;
+      const x = Math.min(window.innerWidth - half, Math.max(half, world.caption.x));
+      cap.style.left = `${x.toFixed(1)}px`;
+      cap.style.top = `${Math.min(window.innerHeight - 40, world.caption.y).toFixed(1)}px`;
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     // The world says which screen is beside the visitor. The camera keeps
@@ -74,9 +84,10 @@ export default function Hallway() {
       poll = requestAnimationFrame(tick);
       if (!world.active) return;
       const p = world.progress;
-      const show = p > 0.02 && p < 0.9 ? world.index : -1;
+      const show = p > 0.02 && p < 0.9 && world.caption.on ? world.index : -1;
       setIndex((i) => (i === show ? i : show));
       setStart(p < 0.03);
+      place();
     };
     update();
     poll = requestAnimationFrame(tick);

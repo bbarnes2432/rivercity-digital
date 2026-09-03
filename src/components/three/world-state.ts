@@ -12,6 +12,12 @@ export const world = {
   /** The screen beside (or just ahead of) the visitor, written by the world. */
   index: 0,
   pointer: { x: 0, y: 0, nx: 0, ny: 0, t: 0, fine: false },
+  /** Where the caption hangs: under the nearest screen, in viewport px. */
+  caption: { x: 0, y: 0, on: false },
+  /** Screens nearer than the cursor's plane, as viewport-px polygons: the
+   *  cursor is clipped out of them so it passes behind. */
+  occluders: [] as number[][][],
+  occludersAt: 0,
   /** The cursor's four light colours, and when they last changed. */
   cursorColors: ["#21d4fd", "#b721ff", "#f4d03f", "#11cdef"] as string[],
   cursorColorsAt: 0,
