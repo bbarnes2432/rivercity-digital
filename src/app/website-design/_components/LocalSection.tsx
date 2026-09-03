@@ -1,25 +1,53 @@
 import Container from "@/app/_components/Container";
 import Section from "@/app/_components/Section";
-import SectionHeader from "@/app/_components/SectionHeader";
 
 /* Right here in St. Louis.
  *
- * A light chapter about being local: a studio in the city, serving the
- * city and everything around it, where a client is a person we know rather
- * than an account number. The neighbourhoods and towns are the ones the
- * Service Areas page already claims. */
-
-const AREAS = [
-  "Soulard", "The Hill", "Tower Grove", "Lafayette Square", "Clayton", "Kirkwood", "Webster Groves",
-  "Maplewood", "Chesterfield", "Ballwin & Ellisville", "Creve Coeur", "O'Fallon", "St. Charles",
-  "Wentzville", "Florissant", "Belleville, IL", "Edwardsville, IL",
-];
+ * A light chapter about being local. On the left, the claim and three
+ * reasons it matters, set large. On the right, the reach: three rings out
+ * from the studio — the city, the county, the wider metro — with the
+ * neighbourhoods and towns the Service Areas page already claims placed
+ * around them, and the studio's own dot pulsing in the middle. */
 
 const POINTS = [
-  { t: "You talk to the people who build it.", d: "No account manager, no ticket queue, no offshore hand-off. The person you met is the person writing your site, and the one who answers when you call." },
-  { t: "We know the streets you're selling on.", d: "Which neighbourhoods search for what, what a Kirkwood customer expects that a Soulard one doesn't, where the competition is thin. That is local knowledge, and it goes into the build." },
-  { t: "We're around after launch.", d: "A site is not a project that ends. We are twenty minutes away, we keep the phone on, and we would rather fix a small thing today than hear about it in a quarterly review." },
+  { n: "01", t: "You talk to the people who build it.", d: "No account manager, no ticket queue, no offshore hand-off. The person you met is the person writing your site, and the one who answers when you call." },
+  { n: "02", t: "We know the streets you're selling on.", d: "Which neighbourhoods search for what, what a Kirkwood customer expects that a Soulard one doesn't, where the competition is thin. That local knowledge goes into the build." },
+  { n: "03", t: "We're around after launch.", d: "A site is not a project that ends. We are twenty minutes away, we keep the phone on, and we would rather fix a small thing today than hear about it in a quarterly review." },
 ];
+
+/* Placed by angle (degrees, clockwise from the top) and ring (0 = city,
+ * 1 = county, 2 = metro). */
+const PLACES: { name: string; a: number; r: number }[] = [
+  { name: "Lafayette Square", a: 45, r: 0 },
+  { name: "Soulard", a: 135, r: 0 },
+  { name: "Tower Grove", a: 218, r: 0 },
+  { name: "The Hill", a: 315, r: 0 },
+  { name: "Florissant", a: 15, r: 1 },
+  { name: "Creve Coeur", a: 335, r: 1 },
+  { name: "Clayton", a: 295, r: 1 },
+  { name: "Maplewood", a: 254, r: 1 },
+  { name: "Kirkwood", a: 205, r: 1 },
+  { name: "Webster Groves", a: 165, r: 1 },
+  { name: "Edwardsville, IL", a: 60, r: 2 },
+  { name: "Belleville, IL", a: 118, r: 2 },
+  { name: "Ballwin & Ellisville", a: 232, r: 2 },
+  { name: "Chesterfield", a: 272, r: 2 },
+  { name: "Wentzville", a: 305, r: 2 },
+  { name: "St. Charles", a: 330, r: 2 },
+  { name: "O'Fallon", a: 352, r: 2 },
+];
+const RINGS = [
+  { r: 96, label: "The city" },
+  { r: 160, label: "St. Louis County" },
+  { r: 212, label: "St. Charles & the Metro East" },
+];
+const C = 250; // centre of a 500×500 drawing
+
+function pos(a: number, r: number) {
+  const rad = ((a - 90) * Math.PI) / 180;
+  const R = RINGS[r].r;
+  return { x: C + Math.cos(rad) * R, y: C + Math.sin(rad) * R };
+}
 
 export default function LocalSection() {
   return (
@@ -27,29 +55,59 @@ export default function LocalSection() {
       <Container>
         <div className="rcd-local-grid">
           <div className="rcd-local-copy">
-            <SectionHeader
-              className="fx-reveal"
-              align="left"
-              eyebrow="Right here in St. Louis"
-              title="Local. Not a number."
-              lede="We are a St. Louis studio, and we serve St. Louis: the city, the county, St. Charles, the Metro East. When you work with us you are not one of a thousand accounts at a corporation in another time zone. You are a business we can drive to, run by people we know by name, and we care whether it works."
-            />
-            <ul className="rcd-local-points fx-stagger">
+            <p className="t-eyebrow fx-reveal">Right here in St. Louis</p>
+            <h2 className="rcd-local-title fx-reveal">Local. <span>Not a number.</span></h2>
+            <p className="rcd-local-lede fx-reveal">
+              We are a St. Louis studio, and we serve St. Louis: the city, the county, St. Charles, the
+              Metro East. You are not one of a thousand accounts at a corporation in another time zone. You
+              are a business we can drive to, run by people we know by name, and we care whether it works.
+            </p>
+            <ol className="rcd-local-points fx-stagger">
               {POINTS.map((p) => (
-                <li key={p.t}>
-                  <h3>{p.t}</h3>
-                  <p>{p.d}</p>
+                <li key={p.n}>
+                  <span className="rcd-local-n">{p.n}</span>
+                  <div>
+                    <h3>{p.t}</h3>
+                    <p>{p.d}</p>
+                  </div>
                 </li>
               ))}
-            </ul>
+            </ol>
           </div>
-          <aside className="rcd-local-areas fx-reveal" aria-label="Areas we serve">
-            <p className="rcd-local-areas-h">Where we work</p>
-            <ul>
-              {AREAS.map((a) => <li key={a}>{a}</li>)}
+
+          <figure className="rcd-local-map fx-reveal" aria-label="Areas we serve, from the city out to the metro">
+            <svg viewBox="0 0 500 500" role="img" aria-hidden="true">
+              <defs>
+                <radialGradient id="rcd-local-glow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0" stopColor="#4CA5AD" stopOpacity="0.28" />
+                  <stop offset="1" stopColor="#4CA5AD" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+              <circle cx={C} cy={C} r="230" fill="url(#rcd-local-glow)" />
+              {RINGS.map((ring) => (
+                <circle key={ring.r} className="rcd-local-ring" cx={C} cy={C} r={ring.r} />
+              ))}
+              {RINGS.map((ring) => (
+                <text key={ring.label} className="rcd-local-ring-label" x={C} y={C - ring.r - 8} textAnchor="middle">{ring.label}</text>
+              ))}
+              {/* Spokes, faint, for the sense of a map. */}
+              {[0, 45, 90, 135].map((a) => {
+                const rad = (a * Math.PI) / 180;
+                return <line key={a} className="rcd-local-spoke" x1={C - Math.cos(rad) * 228} y1={C - Math.sin(rad) * 228} x2={C + Math.cos(rad) * 228} y2={C + Math.sin(rad) * 228} />;
+              })}
+              <circle className="rcd-local-pulse" cx={C} cy={C} r="10" />
+              <circle className="rcd-local-dot" cx={C} cy={C} r="6" />
+              <text className="rcd-local-home" x={C} y={C + 28} textAnchor="middle">River City Digital</text>
+            </svg>
+            <ul className="rcd-local-places">
+              {PLACES.map((p) => {
+                const { x, y } = pos(p.a, p.r);
+                return (
+                  <li key={p.name} style={{ left: `${(x / 500) * 100}%`, top: `${(y / 500) * 100}%` }}>{p.name}</li>
+                );
+              })}
             </ul>
-            <p className="rcd-local-areas-note">And anywhere else in the metro. If you can meet us for coffee, we can build your site.</p>
-          </aside>
+          </figure>
         </div>
       </Container>
     </Section>

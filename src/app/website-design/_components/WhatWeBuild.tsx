@@ -6,9 +6,10 @@ import Container from "@/app/_components/Container";
 import SectionHeader from "@/app/_components/SectionHeader";
 
 /* What we build — four kinds of work as four dark glass cards, two by two,
- * each tilting toward the cursor in three dimensions with a teal glow that
- * follows the pointer, the icon and the words lifted off the card at
- * different depths, and three things you get with each. Plain CSS
+ * each tilting toward the cursor in three dimensions, the icon and the
+ * words lifted off the card at different depths, and three things you get
+ * with each. Hover, and a liquid rises from the bottom of the card until it
+ * is solid. Plain CSS
  * transforms driven by custom properties; no canvas. Under reduced motion,
  * or on touch, the cards are flat and just as readable. */
 
@@ -62,6 +63,9 @@ function Card({ n, t, d, gets, Icon }: (typeof WHAT)[number]) {
 
   return (
     <article ref={el} className="rcd-tilt" data-hover={hover ? "" : undefined}>
+      {/* The liquid: rises from the bottom while the pointer stays, and the
+          glass card goes solid behind the words. */}
+      <div className="rcd-tilt-fill" aria-hidden="true"><i /></div>
       <div className="rcd-tilt-top">
         <span className="rcd-tilt-n">{n}</span>
         <div className="rcd-tilt-icon" aria-hidden="true">

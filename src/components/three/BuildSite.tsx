@@ -233,7 +233,7 @@ export default function BuildSite({ getStage, hovered, pointer, getRect }: Props
     <>
       {/* Far enough back that the page, at its steepest tilt, stays inside the
           view with room to spare on every side. */}
-      <PerspectiveCamera makeDefault fov={30} position={[0, 0.25, 5.0]} onUpdate={(cam) => cam.lookAt(0, -0.02, 0)} />
+      <PerspectiveCamera makeDefault fov={30} position={[0, 0.22, 4.55]} onUpdate={(cam) => cam.lookAt(0, -0.02, 0)} />
       <ambientLight intensity={1.4} />
       <directionalLight position={[2.5, 3.5, 4]} intensity={3.2} />
       <directionalLight position={[-3, 1, 2]} intensity={0.9} color="#a8d8dc" />

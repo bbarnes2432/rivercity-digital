@@ -19,11 +19,36 @@ import { useStage } from "@/components/three/stage-context";
  * sites stands in. */
 
 const STEPS = [
-  { day: "Day 1", t: "Coffee", d: "We sit down with you — goals, customers, what's working, what's broken, what a good month looks like. We leave with a page list and a plan, not a mood board." },
-  { day: "Days 2–4", t: "Wireframes", d: "Every page drawn as boxes before a single colour: where the headline goes, where the phone number goes, what a visitor sees first on a phone. You approve the structure before any visual work starts." },
-  { day: "Days 5–8", t: "Design", d: "A design system for your brand — type, colour, spacing, components — and every page mocked with your real words and photos. No lorem ipsum, no stock template." },
-  { day: "Days 9–12", t: "Build", d: "Hand-coded on Next.js. Schema markup, meta, sitemaps and analytics baked in. Tested on real phones. Lighthouse in the green before you ever see it." },
-  { day: "Day 14", t: "Launch", d: "DNS, SSL, monitoring, Search Console. We hand you the keys and the code — and we still answer the phone." },
+  {
+    day: "Day 1", t: "Coffee",
+    d: "We sit down with you — goals, customers, what's working, what's broken, what a good month looks like. We leave with a page list and a plan, not a mood board.",
+    points: ["Who your customers are and what they type into Google", "Every page the site needs, and the one thing each page must do", "The phone number, the form, the booking link — where conversions happen"],
+    get: "A page list and a written plan, in your inbox the same day.",
+  },
+  {
+    day: "Days 2–4", t: "Wireframes",
+    d: "Every page drawn as boxes before a single colour: where the headline goes, where the phone number goes, what a visitor sees first on a phone.",
+    points: ["Phone layouts first, since that is where most visitors are", "Headline, proof, and the call to action above the fold on every page", "Navigation that gets a stranger to the phone in two taps"],
+    get: "Clickable wireframes of every page. You approve them before any visual work starts.",
+  },
+  {
+    day: "Days 5–8", t: "Design",
+    d: "A design system for your brand — type, colour, spacing, components — and every page mocked with your real words and photos. No lorem ipsum, no stock template.",
+    points: ["Type and colour chosen for your business, not picked from a theme", "Real photography and real copy in every mock, so what you approve is what you get", "Buttons, cards and forms designed once and reused everywhere"],
+    get: "Finished designs of every page, on desktop and phone, with two rounds of changes.",
+  },
+  {
+    day: "Days 9–12", t: "Build",
+    d: "Hand-coded on Next.js. Schema markup, meta, sitemaps and analytics baked in. Tested on real phones. Lighthouse in the green before you ever see it.",
+    points: ["Schema.org markup on every page so Google and AI search read it right", "Images sized and served for speed; nothing over budget", "Tested on real iPhones and Androids, not a simulator"],
+    get: "A staging link you can open on your own phone, with a Lighthouse report attached.",
+  },
+  {
+    day: "Day 14", t: "Launch",
+    d: "DNS, SSL, monitoring, Search Console. We hand you the keys and the code — and we still answer the phone.",
+    points: ["Domain, certificate and redirects handled, so nothing you had already earned is lost", "Search Console and analytics connected and checked", "Uptime monitoring that pages us, not you"],
+    get: "A live site, the repository in your name, and a number you can call.",
+  },
 ] as const;
 
 const SAUCE = PROJECTS.find((p) => p.slug === "the-sauce-fix")!;
@@ -81,6 +106,10 @@ export default function BuildSteps() {
                   <span className="rcd-step-day">Step {i + 1} of {STEPS.length} · {s.day}</span>
                   <h3>{s.t}</h3>
                   <p>{s.d}</p>
+                  <ul className="rcd-step-points">
+                    {s.points.map((pt) => <li key={pt}>{pt}</li>)}
+                  </ul>
+                  <p className="rcd-step-get"><span>You get</span> {s.get}</p>
                 </li>
               ))}
               <li className="rcd-steps-rail" aria-hidden="true">
