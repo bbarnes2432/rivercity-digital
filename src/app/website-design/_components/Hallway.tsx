@@ -100,7 +100,12 @@ export default function Hallway() {
       const half = cap.offsetWidth / 2 + 16;
       const x = Math.min(window.innerWidth - half, Math.max(half, world.caption.x));
       cap.style.left = `${x.toFixed(1)}px`;
-      cap.style.top = `${Math.min(window.innerHeight - 40, world.caption.y).toFixed(1)}px`;
+      // The whole card stays on screen, and on a phone it stays above the
+      // sticky mockup button, so its own links are never underneath it.
+      // (The button is display:none on wide screens; a zero rect is not a limit.)
+      const cta = document.querySelector<HTMLElement>('.rcd-mobile-cta[data-visible="true"]')?.getBoundingClientRect();
+      const floor = (cta && cta.height > 0 ? cta.top - 12 : window.innerHeight - 16) - cap.offsetHeight;
+      cap.style.top = `${Math.min(floor, world.caption.y).toFixed(1)}px`;
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     // The world says which screen is beside the visitor. The camera keeps

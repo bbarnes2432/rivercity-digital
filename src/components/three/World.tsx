@@ -183,7 +183,14 @@ export default function World() {
     c.y = THREE.MathUtils.damp(c.y, targetY, 4, dt);
     cam.position.set(c.x, c.y, c.z);
     cam.lookAt(c.x * 0.3, 0, c.z - 6);
-    if (cam.fov !== 42) { cam.fov = 42; cam.near = 0.1; cam.far = 80; cam.updateProjectionMatrix(); }
+    // The views elsewhere on the page share this camera and drei's View
+    // sets its aspect to their own boxes when they draw; the hall wants the
+    // viewport's. Put it back whenever it differs (on a phone the difference
+    // was a screen squeezed to a portrait sliver).
+    const aspect = s.size.width / s.size.height;
+    if (cam.fov !== 42 || Math.abs(cam.aspect - aspect) > 1e-4) {
+      cam.fov = 42; cam.aspect = aspect; cam.near = 0.1; cam.far = 80; cam.updateProjectionMatrix();
+    }
     cam.updateMatrixWorld();
 
     // No cursor (touch): a small lantern a little ahead of the camera.
