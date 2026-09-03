@@ -22,6 +22,7 @@ import LocalSection from "./_components/LocalSection";
 import ButtonEnergy from "../_components/ButtonEnergy";
 import HowWeBuild from "./_components/HowWeBuild";
 import CustomBuildComparison from "./_components/CustomBuildComparison";
+import FoundSection from "./_components/FoundSection";
 import BusinessSystems from "./_components/BusinessSystems";
 import BuildSteps from "./_components/BuildSteps";
 import WhatWeBuild from "./_components/WhatWeBuild";
@@ -125,6 +126,9 @@ export default function WebsiteDesignPage() {
 
         {/* Why we recommend a custom Next.js build over a template. Light. */}
         <CustomBuildComparison />
+
+        {/* What that control buys: found on Google, cited by AI. Dark. */}
+        <FoundSection />
 
         {/* What the client receives. Light. */}
         <HowWeBuild />
