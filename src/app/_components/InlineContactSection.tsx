@@ -16,6 +16,7 @@ type Props = {
   /** Reported with the call and booking events. Keep it page-specific so the
    *  reporting can tell a call from /about apart from one from /website-design. */
   context?: string;
+  formVariant?: "contact" | "website-mockup";
 };
 
 /* The "three ways to start" block: call, book, or write — plus the form.
@@ -40,6 +41,7 @@ export default function InlineContactSection({
   lede,
   defaultService = "",
   context = "form-section",
+  formVariant = "contact",
 }: Props) {
   return (
     <Section mode="working" id={id} className="tex-dots rcd-inline-contact-section">
@@ -60,12 +62,12 @@ export default function InlineContactSection({
               Book a 30-min call
             </BookCallLink>
             <span className="rcd-inline-contact-or" aria-hidden="true">
-              <span>or write us below</span>
+              <span>{formVariant === "website-mockup" ? "or request your free mockup below" : "or write us below"}</span>
             </span>
           </div>
 
           <div className="rcd-inline-contact-card">
-            <ContactForm defaultService={defaultService} />
+            <ContactForm defaultService={defaultService} variant={formVariant} />
           </div>
         </div>
       </Container>

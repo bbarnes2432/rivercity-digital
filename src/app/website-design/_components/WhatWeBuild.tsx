@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Globe, Rocket, ShoppingBag, RefreshCw, type LucideIcon } from "lucide-react";
+import { Globe, Rocket, ShoppingBag, RefreshCw, Database, LayoutDashboard, type LucideIcon } from "lucide-react";
 import Container from "@/app/_components/Container";
 import SectionHeader from "@/app/_components/SectionHeader";
 
-/* What we build — four kinds of work as four dark glass cards, two by two,
+/* What we build — six kinds of work as dark glass cards, two by two,
  * each tilting toward the cursor in three dimensions, the icon and the
  * words lifted off the card at different depths, and three things you get
  * with each. Hover, and a liquid rises from the bottom of the card until it
@@ -14,10 +14,12 @@ import SectionHeader from "@/app/_components/SectionHeader";
  * or on touch, the cards are flat and just as readable. */
 
 const WHAT: { n: string; t: string; d: string; gets: [string, string, string]; Icon: LucideIcon }[] = [
-  { n: "01", t: "Marketing sites", d: "Custom-designed websites for restaurants, contractors, professional services, salons, retail. Built to convert.", gets: ["Custom design, no theme", "Schema and SEO built in", "Lighthouse 95+"], Icon: Globe },
-  { n: "02", t: "Landing pages", d: "Single-purpose pages for ad campaigns or one-time launches. Quick to ship, sharp to convert.", gets: ["One page, one goal", "Built for paid traffic", "Live in days"], Icon: Rocket },
-  { n: "03", t: "E-commerce", d: "Shopify and headless storefronts when you need product. Fast, custom-themed, search-ready.", gets: ["Shopify or headless", "Fast checkout", "Product pages that rank"], Icon: ShoppingBag },
-  { n: "04", t: "Redesigns", d: "When the existing site is the constraint. We rebuild for speed, search, and the way customers actually use it.", gets: ["Rankings kept, redirects mapped", "Faster on day one", "Same phone number, new site"], Icon: RefreshCw },
+  { n: "01", t: "Business websites", d: "Help people understand your services, see your work, and contact you. For restaurants, contractors, professional services, salons, and shops.", gets: ["Clear service pages", "Customer reviews and project examples", "Calls, bookings, and quote requests"], Icon: Globe },
+  { n: "02", t: "Landing pages", d: "Give visitors from an ad or campaign a focused page with the offer they clicked for and a clear next step.", gets: ["Copy matched to your campaign", "One main call to action", "Conversion tracking setup"], Icon: Rocket },
+  { n: "03", t: "Online stores", d: "Make products easy to browse and buy with a custom Shopify or headless storefront suited to your catalog.", gets: ["Product and collection pages", "Shopping cart and checkout", "Layouts for mobile shoppers"], Icon: ShoppingBag },
+  { n: "04", t: "Website redesigns", d: "Update a site that's hard to use, out of date, or no longer reflects your business. Start with what's working and address what's getting in the way.", gets: ["Content and navigation review", "Mobile and performance improvements", "Redirect planning for changed URLs"], Icon: RefreshCw },
+  { n: "05", t: "Custom backends & CRMs", d: "Replace disconnected tools and repetitive admin work with a system built around your team. Manage the customer information and workflows your business actually uses.", gets: ["Customer records and sales pipelines", "Order and product management", "Automations and software integrations"], Icon: Database },
+  { n: "06", t: "Complete business platforms", d: "Connect your public website, customer portal, and internal operations in one custom platform. Start with the core workflows and expand as your business grows.", gets: ["Customer and staff dashboards", "Booking and payment integrations", "Features built around your operations"], Icon: LayoutDashboard },
 ];
 
 function Card({ n, t, d, gets, Icon }: (typeof WHAT)[number]) {
@@ -88,8 +90,8 @@ export default function WhatWeBuild() {
         <SectionHeader
           className="fx-reveal"
           eyebrow="What we build"
-          title="Four kinds of work."
-          lede="All custom. All hand-coded. All built to be found."
+          title="From a landing page to a full platform."
+          lede="No project is too small. We build single pages, business websites, online stores, and complete custom systems. Tell us what you need today and where you want to take it."
         />
         <div className="rcd-tilt-grid fx-stagger">
           {WHAT.map((w) => (

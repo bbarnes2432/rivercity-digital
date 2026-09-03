@@ -44,7 +44,8 @@ export default function Button(props: Props) {
 
   if ("href" in rest && typeof rest.href === "string") {
     const isExternal = rest.href.startsWith("http") || rest.href.startsWith("mailto:") || rest.href.startsWith("tel:");
-    if (isExternal) {
+    // Fragment links use native navigation so repeated clicks target the same id.
+    if (isExternal || rest.href.includes("#")) {
       return (
         <a className={cls} {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}>
           {children}

@@ -18,6 +18,7 @@ export default function MobileStickyCta({
   showAfter = 520,
   hideNearId = "contact",
 }: Props) {
+  const LinkElement = href.includes("#") ? "a" : Link;
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -51,10 +52,10 @@ export default function MobileStickyCta({
 
   return (
     <div className="rcd-mobile-cta" data-visible={visible} aria-hidden={!visible}>
-      <Link href={href} className="rcd-mobile-cta-btn">
+      <LinkElement href={href} className="rcd-mobile-cta-btn">
         <span>{label}</span>
         <span className="rcd-mobile-cta-arr" aria-hidden="true" />
-      </Link>
+      </LinkElement>
     </div>
   );
 }

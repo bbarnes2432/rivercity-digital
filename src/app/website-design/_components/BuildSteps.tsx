@@ -20,34 +20,34 @@ import { useStage } from "@/components/three/stage-context";
 
 const STEPS = [
   {
-    day: "Day 1", t: "Coffee",
-    d: "We sit down with you — goals, customers, what's working, what's broken, what a good month looks like. We leave with a page list and a plan, not a mood board.",
-    points: ["Who your customers are and what they type into Google", "Every page the site needs, and the one thing each page must do", "The phone number, the form, the booking link — where conversions happen"],
-    get: "A page list and a written plan, in your inbox the same day.",
+    day: "Plan", t: "Define the project",
+    d: "We discuss your business, customers, and goals. Together, we decide what the website needs to explain and what visitors should do next.",
+    points: ["Review your current site and priorities", "Agree on the pages and features you need", "Confirm the scope, price, and timeline"],
+    get: "A page list and a written project plan.",
   },
   {
-    day: "Days 2–4", t: "Wireframes",
-    d: "Every page drawn as boxes before a single colour: where the headline goes, where the phone number goes, what a visitor sees first on a phone.",
-    points: ["Phone layouts first, since that is where most visitors are", "Headline, proof, and the call to action above the fold on every page", "Navigation that gets a stranger to the phone in two taps"],
-    get: "Clickable wireframes of every page. You approve them before any visual work starts.",
+    day: "Layout", t: "Plan the pages",
+    d: "We map out the content and navigation before working on the visual design, so you can see how customers will move through the site.",
+    points: ["Organize services and key information", "Place reviews and calls to action where they help", "Plan layouts for phone and desktop screens"],
+    get: "Page layouts to review and approve.",
   },
   {
-    day: "Days 5–8", t: "Design",
-    d: "A design system for your brand — type, colour, spacing, components — and every page mocked with your real words and photos. No lorem ipsum, no stock template.",
-    points: ["Type and colour chosen for your business, not picked from a theme", "Real photography and real copy in every mock, so what you approve is what you get", "Buttons, cards and forms designed once and reused everywhere"],
-    get: "Finished designs of every page, on desktop and phone, with two rounds of changes.",
+    day: "Design", t: "Review the design",
+    d: "We turn the approved layouts into a complete design using your branding, copy, and images. You give feedback before we start development.",
+    points: ["Apply typography, colors, and imagery", "Show how the pages look on desktop and mobile", "Refine the design through two rounds of revisions"],
+    get: "Finished page designs ready for your approval.",
   },
   {
-    day: "Days 9–12", t: "Build",
-    d: "Hand-coded on Next.js. Schema markup, meta, sitemaps and analytics baked in. Tested on real phones. Lighthouse in the green before you ever see it.",
-    points: ["Schema.org markup on every page so Google and AI search read it right", "Images sized and served for speed; nothing over budget", "Tested on real iPhones and Androids, not a simulator"],
-    get: "A staging link you can open on your own phone, with a Lighthouse report attached.",
+    day: "Development", t: "Build and test",
+    d: "We develop the approved site and check the details that affect daily use, including load times, mobile layouts, forms, and navigation.",
+    points: ["Set up page titles, descriptions, and search markup", "Optimize images and check performance", "Test links, forms, and layouts across devices"],
+    get: "A working preview you can review on your own devices.",
   },
   {
-    day: "Day 14", t: "Launch",
-    d: "DNS, SSL, monitoring, Search Console. We hand you the keys and the code — and we still answer the phone.",
-    points: ["Domain, certificate and redirects handled, so nothing you had already earned is lost", "Search Console and analytics connected and checked", "Uptime monitoring that pages us, not you"],
-    get: "A live site, the repository in your name, and a number you can call.",
+    day: "Launch", t: "Go live",
+    d: "Once you approve the site, we connect your domain and complete the launch checks. We walk you through access and support for future changes.",
+    points: ["Connect the domain and secure connection", "Set up redirects for URLs that have changed", "Check analytics and Google Search Console"],
+    get: "Your live website, site access, and a clear point of contact.",
   },
 ] as const;
 
@@ -96,8 +96,8 @@ export default function BuildSteps() {
       <div className="rcd-steps-stage">
         <Container>
           <header className="rcd-steps-head">
-            <p className="t-eyebrow">The build · 14 days</p>
-            <h2 className="t-h2">Watch one get built.</h2>
+            <p className="t-eyebrow">From project plan to launch</p>
+            <h2 className="t-h2">Know what happens next.</h2>
           </header>
           <div className="rcd-steps-grid">
             <ol className="rcd-steps-list">

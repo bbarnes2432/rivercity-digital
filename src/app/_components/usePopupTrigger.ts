@@ -5,6 +5,8 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 const SUPPRESS_PATHS = new Set<string>([
   "/contact",
+  // This page has its own free mockup offer and inline request form.
+  "/website-design",
   "/privacy-policy",
   "/terms-of-use",
   // Paid-traffic landing page and its thank-you URL. Google and Meta both

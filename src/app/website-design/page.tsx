@@ -21,6 +21,8 @@ import Showcase from "./_components/Showcase";
 import LocalSection from "./_components/LocalSection";
 import ButtonEnergy from "../_components/ButtonEnergy";
 import HowWeBuild from "./_components/HowWeBuild";
+import CustomBuildComparison from "./_components/CustomBuildComparison";
+import BusinessSystems from "./_components/BusinessSystems";
 import BuildSteps from "./_components/BuildSteps";
 import WhatWeBuild from "./_components/WhatWeBuild";
 import Standards from "./_components/Standards";
@@ -29,11 +31,11 @@ import "../styles/inner.css";
 export const metadata: Metadata = {
   title: "Website Design for St. Louis Businesses",
   description:
-    "Custom websites for St. Louis businesses. No themes, no templates. Built for Google and AI search from the first wireframe. Live in 2 weeks.",
+    "Custom website design for St. Louis businesses. Help customers understand your services, trust your business, and get in touch. Request a free website mockup.",
   alternates: { canonical: "/website-design" },
   openGraph: {
     title: "Website Design — River City Digital",
-    description: "No themes. No templates. No swap-the-logo. Custom-built websites for St. Louis businesses.",
+    description: "Custom websites that make your services clear and contacting you easy. Serving St. Louis businesses. Request a free website mockup.",
     url: "/website-design",
   },
 };
@@ -58,7 +60,7 @@ export default function WebsiteDesignPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_LD) }}
       />
       <HeroPortal />
-      <Nav overlayMode="light-on-dark" />
+      <Nav overlayMode="light-on-dark" primaryHref="/website-design#start" primaryLabel="Free mockup" />
 
       <Stage>
       <main id="main" className="rcd-world-page">
@@ -94,26 +96,21 @@ export default function WebsiteDesignPage() {
                     st louis"; the old H1 ("No themes. No templates.") was a
                     positioning line that matched neither, and Google rated
                     landing page experience Below average on every one of those
-                    keywords. The brand line keeps its place as the tagline. */}
+                    keywords. The tagline explains the benefit. */}
                 <h1 className="t-display-1">St. Louis<br />website design.</h1>
-                <p className="rcd-hero-tagline">No themes. No templates.</p>
+                <p className="rcd-hero-tagline">Make it easier for customers to choose you.</p>
                 <p className="rcd-hero-lede">
-                  Custom websites for St. Louis businesses. Hand-coded. Fast.
-                  Designed for Google and AI search from the first wireframe.
+                  We build custom websites that explain what you do, show why
+                  customers trust you, and make it easy to call, book, or request a quote.
                 </p>
-                {/* The ads promise a free website audit in the headline, the
-                    callout and a sitelink. The hero used to answer that with
-                    "Start a build" — a much larger commitment — and send people
-                    to /contact, a second page load away from the form sitting
-                    further down this one. Now it offers what was advertised and
-                    scrolls to the form in place. */}
+                {/* Keep the mockup offer consistent through the form. */}
                 <div className="rcd-hero-actions">
-                  <Button href="#start" size="lg" arrow>Get a free mockup of my site</Button>
+                  <Button href="/website-design#start" size="lg" arrow>Get my free website mockup</Button>
                   <CallLink context="hero" className="btn btn-ghost btn-lg" />
                 </div>
                 <div className="rcd-hero-meta">
-                  <span className="rcd-hero-meta-item">2-week typical launch</span>
-                  <span className="rcd-hero-meta-item">Free, no-obligation mockup</span>
+                  <span className="rcd-hero-meta-item">Landing pages to custom platforms</span>
+                  <span className="rcd-hero-meta-item">Free, with no obligation to build</span>
                 </div>
               </div>
             </div>
@@ -131,14 +128,20 @@ export default function WebsiteDesignPage() {
             a word becoming another word. */}
         <Showcase />
 
-        {/* How we build: the stack, and why — a light chapter. */}
+        {/* What the client receives — a light chapter. */}
         <HowWeBuild />
+
+        {/* Why we recommend a custom Next.js build over a template. */}
+        <CustomBuildComparison />
+
+        {/* Connect custom code to business workflows and software costs. */}
+        <BusinessSystems />
 
         {/* The build, step by step: one step on screen at a time beside one
             of our sites being built on the shared canvas. */}
         <BuildSteps />
 
-        {/* What we build: four cards that tilt toward the cursor. */}
+        {/* Project sizes from single landing pages to full platforms. */}
         <WhatWeBuild />
 
         {/* Right here in St. Louis: local, and not a number. Light. */}
@@ -158,8 +161,8 @@ export default function WebsiteDesignPage() {
           <Container>
             <SectionHeader
               eyebrow="Testimonials"
-              title="What St. Louis businesses say."
-              lede="Restaurants, contractors, salons and shops around the metro — the people these builds are actually for."
+              title="What our clients say."
+              lede="Business owners share their experience with the process, the finished website, and the support."
             />
             <div className="fx-reveal">
               <Testimonials count={3} />
@@ -172,20 +175,21 @@ export default function WebsiteDesignPage() {
             destinations need the same thing. */}
         <InlineContactSection
           id="start"
-          eyebrow="Start a build"
-          title="Tell us about your project."
-          lede="A few sentences is plenty. We&rsquo;ll come back with questions, a real timeline, and a real number. Same-day reply most days."
+          eyebrow="Free website mockup"
+          title="See what your website could look like."
+          lede="One landing page or a full business platform: tell us what you need and which processes you'd like to improve. We'll follow up with any questions before preparing your free website mockup. No obligation to move forward."
           defaultService="New website"
           context="form-section"
+          formVariant="website-mockup"
         />
 
         <CtaBand
           id="closing"
-          eyebrow="Ready to build"
-          title="Start a website that earns its keep."
-          lede="Free 30-minute discovery call. We come back with a real plan, a real timeline, and a real number."
-          primaryHref="#start"
-          primaryLabel="Get a free mockup of my site"
+          eyebrow="Your next website"
+          title="Start with a free mockup."
+          lede="No project is too small. Whether you need a landing page or a complete custom platform, tell us what you're planning. Start with a free website mockup, then decide on the scope, timeline, and price."
+          primaryHref="/website-design#start"
+          primaryLabel="Get my free website mockup"
         />
       </main>
       </Stage>
@@ -193,8 +197,8 @@ export default function WebsiteDesignPage() {
       {/* Mobile shortcut back to the form once the hero has scrolled away.
           Hidden again near the form itself so it never covers its own target. */}
       <MobileStickyCta
-        href="#start"
-        label="Get a free mockup of my site"
+        href="/website-design#start"
+        label="Get my free website mockup"
         hideNearId="start"
       />
 

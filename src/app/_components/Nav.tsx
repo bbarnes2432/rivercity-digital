@@ -10,19 +10,21 @@ import CallLink from "./CallLink";
 const SERVICES = [
   { href: "/ai-search-visibility", label: "AI Search Visibility", desc: "Be the answer ChatGPT, Gemini and Perplexity give." },
   { href: "/local-seo-optimization", label: "Local SEO", desc: "Page 1 and the Map Pack in your zip code." },
-  { href: "/website-design", label: "Website Design", desc: "Custom-built. No themes. No swap-the-logo." },
+  { href: "/website-design", label: "Website Design", desc: "Custom websites that make contacting you easy." },
   { href: "/digital-marketing", label: "Digital Marketing", desc: "Google Ads, Meta, social and email — managed personally." },
 ];
 
 type Props = {
   /** Use light text/colors over dark hero overlap. Defaults to dark text on cream. */
   overlayMode?: "light-on-dark" | "dark-on-light";
+  primaryHref?: string;
+  primaryLabel?: string;
 };
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-export default function Nav({ overlayMode = "light-on-dark" }: Props) {
+export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/contact", primaryLabel = "Free Audit" }: Props) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -195,7 +197,7 @@ export default function Nav({ overlayMode = "light-on-dark" }: Props) {
               is the sticky bar instead. */}
           <div className="rcd-nav-cta">
             <CallLink context="nav" className="rcd-nav-call" />
-            <Button href="/contact" size="sm" arrow>Free Audit</Button>
+            <Button href={primaryHref} size="sm" arrow>{primaryLabel}</Button>
           </div>
 
           <button
@@ -264,7 +266,7 @@ export default function Nav({ overlayMode = "light-on-dark" }: Props) {
           </nav>
 
           <div className="rcd-drawer-foot">
-            <Button href="/contact" size="lg" arrow className="rcd-drawer-cta">Free Audit</Button>
+            <Button href={primaryHref} size="lg" arrow className="rcd-drawer-cta" onClick={() => setDrawerOpen(false)}>{primaryLabel}</Button>
             <a href="mailto:hello@rivercitydigitalco.com" className="rcd-drawer-mail">
               hello@rivercitydigitalco.com
             </a>

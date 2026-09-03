@@ -8,9 +8,11 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 type Props = {
   defaultService?: string;
+  variant?: "contact" | "website-mockup";
 };
 
-export default function ContactForm({ defaultService = "" }: Props) {
+export default function ContactForm({ defaultService = "", variant = "contact" }: Props) {
+  const isMockup = variant === "website-mockup";
   const router = useRouter();
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -74,6 +76,7 @@ export default function ContactForm({ defaultService = "" }: Props) {
 
   return (
     <form name="contact" method="POST" className="rcd-contact-form" onSubmit={handleSubmit}>
+      {isMockup && <input type="hidden" name="source" value="Website design — free mockup request" />}
       {/* Honeypot */}
       <input
         type="text"
@@ -90,7 +93,7 @@ export default function ContactForm({ defaultService = "" }: Props) {
       </div>
 
       <div className="field">
-        <label htmlFor="email">Where can we reach you?</label>
+        <label htmlFor="email">{isMockup ? "Email address" : "Where can we reach you?"}</label>
         <input type="email" id="email" name="email" required placeholder="you@company.com" autoComplete="email" />
       </div>
 
@@ -100,16 +103,23 @@ export default function ContactForm({ defaultService = "" }: Props) {
       </div>
 
       <div className="field">
-        <label htmlFor="website">Got a current site? Drop the URL</label>
+        <label htmlFor="website">{isMockup ? "Current website (optional)" : "Got a current site? Drop the URL"}</label>
         <input type="text" inputMode="url" id="website" name="website" placeholder="yoursite.com" autoComplete="url" />
       </div>
 
       <div className="field">
-        <label htmlFor="service">What are we looking at?</label>
+        <label htmlFor="service">{isMockup ? "What do you need?" : "What are we looking at?"}</label>
         <select id="service" name="service" required defaultValue={defaultService}>
           <option value="" disabled>Pick one…</option>
           <option>New website</option>
           <option>Website redesign</option>
+          {isMockup && (
+            <>
+              <option>Landing page</option>
+              <option>Custom backend or CRM</option>
+              <option>Complete business platform</option>
+            </>
+          )}
           <option>Local SEO</option>
           <option>AI search visibility</option>
           <option>Google or Meta ads</option>
@@ -119,17 +129,17 @@ export default function ContactForm({ defaultService = "" }: Props) {
       </div>
 
       <div className="field">
-        <label htmlFor="message">Tell us about it</label>
+        <label htmlFor="message">{isMockup ? "Tell us about your business" : "Tell us about it"}</label>
         <textarea
           id="message"
           name="message"
           rows={5}
-          placeholder="A few sentences is plenty. We'll come back with questions."
+          placeholder={isMockup ? "Your business name, what you need built, and any tools or manual tasks you'd like to replace. A few sentences is enough." : "A few sentences is plenty. We'll come back with questions."}
         />
       </div>
 
       <button type="submit" className="btn btn-primary btn-lg rcd-contact-submit" disabled={status === "submitting"}>
-        {status === "submitting" ? "Sending…" : status === "success" ? "Sent — we'll be in touch" : "Send →"}
+        {status === "submitting" ? "Sending…" : status === "success" ? "Sent — we'll be in touch" : isMockup ? "Request my free mockup →" : "Send →"}
       </button>
 
       <p

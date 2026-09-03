@@ -10,9 +10,9 @@ import Section from "@/app/_components/Section";
  * around them, and the studio's own dot pulsing in the middle. */
 
 const POINTS = [
-  { n: "01", t: "You talk to the people who build it.", d: "No account manager, no ticket queue, no offshore hand-off. The person you met is the person writing your site, and the one who answers when you call." },
-  { n: "02", t: "We know the streets you're selling on.", d: "Which neighbourhoods search for what, what a Kirkwood customer expects that a Soulard one doesn't, where the competition is thin. That local knowledge goes into the build." },
-  { n: "03", t: "We're around after launch.", d: "A site is not a project that ends. We are twenty minutes away, we keep the phone on, and we would rather fix a small thing today than hear about it in a quarterly review." },
+  { n: "01", t: "Work directly with your web team.", d: "Talk with the people designing and building your website. Ask questions, share feedback, and know who to contact throughout the project." },
+  { n: "02", t: "Reach the areas you serve.", d: "We plan your content around your services and service area, so customers can quickly see whether you can help them and where you work." },
+  { n: "03", t: "Get support after launch.", d: "When your services, team, or business hours change, your website needs to keep up. We can help with updates and discuss ongoing support for your site." },
 ];
 
 /* Placed by angle (degrees, clockwise from the top) and ring (0 = city,
@@ -56,11 +56,11 @@ export default function LocalSection() {
         <div className="rcd-local-grid">
           <div className="rcd-local-copy">
             <p className="t-eyebrow fx-reveal">Right here in St. Louis</p>
-            <h2 className="rcd-local-title fx-reveal">Local. <span>Not a number.</span></h2>
+            <h2 className="rcd-local-title fx-reveal">A local team. <span>Direct contact.</span></h2>
             <p className="rcd-local-lede fx-reveal">
-              We are a St. Louis studio, and we serve St. Louis: the city, the county, St. Charles, the
-              Metro East. You are not one of a thousand accounts at a corporation in another time zone. You
-              are a business we can drive to, run by people we know by name, and we care whether it works.
+              We work with businesses across St. Louis, St. Charles, and the Metro East.
+              You work directly with the team building your website, from the first
+              conversation through launch and future updates.
             </p>
             <ol className="rcd-local-points fx-stagger">
               {POINTS.map((p) => (

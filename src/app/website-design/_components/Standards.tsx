@@ -11,12 +11,12 @@ import { useStage } from "@/components/three/stage-context";
  * without WebGL this is the same list on the same cream. */
 
 const STANDARDS = [
-  "Lighthouse 95+ on Performance, Accessibility, SEO, Best Practices",
-  "First Contentful Paint under 1.2 seconds",
-  "Largest Contentful Paint under 2.5 seconds",
-  "Cumulative Layout Shift under 0.05",
-  "Schema.org markup on every relevant page",
-  "WCAG 2.1 AA accessibility — for real, not as a checkbox",
+  "Performance checks and image optimization to reduce load times",
+  "Mobile layouts checked for readable text and easy navigation",
+  "Contact forms, phone links, and booking links tested before launch",
+  "Accessibility checks for keyboard use, contrast, labels, and image descriptions",
+  "Page titles, descriptions, sitemaps, and relevant structured data for search engines",
+  "Analytics setup to measure visits and key actions on your site",
 ];
 
 export default function Standards() {
@@ -71,9 +71,9 @@ export default function Standards() {
       <Container narrow>
         <div ref={column}>
           <SectionHeader
-            eyebrow="Anatomy of a fast site"
-            title="The standards we hold every build to."
-            lede="Performance and accessibility aren't add-ons. They're the spec."
+            eyebrow="Before launch"
+            title="Checked for everyday use."
+            lede="A finished website needs to work as well as it looks. These checks are part of the build."
             align="left"
           />
           <ul ref={list} className="list-check fx-stagger" style={{ marginTop: 32 }}>

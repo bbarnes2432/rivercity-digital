@@ -40,10 +40,10 @@ const SITES = ORDER.map((s) => PROJECTS.find((p) => p.slug === s)).filter((p): p
  * between them, each fading out before the next fades in. Bands are
  * fractions of the walk; outside a band nothing is shown. */
 const HEADLINES: { from: number; to: number; text: string }[] = [
-  { from: 0, to: 0.1, text: "Eight sites. No templates. Walk the hall." },
-  { from: 0.16, to: 0.38, text: "Built for the phone call, not the award." },
-  { from: 0.44, to: 0.66, text: "Designed to be found on Google." },
-  { from: 0.72, to: 0.92, text: "Yours to keep. No subscription, no lock-in." },
+  { from: 0, to: 0.1, text: "Explore our website projects." },
+  { from: 0.16, to: 0.38, text: "Clear services. Easy ways to get in touch." },
+  { from: 0.44, to: 0.66, text: "A design that fits each business." },
+  { from: 0.72, to: 0.92, text: "See the details behind each project." },
 ];
 const bandFor = (p: number) => HEADLINES.findIndex((h) => p >= h.from && p < h.to);
 
@@ -137,7 +137,7 @@ export default function Hallway() {
         <div className="rcd-hall-veil" aria-hidden="true" />
         <Container>
           <header className="rcd-hall-head">
-            <p className="t-eyebrow">Selected work · Filed from St. Louis</p>
+            <p className="t-eyebrow">Selected website projects</p>
             {/* All four in the same place; the one for this stretch of the walk is on. */}
             <div className="rcd-hall-headlines">
               {HEADLINES.map((h, i) => (

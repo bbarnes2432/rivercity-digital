@@ -9,8 +9,8 @@ import { useStage, type ShowcaseKind } from "@/components/three/stage-context";
 
 /* What's possible — three demonstrations, running live in the page.
  *
- * After the hallway has shown the work, this shows the kind of thing a
- * template cannot do, each one a small piece of hand-written WebGL on the
+ * After the hallway has shown the work, this demonstrates custom design
+ * details, each one a small piece of hand-written WebGL on the
  * shared canvas: a site pulled apart into its components, a surface that
  * answers the cursor, and a word that becomes another word. The copy is the
  * pitch; the tile is the proof. Without a canvas each tile is the still it
@@ -25,8 +25,8 @@ const DEMOS: Demo[] = [
   {
     kind: "layers",
     n: "01",
-    t: "Built in parts.",
-    d: "A template is one flat picture with your logo pasted on. Ours is built in parts — header, hero, menu, story, footer — each its own component, each with its own decisions. That is why a change to one never breaks the others.",
+    t: "Give every section a purpose.",
+    d: "Your services, customer reviews, and contact details each have a job to do. We organize them so visitors can understand your offer and find what they need without searching through the whole site.",
     hint: "Scroll to pull it apart · move to turn it",
     src: SAUCE.img,
     alt: `${SAUCE.name} — the site, in layers`,
@@ -34,8 +34,8 @@ const DEMOS: Demo[] = [
   {
     kind: "ripple",
     n: "02",
-    t: "Reads the room.",
-    d: "Move across it. The surface answers your cursor — a few lines of shader, written for this page, not a plugin bolted on. We use moments like this sparingly, where a visitor is deciding, and never where they slow anyone down.",
+    t: "Use interaction with a purpose.",
+    d: "Interactive details can draw attention to a product or help explain a service. This effect shows one possibility. We choose where motion adds value and keep essential information easy to use.",
     hint: "Move your cursor across it",
     src: PET.img,
     alt: `${PET.name} — the site, as a surface`,
@@ -43,8 +43,8 @@ const DEMOS: Demo[] = [
   {
     kind: "words",
     n: "03",
-    t: "Template becomes custom.",
-    d: "Nine thousand points, set in our own type, and one word becoming another as you scroll. Type, motion and layout are written for the business every time — never picked from a theme and never the same twice.",
+    t: "Make the design fit your brand.",
+    d: "Typography, color, photography, and motion shape how people see your business. We bring them together in a consistent design that reflects who you are and keeps your message clear.",
     hint: "Scroll to change the word · push the cursor through it",
   },
 ];
@@ -115,9 +115,9 @@ export default function Showcase() {
       <Container>
         <SectionHeader
           className="fx-reveal"
-          eyebrow="What's possible · Live, not a video"
-          title="Things a template can't do."
-          lede="Three small demonstrations, running right now in this page. Every one is hand-written — the same way we would build yours."
+          eyebrow="Custom design in practice"
+          title="Design that supports your message."
+          lede="Explore a few design possibilities below. Your website's layout and interactions should help customers understand your business and take the next step."
         />
         <div className="rcd-show-list">
           {DEMOS.map((demo) => (
