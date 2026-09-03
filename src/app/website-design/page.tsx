@@ -123,23 +123,24 @@ export default function WebsiteDesignPage() {
             behind this section; the captions and the fallback grid are DOM. */}
         <Hallway />
 
-        {/* What's possible: three live demonstrations on the shared canvas —
-            a site pulled into its parts, a surface that answers the cursor,
-            a word becoming another word. */}
-        <Showcase />
-
-        {/* What the client receives — a light chapter. */}
-        <HowWeBuild />
-
-        {/* Why we recommend a custom Next.js build over a template. */}
+        {/* Why we recommend a custom Next.js build over a template. Light. */}
         <CustomBuildComparison />
 
-        {/* Connect custom code to business workflows and software costs. */}
+        {/* What the client receives. Light. */}
+        <HowWeBuild />
+
+        {/* The systems behind the site: a mock back-office app, the software
+            bill counted up, the offer. Dark. */}
         <BusinessSystems />
 
         {/* The build, step by step: one step on screen at a time beside one
             of our sites being built on the shared canvas. */}
         <BuildSteps />
+
+        {/* What's possible: three live demonstrations on the shared canvas —
+            a site pulled into its parts, a surface that answers the cursor,
+            a word becoming another word. */}
+        <Showcase />
 
         {/* Project sizes from single landing pages to full platforms. */}
         <WhatWeBuild />
