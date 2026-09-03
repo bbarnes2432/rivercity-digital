@@ -38,9 +38,6 @@ importers:
       three:
         specifier: ^0.185.1
         version: 0.185.1
-      threejs-components:
-        specifier: 0.0.19
-        version: 0.0.19
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4
@@ -2077,9 +2074,6 @@ packages:
 
   three@0.185.1:
     resolution: {integrity: sha512-5aojFCXKwnjBRZvUnt3WFfEcvUJgkN5LlijRFN95hMy8WVkG4I0QNcJE+OuWvuJ0bOdStrbfXn0pkd6/QyiAlg==}
-
-  threejs-components@0.0.19:
-    resolution: {integrity: sha512-4Zk9StS8nLM07h66g2q5WtZWRDSe5D58W4whCq8MkT95+nidnYS8SNr49kYr44/sfN6NKwz0ibA9APkxKT/dWA==}
 
   tinyglobby@0.2.16:
     resolution: {integrity: sha512-pn99VhoACYR8nFHhxqix+uvsbXineAasWm5ojXoN8xEwK5Kd3/TrhNn1wByuD52UxWRLy8pu+kRMniEi6Eq9Zg==}
@@ -4405,8 +4399,6 @@ snapshots:
       three: 0.185.1
 
   three@0.185.1: {}
-
-  threejs-components@0.0.19: {}
 
   tinyglobby@0.2.16:
     dependencies:

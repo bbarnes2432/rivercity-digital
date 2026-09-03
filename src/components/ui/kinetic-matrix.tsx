@@ -421,7 +421,7 @@ export function KineticMatrix({
 
                 ctx.font = '8px ui-monospace, SFMono-Regular, Consolas, monospace';
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-                ctx.fillText(n.label, n.x + 9, n.y - 9);
+                /* label intentionally not drawn */
             }
         }
     }, []);

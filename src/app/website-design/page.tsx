@@ -17,7 +17,6 @@ import KineticMatrix from "@/components/ui/kinetic-matrix";
 import ShaderBackground from "@/components/ui/shader-background";
 import HeroPortal from "../_components/HeroPortal";
 import Stage from "@/components/three/Stage";
-import TubesCursor from "@/components/ui/tubes-cursor";
 import Hallway from "./_components/Hallway";
 import Showcase from "./_components/Showcase";
 import HowWeBuild from "./_components/HowWeBuild";
@@ -220,8 +219,6 @@ export default function WebsiteDesignPage() {
 
       <Footer />
       <ScrollReveal />
-      {/* The tubes cursor: its own canvas over the whole page, mouse only. */}
-      <TubesCursor />
     </>
   );
 }

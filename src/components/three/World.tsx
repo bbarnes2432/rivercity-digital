@@ -12,18 +12,17 @@ import { texUrl } from "./tex";
  *
  * A dark room in the root of the shared canvas: matte walls, floor and
  * ceiling, and eight screens mounted along the walls, alternating left and
- * right. There are no lamps. The light is the visitor's cursor — the
- * ribbons it trails (CursorTubes) hang in the room a couple of metres ahead
- * of the camera and carry point lights in their own colours, so the walls,
- * the floor and the screens come up in pink and blue wherever the cursor
- * has just been, and fall back to dark. On touch there is no cursor, so a
- * small lantern rides with the camera instead. Fog takes the far end to
+ * right. There are no lamps. The only light is the cursor's — the tubes it
+ * trails (CursorTubes) hang in the room ahead of the camera and carry four
+ * short-range lights, so the wall or floor they are near comes up in their
+ * colours and everything else stays black. On touch there is no cursor, so
+ * a small lantern rides with the camera instead. Fog takes the far end to
  * black.
  *
  * Scroll progress in the hallway section walks the camera. The room comes
  * up from nothing as the section enters the viewport. At the far end is a
- * doorway showing the next part of the page — by the end of the section
- * the camera is in it, and the page carries on down as normal.
+ * wall in the page's own navy; by the end of the section it fills the
+ * view, and the next chapter scrolls up over it as if it were the wall.
  *
  * The DOM owns the words (captions, links, the no-WebGL grid). This owns the
  * walk. It draws only while the hallway section is on screen. */
@@ -45,10 +44,12 @@ const FIRST_Z = -3.0;
 const LAST_Z = FIRST_Z - SPACING * (SITES.length - 1);
 const DOOR_Z = LAST_Z - 3.6;
 const START_Z = 1.6; // camera at progress 0
-const DOOR_W = 3.6;
-const DOOR_H = 2.25;
-// Camera at progress 1: exactly far enough back that the door fills the view.
-const END_Z = DOOR_Z + DOOR_H / (2 * Math.tan((42 * Math.PI) / 360));
+const DOOR_W = 5.2;
+const DOOR_H = 3.25;
+// Camera at progress 1: far enough back that a 16:10 view is exactly filled
+// by the middle of the wall; the wall is larger so the pointer parallax and
+// wider screens never show its edge.
+const END_Z = DOOR_Z + 2.25 / (2 * Math.tan((42 * Math.PI) / 360));
 const HALF = 2.7; // wall x
 const FLOOR = -1.45;
 const CEIL = 1.55;
@@ -59,38 +60,31 @@ const ROOM_NEAR = 4;
 const ROOM_FAR = DOOR_Z - 1.5;
 const ROOM_MID = (ROOM_NEAR + ROOM_FAR) / 2;
 
-/* The doorway at the end of the hall shows the next chapter's opening —
- * the same words the page shows once you are through. */
-let DOOR_TEX: THREE.CanvasTexture | null = null;
-function doorTex(): THREE.CanvasTexture {
-  if (DOOR_TEX) return DOOR_TEX;
-  const cw = 1024, ch = Math.round(1024 * (DOOR_H / DOOR_W));
-  const cv = document.createElement("canvas");
-  cv.width = cw; cv.height = ch;
-  const ctx = cv.getContext("2d")!;
-  const css = getComputedStyle(document.body);
-  const barlow = css.getPropertyValue("--font-barlow").trim() || '"Barlow Condensed"';
-  const inter = css.getPropertyValue("--font-inter").trim() || "Inter";
-  const mono = css.getPropertyValue("--font-mono").trim() || "monospace";
-  ctx.fillStyle = "#101D31";
-  ctx.fillRect(0, 0, cw, ch);
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#7FC3C8";
-  ctx.font = `600 22px ${mono}`;
-  ctx.fillText("W H A T ' S   P O S S I B L E   ·   L I V E ,   N O T   A   V I D E O", cw / 2, ch * 0.3);
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = `700 118px ${barlow}, "Barlow Condensed", sans-serif`;
-  ctx.fillText("THINGS A TEMPLATE", cw / 2, ch * 0.3 + 128);
-  ctx.fillText("CAN'T DO.", cw / 2, ch * 0.3 + 244);
-  ctx.fillStyle = "rgba(255,255,255,0.72)";
-  ctx.font = `400 26px ${inter}, sans-serif`;
-  ctx.fillText("Three small demonstrations, running right now in this page.", cw / 2, ch * 0.3 + 312);
-  const t = new THREE.CanvasTexture(cv);
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.anisotropy = 4;
-  DOOR_TEX = t;
-  return t;
+/* The whole frame goes through the composer's ACES tone mapping, so a
+ * surface that must come out exactly the page's navy has to start from the
+ * colour that maps to it. Fixed-point inversion of three's fitted ACES
+ * curve, done once. */
+function acesForward(c: THREE.Vector3): THREE.Vector3 {
+  const v = c.clone().multiplyScalar(1 / 0.6);
+  const m1 = new THREE.Matrix3().set(0.59719, 0.35458, 0.04823, 0.07600, 0.90834, 0.01566, 0.02840, 0.13383, 0.83777);
+  const m2 = new THREE.Matrix3().set(1.60475, -0.53108, -0.07367, -0.10208, 1.10813, -0.00605, -0.00327, -0.07276, 1.07602);
+  v.applyMatrix3(m1);
+  const fit = (x: number) => (x * (x + 0.0245786) - 0.000090537) / (x * (0.983729 * x + 0.4329510) + 0.238081);
+  v.set(fit(v.x), fit(v.y), fit(v.z));
+  v.applyMatrix3(m2);
+  return v.clampScalar(0, 1);
 }
+function acesInverse(target: THREE.Color): THREE.Color {
+  const want = new THREE.Vector3(target.r, target.g, target.b);
+  const x = want.clone();
+  for (let i = 0; i < 60; i++) {
+    const out = acesForward(x);
+    x.add(want.clone().sub(out).multiplyScalar(0.6));
+    x.clampScalar(0, 4);
+  }
+  return new THREE.Color(x.x, x.y, x.z);
+}
+const PAGE_NAVY = acesInverse(new THREE.Color("#101D31"));
 
 /* Module singletons: the render loop mutates these, and the React compiler
  * lint refuses a hook return value or a ref read during render. One World
@@ -120,7 +114,7 @@ function getRes(): Res {
     // The screens carry their picture as a faint emissive so they are just
     // findable in the dark, and come up fully when the light reaches them.
     screenMats: Array.from({ length: n }, () => new THREE.MeshStandardMaterial({ roughness: 0.55, metalness: 0, emissive: new THREE.Color("#ffffff"), emissiveIntensity: 0 })),
-    doorMat: new THREE.MeshBasicMaterial({ toneMapped: false, color: 0x000000 }),
+    doorMat: new THREE.MeshBasicMaterial({ toneMapped: false, fog: false, color: "#101D31" }),
     fog: new THREE.FogExp2(new THREE.Color("#04070d"), 0.08),
     screenGeo: new THREE.PlaneGeometry(SW, SH),
     bezelGeo: new THREE.BoxGeometry(SW + 0.12, SH + 0.12, 0.06),
@@ -157,7 +151,6 @@ export default function World() {
       r.screenMats[i].emissiveMap = m;
       r.screenMats[i].needsUpdate = true;
     });
-    r.doorMat.map = doorTex(); r.doorMat.needsUpdate = true;
   }, [maps]);
 
   useFrame((s, dt) => {
@@ -195,7 +188,7 @@ export default function World() {
     const l = lantern.current;
     if (l) {
       l.position.set(c.x, c.y + 0.2, c.z - 1.2);
-      l.intensity = fine ? 0 : 4 * enter;
+      l.intensity = fine ? 0 : 3 * enter;
     }
 
     // Screens ahead are just findable in the dark until the light reaches
@@ -205,30 +198,25 @@ export default function World() {
       const z = FIRST_Z - i * SPACING;
       const ahead = c.z - z;
       const near = 1 - THREE.MathUtils.smoothstep(ahead, 5, 11);
-      r.screenMats[i].emissiveIntensity = 0.3 * enter * near;
+      r.screenMats[i].emissiveIntensity = 0.12 * enter * near;
       const d = Math.abs(z - (c.z - 1.6));
       if (d < nearestD) { nearestD = d; nearest = i; }
     }
     if (nearest !== c.index) { c.index = nearest; world.index = nearest; }
 
-    // The doorway: the next chapter, dim until you are close.
+    // The end wall is the next chapter's ground — the page navy — dark until
+    // you are close, exactly navy when it fills the view.
     const doorNear = 1 - THREE.MathUtils.smoothstep(c.z - DOOR_Z, 3, 14);
-    r.doorMat.color.setScalar((0.08 + 0.92 * doorNear) * enter);
+    r.doorMat.color.copy(PAGE_NAVY).multiplyScalar((0.08 + 0.92 * doorNear) * enter);
 
     const moving = Math.abs(c.z + c.x + c.y - before) > 1e-4 || performance.now() - world.pointer.t < 120;
-    // r3f skips its own render pass once any useFrame subscriber has a
-    // priority above zero — the views and the cursor HUD both do — so the
-    // root scene draws itself. Full viewport: the last view left it small.
-    s.gl.setScissorTest(false);
-    s.gl.setViewport(0, 0, s.size.width, s.size.height);
-    s.gl.render(s.scene, cam);
+    // Composite draws the room (with bloom) after this.
     if (moving) s.invalidate();
   });
 
   return (
     <group ref={group} visible={false}>
-      <ambientLight intensity={0.012} />
-      <pointLight ref={lantern} color="#fff4e2" distance={12} decay={1.8} intensity={0} />
+      <pointLight ref={lantern} color="#fff4e2" distance={5} decay={2} intensity={0} />
 
       {/* The room. */}
       <mesh geometry={res.floorGeo} material={res.floorMat} rotation={[-Math.PI / 2, 0, 0]} position={[0, FLOOR, ROOM_MID]} />
