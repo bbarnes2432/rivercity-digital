@@ -36,19 +36,16 @@ const LIVE: Record<string, string> = {
 };
 const SITES = ORDER.map((s) => PROJECTS.find((p) => p.slug === s)).filter((p): p is CaseStudy => !!p);
 
-/* One line per screen, at the top of the hall, that sells the work as it
- * passes. The first is for the doorway, before any screen is beside you. */
-const HEADLINES = [
-  "Eight sites. No templates. Walk the hall.",
-  "Built for the phone call, not the award.",
-  "Designed to be found on Google — from the first wireframe.",
-  "Fast enough to feel instant on a phone.",
-  "Every page written for the customer, not the template.",
-  "Custom, hand-coded, and the maker runs it herself.",
-  "Search-ready the day it launches.",
-  "Hand-coded. Hand-checked. Nothing bolted on.",
-  "Yours to keep. No subscription, no lock-in.",
+/* Four lines at the top of the hall, spread along the walk with room
+ * between them, each fading out before the next fades in. Bands are
+ * fractions of the walk; outside a band nothing is shown. */
+const HEADLINES: { from: number; to: number; text: string }[] = [
+  { from: 0, to: 0.1, text: "Eight sites. No templates. Walk the hall." },
+  { from: 0.16, to: 0.38, text: "Built for the phone call, not the award." },
+  { from: 0.44, to: 0.66, text: "Designed to be found on Google." },
+  { from: 0.72, to: 0.92, text: "Yours to keep. No subscription, no lock-in." },
 ];
+const bandFor = (p: number) => HEADLINES.findIndex((h) => p >= h.from && p < h.to);
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
@@ -56,7 +53,7 @@ export default function Hallway() {
   const { enabled, request } = useStage();
   const section = useRef<HTMLElement>(null);
   const [index, setIndex] = useState(-1);
-  const [start, setStart] = useState(true);
+  const [band, setBand] = useState(0);
 
   useEffect(() => {
     const el = section.current;
@@ -78,11 +75,19 @@ export default function Hallway() {
       const p = world.progress;
       const show = world.active && p > 0.02 && p < 0.9 && world.caption.on ? world.index : -1;
       setIndex((i) => (i === show ? i : show));
-      setStart(p < 0.03);
+      headline();
       place();
       veil();
     };
     // The caption hangs under its screen, wherever the screen is.
+    // Which headline the walk is at. A change fades the current one out,
+    // then brings the next in — never a hard cut.
+    // Which headline the walk is at; the CSS fades the old one out and the
+    // new one in. Same value is a free no-op.
+    const headline = () => {
+      const want = bandFor(world.progress);
+      setBand((b) => (b === want ? b : want));
+    };
     // The last stretch fades to the page's own navy, in the DOM, so what
     // meets the next chapter is the same colour it is.
     const veil = () => {
@@ -107,7 +112,7 @@ export default function Hallway() {
       const p = world.progress;
       const show = p > 0.02 && p < 0.9 && world.caption.on ? world.index : -1;
       setIndex((i) => (i === show ? i : show));
-      setStart(p < 0.03);
+      headline();
       place();
     };
     update();
@@ -127,14 +132,18 @@ export default function Hallway() {
   }, [request]);
 
   return (
-    <section ref={section} className="rcd-hall" data-3d={enabled ? "" : undefined} data-index={index} data-start={start ? "" : undefined} aria-label="Selected work">
+    <section ref={section} className="rcd-hall" data-3d={enabled ? "" : undefined} data-index={index} aria-label="Selected work">
       <div className="rcd-hall-stage">
         <div className="rcd-hall-veil" aria-hidden="true" />
         <Container>
           <header className="rcd-hall-head">
             <p className="t-eyebrow">Selected work · Filed from St. Louis</p>
-            {/* Keyed on the screen, so each line arrives fresh. */}
-            <h2 key={index} className="rcd-hall-headline">{HEADLINES[index + 1] ?? HEADLINES[0]}</h2>
+            {/* All four in the same place; the one for this stretch of the walk is on. */}
+            <div className="rcd-hall-headlines">
+              {HEADLINES.map((h, i) => (
+                <h2 key={h.text} className="rcd-hall-headline" data-on={band === i ? "" : undefined} aria-hidden={band === i ? undefined : "true"}>{h.text}</h2>
+              ))}
+            </div>
           </header>
 
           <ol className="rcd-hall-caps">

@@ -465,9 +465,21 @@
 .rcd-hall-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 .rcd-hall-veil { position: absolute; inset: 0; background: var(--rcd-navy-900); opacity: 0; pointer-events: none; z-index: 2; }
 .rcd-hall-head { position: absolute; left: 0; right: 0; top: 92px; text-align: center; z-index: 3; padding: 0 24px; }
-.rcd-hall-headline { margin: 10px auto 0; max-width: 18ch; font: 700 clamp(30px, 4.2vw, 62px)/0.98 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; color: #fff; text-wrap: balance; animation: rcd-headline-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-@keyframes rcd-headline-in { from { opacity: 0; transform: translateY(22px); clip-path: inset(0 0 100% 0); } to { opacity: 1; transform: none; clip-path: inset(0 0 -10% 0); } }
-.rcd-hall:not([data-3d]) .rcd-hall-headline { animation: none; }
+/* Width in px, not ch: the box has no text of its own, so ch would be the
+   body's, and the lines would break one word at a time. */
+.rcd-hall-headlines { position: relative; margin: 10px auto 0; max-width: min(92vw, 1040px); min-height: clamp(64px, 8.6vw, 128px); }
+.rcd-hall-headline {
+  position: absolute; left: 0; right: 0; top: 0; margin: 0;
+  font: 700 clamp(30px, 4.2vw, 62px)/0.98 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; color: #fff; text-wrap: balance;
+  /* Out: quick, up and blurred. */
+  opacity: 0; transform: translateY(-14px); filter: blur(6px); pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.45s ease, filter 0.45s ease;
+}
+/* In: slower, from below, and only after the previous one has gone. */
+.rcd-hall-headline[data-on] { opacity: 1; transform: none; filter: blur(0); transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s, filter 0.8s ease 0.4s; }
+.rcd-hall:not([data-3d]) .rcd-hall-headlines { min-height: 0; }
+.rcd-hall:not([data-3d]) .rcd-hall-headline { position: static; opacity: 1; transform: none; filter: none; }
+.rcd-hall:not([data-3d]) .rcd-hall-headline:not([data-on]) { display: none; }
 .rcd-hall-caps { list-style: none; margin: 0; padding: 0; }
 .rcd-hall-cap {
   /* Hung from the bottom edge of its screen: left/top are set each frame
