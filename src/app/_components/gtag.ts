@@ -185,6 +185,101 @@ function consumeContactConversionPending(): boolean {
   return pending;
 }
 
+/* Enhanced conversions.
+ *
+ * Google Ads reported the lead-form action as "Needs attention" with one
+ * issue: enhanced conversions were running in Automatic mode only, where the
+ * tag guesses at form fields by scraping the page. That guess cannot work
+ * here at all — the conversion fires on /thank-you, a page with no form on it
+ * — so the match rate was whatever Automatic could scrape from an empty page.
+ *
+ * Passing the identifiers explicitly lets Google match the conversion to the
+ * signed-in Google account that clicked the ad, which recovers conversions
+ * that cookie-based attribution drops. Google normalizes and SHA-256 hashes
+ * these in the browser before anything leaves it; the raw values never reach
+ * Google and never reach us beyond the form post we already receive.
+ *
+ * The values ride in sessionStorage for exactly as long as the redirect from
+ * the form to /thank-you takes, then are deleted whether or not the
+ * conversion fired. Same-origin, same tab, and gone on close.
+ *
+ * Normalization follows Google's rules: email trimmed and lowercased, phone
+ * in E.164. Anything we cannot put in that shape is left out rather than sent
+ * malformed, since a bad identifier is worse than a missing one — it can match
+ * the wrong person.
+ */
+type ConversionIdentity = {
+  email?: string;
+  phone?: string;
+  name?: string;
+};
+
+const IDENTITY_KEY = "rcd-conversion-identity";
+let identityInMemory: ConversionIdentity | null = null;
+
+// US numbers only, which is every number this business takes. Ten digits gets
+// a +1; eleven starting with 1 is already country-coded. Anything else is a
+// typo or an international number we cannot safely normalize, so it is dropped.
+function toE164(raw: string): string | undefined {
+  const digits = raw.replace(/\D/g, "");
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+  return undefined;
+}
+
+function normalizeIdentity(identity: ConversionIdentity): Record<string, unknown> | null {
+  const out: Record<string, unknown> = {};
+
+  const email = identity.email?.trim().toLowerCase();
+  if (email && email.includes("@")) out.email = email;
+
+  const phone = identity.phone?.trim();
+  if (phone) {
+    const e164 = toE164(phone);
+    if (e164) out.phone_number = e164;
+  }
+
+  // Google wants first and last separately, lowercased and stripped of
+  // punctuation. A single-word name yields a first name and no last name,
+  // which is valid — a wrong last name would not be.
+  const name = identity.name?.trim().replace(/\s+/g, " ").toLowerCase();
+  if (name) {
+    const parts = name.split(" ").map((w) => w.replace(/[^\p{L}\p{M}'-]/gu, "")).filter(Boolean);
+    if (parts.length) {
+      const address: Record<string, string> = { first_name: parts[0] };
+      if (parts.length > 1) address.last_name = parts[parts.length - 1];
+      out.address = address;
+    }
+  }
+
+  return Object.keys(out).length ? out : null;
+}
+
+// Called by the forms just before they redirect, alongside
+// markContactConversionPending.
+export function markConversionIdentity(identity: ConversionIdentity): void {
+  if (typeof window === "undefined") return;
+  identityInMemory = identity;
+  try {
+    sessionStorage.setItem(IDENTITY_KEY, JSON.stringify(identity));
+  } catch {
+    // Storage blocked — the in-memory copy still covers the SPA redirect.
+  }
+}
+
+function consumeConversionIdentity(): ConversionIdentity | null {
+  let identity = identityInMemory;
+  identityInMemory = null;
+  try {
+    const raw = sessionStorage.getItem(IDENTITY_KEY);
+    sessionStorage.removeItem(IDENTITY_KEY);
+    if (!identity && raw) identity = JSON.parse(raw) as ConversionIdentity;
+  } catch {
+    // Storage blocked or the value was not JSON — use the in-memory copy.
+  }
+  return identity;
+}
+
 // Report a conversion to Google Ads, waiting for the tag if it isn't up yet.
 //
 // The Google tag loads with strategy "afterInteractive", so on a slow or direct
@@ -222,6 +317,17 @@ export function trackContactConversion(
 ): void {
   if (typeof window === "undefined") return;
   if (!consumeContactConversionPending()) return;
+
+  // Identity first, conversion second: gtag applies user_data to events sent
+  // after the set call, so firing before it would send the conversion
+  // unenhanced. Consume it either way so a blocked or absent identity cannot
+  // leak into a later conversion on the same tab.
+  const identity = consumeConversionIdentity();
+  const userData = identity ? normalizeIdentity(identity) : null;
+  if (userData && typeof window.gtag === "function") {
+    window.gtag("set", "user_data", userData);
+  }
+
   fireConversion(CONTACT_CONVERSION_SEND_TO, params);
 }
 

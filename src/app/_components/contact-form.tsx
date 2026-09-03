@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { markContactConversionPending, trackLeadEvent } from "./gtag";
+import { markContactConversionPending, markConversionIdentity, trackLeadEvent } from "./gtag";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -65,6 +65,14 @@ export default function ContactForm({ defaultService = "", variant = "contact" }
       // Keep the button disabled and redirect to the thank-you page, where
       // the Google Ads conversion fires. Status stays "submitting" so the UI
       // doesn't flicker back to idle during the navigation.
+      // Read the identifiers off the payload before reset() clears the form.
+      // They enhance the conversion on /thank-you and are dropped immediately
+      // after it fires.
+      markConversionIdentity({
+        email: String(fd.get("email") ?? ""),
+        phone: String(fd.get("phone") ?? ""),
+        name: String(fd.get("name") ?? ""),
+      });
       form.reset();
       markContactConversionPending();
       router.push("/thank-you");
