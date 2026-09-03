@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { Phone } from "lucide-react";
 import { PHONE } from "./contact-info";
-import { trackLeadEvent } from "./gtag";
+import { trackClickToCallConversion, trackLeadEvent } from "./gtag";
 
 type Props = {
   /** Where on the page this instance sits — reported with the event so the
@@ -35,7 +35,10 @@ export default function CallLink({ context, className, children, icon = true }: 
     <a
       href={PHONE.href}
       className={className}
-      onClick={() => trackLeadEvent("click_to_call", { context, page: pathname })}
+      onClick={() => {
+        trackLeadEvent("click_to_call", { context, page: pathname });
+        trackClickToCallConversion({ context, page: pathname });
+      }}
     >
       {icon && <Phone size={15} strokeWidth={2} aria-hidden="true" />}
       <span>{children ?? PHONE.display}</span>

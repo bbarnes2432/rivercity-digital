@@ -44,6 +44,35 @@ export const CONTACT_CONVERSION_SEND_TO = "AW-18272669855/Xo1xCOeAm-UcEJ-hi4lE";
 // symptom is money spent buying people who open a scheduler and abandon it.
 export const BOOK_CALL_CONVERSION_SEND_TO = "AW-18272669855/8xdTCKT7oOUcEJ-hi4lE";
 
+// Conversion action: "Click to call (website)", in Google's "Contact" category.
+// A tap on the site's phone number. Same label warning as the two above — this
+// one contains a zero (not an O) right after the hyphen, and a lowercase L
+// (not a one) in "hi4lE". Taken from the event snippet and verified character
+// by character, never off a screenshot.
+//
+// Why taps and not connected calls. Google's other option is a forwarding
+// number, which swaps the displayed number and counts a call only once it runs
+// past a duration threshold. That hides the calls nobody picks up — and an
+// unanswered call is a lead the ad genuinely produced, so it should not be
+// invisible to reporting or to bidding. It would also put an unfamiliar number
+// on a site whose whole pitch is that you reach the person who built it.
+//
+// The cost of counting taps is that a tap is not a call. That is the same
+// objection the OAIQ_LEAD_EVENT table above raises about click_to_call, and it
+// still stands. Two things keep it in bounds:
+//
+//   1. The action carries a fixed $500 in the Ads UI, against $750 for a form
+//      submission. A tap is worth less than a captured lead because some share
+//      of taps never dial, and bidding should not treat them as equal.
+//   2. Mobile is ~86% of this campaign's spend, and on a phone a tap opens the
+//      dialer with the number already filled in. That is a far shorter gap
+//      between intent and action than a scheduler-open, which is why the
+//      Calendly action is kept out of bidding and this one is not.
+//
+// As with Calendly, no `value` is passed from here: the action is set to "use
+// the same value for each conversion", so Google ignores whatever the tag sends.
+export const CLICK_TO_CALL_CONVERSION_SEND_TO = "AW-18272669855/qO_3CNOS3-0cEJ-hi4lE";
+
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
@@ -210,4 +239,16 @@ export function trackBookCallConversion(
 ): void {
   if (typeof window === "undefined") return;
   fireConversion(BOOK_CALL_CONVERSION_SEND_TO, params);
+}
+
+// Fire the click-to-call conversion. Like the Calendly one, the click is the
+// event and happens on the page where it is observed, so there is no pending
+// flag to survive a redirect. Repeat taps collapse to one conversion per ad
+// click through the action's "count: one" setting, which dedupes server-side
+// across page loads and sessions in a way the page cannot.
+export function trackClickToCallConversion(
+  params: Record<string, unknown> = {},
+): void {
+  if (typeof window === "undefined") return;
+  fireConversion(CLICK_TO_CALL_CONVERSION_SEND_TO, params);
 }

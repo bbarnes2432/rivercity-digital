@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { PHONE } from "../_data";
-import { trackLeadEvent } from "../../_components/gtag";
+import { trackClickToCallConversion, trackLeadEvent } from "../../_components/gtag";
 
 type Props = {
   /** Where on the page this instance sits — reported with the event so the
@@ -26,7 +26,10 @@ export default function CallLink({ context, className, children, icon = true }: 
     <a
       href={PHONE.href}
       className={className}
-      onClick={() => trackLeadEvent("click_to_call", { context, page: "/quad-cities" })}
+      onClick={() => {
+        trackLeadEvent("click_to_call", { context, page: "/quad-cities" });
+        trackClickToCallConversion({ context, page: "/quad-cities" });
+      }}
     >
       {icon && (
         <svg
