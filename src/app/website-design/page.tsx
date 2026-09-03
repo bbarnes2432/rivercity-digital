@@ -6,7 +6,6 @@ import Container from "../_components/Container";
 import SectionHeader from "../_components/SectionHeader";
 import Button from "../_components/Button";
 import CtaBand from "../_components/CtaBand";
-import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
 import CallLink from "../_components/CallLink";
 import InlineContactSection from "../_components/InlineContactSection";
@@ -88,16 +87,8 @@ export default function WebsiteDesignPage() {
           {/* The hero melts into the dark of the hall below. */}
           <div className="rcd-hero-melt" aria-hidden="true" />
           <Container>
-            <Breadcrumbs
-              items={[
-                { label: "Home", href: "/" },
-                { label: "Services" },
-                { label: "Website Design" },
-              ]}
-            />
             <div className="rcd-hero-inner" style={{ marginTop: 32 }}>
               <div className="rcd-hero-copy">
-                <p className="t-eyebrow rcd-hero-eyebrow">Service · 03</p>
                 {/* The H1 answers the search that pays to get here. Ads for
                     this page bid on "st louis web design" and "website design
                     st louis"; the old H1 ("No themes. No templates.") was a

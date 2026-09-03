@@ -455,6 +455,9 @@
 .rcd-world-page .section-head .t-h2 { font-size: clamp(44px, 6.5vw, 84px); line-height: 0.95; letter-spacing: 0.004em; }
 .rcd-world-page .section-head .t-lede { font-size: clamp(17px, 1.5vw, 21px); }
 .rcd-world-page .section-head .t-eyebrow { margin-bottom: 18px; }
+/* No ornament under the hero copy on this page: the site's shared hero
+   draws a short teal rule there, and here it read as a stray line. */
+.rcd-world-page .rcd-hero-copy::after { display: none; }
 
 /* === The hallway ============================================================ */
 .rcd-hall { position: relative; height: 900vh; }
