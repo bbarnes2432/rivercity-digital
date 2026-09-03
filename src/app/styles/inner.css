@@ -637,7 +637,7 @@
   transition: transform 0.4s var(--ease-out), border-color 0.4s, box-shadow 0.4s;
   will-change: transform;
 }
-.rcd-tilt[data-hover] { transition: transform 0.06s linear, border-color 0.4s, box-shadow 0.4s; border-color: rgba(127, 195, 200, 0.45); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(76, 165, 173, 0.15); z-index: 1; }
+.rcd-tilt[data-hover] { transition: transform 0.06s linear, border-color 0.4s, box-shadow 0.4s; border-color: rgba(127, 195, 200, 0.45); z-index: 1; }
 .rcd-tilt::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.4s; background: radial-gradient(circle at var(--mx) var(--my), rgba(76, 165, 173, 0.28), rgba(76, 165, 173, 0) 46%); }
 .rcd-tilt[data-hover]::after { opacity: 1; }
 /* The liquid. At rest the card is empty glass. Hover, and white rises from
@@ -658,7 +658,9 @@
 .rcd-tilt[data-hover] .rcd-tilt-fill i { height: 100%; transition: height 3.2s cubic-bezier(0.25, 0.7, 0.3, 1); }
 .rcd-tilt[data-hover] .rcd-tilt-fill i::before, .rcd-tilt[data-hover] .rcd-tilt-fill i::after { opacity: 1; }
 @keyframes rcd-wave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-.rcd-tilt[data-hover] { border-color: rgba(16, 29, 49, 0.18); background: linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05)); }
+/* The glass itself does not change on hover: only the border, so the part
+   above the liquid stays exactly as see-through as it was. */
+.rcd-tilt[data-hover] { border-color: rgba(127, 195, 200, 0.45); }
 /* The words go dark as the white comes up under them. */
 .rcd-tilt h3, .rcd-tilt p, .rcd-tilt-n, .rcd-tilt-gets li, .rcd-tilt-icon { transition: color 1.2s ease 1.2s, border-color 1.2s ease 1.2s, background-color 1.2s ease 1.2s, box-shadow 1.2s ease 1.2s; }
 .rcd-tilt[data-hover] h3 { color: var(--rcd-navy-900); }

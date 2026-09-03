@@ -102,9 +102,9 @@ export default function TubesCursor() {
 
   /* Things the cursor passes behind are cut out of this canvas: in the
      hallway, a screen that has come nearer than the cursor's plane; the
-     site being built while it is on screen; and any button the pointer is
+     site being built while it is on screen; any button the pointer is
      over, so the button fills with light in front of the cursor rather
-     than under it. One clip-path polygon with holes: the outer rectangle,
+     than under it; and the white part of a card that is filling. One clip-path polygon with holes: the outer rectangle,
      then each hole traced the opposite way round, joined by zero-width
      seams (nonzero fill). */
   useEffect(() => {
@@ -117,8 +117,17 @@ export default function TubesCursor() {
       const holes: number[][][] = [];
       if (world.active) for (const p of world.occluders) holes.push(p);
       if (world.siteOn && world.site) holes.push(world.site);
+      // Buttons under the pointer: the cursor passes behind them.
       document.querySelectorAll<HTMLElement>(".btn:hover").forEach((b) => {
         const r = b.getBoundingClientRect();
+        holes.push([[r.left, r.top], [r.right, r.top], [r.right, r.bottom], [r.left, r.bottom]]);
+      });
+      // The cards that fill with white: the cursor is behind exactly the part
+      // that has gone white, so it rides in front of the glass and then
+      // disappears behind the liquid as it rises.
+      document.querySelectorAll<HTMLElement>(".rcd-tilt-fill i").forEach((f) => {
+        const r = f.getBoundingClientRect();
+        if (r.height < 2) return;
         holes.push([[r.left, r.top], [r.right, r.top], [r.right, r.bottom], [r.left, r.bottom]]);
       });
       if (holes.length === 0) {
