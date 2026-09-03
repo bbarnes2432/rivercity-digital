@@ -75,6 +75,8 @@ export default function Stage({ children }: { children: ReactNode }) {
       degrade,
       SlabView: enabled ? (components?.SlabView ?? null) : null,
       BuildView: enabled ? (components?.BuildView ?? null) : null,
+      GlyphView: enabled ? (components?.GlyphView ?? null) : null,
+      ConstellationView: enabled ? (components?.ConstellationView ?? null) : null,
     }),
     [enabled, request, degrade, components],
   );

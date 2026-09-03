@@ -33,9 +33,25 @@ export type BuildViewProps = {
  * 866 KB, twice). One boundary — StageInner — imports everything
  * three-flavoured and hands the sections their components; three exists in
  * exactly one chunk. */
+/* The icon-slot glyphs in "What we build". */
+export type GlyphViewProps = {
+  track: RefObject<HTMLDivElement | null>;
+  hoverTrack: RefObject<HTMLElement | null>;
+  kind: "panes" | "landing" | "grid" | "box";
+};
+
+/* The constellation behind the standards list. */
+export type ConstellationViewProps = {
+  track: RefObject<HTMLElement | null>;
+  getSpread: () => number;
+  getMask: () => [number, number];
+};
+
 export type StageComponents = {
   SlabView: ComponentType<SlabViewProps>;
   BuildView: ComponentType<BuildViewProps>;
+  GlyphView: ComponentType<GlyphViewProps>;
+  ConstellationView: ComponentType<ConstellationViewProps>;
 };
 
 export type StageState = {
@@ -44,6 +60,8 @@ export type StageState = {
   degrade: () => void;
   SlabView: ComponentType<SlabViewProps> | null;
   BuildView: ComponentType<BuildViewProps> | null;
+  GlyphView: ComponentType<GlyphViewProps> | null;
+  ConstellationView: ComponentType<ConstellationViewProps> | null;
 };
 
 export const StageContext = createContext<StageState>({
@@ -52,6 +70,8 @@ export const StageContext = createContext<StageState>({
   degrade: () => {},
   SlabView: null,
   BuildView: null,
+  GlyphView: null,
+  ConstellationView: null,
 });
 
 export const useStage = () => useContext(StageContext);

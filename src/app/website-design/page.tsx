@@ -21,7 +21,8 @@ import Stage from "@/components/three/Stage";
 import WorkRail from "./_components/WorkRail";
 import BuildReveal from "./_components/BuildReveal";
 import BuildTimeline from "./_components/BuildTimeline";
-import { Globe, Rocket, ShoppingBag, RefreshCw } from "lucide-react";
+import WhatWeBuild from "./_components/WhatWeBuild";
+import Standards from "./_components/Standards";
 import "../styles/inner.css";
 
 export const metadata: Metadata = {
@@ -45,22 +46,8 @@ const SERVICE_LD = {
   areaServed: { "@type": "City", name: "St. Louis" },
 };
 
-const WHAT = [
-  { t: "Marketing sites", d: "Custom-designed websites for restaurants, contractors, professional services, salons, retail. Built to convert.", Icon: Globe },
-  { t: "Landing pages", d: "Single-purpose pages for ad campaigns or one-time launches. Quick to ship, sharp to convert.", Icon: Rocket },
-  { t: "E-commerce", d: "Shopify and headless storefronts when you need product. Fast, custom-themed, search-ready.", Icon: ShoppingBag },
-  { t: "Redesigns", d: "When the existing site is the constraint. We rebuild for speed, search, and the way customers actually use it.", Icon: RefreshCw },
-];
 
 
-const STANDARDS = [
-  "Lighthouse 95+ on Performance, Accessibility, SEO, Best Practices",
-  "First Contentful Paint under 1.2 seconds",
-  "Largest Contentful Paint under 2.5 seconds",
-  "Cumulative Layout Shift under 0.05",
-  "Schema.org markup on every relevant page",
-  "WCAG 2.1 AA accessibility — for real, not as a checkbox",
-];
 
 export default function WebsiteDesignPage() {
   return (
@@ -171,27 +158,8 @@ export default function WebsiteDesignPage() {
           </Container>
         </Section>
 
-        {/* What we build */}
-        <Section mode="working" className="section--bg-build">
-          <Container>
-            <SectionHeader
-              eyebrow="What we build"
-              title="Four kinds of work."
-              lede="All custom. All hand-coded. All built to be found."
-            />
-            <div className="rcd-list-grid fx-stagger">
-              {WHAT.map(({ t, d, Icon }) => (
-                <article key={t} className="rcd-list-card fx-lift">
-                  <div className="rcd-list-card-icon" aria-hidden="true">
-                    <Icon size={20} strokeWidth={1.8} />
-                  </div>
-                  <h3>{t}</h3>
-                  <p>{d}</p>
-                </article>
-              ))}
-            </div>
-          </Container>
-        </Section>
+        {/* What we build: four cards, a living glyph in each icon slot. */}
+        <WhatWeBuild />
 
         {/* The 14-day build: the five cards, and beside them the same slab as
             the build reveal stepping through five states on one uniform. */}
@@ -206,22 +174,8 @@ export default function WebsiteDesignPage() {
             of screenshots and the information is identical. */}
         <WorkRail />
 
-        {/* Standards */}
-        <Section mode="working">
-          <Container narrow>
-            <SectionHeader
-              eyebrow="Anatomy of a fast site"
-              title="The standards we hold every build to."
-              lede="Performance and accessibility aren't add-ons. They're the spec."
-              align="left"
-            />
-            <ul className="list-check fx-stagger" style={{ marginTop: 32 }}>
-              {STANDARDS.map((s, i) => (
-                <li key={i}>{s}</li>
-              ))}
-            </ul>
-          </Container>
-        </Section>
+        {/* Standards: the checklist, a constellation behind it. */}
+        <Standards />
 
         {/* Proof.
             This page asked people to spend money on a custom build and showed

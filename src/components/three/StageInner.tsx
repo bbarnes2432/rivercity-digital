@@ -8,6 +8,8 @@ import { PerformanceMonitor } from "@react-three/drei/core/PerformanceMonitor";
 import { useEffect } from "react";
 import WorkSlabView from "./WorkSlabView";
 import BuildSlabView from "./BuildSlabView";
+import GlyphView from "./GlyphView";
+import ConstellationView from "./ConstellationView";
 import type { StageComponents } from "./stage-context";
 
 type Props = {
@@ -62,7 +64,7 @@ function DevHook() {
 
 export default function StageInner({ dpr, onDecline, onFallback, onReady }: Props) {
   useEffect(() => {
-    onReady({ SlabView: WorkSlabView, BuildView: BuildSlabView });
+    onReady({ SlabView: WorkSlabView, BuildView: BuildSlabView, GlyphView, ConstellationView });
   }, [onReady]);
 
   /* frameloop="demand" means nothing renders unless something calls
