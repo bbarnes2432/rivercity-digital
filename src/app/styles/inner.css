@@ -604,3 +604,14 @@
    slides up over the doorway (which shows the same words), only one copy of
    the words is ever on screen. */
 .rcd-show .section-head { position: relative; z-index: 1; background: var(--rcd-navy-900); padding: 24px 0 8px; }
+
+/* ---------- The tubes cursor ---------- */
+/* Its own transparent canvas over the page, under the navigation; it
+   listens to the body, so it needs no pointer events of its own. */
+/* The library's bloom pass writes an opaque frame — black where there is no
+   tube — so the canvas is composited additively: black adds nothing, the
+   tubes add their light to whatever is beneath. */
+.rcd-tubes { position: fixed; inset: 0; z-index: 49; pointer-events: none; mix-blend-mode: screen; }
+@supports (mix-blend-mode: plus-lighter) { .rcd-tubes { mix-blend-mode: plus-lighter; } }
+.rcd-tubes canvas { display: block; width: 100%; height: 100%; }
+@media (pointer: coarse), (prefers-reduced-motion: reduce) { .rcd-tubes { display: none; } }

@@ -1,6 +1,7 @@
 /* Shared, mutable, read every frame — never React state. The hallway section
  * writes progress and whether it is on screen; the world reads them, walks
- * the camera, and writes back which screen is beside the visitor. */
+ * the camera, and writes back which screen is beside the visitor. The tubes
+ * cursor writes its light colours; the hallway's cursor lights read them. */
 export const world = {
   /** 0..1 through the hallway section. */
   progress: 0,
@@ -11,4 +12,7 @@ export const world = {
   /** The screen beside (or just ahead of) the visitor, written by the world. */
   index: 0,
   pointer: { x: 0, y: 0, nx: 0, ny: 0, t: 0, fine: false },
+  /** The cursor's four light colours, and when they last changed. */
+  cursorColors: ["#21d4fd", "#b721ff", "#f4d03f", "#11cdef"] as string[],
+  cursorColorsAt: 0,
 };
