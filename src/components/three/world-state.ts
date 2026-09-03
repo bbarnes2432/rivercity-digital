@@ -22,6 +22,8 @@ export const world = {
    *  it was last written — stale after a few hundred ms means off screen. */
   site: null as number[][] | null,
   siteAt: 0,
+  /** The build section's view is on screen (set by its observer). */
+  siteOn: false,
   /** The cursor's four light colours, and when they last changed. */
   cursorColors: ["#21d4fd", "#b721ff", "#f4d03f", "#11cdef"] as string[],
   cursorColorsAt: 0,

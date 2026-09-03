@@ -116,7 +116,7 @@ export default function TubesCursor() {
       if (!el) return;
       const holes: number[][][] = [];
       if (world.active) for (const p of world.occluders) holes.push(p);
-      if (world.site && performance.now() - world.siteAt < 400) holes.push(world.site);
+      if (world.siteOn && world.site) holes.push(world.site);
       document.querySelectorAll<HTMLElement>(".btn:hover").forEach((b) => {
         const r = b.getBoundingClientRect();
         holes.push([[r.left, r.top], [r.right, r.top], [r.right, r.bottom], [r.left, r.bottom]]);

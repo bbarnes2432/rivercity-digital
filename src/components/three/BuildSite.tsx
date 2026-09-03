@@ -170,8 +170,8 @@ export default function BuildSite({ getStage, hovered, pointer, getRect }: Props
     // Launch: the site turns to face you and floats; the cursor tilts it.
     const launch = ease((S - 3.2) / 0.8);
     const px = hovered ? pointer.current.x : 0, py = hovered ? pointer.current.y : 0;
-    c.ry = THREE.MathUtils.damp(c.ry, THREE.MathUtils.lerp(0.42, 0.08, launch) + px * 0.18, 4, dt);
-    c.rx = THREE.MathUtils.damp(c.rx, THREE.MathUtils.lerp(-0.22, -0.04, launch) + py * 0.1, 4, dt);
+    c.ry = THREE.MathUtils.damp(c.ry, THREE.MathUtils.lerp(0.3, 0.06, launch) + px * 0.14, 4, dt);
+    c.rx = THREE.MathUtils.damp(c.rx, THREE.MathUtils.lerp(-0.16, -0.03, launch) + py * 0.08, 4, dt);
     site.current.rotation.set(c.rx, c.ry, 0);
     site.current.position.y = launch * (0.06 + Math.sin(c.t * 0.9) * 0.02);
     site.current.position.z = launch * 0.1;
@@ -231,7 +231,9 @@ export default function BuildSite({ getStage, hovered, pointer, getRect }: Props
   const r = getRes();
   return (
     <>
-      <PerspectiveCamera makeDefault fov={30} position={[0, 0.3, 4.15]} onUpdate={(cam) => cam.lookAt(0, -0.02, 0)} />
+      {/* Far enough back that the page, at its steepest tilt, stays inside the
+          view with room to spare on every side. */}
+      <PerspectiveCamera makeDefault fov={30} position={[0, 0.25, 5.0]} onUpdate={(cam) => cam.lookAt(0, -0.02, 0)} />
       <ambientLight intensity={1.4} />
       <directionalLight position={[2.5, 3.5, 4]} intensity={3.2} />
       <directionalLight position={[-3, 1, 2]} intensity={0.9} color="#a8d8dc" />

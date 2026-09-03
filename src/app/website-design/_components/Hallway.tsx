@@ -36,6 +36,20 @@ const LIVE: Record<string, string> = {
 };
 const SITES = ORDER.map((s) => PROJECTS.find((p) => p.slug === s)).filter((p): p is CaseStudy => !!p);
 
+/* One line per screen, at the top of the hall, that sells the work as it
+ * passes. The first is for the doorway, before any screen is beside you. */
+const HEADLINES = [
+  "Eight sites. No templates. Walk the hall.",
+  "Built for the phone call, not the award.",
+  "Designed to be found on Google — from the first wireframe.",
+  "Fast enough to feel instant on a phone.",
+  "Every page written for the customer, not the template.",
+  "Custom, hand-coded, and the maker runs it herself.",
+  "Search-ready the day it launches.",
+  "Hand-coded. Hand-checked. Nothing bolted on.",
+  "Yours to keep. No subscription, no lock-in.",
+];
+
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
 export default function Hallway() {
@@ -119,8 +133,8 @@ export default function Hallway() {
         <Container>
           <header className="rcd-hall-head">
             <p className="t-eyebrow">Selected work · Filed from St. Louis</p>
-            <h2 className="t-display-2">Walk the hall.</h2>
-            <p className="t-lede">Eight sites we built, hung where you can see them. Keep scrolling.</p>
+            {/* Keyed on the screen, so each line arrives fresh. */}
+            <h2 key={index} className="rcd-hall-headline">{HEADLINES[index + 1] ?? HEADLINES[0]}</h2>
           </header>
 
           <ol className="rcd-hall-caps">

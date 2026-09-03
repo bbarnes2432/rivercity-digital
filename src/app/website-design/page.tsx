@@ -21,6 +21,7 @@ import Hallway from "./_components/Hallway";
 import Showcase from "./_components/Showcase";
 import LocalSection from "./_components/LocalSection";
 import ButtonEnergy from "../_components/ButtonEnergy";
+import SmoothScroll from "../_components/SmoothScroll";
 import HowWeBuild from "./_components/HowWeBuild";
 import BuildSteps from "./_components/BuildSteps";
 import WhatWeBuild from "./_components/WhatWeBuild";
@@ -210,6 +211,7 @@ export default function WebsiteDesignPage() {
       <Footer />
       <ScrollReveal />
       <ButtonEnergy />
+      <SmoothScroll />
       {/* The tubes cursor: its own canvas over the whole page, mouse only. */}
       <TubesCursor />
     </>

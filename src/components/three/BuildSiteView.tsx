@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 import { View } from "@react-three/drei/web/View";
 import { invalidate } from "@react-three/fiber";
 import BuildSite from "./BuildSite";
+import { world } from "./world-state";
 
 type Props = {
   /** The DOM box this draws into — the parent that gets pointer events. */
@@ -49,6 +50,16 @@ export default function BuildSiteView({ track, getStage, visible = true }: Props
   }, [track]);
 
   useEffect(() => { invalidate(); }, [visible]);
+
+  // While the box is on screen the cursor's canvas is cut out around the
+  // site; the outline itself is written by BuildSite on each frame.
+  useEffect(() => {
+    const el = track.current;
+    if (!el) return;
+    const io = new IntersectionObserver((es) => { world.siteOn = es.some((e) => e.isIntersecting); if (!world.siteOn) world.site = null; invalidate(); }, { threshold: 0 });
+    io.observe(el);
+    return () => { io.disconnect(); world.siteOn = false; world.site = null; };
+  }, [track]);
 
   // Read at call time, on the frame; not memoised, so the ref is never read in render.
   const getRect = () => track.current?.getBoundingClientRect() ?? null;
