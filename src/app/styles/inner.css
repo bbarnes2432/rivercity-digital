@@ -426,340 +426,6 @@
 }
 [data-theme="dark"] .rcd-example-what { color: var(--ink-on-dark-2); }
 
-/* ═══ Selected work rail ═══════════════════════════════════════════════════
-   Eight cards on a native horizontal scroll with snap. No scroll-jacking: the
-   wheel, the trackpad, a finger and the two arrow buttons all just scroll it.
-   The 3D slab is painted over .rcd-rail-shot by the shared Stage canvas; the
-   <img> inside stays underneath as the fallback and the loading state. */
-.rcd-rail-section { position: relative; }
-.rcd-rail-section .section-head { margin-bottom: var(--s-5); }
-
-.rcd-rail-nav {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin: 0 0 var(--s-5);
-}
-.rcd-rail-nav button {
-  width: 42px; height: 42px;
-  display: inline-flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  border: 1px solid var(--line-on-dark-2);
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
-  cursor: pointer;
-  transition: background var(--dur-3) var(--ease-out), border-color var(--dur-3) var(--ease-out);
-}
-.rcd-rail-nav button:hover { background: rgba(255, 255, 255, 0.12); border-color: var(--accent); }
-.rcd-rail-nav button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-@media (max-width: 720px) { .rcd-rail-nav { display: none; } }
-
-.rcd-rail {
-  --rail-gap: 24px;
-  --rail-card: min(560px, 86vw);
-  display: flex;
-  gap: var(--rail-gap);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: max(var(--s-5), calc((100% - var(--container-max)) / 2 + var(--s-5)));
-  padding-inline: max(var(--s-5), calc((100% - var(--container-max)) / 2 + var(--s-5)));
-  padding-bottom: var(--s-4);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
-}
-.rcd-rail::-webkit-scrollbar { height: 6px; }
-.rcd-rail::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.25); border-radius: 3px; }
-
-.rcd-rail-card {
-  flex: 0 0 var(--rail-card);
-  /* Both lines matter. A flex item's default min-width is `auto` — its
-     min-content — and measured on a phone the cards were coming out 348–383px
-     against a 322px basis, one of them wider than the viewport. Pinning width
-     and zeroing min-width makes the basis the size. */
-  width: var(--rail-card);
-  min-width: 0;
-  margin: 0;
-  scroll-snap-align: start;
-  perspective: 1600px;
-}
-
-/* The turn. The card is a flat plane that rotates; each face hides its back.
-   The two faces share one grid cell rather than the back being absolutely
-   positioned: the container is then as tall as the TALLER face, so a results
-   side with three numbers, a quote and three buttons can never overflow the
-   screenshot side on a narrow card (measured: it was, by 10px, before the
-   width fix would have made it worse). */
-.rcd-rail-flip {
-  position: relative;
-  display: grid;
-  transform-style: preserve-3d;
-  transition: transform 720ms var(--ease-out);
-  border-radius: var(--r-lg);
-}
-.rcd-rail-flip > .rcd-rail-face { grid-area: 1 / 1; }
-.rcd-rail-card[data-flipped="true"] .rcd-rail-flip { transform: rotateY(180deg); }
-
-.rcd-rail-face {
-  border-radius: var(--r-lg);
-  border: 1px solid var(--line-on-dark-2);
-  background: rgba(255, 255, 255, 0.04);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  overflow: hidden;
-}
-.rcd-rail-front { position: relative; }
-.rcd-rail-back {
-  transform: rotateY(180deg);
-  display: flex;
-  flex-direction: column;
-  padding: var(--s-6);
-  background: var(--rcd-navy-800);
-}
-
-/* The 3D box. Taller than the screenshot on purpose — the lower band is where
-   the reflection lives. Its aspect is fixed so the space exists before
-   three.js does (CLS stays 0), and the image sits at the top so the fallback
-   is framed exactly like the slab. */
-.rcd-rail-shot {
-  position: relative;
-  aspect-ratio: 1440 / 1000;
-  overflow: hidden;
-  background: var(--rcd-navy-900);
-}
-.rcd-rail-shot img {
-  display: block;
-  width: 100%;
-  /* The screenshots are not one aspect (measured: they load at ~1.6:1, not
-     1440/798). Forcing the slab's ratio and cropping from the top keeps every
-     card framed identically and keeps the 3D slab exactly over the photo,
-     rather than 40px short of it on the taller files. */
-  aspect-ratio: 1440 / 798;
-  height: auto;
-  object-fit: cover;
-  object-position: top center;
-  pointer-events: none;   /* the box must be the pointer target, not the image */
-  user-select: none;
-}
-/* drei's own View element: fills the box so its tracked rect IS the box. */
-.rcd-rail-view {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;   /* input is handled on .rcd-rail-shot, the parent */
-}
-/* Faint floor line where the reflection would begin, so the fallback still
-   reads as an object on a surface rather than an image with a gap. */
-.rcd-rail-shot::after {
-  content: "";
-  position: absolute;
-  left: 4%; right: 4%;
-  top: calc(100% * 798 / 1000 + 6px);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(76, 165, 173, 0.45), transparent);
-}
-
-.rcd-rail-flipbtn {
-  display: inline-flex; align-items: center; gap: 8px;
-  margin: 14px 14px 16px;
-  padding: 8px 12px;
-  border-radius: var(--r-pill);
-  border: 1px solid var(--line-on-dark-2);
-  background: transparent;
-  color: var(--ink-on-dark-2);
-  font: 600 12.5px/1 var(--font-inter), sans-serif;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  transition: color var(--dur-3) var(--ease-out), border-color var(--dur-3) var(--ease-out);
-}
-.rcd-rail-flipbtn:hover { color: #fff; border-color: var(--accent); }
-.rcd-rail-flipbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.rcd-rail-flipbtn--back { margin: 0; }
-
-.rcd-rail-back-eyebrow {
-  margin: 0 0 var(--s-5);
-  font: 600 11.5px/1.3 var(--font-mono), monospace;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--rcd-teal-400);
-}
-.rcd-rail-results {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--s-4);
-  margin: 0 0 var(--s-5);
-}
-.rcd-rail-results dt {
-  font: 700 clamp(28px, 3.2vw, 40px)/1 var(--font-barlow), "Barlow Condensed", sans-serif;
-  color: #fff;
-  letter-spacing: 0.005em;
-  text-wrap: balance;
-}
-.rcd-rail-results dd {
-  margin: 6px 0 0;
-  font: 500 12px/1.4 var(--font-inter), sans-serif;
-  color: var(--ink-on-dark-3);
-}
-.rcd-rail-quote {
-  margin: 0 0 var(--s-5);
-  padding-left: 14px;
-  border-left: 2px solid var(--rcd-teal-500);
-}
-.rcd-rail-quote p {
-  margin: 0 0 6px;
-  font: italic 500 15px/1.5 Georgia, "Times New Roman", serif;
-  color: var(--ink-on-dark);
-}
-.rcd-rail-quote cite {
-  font: 500 12px/1.3 var(--font-inter), sans-serif;
-  font-style: normal;
-  color: var(--ink-on-dark-3);
-}
-.rcd-rail-back-actions {
-  margin-top: auto;
-  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
-}
-.rcd-rail-back .btn-ghost { color: #fff; border-color: var(--line-on-dark-2); }
-.rcd-rail-back .btn-ghost:hover { border-color: var(--accent); background: rgba(255,255,255,.08); }
-
-@media (max-width: 720px) {
-  .rcd-rail-back { padding: var(--s-5) var(--s-4); }
-  .rcd-rail-results { gap: var(--s-3); margin-bottom: var(--s-4); }
-  .rcd-rail-results dt { font-size: 24px; }
-  .rcd-rail-results dd { font-size: 11px; }
-  .rcd-rail-quote { margin-bottom: var(--s-4); }
-  .rcd-rail-quote p { font-size: 13.5px; }
-  .rcd-rail-back-actions .btn { padding-inline: 14px; }
-}
-
-
-/* === The build reveal ======================================================= */
-.rcd-build-head { max-width: 62ch; margin-bottom: var(--s-7); }
-.rcd-build-head .t-eyebrow { margin-bottom: var(--s-4); }
-.rcd-build-head .t-h2 { margin: 0 0 var(--s-4); color: #fff; }
-.rcd-build-head .t-lede { margin: 0; color: var(--ink-on-dark-2); }
-
-.rcd-build-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr);
-  gap: var(--s-7);
-  align-items: start;
-}
-@media (max-width: 900px) { .rcd-build-grid { grid-template-columns: 1fr; gap: var(--s-6); } }
-
-/* The stage box. Fixed aspect so the space exists before three.js does. The
-   img is the fallback and the loading state; the View paints over it. */
-.rcd-build-shot {
-  position: relative;
-  aspect-ratio: 1440 / 798;
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  background: var(--rcd-navy-900);
-  border: 1px solid var(--line-on-dark-2);
-}
-.rcd-build-shot img {
-  display: block; width: 100%; aspect-ratio: 1440 / 798; height: auto;
-  object-fit: cover; object-position: top center;
-  pointer-events: none; user-select: none;
-  /* While the slab is being drawn the image sits behind it at low opacity so
-     the wireframe beat reads as lines on navy, not lines on a photograph. */
-  transition: opacity var(--dur-4) var(--ease-out);
-}
-.rcd-build[data-beat="1"] .rcd-build-shot img { opacity: 0.12; }
-.rcd-build[data-beat="2"] .rcd-build-shot img { opacity: 0.45; }
-.rcd-build[data-beat="3"] .rcd-build-shot img { opacity: 1; }
-.rcd-build-view { position: absolute; inset: 0; pointer-events: none; }
-
-.rcd-build-beats {
-  list-style: none; margin: var(--s-5) 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4);
-}
-@media (max-width: 540px) { .rcd-build-beats { grid-template-columns: 1fr; } }
-.rcd-build-beat { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; align-items: baseline; opacity: 0.45; transition: opacity var(--dur-4) var(--ease-out); }
-.rcd-build-beat-n { font: 700 12px/1 var(--font-mono), monospace; letter-spacing: 0.14em; color: var(--rcd-teal-400); }
-.rcd-build-beat-t { font: 700 15px/1.2 var(--font-inter), sans-serif; color: #fff; }
-.rcd-build-beat-d { grid-column: 2; font: 400 13px/1.5 var(--font-inter), sans-serif; color: var(--ink-on-dark-3); }
-.rcd-build[data-beat="1"] .rcd-build-beat[data-index="1"],
-.rcd-build[data-beat="2"] .rcd-build-beat[data-index="2"],
-.rcd-build[data-beat="3"] .rcd-build-beat[data-index="3"] { opacity: 1; }
-
-.rcd-build-aside { padding-top: 4px; }
-.rcd-build-meta { margin: 0 0 var(--s-3); font: 600 11.5px/1.3 var(--font-mono), monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rcd-teal-400); }
-.rcd-build-name { margin: 0 0 var(--s-4); font: 700 clamp(26px, 2.4vw, 34px)/1.05 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; color: #fff; }
-.rcd-build-brief { margin: 0 0 var(--s-5); font-size: 15px; line-height: 1.6; color: var(--ink-on-dark-2); }
-.rcd-build-actions { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin-top: var(--s-5); }
-.rcd-build-actions .btn-ghost { color: #fff; border-color: var(--line-on-dark-2); }
-.rcd-build-actions .btn-ghost:hover { border-color: var(--accent); background: rgba(255,255,255,.08); }
-/* "Visit the live site" goes teal at the Live beat. */
-.rcd-build-live {
-  font: 600 15px/1 var(--font-inter), sans-serif;
-  color: var(--ink-on-dark-3);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color var(--dur-4) var(--ease-out), border-color var(--dur-4) var(--ease-out);
-}
-.rcd-build[data-beat="3"] .rcd-build-live { color: var(--rcd-teal-400); border-bottom-color: var(--rcd-teal-500); }
-.rcd-build-live:hover { color: #fff; }
-.rcd-build-live:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-/* === The 14-day build ======================================================= */
-.rcd-tl-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 1fr);
-  gap: var(--s-7);
-  align-items: start;
-}
-.rcd-tl-stage { position: sticky; top: 96px; }
-.rcd-tl-shot {
-  position: relative;
-  aspect-ratio: 1440 / 798;
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  background: var(--rcd-navy-900);
-  border: 1px solid var(--line-on-dark-2);
-}
-.rcd-tl-shot img {
-  display: block; width: 100%; aspect-ratio: 1440 / 798; height: auto;
-  object-fit: cover; object-position: top center; pointer-events: none; user-select: none;
-  /* The fallback for this box is the finished site, dimmed until Build. */
-  opacity: 0.16; transition: opacity var(--dur-4) var(--ease-out);
-}
-.rcd-tl[data-stage="3"] .rcd-tl-shot img, .rcd-tl[data-stage="4"] .rcd-tl-shot img { opacity: 1; }
-
-.rcd-tl-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); }
-.rcd-tl-card { transition: border-color var(--dur-4) var(--ease-out), background var(--dur-4) var(--ease-out); }
-.rcd-tl-card[data-active] { border-color: var(--rcd-teal-500); background: rgba(76, 165, 173, 0.08); }
-.rcd-tl-card[data-active] .rcd-stage-num { color: var(--rcd-teal-300); }
-
-@media (max-width: 900px) {
-  .rcd-tl-grid { grid-template-columns: 1fr; gap: var(--s-5); }
-  /* On a phone the stage rides above the cards for the section's length. */
-  .rcd-tl-stage { position: sticky; top: 64px; z-index: 2; }
-  .rcd-tl-shot { box-shadow: 0 18px 40px -20px rgba(0,0,0,.7); }
-}
-
-
-/* === Living glyphs (What we build) ========================================== */
-.rcd-what-card { padding: 0; overflow: hidden; }
-.rcd-what-body { padding: var(--s-5); }
-.rcd-what-body h3 { margin-top: 0; }
-/* The stage tile: the brief's navy void, a 16:10 field the card's full width.
-   Fixed aspect so the space exists before three.js does. */
-.rcd-glyph-stage {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  background:
-    radial-gradient(120% 90% at 30% 20%, rgba(76, 165, 173, 0.16), transparent 60%),
-    var(--rcd-navy-900);
-  border-bottom: 1px solid var(--line-on-dark-2);
-}
-.rcd-glyph-icon {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--rcd-teal-400);
-  transition: opacity var(--dur-4) var(--ease-out);
-}
-.rcd-list-card[data-glyph="3d"] .rcd-glyph-icon { opacity: 0; }
-.rcd-glyph-view { position: absolute; inset: 0; pointer-events: none; }
 
 /* === Constellation (Standards) ============================================== */
 .rcd-standards { position: relative; overflow: hidden; }
@@ -780,53 +446,56 @@
 .rcd-world-page .section--sunken { background: transparent; }
 /* Boxes the views draw into: see-through now that the canvas is behind them,
    and the fallback image steps aside once the view is live. */
-.rcd-build-shot, .rcd-tl-shot, .rcd-glyph-stage { background: transparent; }
-.rcd-build-shot[data-3d] img, .rcd-tl-shot[data-3d] img { opacity: 0 !important; }
-.rcd-glyph-stage { background: rgba(255, 255, 255, 0.02); }
+.rcd-steps-shot { background: transparent; }
+.rcd-steps-shot[data-3d] img { opacity: 0 !important; }
+.rcd-build-view { position: absolute; inset: 0; pointer-events: none; }
 .rcd-world-page .rcd-standards .list-check li { color: var(--ink-on-dark); }
 .rcd-world-page .rcd-standards .section-head .t-lede { color: var(--ink-on-dark-2); }
 /* Type at the hero's scale: this is a document, and the chapters are its headings. */
 .rcd-world-page .section-head .t-h2 { font-size: clamp(44px, 6.5vw, 84px); line-height: 0.95; letter-spacing: 0.004em; }
 .rcd-world-page .section-head .t-lede { font-size: clamp(17px, 1.5vw, 21px); }
 .rcd-world-page .section-head .t-eyebrow { margin-bottom: 18px; }
-.rcd-proof .rcd-stat-grid { color: #fff; }
 
 /* === The hallway ============================================================ */
 .rcd-hall { position: relative; height: 900vh; }
+/* The hero's navy hands over to the dark of the room. */
+.rcd-hall::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 40vh; background: linear-gradient(to bottom, var(--rcd-navy-900) 0%, rgba(16, 29, 49, 0) 100%); z-index: 2; pointer-events: none; }
 .rcd-hall-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 .rcd-hall-head {
-  position: absolute; left: 0; right: 0; top: 96px;
-  text-align: center; pointer-events: none;
-  transition: opacity var(--dur-4) var(--ease-out), transform var(--dur-4) var(--ease-out);
+  position: absolute; left: 0; right: 0; top: 22vh; text-align: center; z-index: 3;
+  transition: opacity var(--dur-5) var(--ease-out), transform var(--dur-5) var(--ease-out);
 }
 .rcd-hall-head .t-display-2 { color: #fff; margin: 12px 0 10px; }
 .rcd-hall-head .t-lede { color: var(--ink-on-dark-2); margin: 0; }
-.rcd-hall[data-index]:not([data-index="0"]) .rcd-hall-head { opacity: 0; transform: translateY(-12px); }
+.rcd-hall[data-3d]:not([data-start]) .rcd-hall-head { opacity: 0; transform: translateY(-16px); }
 .rcd-hall-caps { list-style: none; margin: 0; padding: 0; }
 .rcd-hall-cap {
-  position: absolute; bottom: 88px; width: min(420px, 44vw);
-  padding: 18px 20px 16px;
-  border: 1px solid var(--line-on-dark-2); border-radius: var(--r-lg);
-  background: rgba(16, 29, 49, 0.62); backdrop-filter: blur(10px);
-  opacity: 0; transform: translateY(14px); pointer-events: none;
-  transition: opacity var(--dur-4) var(--ease-out), transform var(--dur-4) var(--ease-out);
+  position: absolute; left: 50%; bottom: 64px; z-index: 3;
+  width: min(620px, calc(100% - 32px));
+  padding: 20px 26px 22px; text-align: center;
+  background: rgba(4, 7, 13, 0.62); border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+  opacity: 0; transform: translate(-50%, 28px) scale(0.96); pointer-events: none;
+  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
 }
-.rcd-hall-cap[data-side="left"] { left: 0; }
-.rcd-hall-cap[data-side="right"] { right: 0; text-align: right; }
-.rcd-hall-cap[data-active] { opacity: 1; transform: none; pointer-events: auto; }
-.rcd-hall-cap-n { font: 600 11px/1 var(--font-mono), monospace; letter-spacing: 0.16em; color: var(--rcd-teal-400); }
-.rcd-hall-cap-name { margin: 10px 0 4px; font: 700 clamp(26px, 2.6vw, 38px)/1 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; color: #fff; }
-.rcd-hall-cap-meta { margin: 0 0 8px; font: 500 12px/1.4 var(--font-inter), sans-serif; color: var(--ink-on-dark-3); }
-.rcd-hall-cap-result { margin: 0 0 10px; font: 400 14px/1.4 var(--font-inter), sans-serif; color: var(--ink-on-dark-2); }
-.rcd-hall-cap-result b { font: 700 22px/1 var(--font-barlow), "Barlow Condensed", sans-serif; color: var(--rcd-teal-300); margin-right: 6px; }
-.rcd-hall-cap-links { margin: 0; display: flex; gap: 14px; font: 600 13px/1 var(--font-inter), sans-serif; }
-.rcd-hall-cap[data-side="right"] .rcd-hall-cap-links { justify-content: flex-end; }
-.rcd-hall-cap-links a { color: var(--rcd-teal-400); text-decoration: none; border-bottom: 1px solid transparent; }
-.rcd-hall-cap-links a:hover { color: #fff; border-bottom-color: var(--rcd-teal-500); }
-.rcd-hall-cap-links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-/* Fallback grid: the section when there is no canvas. */
+.rcd-hall-cap[data-active] { opacity: 1; transform: translate(-50%, 0) scale(1); pointer-events: auto; animation: rcd-cap-pop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+@keyframes rcd-cap-pop {
+  0% { opacity: 0; transform: translate(-50%, 40px) scale(0.9); }
+  100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+.rcd-hall-cap-n { display: block; font: 600 11px/1 var(--font-mono), monospace; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rcd-teal-400); }
+.rcd-hall-cap-name { margin: 10px 0 6px; font: 700 clamp(30px, 3.4vw, 46px)/1 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; color: #fff; }
+.rcd-hall-cap-result { margin: 0 0 16px; font: 400 15px/1.4 var(--font-inter), sans-serif; color: var(--ink-on-dark-2); }
+.rcd-hall-cap-result b { font: 700 24px/1 var(--font-barlow), "Barlow Condensed", sans-serif; color: var(--rcd-teal-300); margin-right: 8px; }
+.rcd-hall-cap-links { margin: 0; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.rcd-hall-cap .btn { padding: 10px 18px; font-size: 14px; }
+.rcd-hall-cap .btn-ghost { color: #fff; border-color: rgba(255, 255, 255, 0.28); }
+.rcd-hall-cap .btn-ghost:hover { border-color: #fff; }
+/* Without a canvas: the same eight sites as a grid, the header static. */
 .rcd-hall-fallback { display: none; }
 .rcd-hall:not([data-3d]) { height: auto; }
+.rcd-hall:not([data-3d])::before { display: none; }
 .rcd-hall:not([data-3d]) .rcd-hall-stage { position: relative; height: auto; overflow: visible; padding: 96px 0 0; }
 .rcd-hall:not([data-3d]) .rcd-hall-head { position: static; opacity: 1; transform: none; margin-bottom: 40px; }
 .rcd-hall:not([data-3d]) .rcd-hall-caps { display: none; }
@@ -837,9 +506,8 @@
 .rcd-hall-grid span { display: block; margin-top: 10px; font: 700 18px/1.2 var(--font-inter), sans-serif; }
 @media (max-width: 720px) {
   .rcd-hall { height: 700vh; }
-  .rcd-hall-head { top: 84px; }
-  .rcd-hall-cap { width: calc(100% - 48px); left: 24px !important; right: auto !important; bottom: 84px; text-align: left !important; }
-  .rcd-hall-cap[data-side="right"] .rcd-hall-cap-links { justify-content: flex-start; }
+  .rcd-hall-head { top: 16vh; }
+  .rcd-hall-cap { bottom: 92px; padding: 16px 18px 18px; }
   .rcd-hall-grid { grid-template-columns: 1fr; }
 }
 
@@ -867,3 +535,72 @@
   .rcd-show-tile:nth-child(even) .rcd-show-stage { order: 0; }
   .rcd-show-stage { aspect-ratio: 4 / 3; }
 }
+
+/* ---------- Light chapters ---------- */
+/* The page alternates: the dark chapters are transparent over the canvas,
+   the light ones paint cream and stand on their own. */
+.rcd-world-page .rcd-light { background: var(--rcd-cream-500); color: var(--ink-primary); }
+.rcd-world-page .rcd-light .section-head .t-h2 { color: var(--rcd-navy-900); }
+.rcd-world-page .rcd-light .section-head .t-lede { color: var(--ink-secondary); }
+
+/* ---------- How we build: the stack ---------- */
+.rcd-how-wrap { overflow-x: auto; margin-top: 48px; }
+.rcd-how-table { width: 100%; min-width: 720px; border-collapse: collapse; font: 400 15px/1.55 var(--font-inter), sans-serif; color: var(--ink-secondary); }
+.rcd-how-table th, .rcd-how-table td { text-align: left; padding: 18px 20px; border-top: 1px solid rgba(16, 29, 49, 0.12); vertical-align: top; }
+.rcd-how-table thead th { border-top: 0; padding-top: 0; font: 700 12px/1 var(--font-inter), sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-tertiary); }
+.rcd-how-table thead th.is-ours { color: var(--rcd-teal-700); }
+.rcd-how-table th[scope="row"] { width: 17%; font: 700 15px/1.4 var(--font-inter), sans-serif; color: var(--rcd-navy-900); }
+.rcd-how-table td.is-ours { background: var(--rcd-teal-100); color: var(--rcd-navy-900); font-weight: 500; }
+.rcd-how-note { max-width: 68ch; margin: 28px auto 0; text-align: center; font: 400 15px/1.6 var(--font-inter), sans-serif; color: var(--ink-tertiary); }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- The build, step by step ---------- */
+.rcd-steps { position: relative; height: 520vh; padding: 0 !important; }
+.rcd-steps-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; align-content: center; }
+.rcd-steps-head { margin-bottom: clamp(20px, 3vh, 36px); }
+.rcd-steps-head .t-h2 { margin: 10px 0 0; color: #fff; font-size: clamp(36px, 5vw, 64px); line-height: 0.95; }
+.rcd-steps-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
+.rcd-steps-list { position: relative; list-style: none; margin: 0; padding: 0 0 24px; min-height: 300px; }
+.rcd-step { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(22px); pointer-events: none; transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out); }
+.rcd-step[data-active] { opacity: 1; transform: none; pointer-events: auto; }
+.rcd-step-day { display: block; font: 600 11px/1 var(--font-mono), monospace; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rcd-teal-400); }
+.rcd-step h3 { margin: 14px 0 12px; font: 700 clamp(38px, 4.6vw, 66px)/0.95 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; color: #fff; }
+.rcd-step p { margin: 0; font: 400 17px/1.6 var(--font-inter), sans-serif; color: var(--ink-on-dark-2); max-width: 44ch; }
+.rcd-steps-rail { position: absolute; left: 0; bottom: 0; display: flex; gap: 8px; }
+.rcd-steps-rail i { display: block; width: 36px; height: 3px; background: rgba(255, 255, 255, 0.14); transition: background 0.3s; }
+.rcd-steps-rail i[data-on] { background: var(--rcd-teal-400); }
+.rcd-steps-shot { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--line-on-dark-2); }
+.rcd-steps-shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+@media (max-width: 900px) {
+  .rcd-steps-grid { grid-template-columns: 1fr; gap: 18px; }
+  .rcd-steps-list { min-height: 250px; order: 2; }
+  .rcd-steps-shot { order: 1; }
+  .rcd-steps-head .t-h2 { font-size: 34px; }
+}
+
+/* ---------- What we build: the tilt cards ---------- */
+.rcd-tilt-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin-top: 48px; perspective: 1200px; }
+@media (max-width: 1000px) { .rcd-tilt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .rcd-tilt-grid { grid-template-columns: 1fr; } }
+.rcd-tilt {
+  --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 50%;
+  position: relative; display: flex; flex-direction: column; gap: 14px; min-height: 300px;
+  padding: 28px 24px 26px; background: #fff; border: 1px solid rgba(16, 29, 49, 0.1);
+  box-shadow: 0 10px 30px rgba(16, 29, 49, 0.08);
+  transform-style: preserve-3d; transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+  will-change: transform;
+}
+.rcd-tilt[data-hover] { transition: transform 0.06s linear, box-shadow 0.35s var(--ease-out); box-shadow: 0 36px 70px rgba(16, 29, 49, 0.2); z-index: 1; }
+.rcd-tilt::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.35s; background: radial-gradient(circle at var(--mx) var(--my), rgba(76, 165, 173, 0.3), rgba(255, 255, 255, 0) 48%); }
+.rcd-tilt[data-hover]::after { opacity: 1; }
+.rcd-tilt-n { font: 600 11px/1 var(--font-mono), monospace; letter-spacing: 0.16em; color: var(--rcd-teal-600); transform: translateZ(20px); }
+.rcd-tilt-icon { width: 64px; height: 64px; display: grid; place-items: center; color: var(--rcd-teal-700); background: var(--rcd-teal-100); transform: translateZ(44px); }
+.rcd-tilt h3 { margin: 6px 0 0; font: 700 26px/1.05 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; color: var(--rcd-navy-900); transform: translateZ(32px); }
+.rcd-tilt p { margin: 0; font: 400 15px/1.6 var(--font-inter), sans-serif; color: var(--ink-secondary); transform: translateZ(20px); }
+@media (prefers-reduced-motion: reduce) { .rcd-tilt { transform: none !important; } }
+
+/* The chapter after the hall: its opening paints the page navy so, as it
+   slides up over the doorway (which shows the same words), only one copy of
+   the words is ever on screen. */
+.rcd-show .section-head { position: relative; z-index: 1; background: var(--rcd-navy-900); padding: 24px 0 8px; }

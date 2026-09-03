@@ -2,15 +2,6 @@
 
 import { createContext, useContext, type ComponentType, type RefObject } from "react";
 
-/* Props for the per-card 3D view. Declared here — in a file that imports
- * nothing from three — so the rail can type against it without pulling three
- * into its own chunk. */
-export type SlabViewProps = {
-  track: RefObject<HTMLDivElement | null>;
-  src: string;
-  visible: boolean;
-};
-
 /* Props for the build slab (§02 reveal and §04 timeline share it). */
 export type BuildViewProps = {
   track: RefObject<HTMLDivElement | null>;
@@ -33,13 +24,6 @@ export type BuildViewProps = {
  * 866 KB, twice). One boundary — StageInner — imports everything
  * three-flavoured and hands the sections their components; three exists in
  * exactly one chunk. */
-/* The icon-slot glyphs in "What we build". */
-export type GlyphViewProps = {
-  track: RefObject<HTMLDivElement | null>;
-  hoverTrack: RefObject<HTMLElement | null>;
-  kind: "panes" | "landing" | "grid" | "box";
-};
-
 /* The constellation behind the standards list. */
 export type ConstellationViewProps = {
   track: RefObject<HTMLElement | null>;
@@ -58,9 +42,7 @@ export type ShowcaseViewProps = {
 };
 
 export type StageComponents = {
-  SlabView: ComponentType<SlabViewProps>;
   BuildView: ComponentType<BuildViewProps>;
-  GlyphView: ComponentType<GlyphViewProps>;
   ConstellationView: ComponentType<ConstellationViewProps>;
   ShowcaseView: ComponentType<ShowcaseViewProps>;
 };
@@ -69,9 +51,7 @@ export type StageState = {
   enabled: boolean;
   request: () => void;
   degrade: () => void;
-  SlabView: ComponentType<SlabViewProps> | null;
   BuildView: ComponentType<BuildViewProps> | null;
-  GlyphView: ComponentType<GlyphViewProps> | null;
   ConstellationView: ComponentType<ConstellationViewProps> | null;
   ShowcaseView: ComponentType<ShowcaseViewProps> | null;
 };
@@ -80,9 +60,7 @@ export const StageContext = createContext<StageState>({
   enabled: false,
   request: () => {},
   degrade: () => {},
-  SlabView: null,
   BuildView: null,
-  GlyphView: null,
   ConstellationView: null,
   ShowcaseView: null,
 });

@@ -6,7 +6,6 @@ import Container from "../_components/Container";
 import SectionHeader from "../_components/SectionHeader";
 import Button from "../_components/Button";
 import CtaBand from "../_components/CtaBand";
-import Stat from "../_components/Stat";
 import Breadcrumbs from "../_components/Breadcrumbs";
 import ScrollReveal from "../_components/ScrollReveal";
 import HookVideo from "../_components/HookVideo";
@@ -20,8 +19,8 @@ import HeroPortal from "../_components/HeroPortal";
 import Stage from "@/components/three/Stage";
 import Hallway from "./_components/Hallway";
 import Showcase from "./_components/Showcase";
-import BuildReveal from "./_components/BuildReveal";
-import BuildTimeline from "./_components/BuildTimeline";
+import HowWeBuild from "./_components/HowWeBuild";
+import BuildSteps from "./_components/BuildSteps";
 import WhatWeBuild from "./_components/WhatWeBuild";
 import Standards from "./_components/Standards";
 import "../styles/inner.css";
@@ -137,26 +136,21 @@ export default function WebsiteDesignPage() {
             a word becoming another word. */}
         <Showcase />
 
-        {/* Stats */}
-        <Section mode="civic-deep" pad="tight" className="rcd-proof">
-          <Container>
-            <div className="rcd-stat-grid fx-stagger">
-              <Stat value={1.2} suffix="s" decimals={1} label="LCP target" caption="Every site we ship targets sub-1.2s Largest Contentful Paint." />
-              <Stat value={14} suffix=" days" label="Typical launch" caption="From kickoff to live, for marketing-site builds." />
-              <Stat value={95} prefix="≥ " label="Lighthouse" caption="Performance, Accessibility, SEO, Best Practices — every site, every page." />
-            </div>
-          </Container>
-        </Section>
+        {/* How we build: the stack, and why — a light chapter. */}
+        <HowWeBuild />
 
-        {/* What we build: four cards, a living glyph in each icon slot. */}
+        {/* The build, step by step: one step on screen at a time beside one
+            of our sites being built on the shared canvas. */}
+        <BuildSteps />
+
+        {/* What we build: four cards that tilt toward the cursor. Light. */}
         <WhatWeBuild />
 
-        {/* The build reveal: The Sauce Fix assembling wireframe -> surface -> live
-            as it scrolls in. The centrepiece; the Stage canvas paints it. */}
-        <BuildReveal />
+        {/* Standards: the checklist, a constellation behind it. */}
+        <Standards />
 
         {/* Video */}
-        <Section mode="civic-deep" className="rcd-video">
+        <Section mode="working" className="rcd-video rcd-light">
           <Container>
             <SectionHeader
               eyebrow="Watch · 40 Sec"
@@ -172,15 +166,6 @@ export default function WebsiteDesignPage() {
             </div>
           </Container>
         </Section>
-
-
-        {/* The 14-day build: the five cards, and beside them the same slab as
-            the build reveal stepping through five states on one uniform. */}
-        <BuildTimeline />
-
-
-        {/* Standards: the checklist, a constellation behind it. */}
-        <Standards />
 
         {/* Proof.
             This page asked people to spend money on a custom build and showed

@@ -1,26 +1,14 @@
-/* Shared, mutable, read-every-frame state for the world.
- *
- * The DOM side writes (scroll progress, whether the hallway is on screen,
- * where the pointer is); the three side reads inside useFrame. Deliberately
- * not React state: these change on every scroll and pointer event, and the
- * only thing that should re-run for them is the render loop. */
+/* Shared, mutable, read every frame — never React state. The hallway section
+ * writes progress and whether it is on screen; the world reads them, walks
+ * the camera, and writes back which screen is beside the visitor. */
 export const world = {
-  /** 0 at the top of the hallway section, 1 at its end. */
+  /** 0..1 through the hallway section. */
   progress: 0,
-  /** True while the hallway section intersects the viewport. */
+  /** 0..1 as the hallway section enters the viewport — the room's lights. */
+  enter: 0,
+  /** The hallway section is on screen: the world draws. */
   active: false,
-  /** Which project is nearest the camera, 0..7. */
+  /** The screen beside (or just ahead of) the visitor, written by the world. */
   index: 0,
-  pointer: {
-    /** Client pixels. */
-    x: 0,
-    y: 0,
-    /** Normalised −1..1, y up. */
-    nx: 0,
-    ny: 0,
-    /** performance.now() of the last move. */
-    t: 0,
-    /** A mouse or pen, not a finger. */
-    fine: false,
-  },
+  pointer: { x: 0, y: 0, nx: 0, ny: 0, t: 0, fine: false },
 };

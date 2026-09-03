@@ -1,58 +1,87 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Globe, Rocket, ShoppingBag, RefreshCw, type LucideIcon } from "lucide-react";
 import Container from "@/app/_components/Container";
 import Section from "@/app/_components/Section";
 import SectionHeader from "@/app/_components/SectionHeader";
-import { useStage } from "@/components/three/stage-context";
 
-/* What we build — four cards, each topped by a navy stage tile holding a
- * living glyph once the Stage exists: pages fanning, a single glowing path,
- * tiles reshuffling, a wireframe turning solid. The lucide icon sits in the
- * tile underneath and is exactly what shows without WebGL. Hover the card. */
+/* What we build — four cards on a light ground, each one tilting toward the
+ * cursor in three dimensions with a sheen that follows the pointer, the
+ * icon and the words lifted off the card at different depths. Plain CSS
+ * transforms driven by four custom properties; no canvas. Under reduced
+ * motion, or on touch, the cards are flat and just as readable. */
 
-type Kind = "panes" | "landing" | "grid" | "box";
-
-const WHAT: { t: string; d: string; Icon: LucideIcon; kind: Kind }[] = [
-  { t: "Marketing sites", d: "Custom-designed websites for restaurants, contractors, professional services, salons, retail. Built to convert.", Icon: Globe, kind: "panes" },
-  { t: "Landing pages", d: "Single-purpose pages for ad campaigns or one-time launches. Quick to ship, sharp to convert.", Icon: Rocket, kind: "landing" },
-  { t: "E-commerce", d: "Shopify and headless storefronts when you need product. Fast, custom-themed, search-ready.", Icon: ShoppingBag, kind: "grid" },
-  { t: "Redesigns", d: "When the existing site is the constraint. We rebuild for speed, search, and the way customers actually use it.", Icon: RefreshCw, kind: "box" },
+const WHAT: { n: string; t: string; d: string; Icon: LucideIcon }[] = [
+  { n: "01", t: "Marketing sites", d: "Custom-designed websites for restaurants, contractors, professional services, salons, retail. Built to convert.", Icon: Globe },
+  { n: "02", t: "Landing pages", d: "Single-purpose pages for ad campaigns or one-time launches. Quick to ship, sharp to convert.", Icon: Rocket },
+  { n: "03", t: "E-commerce", d: "Shopify and headless storefronts when you need product. Fast, custom-themed, search-ready.", Icon: ShoppingBag },
+  { n: "04", t: "Redesigns", d: "When the existing site is the constraint. We rebuild for speed, search, and the way customers actually use it.", Icon: RefreshCw },
 ];
 
-function Card({ t, d, Icon, kind }: (typeof WHAT)[number]) {
-  const { GlyphView } = useStage();
-  const card = useRef<HTMLElement>(null);
-  const slot = useRef<HTMLDivElement>(null);
+function Card({ n, t, d, Icon }: (typeof WHAT)[number]) {
+  const el = useRef<HTMLElement>(null);
+  const [hover, setHover] = useState(false);
+
+  useEffect(() => {
+    const card = el.current;
+    if (!card) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    let raf = 0;
+    let nx = 0, ny = 0;
+    const apply = () => {
+      raf = 0;
+      card.style.setProperty("--ry", `${(nx * 9).toFixed(2)}deg`);
+      card.style.setProperty("--rx", `${(-ny * 9).toFixed(2)}deg`);
+      card.style.setProperty("--mx", `${((nx + 1) * 50).toFixed(1)}%`);
+      card.style.setProperty("--my", `${((ny + 1) * 50).toFixed(1)}%`);
+    };
+    const move = (e: PointerEvent) => {
+      const r = card.getBoundingClientRect();
+      nx = ((e.clientX - r.left) / r.width) * 2 - 1;
+      ny = ((e.clientY - r.top) / r.height) * 2 - 1;
+      if (!raf) raf = requestAnimationFrame(apply);
+    };
+    const enter = (e: PointerEvent) => { setHover(true); move(e); };
+    const leave = () => {
+      setHover(false);
+      nx = 0; ny = 0;
+      if (!raf) raf = requestAnimationFrame(apply);
+    };
+    card.addEventListener("pointermove", move, { passive: true });
+    card.addEventListener("pointerenter", enter);
+    card.addEventListener("pointerleave", leave);
+    return () => {
+      card.removeEventListener("pointermove", move);
+      card.removeEventListener("pointerenter", enter);
+      card.removeEventListener("pointerleave", leave);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
-    <article ref={card} className="rcd-list-card rcd-what-card fx-lift" data-glyph={GlyphView ? "3d" : "icon"}>
-      {/* The stage: a navy tile, 16:10, the full width of the card. The icon
-          is the fallback, drawn large in teal; the glyph paints over it. */}
-      <div ref={slot} className="rcd-glyph-stage" aria-hidden="true">
-        <div className="rcd-glyph-icon">
-          <Icon size={44} strokeWidth={1.5} />
-        </div>
-        {GlyphView && <GlyphView track={slot} hoverTrack={card} kind={kind} />}
+    <article ref={el} className="rcd-tilt" data-hover={hover ? "" : undefined}>
+      <span className="rcd-tilt-n">{n}</span>
+      <div className="rcd-tilt-icon" aria-hidden="true">
+        <Icon size={30} strokeWidth={1.6} />
       </div>
-      <div className="rcd-what-body">
-        <h3>{t}</h3>
-        <p>{d}</p>
-      </div>
+      <h3>{t}</h3>
+      <p>{d}</p>
     </article>
   );
 }
 
 export default function WhatWeBuild() {
   return (
-    <Section mode="civic-deep" className="rcd-what">
+    <Section mode="working" className="rcd-what rcd-light">
       <Container>
         <SectionHeader
           eyebrow="What we build"
           title="Four kinds of work."
           lede="All custom. All hand-coded. All built to be found."
         />
-        <div className="rcd-list-grid fx-stagger">
+        <div className="rcd-tilt-grid fx-stagger">
           {WHAT.map((w) => (
             <Card key={w.t} {...w} />
           ))}
