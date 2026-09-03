@@ -122,7 +122,7 @@ export default function StageInner({ dpr, onFallback, onReady }: Props) {
     <Canvas
       frameloop="demand"
       dpr={dpr}
-      gl={{ antialias: false, alpha: true, stencil: false, powerPreference: "high-performance" }}
+      gl={{ antialias: true, alpha: true, stencil: false, powerPreference: "high-performance" }}
       /* Fixed and full-viewport, painting only inside view rects; transparent
          everywhere else. pointer-events:none is what lets the DOM underneath
          keep every click and scroll — the views listen to their own DOM boxes,

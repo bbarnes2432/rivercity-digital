@@ -84,8 +84,8 @@ export default function LocalSection() {
                 </radialGradient>
               </defs>
               <circle cx={C} cy={C} r="230" fill="url(#rcd-local-glow)" />
-              {RINGS.map((ring) => (
-                <circle key={ring.r} className="rcd-local-ring" cx={C} cy={C} r={ring.r} />
+              {RINGS.map((ring, i) => (
+                <circle key={ring.r} className="rcd-local-ring" cx={C} cy={C} r={ring.r} style={{ transitionDelay: `${0.15 + i * 0.18}s` }} />
               ))}
               {RINGS.map((ring) => (
                 <text key={ring.label} className="rcd-local-ring-label" x={C} y={C - ring.r - 8} textAnchor="middle">{ring.label}</text>
@@ -100,10 +100,10 @@ export default function LocalSection() {
               <text className="rcd-local-home" x={C} y={C + 28} textAnchor="middle">River City Digital</text>
             </svg>
             <ul className="rcd-local-places">
-              {PLACES.map((p) => {
+              {PLACES.map((p, i) => {
                 const { x, y } = pos(p.a, p.r);
                 return (
-                  <li key={p.name} style={{ left: `${(x / 500) * 100}%`, top: `${(y / 500) * 100}%` }}>{p.name}</li>
+                  <li key={p.name} style={{ left: `${(x / 500) * 100}%`, top: `${(y / 500) * 100}%`, transitionDelay: `${0.5 + i * 0.06}s` }}>{p.name}</li>
                 );
               })}
             </ul>

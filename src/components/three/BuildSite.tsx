@@ -91,9 +91,9 @@ function headline(): THREE.CanvasTexture {
   ctx.fillStyle = NAVY;
   ctx.font = `700 118px ${fam ? fam + ", " : ""}"Barlow Condensed", Impact, sans-serif`;
   ctx.textBaseline = "top";
-  ctx.fillText("FRESH ROASTS.", 8, 6);
+  ctx.fillText("YOUR BUSINESS,", 8, 6);
   ctx.fillStyle = TEAL;
-  ctx.fillText("FOUND ON GOOGLE.", 8, 134);
+  ctx.fillText("BUILT TO BE FOUND.", 8, 134);
   const t = new THREE.CanvasTexture(cv);
   t.colorSpace = THREE.SRGBColorSpace;
   t.anisotropy = 4;
