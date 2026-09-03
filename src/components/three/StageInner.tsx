@@ -4,11 +4,14 @@ import { Canvas, advance, invalidate, useFrame, useThree } from "@react-three/fi
 /* Deep imports, not the drei barrel. The barrel re-exports ~100 components
    and Turbopack did not shake it: importing two names cost the whole thing. */
 import { View } from "@react-three/drei/web/View";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import WorkSlabView from "./WorkSlabView";
 import BuildSlabView from "./BuildSlabView";
 import GlyphView from "./GlyphView";
 import ConstellationView from "./ConstellationView";
+import World from "./World";
+import CursorTubes from "./CursorTubes";
+import { world } from "./world-state";
 import type { StageComponents } from "./stage-context";
 
 type Props = {
@@ -48,6 +51,7 @@ function ClearFirst() {
  * production builds by the NODE_ENV check. */
 function DevHook() {
   const gl = useThree((s) => s.gl);
+  const get = useThree((s) => s.get);
   useEffect(() => {
     if (process.env.NODE_ENV === "production") return;
     const w = window as unknown as { __rcdStage?: unknown };
@@ -58,11 +62,11 @@ function DevHook() {
     /* advance takes an optional timestamp so a probe can step frames with a
        fake clock, synchronously — a hidden tab throttles setTimeout to ~1s,
        which made real-time stepping impossibly slow. */
-    w.__rcdStage = { gl, invalidate, advance: (ts?: number) => advance(ts ?? performance.now(), true) };
+    w.__rcdStage = { gl, invalidate, advance: (ts?: number) => advance(ts ?? performance.now(), true), state: get, world };
     return () => {
       delete w.__rcdStage;
     };
-  }, [gl]);
+  }, [gl, get]);
   return null;
 }
 
@@ -138,6 +142,13 @@ export default function StageInner({ dpr, onFallback, onReady }: Props) {
       <ClearFirst />
       <DevHook />
       <ContextGuard onFallback={onFallback} />
+      {/* The root scene is the world: the hallway, and the cursor tubes as a
+          HUD pass after it. The views (build slab, timeline, glyphs, the
+          constellation) still draw into their own boxes. */}
+      <Suspense fallback={null}>
+        <World />
+      </Suspense>
+      <CursorTubes />
       <View.Port />
     </Canvas>
   );

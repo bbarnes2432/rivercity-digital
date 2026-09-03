@@ -92,7 +92,7 @@ export default function BuildTimeline() {
         />
         <div className="rcd-tl-grid">
           <div className="rcd-tl-stage">
-            <div ref={shot} className="rcd-tl-shot">
+            <div ref={shot} className="rcd-tl-shot" data-3d={BuildView ? "" : undefined}>
               <Image
                 src={SAUCE.img}
                 alt=""

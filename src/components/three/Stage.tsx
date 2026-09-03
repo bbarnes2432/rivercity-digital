@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { StageContext, type StageComponents } from "./stage-context";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
 
@@ -67,6 +67,16 @@ export default function Stage({ children }: { children: ReactNode }) {
   }, [requested]);
 
   const degrade = useCallback(() => setDegraded(true), []);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    const w = window as unknown as { __rcdGate?: unknown };
+    w.__rcdGate = {
+      requested, degraded, reducedMotion, pending: pending.current, webgl: webglAvailable(),
+      force: () => { setDpr(Math.min(1.5, window.devicePixelRatio || 1)); setRequested(true); },
+    };
+    return () => { delete w.__rcdGate; };
+  }, [requested, degraded, reducedMotion]);
 
   const enabled = requested && !degraded && !reducedMotion;
 

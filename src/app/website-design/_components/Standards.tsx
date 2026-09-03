@@ -62,7 +62,7 @@ export default function Standards() {
   }, []);
 
   return (
-    <section ref={section} className="section section--working rcd-standards">
+    <section ref={section} className="section section--civic-deep rcd-standards" data-theme="dark">
       {ConstellationView && (
         <div className="rcd-standards-stage" aria-hidden="true">
           <ConstellationView track={section} getSpread={getSpread} getMask={getMask} />

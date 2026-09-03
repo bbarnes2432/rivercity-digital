@@ -148,9 +148,9 @@
   --dur-6: 900ms;
 
   /* ---------- Z-index ---------- */
-  /* The page's shared 3D canvas: above static content so views paint over
-     their DOM boxes, below the nav so a slab never crosses it. */
-  --z-stage: 40;
+  /* The page's shared 3D canvas: behind the content (sections sit at z 1 and paint
+     transparent over it), below the nav so a slab never crosses it. */
+  --z-stage: 0;
   --z-nav: 50;
   --z-drawer: 80;
   --z-modal: 100;

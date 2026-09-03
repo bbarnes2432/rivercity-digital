@@ -101,7 +101,7 @@ export default function BuildReveal() {
 
         <div className="rcd-build-grid">
           <div className="rcd-build-stage">
-            <div ref={shot} className="rcd-build-shot">
+            <div ref={shot} className="rcd-build-shot" data-3d={BuildView ? "" : undefined}>
               <Image
                 src={SAUCE.img}
                 alt={`${SAUCE.name} — ${SAUCE.sector}`}

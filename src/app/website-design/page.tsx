@@ -18,7 +18,7 @@ import KineticMatrix from "@/components/ui/kinetic-matrix";
 import ShaderBackground from "@/components/ui/shader-background";
 import HeroPortal from "../_components/HeroPortal";
 import Stage from "@/components/three/Stage";
-import WorkRail from "./_components/WorkRail";
+import Hallway from "./_components/Hallway";
 import BuildReveal from "./_components/BuildReveal";
 import BuildTimeline from "./_components/BuildTimeline";
 import WhatWeBuild from "./_components/WhatWeBuild";
@@ -60,7 +60,7 @@ export default function WebsiteDesignPage() {
       <Nav overlayMode="light-on-dark" />
 
       <Stage>
-      <main id="main">
+      <main id="main" className="rcd-world-page">
         {/* Hero — the ad's first impression, so it does the one thing a
             screenshot of a competitor can't: it responds.
 
@@ -125,8 +125,14 @@ export default function WebsiteDesignPage() {
           </Container>
         </header>
 
+
+
+        {/* The work, first: the hallway. The shared canvas draws the corridor
+            behind this section; the captions and the fallback grid are DOM. */}
+        <Hallway />
+
         {/* Stats */}
-        <Section mode="letterhead" pad="tight" className="tex-dots section--bg-pop-laptop">
+        <Section mode="civic-deep" pad="tight" className="rcd-proof">
           <Container>
             <div className="rcd-stat-grid fx-stagger">
               <Stat value={1.2} suffix="s" decimals={1} label="LCP target" caption="Every site we ship targets sub-1.2s Largest Contentful Paint." />
@@ -136,12 +142,15 @@ export default function WebsiteDesignPage() {
           </Container>
         </Section>
 
+        {/* What we build: four cards, a living glyph in each icon slot. */}
+        <WhatWeBuild />
+
         {/* The build reveal: The Sauce Fix assembling wireframe -> surface -> live
             as it scrolls in. The centrepiece; the Stage canvas paints it. */}
         <BuildReveal />
 
         {/* Video */}
-        <Section mode="working">
+        <Section mode="civic-deep" className="rcd-video">
           <Container>
             <SectionHeader
               eyebrow="Watch · 40 Sec"
@@ -158,21 +167,11 @@ export default function WebsiteDesignPage() {
           </Container>
         </Section>
 
-        {/* What we build: four cards, a living glyph in each icon slot. */}
-        <WhatWeBuild />
 
         {/* The 14-day build: the five cards, and beside them the same slab as
             the build reveal stepping through five states on one uniform. */}
         <BuildTimeline />
 
-        {/* Selected work — every project, one rail, real results on the back
-            of each card. This replaced the "Featured Website of the Month"
-            block and the "Two we shipped lately" pair: three showings of the
-            same work had grown here, and paid traffic deserves all of it in
-            one place. The 3D slabs are painted by the single Stage canvas
-            mounted at the bottom of <main>; without it, this is a plain rail
-            of screenshots and the information is identical. */}
-        <WorkRail />
 
         {/* Standards: the checklist, a constellation behind it. */}
         <Standards />

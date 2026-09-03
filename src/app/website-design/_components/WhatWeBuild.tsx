@@ -45,7 +45,7 @@ function Card({ t, d, Icon, kind }: (typeof WHAT)[number]) {
 
 export default function WhatWeBuild() {
   return (
-    <Section mode="working" className="section--bg-build">
+    <Section mode="civic-deep" className="rcd-what">
       <Container>
         <SectionHeader
           eyebrow="What we build"

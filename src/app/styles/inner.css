@@ -766,3 +766,79 @@
 .rcd-standards-stage { position: absolute; inset: 0; pointer-events: none; }
 .rcd-constellation-view { position: absolute; inset: 0; }
 .rcd-standards > .container-narrow { position: relative; }
+
+
+/* === The world page ========================================================= */
+/* The canvas is fixed at z-index 0. Static blocks paint beneath a positioned
+   z-index-0 element, positioned z-index-1 elements above it. So: <main> paints
+   the navy ground (static, beneath the canvas), every section sits at z 1 with
+   a transparent background (above the canvas, so text reads), and the world
+   shows through wherever a section does not paint. Cream sections paint. */
+.rcd-world-page { background: var(--rcd-navy-900); color: var(--ink-on-dark); }
+.rcd-world-page > .section, .rcd-world-page > .rcd-hero, .rcd-world-page > .rcd-hall, .rcd-world-page > section { position: relative; z-index: 1; }
+.rcd-world-page .section--civic-deep,
+.rcd-world-page .section--sunken { background: transparent; }
+/* Boxes the views draw into: see-through now that the canvas is behind them,
+   and the fallback image steps aside once the view is live. */
+.rcd-build-shot, .rcd-tl-shot, .rcd-glyph-stage { background: transparent; }
+.rcd-build-shot[data-3d] img, .rcd-tl-shot[data-3d] img { opacity: 0 !important; }
+.rcd-glyph-stage { background: rgba(255, 255, 255, 0.02); }
+.rcd-world-page .rcd-standards .list-check li { color: var(--ink-on-dark); }
+.rcd-world-page .rcd-standards .section-head .t-lede { color: var(--ink-on-dark-2); }
+/* Type at the hero's scale: this is a document, and the chapters are its headings. */
+.rcd-world-page .section-head .t-h2 { font-size: clamp(44px, 6.5vw, 84px); line-height: 0.95; letter-spacing: 0.004em; }
+.rcd-world-page .section-head .t-lede { font-size: clamp(17px, 1.5vw, 21px); }
+.rcd-world-page .section-head .t-eyebrow { margin-bottom: 18px; }
+.rcd-proof .rcd-stat-grid { color: #fff; }
+
+/* === The hallway ============================================================ */
+.rcd-hall { position: relative; height: 900vh; }
+.rcd-hall-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.rcd-hall-head {
+  position: absolute; left: 0; right: 0; top: 96px;
+  text-align: center; pointer-events: none;
+  transition: opacity var(--dur-4) var(--ease-out), transform var(--dur-4) var(--ease-out);
+}
+.rcd-hall-head .t-display-2 { color: #fff; margin: 12px 0 10px; }
+.rcd-hall-head .t-lede { color: var(--ink-on-dark-2); margin: 0; }
+.rcd-hall[data-index]:not([data-index="0"]) .rcd-hall-head { opacity: 0; transform: translateY(-12px); }
+.rcd-hall-caps { list-style: none; margin: 0; padding: 0; }
+.rcd-hall-cap {
+  position: absolute; bottom: 88px; width: min(420px, 44vw);
+  padding: 18px 20px 16px;
+  border: 1px solid var(--line-on-dark-2); border-radius: var(--r-lg);
+  background: rgba(16, 29, 49, 0.62); backdrop-filter: blur(10px);
+  opacity: 0; transform: translateY(14px); pointer-events: none;
+  transition: opacity var(--dur-4) var(--ease-out), transform var(--dur-4) var(--ease-out);
+}
+.rcd-hall-cap[data-side="left"] { left: 0; }
+.rcd-hall-cap[data-side="right"] { right: 0; text-align: right; }
+.rcd-hall-cap[data-active] { opacity: 1; transform: none; pointer-events: auto; }
+.rcd-hall-cap-n { font: 600 11px/1 var(--font-mono), monospace; letter-spacing: 0.16em; color: var(--rcd-teal-400); }
+.rcd-hall-cap-name { margin: 10px 0 4px; font: 700 clamp(26px, 2.6vw, 38px)/1 var(--font-barlow), "Barlow Condensed", sans-serif; text-transform: uppercase; color: #fff; }
+.rcd-hall-cap-meta { margin: 0 0 8px; font: 500 12px/1.4 var(--font-inter), sans-serif; color: var(--ink-on-dark-3); }
+.rcd-hall-cap-result { margin: 0 0 10px; font: 400 14px/1.4 var(--font-inter), sans-serif; color: var(--ink-on-dark-2); }
+.rcd-hall-cap-result b { font: 700 22px/1 var(--font-barlow), "Barlow Condensed", sans-serif; color: var(--rcd-teal-300); margin-right: 6px; }
+.rcd-hall-cap-links { margin: 0; display: flex; gap: 14px; font: 600 13px/1 var(--font-inter), sans-serif; }
+.rcd-hall-cap[data-side="right"] .rcd-hall-cap-links { justify-content: flex-end; }
+.rcd-hall-cap-links a { color: var(--rcd-teal-400); text-decoration: none; border-bottom: 1px solid transparent; }
+.rcd-hall-cap-links a:hover { color: #fff; border-bottom-color: var(--rcd-teal-500); }
+.rcd-hall-cap-links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+/* Fallback grid: the section when there is no canvas. */
+.rcd-hall-fallback { display: none; }
+.rcd-hall:not([data-3d]) { height: auto; }
+.rcd-hall:not([data-3d]) .rcd-hall-stage { position: relative; height: auto; overflow: visible; padding: 96px 0 0; }
+.rcd-hall:not([data-3d]) .rcd-hall-head { position: static; opacity: 1; transform: none; margin-bottom: 40px; }
+.rcd-hall:not([data-3d]) .rcd-hall-caps { display: none; }
+.rcd-hall:not([data-3d]) .rcd-hall-fallback { display: block; padding-bottom: 96px; }
+.rcd-hall-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.rcd-hall-grid a { display: block; color: #fff; text-decoration: none; }
+.rcd-hall-grid img { width: 100%; aspect-ratio: 1440 / 798; height: auto; object-fit: cover; object-position: top; border-radius: var(--r-lg); border: 1px solid var(--line-on-dark-2); }
+.rcd-hall-grid span { display: block; margin-top: 10px; font: 700 18px/1.2 var(--font-inter), sans-serif; }
+@media (max-width: 720px) {
+  .rcd-hall { height: 700vh; }
+  .rcd-hall-head { top: 84px; }
+  .rcd-hall-cap { width: calc(100% - 48px); left: 24px !important; right: auto !important; bottom: 84px; text-align: left !important; }
+  .rcd-hall-cap[data-side="right"] .rcd-hall-cap-links { justify-content: flex-start; }
+  .rcd-hall-grid { grid-template-columns: 1fr; }
+}
