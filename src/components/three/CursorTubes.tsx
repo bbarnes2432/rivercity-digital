@@ -14,9 +14,12 @@ import { world } from "./world-state";
  * the same colour behind it, which is what gives the bloom without a
  * post-processing pass. The tail thins and fades; a click cycles the palette.
  *
- * Rendered as a HUD pass with its own orthographic camera, after everything
- * else, inside the page's one shared canvas. Off for touch (no cursor to
- * trace) and under reduced motion. */
+ * Two homes. Over the page, the ribbons are a HUD pass drawn last, in pixel
+ * space. In the hallway they are IN the room: the same geometry hung on a
+ * plane 2.6 m in front of the camera, following it, with point lights
+ * riding the ribbon in its colours — so the walls, the floor and the screens
+ * light up wherever the cursor has just been. The hallway has no other
+ * light. Off for touch (no cursor to trace) and under reduced motion. */
 
 const PALETTES: string[][] = [
   ["#ff2d95", "#3a5bff", "#8a3dff", "#22d3ee", "#ff6ad5"],
@@ -28,6 +31,8 @@ const AMPS = [0, 9, 13, 16, 11]; // braid radius around the spline, px
 const PHASES = [0, 1.3, 2.7, 4.1, 5.4];
 const LIFE = 1600; // ms a point survives
 const MAX_POINTS = 140;
+const DEPTH = 2.6; // metres in front of the camera, in the hallway
+const LIGHT_AT = [1, 0.78, 0.55, 0.32]; // where along the ribbon the lights ride (1 = head)
 
 const VERT = /* glsl */ `
 uniform float uRadius;
@@ -45,8 +50,8 @@ uniform vec3 uColor; varying vec2 vUv; varying vec3 vN;
 void main(){
   float rim = pow(abs(vN.z), 1.1);
   float tail = smoothstep(0.0, 0.4, vUv.x);
-  vec3 col = uColor * (0.55 + 0.75 * rim) + vec3(0.35) * pow(rim, 6.0);
-  gl_FragColor = vec4(col, tail * (0.5 + 0.5 * rim));
+  vec3 col = uColor * (0.5 + 0.6 * rim) + vec3(0.18) * pow(rim, 6.0);
+  gl_FragColor = vec4(col, tail * (0.45 + 0.4 * rim));
   #include <colorspace_fragment>
 }`;
 const HALO = /* glsl */ `
@@ -58,7 +63,17 @@ void main(){
   #include <colorspace_fragment>
 }`;
 
-type Res = { hud: THREE.Scene; cam: THREE.OrthographicCamera; core: THREE.ShaderMaterial[]; halo: THREE.ShaderMaterial[]; meshes: THREE.Mesh[] };
+type Res = {
+  group: THREE.Group; // follows the camera in the hall; identity over the page
+  inner: THREE.Group; // pushed DEPTH metres ahead in the hall
+  cam: THREE.OrthographicCamera;
+  core: THREE.ShaderMaterial[];
+  halo: THREE.ShaderMaterial[];
+  meshes: THREE.Mesh[];
+  lights: THREE.PointLight[];
+};
+
+const lightColor = (hex: string) => new THREE.Color(hex).lerp(new THREE.Color("#ffffff"), 0.45);
 
 const mkMat = (frag: string, color: string, radius: number) =>
   new THREE.ShaderMaterial({
@@ -69,18 +84,32 @@ const mkMat = (frag: string, color: string, radius: number) =>
 
 export default function CursorTubes() {
   const size = useThree((s) => s.size);
+  const scene = useThree((s) => s.scene);
   const sizeRef = useRef(size);
   const R = useRef<Res | null>(null);
   if (R.current === null) {
     const core = RADII.map((r, i) => mkMat(CORE, PALETTES[0][i], r));
     const halo = RADII.map((r, i) => mkMat(HALO, PALETTES[0][i], r * 2.8));
-    const hud = new THREE.Scene();
+    const group = new THREE.Group();
+    const inner = new THREE.Group();
+    group.add(inner);
     // Halos first, cores on top.
-    const meshes = [...halo, ...core].map((m) => { const mesh = new THREE.Mesh(new THREE.BufferGeometry(), m); mesh.frustumCulled = false; hud.add(mesh); return mesh; });
-    R.current = { hud, cam: new THREE.OrthographicCamera(-1, 1, 1, -1, -10, 10), core, halo, meshes };
+    const meshes = [...halo, ...core].map((m) => { const mesh = new THREE.Mesh(new THREE.BufferGeometry(), m); mesh.frustumCulled = false; mesh.renderOrder = 10; inner.add(mesh); return mesh; });
+    // The lights are the ribbon's colours pulled halfway to white: a coloured
+    // glow on the walls, not a paint job.
+    const lights = LIGHT_AT.map((_, j) => { const l = new THREE.PointLight(lightColor(PALETTES[0][j]), 0, 9, 2); inner.add(l); return l; });
+    R.current = { group, inner, cam: new THREE.OrthographicCamera(-1, 1, 1, -1, -10, 10), core, halo, meshes, lights };
   }
   const points = useRef<{ x: number; y: number; t: number }[]>([]);
   const st = useRef({ palette: 0, enabled: false, dirty: false, cx: 0, cy: 0, hx: 0, hy: 0, has: false, lastPush: 0 });
+
+  // The group lives in the root scene, so the hallway's render pass draws
+  // the ribbons in the room and their lights reach its walls.
+  useEffect(() => {
+    const g = R.current!.group;
+    scene.add(g);
+    return () => { scene.remove(g); };
+  }, [scene]);
 
   useEffect(() => {
     sizeRef.current = size;
@@ -109,6 +138,7 @@ export default function CursorTubes() {
       PALETTES[c.palette].forEach((col, i) => {
         (r.core[i].uniforms.uColor.value as THREE.Color).set(col);
         (r.halo[i].uniforms.uColor.value as THREE.Color).set(col);
+        if (r.lights[i]) r.lights[i].color.copy(lightColor(col));
       });
       c.dirty = true;
       invalidate();
@@ -121,9 +151,12 @@ export default function CursorTubes() {
     };
   }, []);
 
+  /* Geometry, placement and lights — before the world renders (priority
+     -1), so the room sees this frame's ribbon, not last frame's. */
   useFrame((s, dt) => {
     const c = st.current;
-    if (!c.enabled) return;
+    const r = R.current!;
+    if (!c.enabled) { r.group.visible = false; return; }
     const now = performance.now();
     const pts = points.current;
 
@@ -144,7 +177,6 @@ export default function CursorTubes() {
     while (pts.length && now - pts[0].t > LIFE) { pts.shift(); c.dirty = true; }
 
     const alive = pts.length >= 4;
-    const r = R.current!;
     if (c.dirty || alive) {
       c.dirty = false;
       const time = now / 1000;
@@ -168,15 +200,56 @@ export default function CursorTubes() {
         }
       }
     }
-    if (alive) {
-      const prev = s.gl.autoClear;
-      s.gl.autoClear = false;
-      s.gl.setScissorTest(false);
-      s.gl.setViewport(0, 0, s.size.width, s.size.height);
-      s.gl.render(r.hud, r.cam);
-      s.gl.autoClear = prev;
-      s.invalidate(); // keep going until the tail has aged out
+
+    if (world.active) {
+      // In the room: the pixel-space ribbon hung on a plane DEPTH metres
+      // ahead of the camera, scaled so a pixel is a pixel at that distance.
+      const cam = s.camera as THREE.PerspectiveCamera;
+      const visH = 2 * DEPTH * Math.tan((cam.fov * Math.PI) / 360);
+      const k = visH / s.size.height;
+      r.group.position.copy(cam.position);
+      r.group.quaternion.copy(cam.quaternion);
+      r.group.scale.setScalar(k);
+      r.inner.position.set(0, 0, -DEPTH / k);
+      r.group.visible = true;
+      // Lights ride the ribbon: the head always (the cursor itself glows),
+      // the rest spaced down the tail while it lives.
+      const n = pts.length;
+      const enter = world.enter;
+      r.lights.forEach((l, j) => {
+        if (j === 0 && c.has) {
+          l.position.set(c.hx, c.hy, 0);
+          l.intensity = 11 * enter;
+        } else if (alive) {
+          const p = pts[Math.max(0, Math.min(n - 1, Math.round((n - 1) * LIGHT_AT[j])))];
+          l.position.set(p.x, p.y, 0);
+          l.intensity = 7 * enter * LIGHT_AT[j];
+        } else {
+          l.intensity = 0;
+        }
+      });
+    } else {
+      r.group.position.set(0, 0, 0);
+      r.group.quaternion.identity();
+      r.group.scale.setScalar(1);
+      r.inner.position.set(0, 0, 0);
+      r.group.visible = alive;
+      r.lights.forEach((l) => { l.intensity = 0; });
     }
+    if (alive || (world.active && c.has)) s.invalidate();
+  }, -1);
+
+  /* Over the page (not the hall): the HUD pass, drawn last. */
+  useFrame((s) => {
+    const c = st.current;
+    const r = R.current!;
+    if (!c.enabled || world.active || !r.group.visible) return;
+    const prev = s.gl.autoClear;
+    s.gl.autoClear = false;
+    s.gl.setScissorTest(false);
+    s.gl.setViewport(0, 0, s.size.width, s.size.height);
+    s.gl.render(r.group, r.cam);
+    s.gl.autoClear = prev;
   }, 100);
 
   // Pointer bookkeeping for the world (parallax) lives here too — one listener.
