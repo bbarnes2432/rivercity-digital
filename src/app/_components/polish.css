@@ -784,6 +784,37 @@
   transform: translateY(0);
   pointer-events: auto;
 }
+/* Call on the left at its natural width, primary action taking the rest. */
+.rcd-mobile-cta-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+.rcd-mobile-cta-row[data-call] {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+.rcd-mobile-cta-call {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 18px;
+  background: #fff;
+  color: var(--rcd-navy-900);
+  font: 700 16px/1 var(--font-inter), sans-serif;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(16, 29, 49, 0.14);
+  box-shadow:
+    0 18px 40px -10px rgba(15, 30, 51, 0.45),
+    0 4px 12px rgba(15, 30, 51, 0.18);
+  transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.rcd-mobile-cta-call:active {
+  background: var(--rcd-cream-500);
+  transform: scale(0.98);
+}
 .rcd-mobile-cta-btn {
   display: flex;
   align-items: center;
