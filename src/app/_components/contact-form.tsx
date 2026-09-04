@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { readAttribution } from "./attribution";
 import { markContactConversionPending, markConversionIdentity, trackLeadEvent } from "./gtag";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -42,7 +43,10 @@ export default function ContactForm({ defaultService = "", variant = "contact" }
     setErrorMsg(null);
 
     const fd = new FormData(form);
-    const payload = Object.fromEntries(fd.entries());
+    // Whatever campaign brought them, captured on arrival by the hero form and
+    // carried through the visit. It is what makes importing a closed deal back
+    // to Google as an offline conversion possible later.
+    const payload = { ...Object.fromEntries(fd.entries()), ...readAttribution() };
 
     try {
       const res = await fetch("/api/contact", {

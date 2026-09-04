@@ -964,3 +964,59 @@
 @media (prefers-reduced-motion: reduce) {
   .rcd-serp-caret[data-on], .rcd-ai-typing i { animation: none; }
 }
+
+/* ── The hero's mockup request ─────────────────────────────────────────────
+   Three fields in a line on a wide screen, stacked on a phone. It sits inside
+   .rcd-hero-copy, so it inherits that block's entrance animation. */
+.rcd-hero-form { width: 100%; max-width: 760px; margin: 8px auto 0; text-align: left; }
+.rcd-hero-form-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.rcd-hero-form-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 10px;
+  align-items: end;
+  padding: 14px;
+  border: 1px solid rgba(127, 195, 200, 0.3);
+  border-radius: 10px;
+  background: rgba(4, 10, 20, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+}
+.rcd-hero-form-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.rcd-hero-form-field > span {
+  font: 600 10.5px/1 var(--font-mono), monospace;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--rcd-teal-300);
+}
+.rcd-hero-form-field > span em { font-style: normal; color: var(--ink-on-dark-4); letter-spacing: 0.08em; }
+.rcd-hero-form-field input {
+  width: 100%; padding: 12px; border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  font: 400 15px/1.2 var(--font-inter), sans-serif; color: #fff;
+  transition: border-color 0.25s, background 0.25s;
+}
+.rcd-hero-form-field input::placeholder { color: rgba(255, 255, 255, 0.38); }
+.rcd-hero-form-field input:focus {
+  outline: none; border-color: var(--rcd-teal-400); background: rgba(255, 255, 255, 0.1);
+}
+.rcd-hero-form-btn {
+  padding: 13px 22px; border: 0; border-radius: 6px; cursor: pointer; white-space: nowrap;
+  background: var(--accent); color: #fff;
+  font: 700 15px/1.2 var(--font-inter), sans-serif;
+  transition: background 0.25s, transform 0.15s;
+}
+.rcd-hero-form-btn:hover:not(:disabled) { background: var(--accent-hover); }
+.rcd-hero-form-btn:active:not(:disabled) { transform: scale(0.98); }
+.rcd-hero-form-btn:disabled { opacity: 0.65; cursor: default; }
+.rcd-hero-form-note {
+  margin: 10px 2px 0; text-align: center;
+  font: 400 13px/1.5 var(--font-inter), sans-serif; color: var(--ink-on-dark-3);
+}
+.rcd-hero-form-note[role="alert"] { color: #f0a9a2; }
+
+@media (max-width: 860px) {
+  .rcd-hero-form-row { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .rcd-hero-form-btn { width: 100%; padding: 15px 22px; font-size: 16px; }
+  .rcd-hero-form-note { text-align: left; }
+}

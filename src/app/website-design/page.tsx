@@ -4,7 +4,6 @@ import Footer from "../_components/Footer";
 import Section from "../_components/Section";
 import Container from "../_components/Container";
 import SectionHeader from "../_components/SectionHeader";
-import Button from "../_components/Button";
 import CtaBand from "../_components/CtaBand";
 import ScrollReveal from "../_components/ScrollReveal";
 import CallLink from "../_components/CallLink";
@@ -23,6 +22,7 @@ import ButtonEnergy from "../_components/ButtonEnergy";
 import HowWeBuild from "./_components/HowWeBuild";
 import CustomBuildComparison from "./_components/CustomBuildComparison";
 import FoundSection from "./_components/FoundSection";
+import HeroMockupForm from "./_components/HeroMockupForm";
 import BusinessSystems from "./_components/BusinessSystems";
 import BuildSteps from "./_components/BuildSteps";
 import WhatWeBuild from "./_components/WhatWeBuild";
@@ -104,14 +104,19 @@ export default function WebsiteDesignPage() {
                   We build custom websites that explain what you do, show why
                   customers trust you, and make it easy to call, book, or request a quote.
                 </p>
-                {/* Keep the mockup offer consistent through the form. */}
+                {/* The ask, where the promise is made.
+                    This was a button that scrolled to the form at the bottom of
+                    the page — seven screen heights of hallway away on a phone.
+                    87 ad clicks produced 3 leads. The offer was never the
+                    problem; the distance to it was. The long form is still at
+                    #start for anyone who scrolls and wants to explain more. */}
+                <HeroMockupForm />
                 <div className="rcd-hero-actions">
-                  <Button href="/website-design#start" size="lg" arrow>Get my free website mockup</Button>
                   <CallLink context="hero" className="btn btn-ghost btn-lg" />
                 </div>
                 <div className="rcd-hero-meta">
                   <span className="rcd-hero-meta-item">Landing pages to custom platforms</span>
-                  <span className="rcd-hero-meta-item">Free, with no obligation to build</span>
+                  <span className="rcd-hero-meta-item">You own the site and the domain</span>
                 </div>
               </div>
             </div>
