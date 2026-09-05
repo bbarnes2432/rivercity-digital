@@ -976,12 +976,12 @@
   gap: 10px;
   align-items: end;
   padding: 14px;
-  border: 1px solid rgba(127, 195, 200, 0.3);
+  border: 1px solid rgba(127, 195, 200, 0.34);
   border-radius: 10px;
-  background: rgba(4, 10, 20, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+  /* Solid, not glass. Over the hero's moving lattice a translucent panel made
+     the fields hard to read and hard to trust. */
+  background: #0b1626;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
 }
 .rcd-hero-form-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 .rcd-hero-form-field > span {
@@ -991,14 +991,14 @@
 .rcd-hero-form-field > span em { font-style: normal; color: var(--ink-on-dark-4); letter-spacing: 0.08em; }
 .rcd-hero-form-field input {
   width: 100%; padding: 12px; border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: #16273d;
   font: 400 15px/1.2 var(--font-inter), sans-serif; color: #fff;
   transition: border-color 0.25s, background 0.25s;
 }
 .rcd-hero-form-field input::placeholder { color: rgba(255, 255, 255, 0.38); }
 .rcd-hero-form-field input:focus {
-  outline: none; border-color: var(--rcd-teal-400); background: rgba(255, 255, 255, 0.1);
+  outline: none; border-color: var(--rcd-teal-400); background: #1b3049;
 }
 .rcd-hero-form-btn {
   padding: 13px 22px; border: 0; border-radius: 6px; cursor: pointer; white-space: nowrap;

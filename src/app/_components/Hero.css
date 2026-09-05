@@ -287,7 +287,13 @@
 }
 .rcd-hero--matrix a,
 .rcd-hero--matrix button,
-.rcd-hero--matrix [role="button"] {
+.rcd-hero--matrix [role="button"],
+/* A form is interactive in more ways than a button is: its inputs, its
+   labels and the whitespace between them all need to receive the mouse.
+   Opting the whole form back in is both simpler and safer than listing
+   element types, which is how the hero mockup form shipped unfillable —
+   the submit button worked and not one of the fields did. */
+.rcd-hero--matrix form {
   pointer-events: auto;
 }
 
