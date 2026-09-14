@@ -71,12 +71,19 @@ export default function TubesCursor() {
 
     // Over a light chapter the cursor carries no light: the canvas fades out.
     const LIGHT_SEL = ".rcd-light, .section--working, .section--bg-coffee, .rcd-inline-contact-section, footer";
-    const move = (e: PointerEvent) => {
-      const el = document.elementFromPoint(e.clientX, e.clientY);
+    let pointer: { x: number; y: number } | null = null;
+    const updateLight = () => {
+      if (!pointer) return;
+      const el = document.elementFromPoint(pointer.x, pointer.y);
       const over = !!(el && el.closest(LIGHT_SEL));
       wrap.current?.toggleAttribute("data-off", over);
     };
+    const move = (e: PointerEvent) => {
+      pointer = { x: e.clientX, y: e.clientY };
+      updateLight();
+    };
     window.addEventListener("pointermove", move, { passive: true });
+    window.addEventListener("scroll", updateLight, { passive: true });
 
     const click = () => {
       if (!app.current) return;
@@ -94,6 +101,7 @@ export default function TubesCursor() {
       window.removeEventListener("load", go);
       window.removeEventListener("click", click);
       window.removeEventListener("pointermove", move);
+      window.removeEventListener("scroll", updateLight);
       window.clearTimeout(idle);
       app.current?.dispose();
       app.current = null;
@@ -117,9 +125,10 @@ export default function TubesCursor() {
       const holes: number[][][] = [];
       if (world.active) for (const p of world.occluders) holes.push(p);
       if (world.siteOn && world.site) holes.push(world.site);
-      // Buttons under the pointer: the cursor passes behind them.
-      document.querySelectorAll<HTMLElement>(".btn:hover").forEach((b) => {
+      // Keep controls, interface previews, and light sections above the glow.
+      document.querySelectorAll<HTMLElement>(".btn:hover, .wd-button:hover, .wd-app-window, .rcd-light").forEach((b) => {
         const r = b.getBoundingClientRect();
+        if (r.bottom <= 0 || r.top >= window.innerHeight) return;
         holes.push([[r.left, r.top], [r.right, r.top], [r.right, r.bottom], [r.left, r.bottom]]);
       });
       // The cards that fill with white: the cursor is behind exactly the part

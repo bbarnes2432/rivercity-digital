@@ -7,6 +7,7 @@ const SUPPRESS_PATHS = new Set<string>([
   "/contact",
   // This page has its own free mockup offer and inline request form.
   "/website-design",
+  "/website-design/thank-you",
   "/privacy-policy",
   "/terms-of-use",
   // Paid-traffic landing page and its thank-you URL. Google and Meta both

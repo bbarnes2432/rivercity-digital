@@ -136,7 +136,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${barlow.variable} ${mono.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${barlow.variable} ${mono.variable}`}>
       <GoogleTag />
       <OpenAiPixel />
       <body>

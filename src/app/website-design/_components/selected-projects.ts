@@ -1,0 +1,5 @@
+export const SELECTED_PROJECTS = [
+  { id: "wellness", name: "The Wellness Collective", category: "Wellness / Brand & website", image: "/assets/portfolio-wellness-collective.webp", alt: "The Wellness Collective website with lavender illustrations and warm, welcoming typography", caseStudy: "/work/the-wellness-collective", description: "Service information, session booking, and a visual identity for a wellness practice.", color: "#d5cdea" },
+  { id: "mend", name: "Mend Health", category: "Healthcare / Custom website", image: "/assets/portfolio-mend-health.webp", alt: "Mend Health website with deep green tones and a clear appointment booking action", caseStudy: "/work/mend-health", description: "Six service pages and clear booking options for a soft-tissue care practice.", color: "#bacbc0" },
+  { id: "sauce", name: "The Sauce Fix", category: "Food & drink / Ecommerce", image: "/assets/portfolio-sauce-fix.webp", alt: "The Sauce Fix online store with bold orange graphics and a distinctive hot sauce brand", caseStudy: "/work/the-sauce-fix", description: "A custom ecommerce storefront for small-batch hot sauce and salsa.", color: "#edb38c" },
+] as const;

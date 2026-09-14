@@ -20,6 +20,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Invalid request" }, { status: 400 });
   }
 
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ ok: false, error: "Invalid request" }, { status: 400 });
+  }
+
   if (trim(body["bot-field"])) {
     return NextResponse.json({ ok: true });
   }
@@ -32,6 +36,9 @@ export async function POST(req: Request) {
   }
   if (!isEmail(email)) {
     return NextResponse.json({ ok: false, error: "That email doesn't look right." }, { status: 400 });
+  }
+  if (email.length > 254 || source.length > 200) {
+    return NextResponse.json({ ok: false, error: "One of the fields is too long." }, { status: 400 });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -52,19 +59,20 @@ export async function POST(req: Request) {
   if (!apiKey) {
     // See contact route — never fake a success in production.
     if (process.env.NODE_ENV === "production") {
-      console.error("[newsletter] RESEND_API_KEY missing in production — signup NOT sent:\n" + text);
+      console.error("[newsletter] RESEND_API_KEY missing in production — signup not sent");
       return NextResponse.json(
         { ok: false, error: "Couldn't subscribe right now. Please email us directly." },
         { status: 500 },
       );
     }
-    console.log("[newsletter] RESEND_API_KEY not set (dev) — would have notified:\n" + text);
+    console.log("[newsletter] Local preview — email delivery disabled");
     return NextResponse.json({ ok: true, dev: true });
   }
 
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
+      signal: AbortSignal.timeout(15000),
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
@@ -79,15 +87,14 @@ export async function POST(req: Request) {
     });
 
     if (!res.ok) {
-      const detail = await res.text().catch(() => "");
-      console.error("[newsletter] Resend failed", res.status, detail);
+      console.error("[newsletter] Email provider rejected request", res.status);
       return NextResponse.json(
         { ok: false, error: "Couldn't subscribe right now. Try again or email us directly." },
         { status: 502 },
       );
     }
-  } catch (err) {
-    console.error("[newsletter] send threw", err);
+  } catch {
+    console.error("[newsletter] Email delivery could not be confirmed");
     return NextResponse.json(
       { ok: false, error: "Couldn't subscribe right now. Try again or email us directly." },
       { status: 502 },

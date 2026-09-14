@@ -41,6 +41,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Invalid request" }, { status: 400 });
   }
 
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ ok: false, error: "Invalid request" }, { status: 400 });
+  }
+
   if (trim(body["bot-field"])) {
     return NextResponse.json({ ok: true });
   }
@@ -65,6 +69,12 @@ export async function POST(req: Request) {
   }
   if (!isEmail(email)) {
     return NextResponse.json({ ok: false, error: "That email doesn't look right." }, { status: 400 });
+  }
+  if (name.length > 120 || email.length > 254 || phone.length > 40 || website.length > 500 || business.length > 200 || service.length > 120) {
+    return NextResponse.json({ ok: false, error: "One of the fields is too long. Please shorten it and try again." }, { status: 400 });
+  }
+  if (/[\r\n]/.test(name + email + business + service + source)) {
+    return NextResponse.json({ ok: false, error: "Please use a single line for your contact details." }, { status: 400 });
   }
   if (message.length > 5000) {
     return NextResponse.json({ ok: false, error: "Message is too long." }, { status: 400 });
@@ -99,19 +109,20 @@ export async function POST(req: Request) {
     // success here silently swallows real inquiries — surface it instead so the
     // visitor gets the "email us directly" fallback and we can see it's broken.
     if (process.env.NODE_ENV === "production") {
-      console.error("[contact] RESEND_API_KEY missing in production — inquiry NOT sent:\n" + text);
+      console.error("[contact] RESEND_API_KEY missing in production — inquiry not sent");
       return NextResponse.json(
         { ok: false, error: "We couldn't send the message. Please email us directly." },
         { status: 500 },
       );
     }
-    console.log("[contact] RESEND_API_KEY not set (dev) — would have sent:\n" + text);
+    console.log("[contact] Local preview — email delivery disabled");
     return NextResponse.json({ ok: true, dev: true });
   }
 
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
+      signal: AbortSignal.timeout(15000),
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
@@ -126,17 +137,17 @@ export async function POST(req: Request) {
     });
 
     if (!res.ok) {
-      const detail = await res.text().catch(() => "");
-      console.error("[contact] Resend failed", res.status, detail);
+      console.error("[contact] Email provider rejected request", res.status);
       return NextResponse.json(
         { ok: false, error: "We couldn't send the message. Try again or email us directly." },
         { status: 502 },
       );
     }
   } catch (err) {
-    console.error("[contact] send threw", err);
+    const timedOut = err instanceof Error && (err.name === "TimeoutError" || err.name === "AbortError");
+    console.error("[contact] Email delivery could not be confirmed", timedOut ? "timeout" : "network error");
     return NextResponse.json(
-      { ok: false, error: "We couldn't send the message. Try again or email us directly." },
+      { ok: false, error: "We couldn't confirm delivery. Please call or email us directly before sending another request." },
       { status: 502 },
     );
   }

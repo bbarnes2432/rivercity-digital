@@ -1,119 +1,30 @@
-import Container from "@/app/_components/Container";
-import Section from "@/app/_components/Section";
-import SectionHeader from "@/app/_components/SectionHeader";
-import Button from "@/app/_components/Button";
-import SystemsDemo, { type SystemSpec } from "./SystemsDemo";
-import CostStack from "./CostStack";
+import { ArrowRight, ArrowUpRight, Check, ChevronRight, CircleCheck, FileText, FolderOpen, LayoutDashboard, Package, Search, Settings2, ShoppingBag, Users } from "lucide-react";
 
-/* Ask what they can build beyond a template.
- *
- * The argument is that a custom build can carry the systems behind the
- * website, not only the website. So the section shows one: a mock
- * back-office app on the right whose screen follows whichever of the four
- * systems is chosen on the left, then the software bill made visible as
- * thirty-six months lighting up under a counter, then the offer. */
+const SYSTEMS = [
+  { name: "CRM & follow-ups", short: "Customers", Icon: Users, title: "Keep the inquiry, quote, and follow-up in one place.", description: "A custom CRM can use your fields and sales stages, attach documents to customer records, and remind your team what needs attention. Website inquiries can enter the workflow directly.", points: ["Customer records and contact history", "Quotes and follow-up reminders", "Website forms connected to your pipeline"] },
+  { name: "Orders & payments", short: "Orders", Icon: ShoppingBag, title: "Connect an approved quote to the work that follows.", description: "Create an order from a quote, connect a payment provider, and track progress through your own fulfillment stages. Build the handoffs around how your team sells and delivers.", points: ["Quote-to-order workflows", "Payment provider integrations", "Order status for your staff and customers"] },
+  { name: "Products & stock", short: "Products", Icon: Package, title: "Manage the catalog behind your online store.", description: "Build a dashboard for product information, pricing, stock, and availability. Connect the systems that need those updates so your team has fewer places to enter the same data.", points: ["Product and pricing management", "Stock and availability updates", "Storefront and software connections"] },
+  { name: "Customer portals", short: "Portal", Icon: FolderOpen, title: "Give customers access to the things they keep asking for.", description: "A customer portal can bring files, approvals, order updates, and messages into one place. Staff and customers get access to the screens and information their role requires.", points: ["File sharing and approvals", "Customer and staff permissions", "Project updates and account information"] },
+] as const;
 
-const SYSTEMS: SystemSpec[] = [
-  {
-    screen: "crm",
-    nav: "Customers",
-    problem: "Customer details scattered across tools?",
-    title: "A CRM built around your process.",
-    description: "Bring contacts, quotes, follow-ups, and customer history into one system. Use the fields and sales stages your team actually needs, with fewer places to enter the same information.",
-  },
-  {
-    screen: "orders",
-    nav: "Orders",
-    problem: "Manually moving orders from step to step?",
-    title: "Connected orders and payments.",
-    description: "Turn an approved quote into an order, connect your payment provider, and track fulfillment in one workflow. Build the rules around how you sell, deliver, and get paid.",
-  },
-  {
-    screen: "products",
-    nav: "Products",
-    problem: "Updating products in several places?",
-    title: "Product management that fits.",
-    description: "Manage your catalog, pricing, stock, and availability from a custom dashboard. Connect it to your storefront and other tools so your team spends less time copying updates between systems.",
-  },
-  {
-    screen: "portal",
-    nav: "Portal",
-    problem: "Chasing files, approvals, and status updates?",
-    title: "Portals for customers and staff.",
-    description: "Give people a place to upload files, approve work, check orders, or manage tasks. Build the screens, permissions, and automations around what each person needs to do.",
-  },
-];
+function DashboardScreen({ active }: { active: number }) {
+  if (active === 1) return <><div className="wd-app-heading"><div><span>ORDER MANAGEMENT</span><h4>Order #1043</h4></div><span className="wd-app-badge">In progress</span></div><div className="wd-order-flow">{["Quote approved", "Payment received", "Preparing", "Complete"].map((step, i) => <div className={i < 2 ? "is-done" : ""} key={step}><span>{i < 2 ? <Check size={13} /> : i + 1}</span><p>{step}</p></div>)}</div><div className="wd-order-summary"><span>Customer</span><strong>Example customer</strong><span>Order total</span><strong>$1,250.00</strong><span>Next step</span><strong>Schedule delivery</strong></div><div className="wd-app-notice"><CircleCheck size={18} /><div><strong>Payment recorded</strong><span>Your team can see what happens next.</span></div></div></>;
+  if (active === 2) return <><div className="wd-app-heading"><div><span>PRODUCT MANAGEMENT</span><h4>Product catalog</h4></div><span className="wd-app-badge">4 products</span></div><div className="wd-product-rows">{[["Amber", "Everyday collection", "$48", "24 available"], ["Sage", "Seasonal collection", "$72", "12 available"], ["Slate", "Signature collection", "$96", "8 available"], ["Sand", "Everyday collection", "$36", "Restock needed"]].map(([name, group, price, stock], i) => <div className="wd-product-row" key={name}><span className={`wd-product-swatch wd-swatch-${i}`} /><div><strong>{name}</strong><span>{group}</span></div><b>{price}</b><small>{stock}</small></div>)}</div></>;
+  if (active === 3) return <><div className="wd-app-heading"><div><span>CUSTOMER WORKSPACE</span><h4>Your project</h4></div><span className="wd-app-badge">Customer view</span></div><div className="wd-portal-progress"><span>Project progress</span><b>Design review</b><div><i /></div></div><div className="wd-portal-files">{[["Project proposal.pdf", "Approved"], ["Design preview.pdf", "Ready for review"], ["Brand assets.zip", "Received"]].map(([file, status]) => <div key={file}><FileText size={23} /><span><strong>{file}</strong><small>{status}</small></span><ChevronRight size={15} /></div>)}</div><div className="wd-app-notice"><FolderOpen size={18} /><div><strong>Files and updates in one place</strong><span>Access is based on the customer’s account.</span></div></div></>;
+  return <><div className="wd-app-heading"><div><span>CUSTOMER MANAGEMENT</span><h4>Sales pipeline</h4></div><span className="wd-app-badge">This week</span></div><div className="wd-pipeline">{[{name:"New inquiries",cards:["Website inquiry", "Consultation request"]},{name:"Quote sent",cards:["Service proposal", "Project estimate"]},{name:"Booked",cards:["Approved project"]}].map((column, i) => <div className="wd-pipeline-col" key={column.name}><h5><i />{column.name}<span>{column.cards.length}</span></h5>{column.cards.map((card, j) => <div className="wd-pipeline-card" key={card}><span className="wd-pipeline-avatar">{i === 2 ? <Check size={13} /> : <Users size={12} />}</span><strong>{card}</strong><p>{i === 0 ? "From your website" : "Example customer"}</p><div><span>{i === 2 ? "Deposit paid" : j === 0 ? "Follow up today" : "Ready to review"}</span><ArrowUpRight size={12} /></div></div>)}</div>)}</div><div className="wd-app-notice"><CircleCheck size={18} /><div><strong>New inquiry captured</strong><span>Contact details, source, and next action—together.</span></div></div></>;
+}
 
 export default function BusinessSystems() {
-  return (
-    <Section id="custom-systems" mode="civic-deep" className="rcd-systems">
-      <Container>
-        <SectionHeader
-          className="fx-reveal"
-          eyebrow="Before you hire a web design agency"
-          title="Ask what they can build beyond a template."
-          lede="If an agency only customizes WordPress themes or Wix templates, what happens when your business needs something those tools don't cover? You could end up buying more software and working around its limitations. We build the website and the custom systems behind it."
-        />
-
-        <div className="rcd-systems-intro fx-reveal">
-          <h3>A platform built for the way you work.</h3>
-          <div>
-            <p>
-              Imagine opening one system built specifically for your business.
-              Every button has a purpose. Every form asks for information you need.
-              Every feature supports a task your team actually does. You help define
-              what belongs in it, and we build it around your workflow.
-            </p>
-            <p>
-              If you&apos;re paying for overlapping tools or features you rarely use,
-              a custom backend can replace several subscriptions and bring that work
-              together. Your website can become the front door to the system that
-              runs your day-to-day business.
-            </p>
-          </div>
-        </div>
-
-        <SystemsDemo systems={SYSTEMS} />
-
-        <div className="rcd-systems-costs fx-reveal">
-          <CostStack />
-          <div className="rcd-systems-costcopy">
-            <h3>Put your software budget toward a system built for you.</h3>
-            <p>
-              Separate CRM, order management, portal, and automation subscriptions
-              add up month after month. Consolidating the tools you can replace
-              into a custom system can reduce recurring costs and the manual work
-              between them.
-            </p>
-            <p>
-              We&apos;ll review what you pay for, what you actually use, and which
-              tools a custom build could replace or connect. Then we&apos;ll compare
-              the build and ongoing costs with your current setup, so you can see
-              whether the investment makes sense.
-            </p>
-            <p className="rcd-systems-note">
-              That comparison includes hosting, maintenance, third-party services,
-              and payment processing fees where applicable.
-            </p>
-          </div>
-        </div>
-
-        <div className="rcd-systems-cta fx-reveal">
-          <div>
-            <p className="rcd-systems-label">One page or a complete platform</p>
-            <h3>No project is too small.</h3>
-            <p>
-              Need a landing page? We can build it. Need a website connected to a
-              complete business platform? We can build that too. Start with what
-              you need today, and add capabilities as your business grows.
-            </p>
-          </div>
-          <div className="rcd-systems-action">
-            <Button href="/website-design#start" size="lg" arrow>Get my free website mockup</Button>
-            <p>Tell us what you have in mind. No obligation to build.</p>
-          </div>
-        </div>
-      </Container>
-    </Section>
-  );
+  return <section className="wd-section wd-systems" id="custom-systems" aria-labelledby="systems-heading"><div className="wd-container">
+    <div className="wd-section-heading"><div><p className="wd-eyebrow">Custom backends / Connected operations</p><h2 id="systems-heading">The website is only<br />part of what we build.</h2></div><p>Customer portals, CRMs, order management, and integrations—built around the way your business operates.</p></div>
+    <div className="wd-system-list">
+      {SYSTEMS.map((system, index) => (
+        <article className="wd-system-detail" key={system.name} aria-labelledby={"system-" + index + "-heading"}>
+          <div className="wd-system-copy"><span className="wd-eyebrow wd-system-label"><system.Icon size={20} />0{index + 1} / {system.name}</span><h3 id={"system-" + index + "-heading"}>{system.title}</h3><p>{system.description}</p><ul>{system.points.map(point => <li key={point}><Check size={16} />{point}</li>)}</ul></div>
+          <figure className="wd-system-figure"><div className="wd-app-window" aria-hidden="true"><div className="wd-app-chrome"><span><i /><i /><i /></span><span>YOUR BUSINESS / WORKSPACE</span><Settings2 size={13} /></div><div className="wd-app-body"><div className="wd-app-sidebar"><b>YOUR<br />BUSINESS<span>WORKSPACE</span></b>{SYSTEMS.map(({short,Icon},i)=><div className={i===index?"is-active":""} key={short}><Icon size={15} /><span>{short}</span></div>)}<div><LayoutDashboard size={15}/><span>Reports</span></div><small>Sample workspace</small></div><div className="wd-app-main"><div className="wd-app-toolbar"><span><Search size={13}/> Search your workspace</span><span>JD</span></div><DashboardScreen active={index}/></div></div></div><figcaption>{system.name} — example interface with illustrative data. Your system would be scoped and designed for your business.</figcaption></figure>
+        </article>
+      ))}
+    </div>
+    <div className="wd-systems-cost"><span className="wd-eyebrow">Review your existing tools</span><p>Already paying for several subscriptions? We can compare what to keep, what to connect, and what a custom system could replace—including development, hosting, and maintenance costs.</p><a href="#start">Review my setup <ArrowRight size={17}/></a></div>
+  </div></section>;
 }
