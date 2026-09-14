@@ -22,6 +22,8 @@ const KEYS = [
   "utm_term",
   "utm_content",
   "gclid",
+  "gbraid",
+  "wbraid",
   "fbclid",
 ] as const;
 

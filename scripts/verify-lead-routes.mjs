@@ -34,7 +34,7 @@ async function request(route, body, options = {}) {
 }
 
 (async () => {
-  const valid = { name: 'Local Test', email: 'test@example.invalid', service: 'New website', source: 'Website design — free mockup', gclid: 'test-click', utm_source: 'test-source' };
+  const valid = { name: 'Local Test', email: 'test@example.invalid', service: 'New website', source: 'Website design — free mockup', gclid: 'test-click', gbraid: 'test-gbraid', wbraid: 'test-wbraid', utm_source: 'test-source' };
   let checks = 0;
   async function check(route, body, expected, options = {}, expectedCalls = 0) {
     const result = await request(route, body, options);
@@ -54,6 +54,8 @@ async function request(route, body, options = {}) {
     assert.equal(success.calls[0].body.reply_to, valid.email);
     if (route === 'contact') {
       assert.ok(success.calls[0].body.text.includes('gclid: test-click'));
+      assert.ok(success.calls[0].body.text.includes('gbraid: test-gbraid'));
+      assert.ok(success.calls[0].body.text.includes('wbraid: test-wbraid'));
       assert.ok(success.calls[0].body.text.includes('utm_source: test-source'));
     }
     await check(route, valid, 500, { noKey: true });
@@ -67,6 +69,13 @@ async function request(route, body, options = {}) {
     await check('contact', { ...valid, [field]: 'x'.repeat(limit + 1) }, 400);
   }
   await check('contact', { ...valid, name: 'A\nB' }, 400);
+  const bounded = await check('contact', { ...valid, gbraid: 'x'.repeat(301), wbraid: '  test-braid  ', unapproved_click_id: 'do-not-forward' }, 200, {}, 1);
+  assert.ok(bounded.calls[0].body.text.includes(`gbraid: ${'x'.repeat(300)}\n`));
+  assert.ok(bounded.calls[0].body.text.includes('wbraid: test-braid'));
+  assert.ok(!bounded.calls[0].body.text.includes('do-not-forward'));
+  const malformedIds = await check('contact', { ...valid, gbraid: { invalid: true }, wbraid: ['invalid'] }, 200, {}, 1);
+  assert.ok(!malformedIds.calls[0].body.text.includes('gbraid:'));
+  assert.ok(!malformedIds.calls[0].body.text.includes('wbraid:'));
   await check('newsletter', { ...valid, source: 'x'.repeat(201) }, 400);
   console.log(`${checks} lead-route checks passed. All delivery mocked; no emails sent.`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

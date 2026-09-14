@@ -15,7 +15,7 @@ type Payload = {
   "bot-field"?: string;
 } & Partial<Record<AttributionKey, string>>;
 
-// Campaign attribution carried by the /quad-cities landing form. The click IDs
+// Campaign attribution carried by the site's lead forms. The click IDs
 // matter most: they're what lets a closed deal be imported back into Google and
 // Meta as an offline conversion later, so the platforms optimize toward leads
 // that sign rather than leads that fill out forms.
@@ -26,6 +26,8 @@ const ATTRIBUTION_KEYS = [
   "utm_term",
   "utm_content",
   "gclid",
+  "gbraid",
+  "wbraid",
   "fbclid",
 ] as const;
 type AttributionKey = (typeof ATTRIBUTION_KEYS)[number];

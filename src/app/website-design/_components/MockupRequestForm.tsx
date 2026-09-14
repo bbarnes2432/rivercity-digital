@@ -50,8 +50,8 @@ export default function MockupRequestForm() {
       window.clearTimeout(timeout);
     }
   }
-  return <form id="wd-mockup-form" className="wd-form" onSubmit={submit} aria-busy={status === "submitting"}>
-    <div className="wd-form-heading"><span className="wd-eyebrow">Free design preview</span><h3>Request a website mockup.</h3><p>Tell us about the project. No obligation to build.</p></div>
+  return <form id="wd-mockup-form" className="wd-form" onSubmit={submit} aria-busy={status === "submitting"} aria-labelledby="mockup-form-heading">
+    <div id="start" className="wd-form-heading" tabIndex={-1}><span className="wd-eyebrow">Free design preview</span><h3 id="mockup-form-heading">Request a website mockup.</h3><p>Tell us about the project. No obligation to build.</p></div>
     <input type="hidden" name="service" value="New website" /><input type="hidden" name="source" value="Website design — free mockup" />
     <div className="wd-honeypot" aria-hidden="true"><label>Leave this empty<input type="text" name="bot-field" tabIndex={-1} autoComplete="off" /></label></div>
     <label className="wd-field"><span>Your name <span aria-hidden="true">*</span></span><input name="name" required autoComplete="name" maxLength={120} placeholder="Alex Morgan" /></label>
