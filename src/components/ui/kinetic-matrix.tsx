@@ -105,6 +105,7 @@ export function KineticMatrix({
     // Visibility gates. Both must be true for the loop to advance.
     const onScreenRef = useRef(true);
     const tabVisibleRef = useRef(true);
+    const syncPlaybackRef = useRef<() => void>(() => {});
 
     const pointerRef = useRef({
         x: -2000, y: -2000,
@@ -203,12 +204,19 @@ export function KineticMatrix({
         if (!container) return;
 
         const io = new IntersectionObserver(
-            (entries) => { onScreenRef.current = entries[0]?.isIntersecting ?? true; },
+            (entries) => {
+                onScreenRef.current = entries[0]?.isIntersecting ?? true;
+                syncPlaybackRef.current();
+            },
             { rootMargin: '120px' },
         );
         io.observe(container);
 
-        const onVis = () => { tabVisibleRef.current = !document.hidden; };
+        const onVis = () => {
+            tabVisibleRef.current = !document.hidden;
+            syncPlaybackRef.current();
+        };
+        onVis();
         document.addEventListener('visibilitychange', onVis);
 
         return () => {
@@ -446,16 +454,31 @@ export function KineticMatrix({
         let lastTime = performance.now();
 
         const render = (now: number) => {
+            animId = 0;
+            if (!isRunning || !onScreenRef.current || !tabVisibleRef.current) return;
             const dt = Math.min((now - lastTime) / 1000, 0.033);
             lastTime = now;
-            if (isRunning && onScreenRef.current && tabVisibleRef.current) {
-                paint(ctx, true, dt);
-            }
+            paint(ctx, true, dt);
             animId = requestAnimationFrame(render);
         };
 
-        animId = requestAnimationFrame(render);
-        return () => cancelAnimationFrame(animId);
+        const syncPlayback = () => {
+            if (isRunning && onScreenRef.current && tabVisibleRef.current) {
+                if (!animId) {
+                    lastTime = performance.now();
+                    animId = requestAnimationFrame(render);
+                }
+            } else {
+                cancelAnimationFrame(animId);
+                animId = 0;
+            }
+        };
+        syncPlaybackRef.current = syncPlayback;
+        syncPlayback();
+        return () => {
+            syncPlaybackRef.current = () => {};
+            cancelAnimationFrame(animId);
+        };
     }, [isRunning, reducedMotion, paint]);
 
     /* Fire a shockwave from the centre a beat after mount, timed to land as

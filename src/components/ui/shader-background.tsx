@@ -103,14 +103,6 @@ float grainHash(vec2 p) {
   return fract((p3.x + p3.y) * p3.z);
 }
 
-vec2 hash22(vec2 p) {
-#ifndef GL_FRAGMENT_PRECISION_HIGH
-  p = mod(p, 31.0);
-#endif
-  float n = sin(dot(p, vec2(41.0, 289.0)));
-  return fract(vec2(15731.743, 7892.321) * n);
-}
-
 float noise(vec2 p) {
   vec2 i = floor(p);
   vec2 f = fract(p);
@@ -132,63 +124,6 @@ float fbm(vec2 p) {
   return v;
 }
 
-// --- OKLab colour mixing (perceptual), gated by u_oklab -----------------------
-vec3 srgbToLinear(vec3 c) {
-  return mix(c / 12.92, pow((c + 0.055) / 1.055, vec3(2.4)),
-    step(0.04045, c));
-}
-vec3 linearToSrgb(vec3 c) {
-  // max() guards the sRGB branch: out-of-gamut OKLab interpolations can send a
-  // channel negative, and pow(negative, …) is NaN which mix()/step() would
-  // then propagate. The linear branch clips such channels to 0 downstream.
-  return mix(c * 12.92, 1.055 * pow(max(c, vec3(0.0)), vec3(1.0 / 2.4)) - 0.055,
-    step(0.0031308, c));
-}
-vec3 linToOklab(vec3 c) {
-  float l = 0.4122214708 * c.r + 0.5363325363 * c.g + 0.0514459929 * c.b;
-  float m = 0.2119034982 * c.r + 0.6806995451 * c.g + 0.1073969566 * c.b;
-  float s = 0.0883024619 * c.r + 0.2817188376 * c.g + 0.6299787005 * c.b;
-  l = pow(max(l, 0.0), 1.0 / 3.0);
-  m = pow(max(m, 0.0), 1.0 / 3.0);
-  s = pow(max(s, 0.0), 1.0 / 3.0);
-  return vec3(
-    0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
-    1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
-    0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s);
-}
-vec3 oklabToLin(vec3 c) {
-  float l = c.x + 0.3963377774 * c.y + 0.2158037573 * c.z;
-  float m = c.x - 0.1055613458 * c.y - 0.0638541728 * c.z;
-  float s = c.x - 0.0894841775 * c.y - 1.2914855480 * c.z;
-  l = l * l * l; m = m * m * m; s = s * s * s;
-  return vec3(
-    4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
-    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
-    -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s);
-}
-vec3 mixColour(vec3 a, vec3 b, float t) {
-  if (u_oklab > 0.5) {
-    vec3 la = linToOklab(srgbToLinear(a));
-    vec3 lb = linToOklab(srgbToLinear(b));
-    return clamp(linearToSrgb(oklabToLin(mix(la, lb, t))), 0.0, 1.0);
-  }
-  return mix(a, b, t);
-}
-
-// Mix through the recipe colours; x is clamped to 0..1. WebGL1 forbids
-// dynamic uniform indexing in fragment shaders, hence the constant loop.
-vec3 palette(float x) {
-  float n = max(u_colorCount - 1.0, 1.0);
-  float f = clamp(x, 0.0, 1.0) * n;
-  vec3 col = u_colors[0];
-  for (int i = 0; i < 7; i++) {
-    if (float(i) < n)
-      col = mixColour(col, u_colors[i + 1],
-        smoothstep(0.0, 1.0, clamp(f - float(i), 0.0, 1.0)));
-  }
-  return col;
-}
-
 vec3 hueRotate(vec3 col, float a) {
   const mat3 toYIQ = mat3(0.299, 0.596, 0.211,
                           0.587, -0.274, -0.523,
@@ -202,15 +137,25 @@ vec3 hueRotate(vec3 col, float a) {
   return toRGB * yiq;
 }
 
+vec2 centers[8];
+
+// These positions are identical for every blur tap. Calculate them once.
+void prepareCenters(float t) {
+  for (int i = 0; i < 8; i++) {
+    if (float(i) >= u_colorCount) break;
+    float fi = float(i);
+    centers[i] = vec2(
+      sin(t * (0.21 + fi * 0.071) + fi * 2.4 + u_seed),
+      cos(t * (0.17 + fi * 0.093) + fi * 1.7)) * (0.45 + u_intensity * 0.35);
+  }
+}
+
 vec3 shade(vec2 uv, vec2 p, float t) {
   vec3 acc = u_colors[0] * 0.15;
   float total = 0.15;
   for (int i = 0; i < 8; i++) {
     if (float(i) >= u_colorCount) break;
-    float fi = float(i);
-    vec2 c = vec2(
-      sin(t * (0.21 + fi * 0.071) + fi * 2.4 + u_seed),
-      cos(t * (0.17 + fi * 0.093) + fi * 1.7)) * (0.45 + u_intensity * 0.35);
+    vec2 c = centers[i];
     float w = exp(-dot(p - c, p - c) * 6.0);
     acc += u_colors[i] * w;
     total += w;
@@ -271,7 +216,8 @@ void main() {
       fbm(p * u_detail + u_seed),
       fbm(p * u_detail + vec2(5.2, 1.3))) - 0.5);
   }
-  // Shade, with an optional soft 5-tap blur.
+  prepareCenters(u_time);
+  // Shade, with the same soft 5-tap blur.
   vec3 col;
   if (u_blur > 0.0) {
     float e = u_blur;
@@ -391,295 +337,301 @@ export function ShaderBackground({ className }: { className?: string }) {
       const s = gl.createShader(type)!
       gl.shaderSource(s, src)
       gl.compileShader(s)
-      // Upstream never checks this. A driver that rejects the shader would
-      // otherwise leave a silently blank hero.
-      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-        if (process.env.NODE_ENV !== "production") {
-          console.warn("[ShaderBackground] shader compile failed:", gl.getShaderInfoLog(s))
-        }
-        gl.deleteShader(s)
-        return null
-      }
       return s
     }
     const program = gl.createProgram()!
     const vertexShader = compile(gl.VERTEX_SHADER, VERT)
     const fragmentShader = compile(gl.FRAGMENT_SHADER, FRAG)
-    if (!vertexShader || !fragmentShader) {
-      gl.deleteProgram(program)
-      return
-    }
     gl.attachShader(program, vertexShader)
     gl.attachShader(program, fragmentShader)
     gl.linkProgram(program)
     gl.deleteShader(vertexShader)
     gl.deleteShader(fragmentShader)
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      if (process.env.NODE_ENV !== "production") {
-        console.warn("[ShaderBackground] program link failed:", gl.getProgramInfoLog(program))
-      }
-      gl.deleteProgram(program)
-      return
-    }
-    gl.useProgram(program)
-
-    const buf = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf)
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, 3, -1, -1, 3]),
-      gl.STATIC_DRAW,
-    )
-    const loc = gl.getAttribLocation(program, "a_position")
-    gl.enableVertexAttribArray(loc)
-    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0)
-
-    const uni = {
-      colors: gl.getUniformLocation(program, "u_colors"),
-      scene: gl.getUniformLocation(program, "u_scene"),
-      shape: gl.getUniformLocation(program, "u_shape"),
-      surface: gl.getUniformLocation(program, "u_surface"),
-      finish: gl.getUniformLocation(program, "u_finish"),
-      transform: gl.getUniformLocation(program, "u_transform"),
-      space: gl.getUniformLocation(program, "u_space"),
-      cursor: gl.getUniformLocation(program, "u_cursor"),
-    }
-    gl.uniform3fv(uni.colors, new Float32Array(UNIFORMS.colors.flat()))
-    gl.uniform4f(
-      uni.shape,
-      UNIFORMS.scale,
-      UNIFORMS.intensity,
-      UNIFORMS.paramA,
-      UNIFORMS.warp,
-    )
-    gl.uniform4f(
-      uni.surface,
-      UNIFORMS.detail,
-      UNIFORMS.contrast,
-      UNIFORMS.brightness,
-      UNIFORMS.saturation,
-    )
-    gl.uniform4f(
-      uni.finish,
-      UNIFORMS.hue,
-      UNIFORMS.vignette,
-      UNIFORMS.blur,
-      UNIFORMS.grain,
-    )
-    gl.uniform4f(
-      uni.transform,
-      UNIFORMS.seed,
-      UNIFORMS.rotate,
-      // Reduced motion freezes the drift as well as the clock, otherwise the
-      // field would still creep even with time held still.
-      reduceMotion ? 0 : UNIFORMS.drift,
-      UNIFORMS.oklab,
-    )
-    gl.uniform4f(
-      uni.cursor,
-      0,
-      UNIFORMS.cursorEffect,
-      UNIFORMS.cursorStrength,
-      UNIFORMS.cursorRadius,
-    )
-
-    let targetX = 0
-    let targetY = 0
-    let targetPresence = 0
-    let mouseX = 0
-    let mouseY = 0
-    let cursorPresence = 0
-    let pointerKnown = false
-    let pointerClientX = 0
-    let pointerClientY = 0
-    let bounds = canvas.getBoundingClientRect()
-    let raf = 0
-    let lastNow: number | null = null
-    let visible = document.visibilityState === "visible"
-    let inView = true
-    let disposed = false
-    const start = performance.now()
-    const timeAnimated = !reduceMotion && Math.abs(UNIFORMS.timeScale) > 0.0001
-
-    const resizeCanvas = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
-      const rawWidth = Math.max(1, Math.round(bounds.width * dpr))
-      const rawHeight = Math.max(1, Math.round(bounds.height * dpr))
-      const pixelScale = Math.min(
-        1,
-        Math.sqrt(2_000_000 / Math.max(1, rawWidth * rawHeight)),
-      )
-      const width = Math.max(1, Math.round(rawWidth * pixelScale))
-      const height = Math.max(1, Math.round(rawHeight * pixelScale))
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width
-        canvas.height = height
-        gl.viewport(0, 0, width, height)
-      }
-    }
-
-    /* Arrow consts rather than upstream's `function` declarations. Hoisted
-     * declarations are treated by TypeScript as existing above the
-     * `if (!gl) return` / `if (!canvas) return` guards, so the non-null
-     * narrowing of `gl` and `canvas` is discarded inside them and every use
-     * errors. Declaring them after the guards keeps the narrowing. */
-    const requestRender = () => {
-      if (!disposed && visible && inView && raf === 0) {
-        raf = requestAnimationFrame(render)
-      }
-    }
-
-    const updatePointerTarget = () => {
-      if (!pointerKnown) return
-      if (bounds.width === 0 || bounds.height === 0) return
-      const inside =
-        pointerClientX >= bounds.left &&
-        pointerClientX <= bounds.right &&
-        pointerClientY >= bounds.top &&
-        pointerClientY <= bounds.bottom
-      if (!inside) {
-        targetPresence = 0
-        requestRender()
+    // Queue both shaders and link before asking for status. Where supported,
+    // poll the driver without blocking the page while it compiles the effect.
+    const parallel = gl.getExtension("KHR_parallel_shader_compile")
+    let compileFrame = 0
+    let cleanup: (() => void) | undefined
+    const initialize = () => {
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        if (process.env.NODE_ENV !== "production") {
+          console.warn("[ShaderBackground] program link failed:", gl.getProgramInfoLog(program))
+        }
         return
       }
-      const nextX = ((pointerClientX - bounds.left) / bounds.width) * 2 - 1
-      const nextY = -(((pointerClientY - bounds.top) / bounds.height) * 2 - 1)
-      if (targetPresence === 0 && cursorPresence < 0.01) {
-        mouseX = nextX
-        mouseY = nextY
+      gl.useProgram(program)
+
+      const buf = gl.createBuffer()
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array([-1, -1, 3, -1, -1, 3]),
+        gl.STATIC_DRAW,
+      )
+      const loc = gl.getAttribLocation(program, "a_position")
+      gl.enableVertexAttribArray(loc)
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0)
+
+      const uni = {
+        colors: gl.getUniformLocation(program, "u_colors"),
+        scene: gl.getUniformLocation(program, "u_scene"),
+        shape: gl.getUniformLocation(program, "u_shape"),
+        surface: gl.getUniformLocation(program, "u_surface"),
+        finish: gl.getUniformLocation(program, "u_finish"),
+        transform: gl.getUniformLocation(program, "u_transform"),
+        space: gl.getUniformLocation(program, "u_space"),
+        cursor: gl.getUniformLocation(program, "u_cursor"),
       }
-      targetX = nextX
-      targetY = nextY
-      targetPresence = 1
-      requestRender()
-    }
-    const onPointerMove = (event: PointerEvent) => {
-      pointerKnown = true
-      pointerClientX = event.clientX
-      pointerClientY = event.clientY
-      bounds = canvas.getBoundingClientRect()
-      updatePointerTarget()
-    }
-    const onPointerLeave = () => {
-      pointerKnown = false
-      targetPresence = 0
-      requestRender()
-    }
-    const updateLayout = () => {
-      bounds = canvas.getBoundingClientRect()
-      resizeCanvas()
-      updatePointerTarget()
-      requestRender()
-    }
-
-    /* Upstream wires updateLayout straight to scroll in the capture phase, so
-     * every scroll event forces a synchronous layout read. Coalescing to one
-     * read per frame keeps the cursor mapping correct without the jank. */
-    let layoutRaf = 0
-    const scheduleLayoutUpdate = () => {
-      if (layoutRaf !== 0) return
-      layoutRaf = requestAnimationFrame(() => {
-        layoutRaf = 0
-        updateLayout()
-      })
-    }
-
-    window.addEventListener("resize", updateLayout)
-    if (UNIFORMS.cursorEnabled) {
-      window.addEventListener("pointermove", onPointerMove, { passive: true })
-      window.addEventListener("pointercancel", onPointerLeave)
-      window.addEventListener("scroll", scheduleLayoutUpdate, {
-        capture: true,
-        passive: true,
-      })
-      window.addEventListener("blur", onPointerLeave)
-      document.documentElement.addEventListener("pointerleave", onPointerLeave)
-    }
-
-    const resizeObserver = new ResizeObserver(updateLayout)
-    resizeObserver.observe(canvas)
-    const intersectionObserver = new IntersectionObserver(([entry]) => {
-      inView = entry?.isIntersecting ?? true
-      if (inView) requestRender()
-      else if (raf !== 0) {
-        cancelAnimationFrame(raf)
-        raf = 0
-        lastNow = null
-      }
-    })
-    intersectionObserver.observe(canvas)
-    const onVisibilityChange = () => {
-      visible = document.visibilityState === "visible"
-      if (visible) requestRender()
-      else if (raf !== 0) {
-        cancelAnimationFrame(raf)
-        raf = 0
-        lastNow = null
-      }
-    }
-    document.addEventListener("visibilitychange", onVisibilityChange)
-
-    const render = (now: number) => {
-      raf = 0
-      if (disposed || !visible || !inView) return
-      const dt = lastNow === null ? 0 : Math.min((now - lastNow) / 1000, 0.1)
-      lastNow = now
-      const follow = 1 - Math.exp(-12 * dt)
-      mouseX += (targetX - mouseX) * follow
-      mouseY += (targetY - mouseY) * follow
-      cursorPresence += (targetPresence - cursorPresence) * follow
-      resizeCanvas()
-      const width = canvas.width
-      const height = canvas.height
+      gl.uniform3fv(uni.colors, new Float32Array(UNIFORMS.colors.flat()))
       gl.uniform4f(
-        uni.scene,
-        width,
-        height,
-        reduceMotion ? 0 : ((now - start) / 1000) * UNIFORMS.timeScale,
-        UNIFORMS.colorCount,
+        uni.shape,
+        UNIFORMS.scale,
+        UNIFORMS.intensity,
+        UNIFORMS.paramA,
+        UNIFORMS.warp,
       )
       gl.uniform4f(
-        uni.space,
-        UNIFORMS.offsetX,
-        UNIFORMS.offsetY,
-        mouseX,
-        mouseY,
+        uni.surface,
+        UNIFORMS.detail,
+        UNIFORMS.contrast,
+        UNIFORMS.brightness,
+        UNIFORMS.saturation,
+      )
+      gl.uniform4f(
+        uni.finish,
+        UNIFORMS.hue,
+        UNIFORMS.vignette,
+        UNIFORMS.blur,
+        UNIFORMS.grain,
+      )
+      gl.uniform4f(
+        uni.transform,
+        UNIFORMS.seed,
+        UNIFORMS.rotate,
+        // Reduced motion freezes the drift as well as the clock, otherwise the
+        // field would still creep even with time held still.
+        reduceMotion ? 0 : UNIFORMS.drift,
+        UNIFORMS.oklab,
       )
       gl.uniform4f(
         uni.cursor,
-        UNIFORMS.cursorEnabled && !reduceMotion ? cursorPresence : 0,
+        0,
         UNIFORMS.cursorEffect,
         UNIFORMS.cursorStrength,
         UNIFORMS.cursorRadius,
       )
-      gl.drawArrays(gl.TRIANGLES, 0, 3)
-      const pointerSettling =
-        Math.abs(targetX - mouseX) > 0.001 ||
-        Math.abs(targetY - mouseY) > 0.001 ||
-        Math.abs(targetPresence - cursorPresence) > 0.001
-      if (timeAnimated || pointerSettling) requestRender()
-      else lastNow = null
-    }
-    requestRender()
-    return () => {
-      disposed = true
-      cancelAnimationFrame(raf)
-      if (layoutRaf !== 0) cancelAnimationFrame(layoutRaf)
-      resizeObserver.disconnect()
-      intersectionObserver.disconnect()
-      document.removeEventListener("visibilitychange", onVisibilityChange)
-      window.removeEventListener("resize", updateLayout)
-      if (UNIFORMS.cursorEnabled) {
-        window.removeEventListener("pointermove", onPointerMove)
-        window.removeEventListener("pointercancel", onPointerLeave)
-        window.removeEventListener("scroll", scheduleLayoutUpdate, true)
-        window.removeEventListener("blur", onPointerLeave)
-        document.documentElement.removeEventListener(
-          "pointerleave",
-          onPointerLeave,
+
+      let targetX = 0
+      let targetY = 0
+      let targetPresence = 0
+      let mouseX = 0
+      let mouseY = 0
+      let cursorPresence = 0
+      let pointerKnown = false
+      let pointerClientX = 0
+      let pointerClientY = 0
+      let bounds = canvas.getBoundingClientRect()
+      let raf = 0
+      let lastNow: number | null = null
+      let visible = document.visibilityState === "visible"
+      let inView = true
+      let disposed = false
+      const start = performance.now()
+      const timeAnimated = !reduceMotion && Math.abs(UNIFORMS.timeScale) > 0.0001
+
+      const resizeCanvas = () => {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2)
+        const rawWidth = Math.max(1, Math.round(bounds.width * dpr))
+        const rawHeight = Math.max(1, Math.round(bounds.height * dpr))
+        const pixelScale = Math.min(
+          1,
+          Math.sqrt(2_000_000 / Math.max(1, rawWidth * rawHeight)),
         )
+        const width = Math.max(1, Math.round(rawWidth * pixelScale))
+        const height = Math.max(1, Math.round(rawHeight * pixelScale))
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width
+          canvas.height = height
+          gl.viewport(0, 0, width, height)
+        }
       }
-      gl.deleteBuffer(buf)
+
+      /* Arrow consts rather than upstream's `function` declarations. Hoisted
+       * declarations are treated by TypeScript as existing above the
+       * `if (!gl) return` / `if (!canvas) return` guards, so the non-null
+       * narrowing of `gl` and `canvas` is discarded inside them and every use
+       * errors. Declaring them after the guards keeps the narrowing. */
+      const requestRender = () => {
+        if (!disposed && visible && inView && raf === 0) {
+          raf = requestAnimationFrame(render)
+        }
+      }
+
+      const updatePointerTarget = () => {
+        if (!pointerKnown) return
+        if (bounds.width === 0 || bounds.height === 0) return
+        const inside =
+          pointerClientX >= bounds.left &&
+          pointerClientX <= bounds.right &&
+          pointerClientY >= bounds.top &&
+          pointerClientY <= bounds.bottom
+        if (!inside) {
+          targetPresence = 0
+          requestRender()
+          return
+        }
+        const nextX = ((pointerClientX - bounds.left) / bounds.width) * 2 - 1
+        const nextY = -(((pointerClientY - bounds.top) / bounds.height) * 2 - 1)
+        if (targetPresence === 0 && cursorPresence < 0.01) {
+          mouseX = nextX
+          mouseY = nextY
+        }
+        targetX = nextX
+        targetY = nextY
+        targetPresence = 1
+        requestRender()
+      }
+      const onPointerMove = (event: PointerEvent) => {
+        pointerKnown = true
+        pointerClientX = event.clientX
+        pointerClientY = event.clientY
+        scheduleLayoutUpdate()
+      }
+      const onPointerLeave = () => {
+        pointerKnown = false
+        targetPresence = 0
+        requestRender()
+      }
+      const updateLayout = () => {
+        bounds = canvas.getBoundingClientRect()
+        resizeCanvas()
+        updatePointerTarget()
+        requestRender()
+      }
+
+      /* Upstream wires updateLayout straight to scroll in the capture phase, so
+       * every scroll event forces a synchronous layout read. Coalescing to one
+       * read per frame keeps the cursor mapping correct without the jank. */
+      let layoutRaf = 0
+      const scheduleLayoutUpdate = () => {
+        if (layoutRaf !== 0 || !visible || !inView) return
+        layoutRaf = requestAnimationFrame(() => {
+          layoutRaf = 0
+          updateLayout()
+        })
+      }
+
+      window.addEventListener("resize", updateLayout)
+      if (UNIFORMS.cursorEnabled) {
+        window.addEventListener("pointermove", onPointerMove, { passive: true })
+        window.addEventListener("pointercancel", onPointerLeave)
+        window.addEventListener("scroll", scheduleLayoutUpdate, {
+          capture: true,
+          passive: true,
+        })
+        window.addEventListener("blur", onPointerLeave)
+        document.documentElement.addEventListener("pointerleave", onPointerLeave)
+      }
+
+      const resizeObserver = new ResizeObserver(updateLayout)
+      resizeObserver.observe(canvas)
+      const intersectionObserver = new IntersectionObserver(([entry]) => {
+        inView = entry?.isIntersecting ?? true
+        if (inView) updateLayout()
+        else if (raf !== 0) {
+          cancelAnimationFrame(raf)
+          raf = 0
+          lastNow = null
+        }
+      })
+      intersectionObserver.observe(canvas)
+      const onVisibilityChange = () => {
+        visible = document.visibilityState === "visible"
+        if (visible) updateLayout()
+        else if (raf !== 0) {
+          cancelAnimationFrame(raf)
+          raf = 0
+          lastNow = null
+        }
+      }
+      document.addEventListener("visibilitychange", onVisibilityChange)
+
+      const render = (now: number) => {
+        raf = 0
+        if (disposed || !visible || !inView) return
+        const dt = lastNow === null ? 0 : Math.min((now - lastNow) / 1000, 0.1)
+        lastNow = now
+        const follow = 1 - Math.exp(-12 * dt)
+        mouseX += (targetX - mouseX) * follow
+        mouseY += (targetY - mouseY) * follow
+        cursorPresence += (targetPresence - cursorPresence) * follow
+        const width = canvas.width
+        const height = canvas.height
+        gl.uniform4f(
+          uni.scene,
+          width,
+          height,
+          reduceMotion ? 0 : ((now - start) / 1000) * UNIFORMS.timeScale,
+          UNIFORMS.colorCount,
+        )
+        gl.uniform4f(
+          uni.space,
+          UNIFORMS.offsetX,
+          UNIFORMS.offsetY,
+          mouseX,
+          mouseY,
+        )
+        gl.uniform4f(
+          uni.cursor,
+          UNIFORMS.cursorEnabled && !reduceMotion ? cursorPresence : 0,
+          UNIFORMS.cursorEffect,
+          UNIFORMS.cursorStrength,
+          UNIFORMS.cursorRadius,
+        )
+        gl.drawArrays(gl.TRIANGLES, 0, 3)
+        const pointerSettling =
+          Math.abs(targetX - mouseX) > 0.001 ||
+          Math.abs(targetY - mouseY) > 0.001 ||
+          Math.abs(targetPresence - cursorPresence) > 0.001
+        if (timeAnimated || pointerSettling) requestRender()
+        else lastNow = null
+      }
+      resizeCanvas()
+      requestRender()
+      return () => {
+        disposed = true
+        cancelAnimationFrame(raf)
+        if (layoutRaf !== 0) cancelAnimationFrame(layoutRaf)
+        resizeObserver.disconnect()
+        intersectionObserver.disconnect()
+        document.removeEventListener("visibilitychange", onVisibilityChange)
+        window.removeEventListener("resize", updateLayout)
+        if (UNIFORMS.cursorEnabled) {
+          window.removeEventListener("pointermove", onPointerMove)
+          window.removeEventListener("pointercancel", onPointerLeave)
+          window.removeEventListener("scroll", scheduleLayoutUpdate, true)
+          window.removeEventListener("blur", onPointerLeave)
+          document.documentElement.removeEventListener(
+            "pointerleave",
+            onPointerLeave,
+          )
+        }
+        gl.deleteBuffer(buf)
+
+      }
+    }
+    const whenCompiled = () => {
+      if (parallel && !gl.getProgramParameter(program, parallel.COMPLETION_STATUS_KHR)) {
+        compileFrame = requestAnimationFrame(whenCompiled)
+        return
+      }
+      compileFrame = 0
+      cleanup = initialize()
+    }
+    whenCompiled()
+    return () => {
+      cancelAnimationFrame(compileFrame)
+      cleanup?.()
       gl.deleteProgram(program)
       const releaseTimer = window.setTimeout(() => {
         if (pendingContextReleases.get(canvas) !== releaseTimer) return

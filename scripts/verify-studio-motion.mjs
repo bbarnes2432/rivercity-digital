@@ -18,7 +18,8 @@ function check(name, fn) { fn(); checks++; console.log('PASS ' + name); }
 class Element {
   constructor(top = 1200) { this.top = top; this.dataset = {}; this.listeners = {}; }
   getBoundingClientRect() { return { top: this.top, bottom: this.top + 100 }; }
-  closest() { return this.parent || this; }
+  closest(selector) { return selector === '.wd-site' ? null : this.parent || this; }
+  hasAttribute(name) { return !!this[name]; }
   addEventListener(name, fn) { this.listeners[name] = fn; }
   removeEventListener(name) { delete this.listeners[name]; }
   removeAttribute() {}
@@ -95,7 +96,8 @@ async function tubesHarness({ fine = false, reduced = false, enabled = true } = 
   const effects = []; const listeners = new Map(); const idle = new Map(); const frames = new Map();
   const refs = [{ current: {} }, { current: new Element() }, { current: null }];
   const created = []; let refIndex = 0; let id = 0;
-  const nativeRender = () => {};
+  let nativeUpdates = 0;
+  const nativeRender = () => { nativeUpdates++; };
   const window = {
     matchMedia: (query) => ({ matches: query.includes('reduced-motion') ? reduced : fine }),
     addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: (name) => listeners.delete(name),
@@ -111,9 +113,10 @@ async function tubesHarness({ fine = false, reduced = false, enabled = true } = 
       if (name.includes('world-state')) return { world: {} };
       if (name.includes('use-reduced-motion')) return { useReducedMotion: () => reduced };
       if (name === './tubes-ambient') return { ambientTubeTarget };
+      if (name === './tubes-occlusion') return { observeTubeOcclusion() { throw new Error('Studio masks have a separate harness'); } };
       if (name.includes('tubes1.min')) return { default: (canvas, options) => {
         const app = { options, disposed: false, updates: 0,
-          three: { onBeforeRender: nativeRender, size: { width: 390, height: 844, wWidth: 2 }, resize() {} },
+          three: { onBeforeRender: nativeRender, render() { app.draws = (app.draws || 0) + 1; }, size: { width: 390, height: 844, wWidth: 2 }, resize() {} },
           tubes: { target: {}, update() { app.updates++; }, setColors() {}, setLightsColors() {} },
           dispose() { this.disposed = true; },
         }; created.push(app); return app;
@@ -124,7 +127,7 @@ async function tubesHarness({ fine = false, reduced = false, enabled = true } = 
   Component({ mobileAmbient: enabled }); const cleanups = effects.map(fn => fn());
   for (const callback of idle.values()) callback();
   await new Promise(setImmediate);
-  return { app: created[0], listeners, frames, nativeRender, cleanup: () => cleanups.forEach(fn => fn?.()) };
+  return { app: created[0], layer: refs[1].current, listeners, frames, nativeUpdates: () => nativeUpdates, cleanup: () => cleanups.forEach(fn => fn?.()) };
 }
 const mobile = await tubesHarness();
 check('Touch devices initialize the actual tube component', () => assert.ok(mobile.app));
@@ -152,9 +155,21 @@ check('Autonomous motion stays inside narrow and landscape viewports', () => {
 });
 const desktop = await tubesHarness({ fine: true });
 check('Desktop retains its native pointer/idle behavior and color clicks', () => {
-  assert.equal(desktop.app.three.onBeforeRender, desktop.nativeRender);
+  desktop.app.three.onBeforeRender({ elapsed: 1, delta: 1 / 60 });
+  assert.equal(desktop.nativeUpdates(), 1);
   assert.equal(desktop.app.three.maxPixelRatio, 1.5); assert.ok(desktop.listeners.has('pointermove'));
   assert.ok(desktop.listeners.has('click'));
+});
+check('Fully masked ribbons skip geometry and GPU work, then resume', () => {
+  const before = mobile.app.updates;
+  mobile.layer['data-covered'] = true;
+  mobile.app.three.onBeforeRender({ elapsed: 3, delta: 1 / 60 });
+  mobile.app.three.render();
+  assert.equal(mobile.app.updates, before); assert.equal(mobile.app.draws || 0, 0);
+  delete mobile.layer['data-covered'];
+  mobile.app.three.onBeforeRender({ elapsed: 4, delta: 1 / 60 });
+  mobile.app.three.render();
+  assert.equal(mobile.app.updates, before + 1); assert.equal(mobile.app.draws, 1);
 });
 const disabled = await tubesHarness({ enabled: false });
 check('Other pages keep their existing mobile behavior', () => assert.equal(disabled.app, undefined));

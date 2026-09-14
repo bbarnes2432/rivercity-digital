@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { world } from "@/components/three/world-state";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { ambientTubeTarget } from "./tubes-ambient";
+import { observeTubeOcclusion } from "./tubes-occlusion";
 
 /* The tubes cursor — the threejs-components "tubes1" cursor, as is.
  *
@@ -28,6 +29,7 @@ type TubesApp = {
     maxPixelRatio: number;
     size: { width: number; height: number; wWidth: number };
     onBeforeRender: (time: { elapsed: number; delta: number }) => void;
+    render: () => void;
     resize: () => void;
   };
   tubes: {
@@ -85,6 +87,17 @@ export default function TubesCursor({ mobileAmbient = false }: { mobileAmbient?:
               a.tubes.update(time);
             };
           }
+          // A full light section can completely clip this fixed canvas. The
+          // library's viewport observer cannot detect that. Preserve its
+          // clock, but skip geometry and GPU work while no pixel can be seen.
+          const beforeRender = a.three.onBeforeRender;
+          const render = a.three.render;
+          a.three.onBeforeRender = (time) => {
+            if (!layer?.hasAttribute("data-covered")) beforeRender(time);
+          };
+          a.three.render = () => {
+            if (!layer?.hasAttribute("data-covered")) render();
+          };
           app.current = a;
           if (process.env.NODE_ENV !== "production") (window as unknown as { __rcdTubes?: unknown }).__rcdTubes = a;
         })
@@ -156,6 +169,9 @@ export default function TubesCursor({ mobileAmbient = false }: { mobileAmbient?:
     const ambient = !window.matchMedia("(pointer: fine)").matches;
     if (!mobileAmbient && ambient) return;
     if (reducedMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // The studio uses DOM masks; the home page also has continuously moving
+    // 3D occluders and retains its existing per-frame world projection.
+    if (wrap.current?.closest(".wd-site")) return observeTubeOcclusion(wrap.current, ambient);
     let raf = 0;
     let last = "";
     const tick = () => {
