@@ -333,9 +333,6 @@
   .wd-local-grid .wd-quote-mark { margin-top: 25px; }
   .wd-local-grid .wd-testimonial blockquote { font-size: 36px; }
   .wd-contact h2 { font-size: 44px; }
-  .wd-mobile-menu nav { margin-top: 25px; }
-  .wd-mobile-menu nav a { padding-block: 17px; font-size: 25px; }
-  .wd-menu-contact { margin-top: 30px; }
 }
 @media (max-width: 600px) {
   .wd-comparison-row { grid-template-columns: 1fr; }
