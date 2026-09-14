@@ -17,8 +17,10 @@ import { SELECTED_PROJECTS } from "./_components/selected-projects";
 import CustomBuildComparison from "./_components/CustomBuildComparison";
 import BusinessSystems from "./_components/BusinessSystems";
 import { BuildCapabilities, BuildProcess } from "./_components/BuildDetails";
+import StudioMotion from "./_components/StudioMotion";
 import "./website-design.css";
 import "./website-details.css";
+import "./website-motion.css";
 
 export const metadata: Metadata = {
   title: "Custom Website Design in St. Louis",
@@ -67,13 +69,13 @@ export default function WebsiteDesignPage() {
       </section>
       <section className="wd-section wd-work rcd-light" id="work" aria-labelledby="work-heading">
         <div className="wd-container">
-          <div className="wd-section-heading"><div><p className="wd-eyebrow">Selected client work</p><h2 id="work-heading">Recent website<br />projects.</h2></div><p>Healthcare, wellness, and ecommerce. Different customers and requirements, with a design developed for each.</p></div>
-          <div className="wd-project-grid">{SELECTED_PROJECTS.map((project, index) => <Link href={project.caseStudy} className={`wd-project-card wd-project-${project.id}`} key={project.id}>
+          <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">Selected client work</p><h2 id="work-heading">Recent website<br />projects.</h2></div><p>Healthcare, wellness, and ecommerce. Different customers and requirements, with a design developed for each.</p></div>
+          <div className="wd-project-grid">{SELECTED_PROJECTS.map((project, index) => <Link href={project.caseStudy} className={`wd-project-card wd-project-${project.id}`} key={project.id} data-entrance="card" data-entrance-delay={index}>
             <div className="wd-project-image"><span className="wd-project-index">0{index + 1}</span><Image src={project.image} alt={project.alt} width={1440} height={798} sizes="(max-width: 760px) 90vw, 31vw" /><span className="wd-project-open" aria-hidden="true"><ArrowUpRight size={21} /></span></div>
             <div className="wd-project-caption"><div><p className="wd-eyebrow">{project.category}</p><h3>{project.name}</h3></div><ArrowUpRight size={20} aria-hidden="true" /></div>
             <p className="wd-project-description">{project.description}</p><span className="wd-case-link">Explore the project <ArrowUpRight size={14} /></span>
           </Link>)}</div>
-          <div className="wd-work-note"><span>View each project for its scope, design, and finished website.</span><Link href="/work">More of our work <ArrowUpRight size={15} /></Link></div>
+          <div className="wd-work-note" data-entrance="unfold"><span>View each project for its scope, design, and finished website.</span><Link href="/work">More of our work <ArrowUpRight size={15} /></Link></div>
         </div>
       </section>
       <CustomBuildComparison />
@@ -82,18 +84,18 @@ export default function WebsiteDesignPage() {
       <BuildProcess />
       <section className="wd-section wd-studio rcd-light" id="studio" aria-labelledby="studio-heading">
         <div className="wd-container">
-          <div className="wd-section-heading"><div><p className="wd-eyebrow">River City Digital / St. Louis, Missouri</p><h2 id="studio-heading">A local team that can<br />design it and build it.</h2></div><p>We can talk through the page design, the features behind it, and the tools it needs to connect. You get one project plan for the work.</p></div>
+          <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">River City Digital / St. Louis, Missouri</p><h2 id="studio-heading">A local team that can<br />design it and build it.</h2></div><p>We can talk through the page design, the features behind it, and the tools it needs to connect. You get one project plan for the work.</p></div>
           <div className="wd-local-grid">
-            <figure className="wd-local-photo"><Image src="/assets/bg-st-louis-street.webp" alt="A downtown street scene with the Gateway Arch in the distance" width={1280} height={720} sizes="(max-width: 760px) 90vw, 52vw"/><figcaption><span>Based in St. Louis, Missouri</span><CallLink context="website-design-studio" className="wd-text-link">Talk with our team <ArrowUpRight size={17}/></CallLink></figcaption></figure>
-            <figure className="wd-testimonial"><span className="wd-eyebrow">A client’s experience</span><span className="wd-quote-mark" aria-hidden="true">“</span><blockquote>They aren&apos;t just building me a website—they&apos;re helping me build a brand.</blockquote><figcaption><span className="wd-review-avatar" aria-hidden="true">AP</span><div><strong>Angelita Pritchett</strong><span>The Wellness Collective · Google review</span></div></figcaption><Link href="/work/the-wellness-collective" className="wd-case-link">View the Wellness Collective project <ArrowUpRight size={15}/></Link></figure>
+            <figure className="wd-local-photo" data-entrance="image"><Image src="/assets/bg-st-louis-street.webp" alt="A downtown street scene with the Gateway Arch in the distance" width={1280} height={720} sizes="(max-width: 760px) 90vw, 52vw"/><figcaption><span>Based in St. Louis, Missouri</span><CallLink context="website-design-studio" className="wd-text-link">Talk with our team <ArrowUpRight size={17}/></CallLink></figcaption></figure>
+            <figure className="wd-testimonial" data-entrance="card" data-entrance-delay="1"><span className="wd-eyebrow">A client’s experience</span><span className="wd-quote-mark" aria-hidden="true">“</span><blockquote>They aren&apos;t just building me a website—they&apos;re helping me build a brand.</blockquote><figcaption><span className="wd-review-avatar" aria-hidden="true">AP</span><div><strong>Angelita Pritchett</strong><span>The Wellness Collective · Google review</span></div></figcaption><Link href="/work/the-wellness-collective" className="wd-case-link">View the Wellness Collective project <ArrowUpRight size={15}/></Link></figure>
           </div>
         </div>
       </section>
       <section className="wd-section wd-contact rcd-light" id="start" aria-labelledby="contact-heading">
-        <div className="wd-container wd-contact-grid"><div className="wd-contact-copy"><p className="wd-eyebrow">Discuss your project</p><h2 id="contact-heading">Tell us what<br />you need built.</h2><p>Tell us what you want your website to do. We’ll follow up about your project and a free design mockup.</p><div className="wd-contact-direct"><span>Prefer to talk it through?</span><CallLink context="website-design-contact" className="wd-contact-number" /><BookCallLink context="website-design-contact" className="wd-text-link wd-link-dark">Choose a time for a 30-minute call <ArrowUpRight size={17} /></BookCallLink></div><a href={`mailto:${EMAIL}`} className="wd-contact-email">{EMAIL}</a></div><MockupRequestForm /></div>
+        <div className="wd-container wd-contact-grid"><div className="wd-contact-copy" data-entrance="rise"><p className="wd-eyebrow">Discuss your project</p><h2 id="contact-heading">Tell us what<br />you need built.</h2><p>Tell us what you want your website to do. We’ll follow up about your project and a free design mockup.</p><div className="wd-contact-direct"><span>Prefer to talk it through?</span><CallLink context="website-design-contact" className="wd-contact-number" /><BookCallLink context="website-design-contact" className="wd-text-link wd-link-dark">Choose a time for a 30-minute call <ArrowUpRight size={17} /></BookCallLink></div><a href={`mailto:${EMAIL}`} className="wd-contact-email">{EMAIL}</a></div><MockupRequestForm /></div>
       </section>
-      <section className="wd-section wd-faq rcd-light" aria-labelledby="faq-heading"><div className="wd-container wd-faq-grid"><div><p className="wd-eyebrow">Frequently asked questions</p><h2 id="faq-heading">Questions about<br />the build.</h2></div><div>{FAQS.map(([question, answer]) => <details className="wd-faq-item" key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
+      <section className="wd-section wd-faq rcd-light" aria-labelledby="faq-heading"><div className="wd-container wd-faq-grid"><div data-entrance="rise"><p className="wd-eyebrow">Frequently asked questions</p><h2 id="faq-heading">Questions about<br />the build.</h2></div><div>{FAQS.map(([question, answer]) => <details className="wd-faq-item" data-entrance="unfold" key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
     </main>
-    <StudioFooter /><StudioStickyContact /><TubesCursor />
+    <StudioFooter /><StudioStickyContact /><TubesCursor mobileAmbient /><StudioMotion />
   </div>;
 }

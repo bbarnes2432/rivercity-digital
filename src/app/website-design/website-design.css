@@ -319,7 +319,8 @@ body:has(.wd-page) .rcd-back-to-top { display: none; }
   .wd-steps p { font-size: 13px; }
   .wd-thank-you h1 { font-size: 38px; }
 }
-@media (pointer: coarse), (prefers-reduced-motion: reduce) { .wd-site .rcd-tubes { display: none; } }
+@media (pointer: coarse) and (prefers-reduced-motion: no-preference) { .wd-site .rcd-tubes[data-mobile-ambient] { display: block; } }
+@media (prefers-reduced-motion: reduce) { .wd-site .rcd-tubes { display: none; } }
 /* Keep the editorial scale comfortable to read, especially on a phone. */
 .wd-project-description, .wd-benefit p, .wd-steps p { font-size: 14px; }
 .wd-hero .wd-button { font-size: 14px; }

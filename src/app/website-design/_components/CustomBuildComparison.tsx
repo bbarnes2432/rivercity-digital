@@ -13,8 +13,8 @@ export default function CustomBuildComparison() {
   return <section className="wd-section wd-comparison rcd-light" id="custom-build" aria-labelledby="comparison-heading">
     <div className="wd-container">
       <div className="wd-comparison-intro">
-        <div><p className="wd-eyebrow">Custom development / The difference</p><h2 id="comparison-heading">What are you getting<br />beyond a template?</h2><p className="wd-section-intro">A different logo and color palette aren’t the same as a custom website. We design the pages and write the code, so we can change how the site works as well as how it looks.</p><a href="#custom-systems" className="wd-text-link wd-link-dark">See the features we can build <ArrowUpRight size={17} /></a></div>
-        <figure className="wd-code-photo"><Image src="/assets/bg-build-launch.webp" alt="Website code and page-layout sketches on a desk" width={2752} height={1536} sizes="(max-width: 760px) 90vw, 48vw" /><figcaption><span><Code2 size={17} /> Custom design + development</span><span>Your code. Your domain.</span></figcaption></figure>
+        <div data-entrance="rise"><p className="wd-eyebrow">Custom development / The difference</p><h2 id="comparison-heading">What are you getting<br />beyond a template?</h2><p className="wd-section-intro">A different logo and color palette aren’t the same as a custom website. We design the pages and write the code, so we can change how the site works as well as how it looks.</p><a href="#custom-systems" className="wd-text-link wd-link-dark">See the features we can build <ArrowUpRight size={17} /></a></div>
+        <figure className="wd-code-photo" data-entrance="image" data-entrance-delay="1"><Image src="/assets/bg-build-launch.webp" alt="Website code and page-layout sketches on a desk" width={2752} height={1536} sizes="(max-width: 760px) 90vw, 48vw" /><figcaption><span><Code2 size={17} /> Custom design + development</span><span>Your code. Your domain.</span></figcaption></figure>
       </div>
       <div className="wd-comparison-board">
         <div className="wd-comparison-columns" aria-hidden="true">
@@ -25,14 +25,14 @@ export default function CustomBuildComparison() {
         </div>
         {TOPICS.map((topic, index) => (
           <article className="wd-comparison-row" key={topic.name} aria-labelledby={"comparison-topic-" + index}>
-            <div className="wd-comparison-topic"><span>0{index + 1}</span><h3 id={"comparison-topic-" + index}>{topic.name}</h3><p>{topic.heading}</p></div>
-            <div className="wd-comparison-cell wd-comparison-cell-ours"><h4>River City Digital · Custom website</h4><p>{topic.ours}</p></div>
-            <div className="wd-comparison-cell"><h4>WordPress template</h4><p>{topic.wordpress}</p></div>
-            <div className="wd-comparison-cell"><h4>Wix website</h4><p>{topic.wix}</p></div>
+            <div className="wd-comparison-topic" data-entrance="unfold"><span>0{index + 1}</span><h3 id={"comparison-topic-" + index}>{topic.name}</h3><p>{topic.heading}</p></div>
+            <div className="wd-comparison-cell wd-comparison-cell-ours"><h4>River City Digital · Custom website</h4><p data-entrance="slide">{topic.ours}</p></div>
+            <div className="wd-comparison-cell"><h4>WordPress template</h4><p data-entrance="slide" data-entrance-delay="1">{topic.wordpress}</p></div>
+            <div className="wd-comparison-cell"><h4>Wix website</h4><p data-entrance="slide" data-entrance-delay="2">{topic.wix}</p></div>
           </article>
         ))}
       </div>
-      <div className="wd-comparison-note"><p>WordPress and Wix can produce good websites. Our advantage is the scope of what we can design and develop for you, with the code under your control.</p><p>Comparing common template-based implementations; custom work is also possible on other platforms. <a href="https://support.wix.com/en/article/exporting-or-embedding-your-wix-site-elsewhere" target="_blank" rel="noopener noreferrer">Wix hosting and export details</a> · <a href="https://developer.wordpress.org/themes/getting-started/what-is-a-theme/" target="_blank" rel="noopener noreferrer">WordPress themes</a>.</p></div>
+      <div className="wd-comparison-note" data-entrance="rise"><p>WordPress and Wix can produce good websites. Our advantage is the scope of what we can design and develop for you, with the code under your control.</p><p>Comparing common template-based implementations; custom work is also possible on other platforms. <a href="https://support.wix.com/en/article/exporting-or-embedding-your-wix-site-elsewhere" target="_blank" rel="noopener noreferrer">Wix hosting and export details</a> · <a href="https://developer.wordpress.org/themes/getting-started/what-is-a-theme/" target="_blank" rel="noopener noreferrer">WordPress themes</a>.</p></div>
     </div>
   </section>;
 }

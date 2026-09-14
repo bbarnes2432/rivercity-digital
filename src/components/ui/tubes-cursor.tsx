@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { world } from "@/components/three/world-state";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
+import { ambientTubeTarget } from "./tubes-ambient";
 
 /* The tubes cursor — the threejs-components "tubes1" cursor, as is.
  *
@@ -13,40 +15,56 @@ import { world } from "@/components/three/world-state";
  * the colours of the lights that follow the cursor through the hallway
  * (CursorLights), so the ribbons on top and the glow on the walls agree.
  *
- * Mouse only (there is no cursor to trail on touch), not under reduced
- * motion, and loaded after the page is idle — it is a large module. A click
- * anywhere re-rolls the colours, as in the original. */
+ * Touch can opt into an autonomous drift, with less geometry and a lower
+ * pixel ratio. Reduced motion skips the canvas. Load after the page is idle;
+ * desktop clicks re-roll the colours, as in the original. */
 
 const TUBE_COLORS = ["#5e72e4", "#8965e0", "#f5365c"];
 const LIGHT_COLORS = ["#21d4fd", "#b721ff", "#f4d03f", "#11cdef"];
 
 type TubesApp = {
-  three: { minPixelRatio: number; maxPixelRatio: number; resize: () => void };
-  tubes: { setColors: (c: string[]) => void; setLightsColors: (c: string[]) => void };
+  three: {
+    minPixelRatio: number;
+    maxPixelRatio: number;
+    size: { width: number; height: number; wWidth: number };
+    onBeforeRender: (time: { elapsed: number; delta: number }) => void;
+    resize: () => void;
+  };
+  tubes: {
+    target: { x: number; y: number };
+    update: (time: { elapsed: number; delta: number }) => void;
+    setColors: (c: string[]) => void;
+    setLightsColors: (c: string[]) => void;
+  };
   dispose: () => void;
 };
 
 const randomColors = (count: number) =>
   Array.from({ length: count }, () => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0"));
 
-export default function TubesCursor() {
+export default function TubesCursor({ mobileAmbient = false }: { mobileAmbient?: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const wrap = useRef<HTMLDivElement>(null);
   const app = useRef<TubesApp | null>(null);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const ambient = !window.matchMedia("(pointer: fine)").matches;
+    if (ambient && !mobileAmbient) return;
+    if (reducedMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const layer = wrap.current;
     world.cursorColors = LIGHT_COLORS.slice();
 
     let cancelled = false;
     let idle = 0;
+    let usesIdleCallback = false;
     const start = () => {
       import("threejs-components/build/cursors/tubes1.min.js")
         .then((m) => {
           if (cancelled || !canvas.current) return;
           const a = m.default(canvas.current, {
             tubes: {
+              ...(ambient ? { count: 10, minTubularSegments: 24, maxTubularSegments: 64 } : {}),
               colors: TUBE_COLORS,
               lights: { intensity: 200, colors: LIGHT_COLORS },
             },
@@ -54,8 +72,19 @@ export default function TubesCursor() {
           // The library renders at 2× by default; 1.5× is plenty for a
           // bloomed cursor and half the pixels on a big display.
           a.three.minPixelRatio = 1;
-          a.three.maxPixelRatio = 1.5;
+          a.three.maxPixelRatio = ambient ? 1 : 1.5;
           a.three.resize();
+          if (ambient) {
+            // The library treats a swipe as pointer hover, which freezes its
+            // idle path after a touch. Drive the same ribbons independently
+            // on phones, without intercepting any touch or scroll events.
+            a.three.onBeforeRender = (time) => {
+              const target = ambientTubeTarget(time.elapsed, a.three.size);
+              a.tubes.target.x = target.x;
+              a.tubes.target.y = target.y;
+              a.tubes.update(time);
+            };
+          }
           app.current = a;
           if (process.env.NODE_ENV !== "production") (window as unknown as { __rcdTubes?: unknown }).__rcdTubes = a;
         })
@@ -63,7 +92,10 @@ export default function TubesCursor() {
     };
     const go = () => {
       const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
-      if (w.requestIdleCallback) idle = w.requestIdleCallback(start, { timeout: 3000 });
+      if (w.requestIdleCallback) {
+        usesIdleCallback = true;
+        idle = w.requestIdleCallback(start, { timeout: 3000 });
+      }
       else idle = window.setTimeout(start, 1200);
     };
     if (document.readyState === "complete") go();
@@ -82,8 +114,11 @@ export default function TubesCursor() {
       pointer = { x: e.clientX, y: e.clientY };
       updateLight();
     };
-    window.addEventListener("pointermove", move, { passive: true });
-    window.addEventListener("scroll", updateLight, { passive: true });
+    // Mobile uses the section masks below, not the last finger position.
+    if (!ambient) {
+      window.addEventListener("pointermove", move, { passive: true });
+      window.addEventListener("scroll", updateLight, { passive: true });
+    }
 
     const click = () => {
       if (!app.current) return;
@@ -94,7 +129,7 @@ export default function TubesCursor() {
       world.cursorColors = lights;
       world.cursorColorsAt = performance.now();
     };
-    window.addEventListener("click", click);
+    if (!ambient) window.addEventListener("click", click);
 
     return () => {
       cancelled = true;
@@ -102,11 +137,13 @@ export default function TubesCursor() {
       window.removeEventListener("click", click);
       window.removeEventListener("pointermove", move);
       window.removeEventListener("scroll", updateLight);
-      window.clearTimeout(idle);
+      if (usesIdleCallback) window.cancelIdleCallback(idle);
+      else window.clearTimeout(idle);
       app.current?.dispose();
       app.current = null;
+      layer?.removeAttribute("data-off");
     };
-  }, []);
+  }, [mobileAmbient, reducedMotion]);
 
   /* Things the cursor passes behind are cut out of this canvas: in the
      hallway, a screen that has come nearer than the cursor's plane; the
@@ -116,17 +153,23 @@ export default function TubesCursor() {
      then each hole traced the opposite way round, joined by zero-width
      seams (nonzero fill). */
   useEffect(() => {
+    const ambient = !window.matchMedia("(pointer: fine)").matches;
+    if (!mobileAmbient && ambient) return;
+    if (reducedMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
     let last = "";
     const tick = () => {
       raf = requestAnimationFrame(tick);
       const el = wrap.current;
-      if (!el) return;
+      if (!el || !app.current || document.hidden) return;
       const holes: number[][][] = [];
       if (world.active) for (const p of world.occluders) holes.push(p);
       if (world.siteOn && world.site) holes.push(world.site);
       // Keep controls, interface previews, and light sections above the glow.
-      document.querySelectorAll<HTMLElement>(".btn:hover, .wd-button:hover, .wd-app-window, .rcd-light").forEach((b) => {
+      const masks = ambient
+        ? ".btn, .wd-button, .wd-app-window, .rcd-light"
+        : ".btn:hover, .wd-button:hover, .wd-app-window, .rcd-light";
+      document.querySelectorAll<HTMLElement>(masks).forEach((b) => {
         const r = b.getBoundingClientRect();
         if (r.bottom <= 0 || r.top >= window.innerHeight) return;
         holes.push([[r.left, r.top], [r.right, r.top], [r.right, r.bottom], [r.left, r.bottom]]);
@@ -158,10 +201,10 @@ export default function TubesCursor() {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [mobileAmbient, reducedMotion]);
 
   return (
-    <div ref={wrap} className="rcd-tubes" aria-hidden="true">
+    <div ref={wrap} className="rcd-tubes" data-mobile-ambient={mobileAmbient || undefined} aria-hidden="true">
       <canvas ref={canvas} />
     </div>
   );
