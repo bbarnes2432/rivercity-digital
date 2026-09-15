@@ -9,13 +9,21 @@ const TOPICS = [
   { name: "Ownership", heading: "Keep control of the website you paid to build.", ours: "You own your website’s code and domain. You can use compatible hosting and work with another developer. Hosting and maintenance are scoped separately.", wordpress: "A self-hosted WordPress site can move between compatible hosts. Themes, plugins, licenses, and updates remain part of its upkeep.", wix: "Your Wix site relies on Wix hosting and services. Moving to another hosting platform generally means rebuilding the site; your domain can be moved separately." },
 ] as const;
 
+export function CustomBuildIntroduction() {
+  return <section className="wd-section wd-comparison wd-build-intro rcd-light" id="why-custom" aria-labelledby="build-intro-heading">
+    <div className="wd-container">
+      <div className="wd-comparison-intro">
+        <div data-entrance="rise"><p className="wd-eyebrow">Designed for your business</p><h2 id="build-intro-heading">A clear path from<br />first visit to inquiry.</h2><p className="wd-section-intro">Your customers need to understand what you offer, see why you’re a good fit, and know how to reach you. We design those steps around your business, then build the website to support them.</p><ul className="wd-build-benefits"><li>Custom layouts you review before development</li><li>Service pages and SEO planned together</li><li>Your website’s code and domain belong to you</li></ul><a href="#custom-build" className="wd-text-link wd-link-dark">Compare custom, WordPress, and Wix <ArrowUpRight size={17} /></a></div>
+        <figure className="wd-code-photo" data-entrance="image" data-entrance-delay="1"><Image src="/assets/bg-build-launch.webp" alt="Website code and page-layout sketches on a desk" width={2752} height={1536} sizes="(max-width: 760px) 90vw, 48vw" /><figcaption><span><Code2 size={17} /> Custom design + development</span><span>Your code. Your domain.</span></figcaption></figure>
+      </div>
+    </div>
+  </section>;
+}
+
 export default function CustomBuildComparison() {
   return <section className="wd-section wd-comparison rcd-light" id="custom-build" aria-labelledby="comparison-heading">
     <div className="wd-container">
-      <div className="wd-comparison-intro">
-        <div data-entrance="rise"><p className="wd-eyebrow">Custom development / The difference</p><h2 id="comparison-heading">What are you getting<br />beyond a template?</h2><p className="wd-section-intro">A different logo and color palette aren’t the same as a custom website. We design the pages and write the code, so we can change how the site works as well as how it looks.</p><a href="#custom-systems" className="wd-text-link wd-link-dark">See the features we can build <ArrowUpRight size={17} /></a></div>
-        <figure className="wd-code-photo" data-entrance="image" data-entrance-delay="1"><Image src="/assets/bg-build-launch.webp" alt="Website code and page-layout sketches on a desk" width={2752} height={1536} sizes="(max-width: 760px) 90vw, 48vw" /><figcaption><span><Code2 size={17} /> Custom design + development</span><span>Your code. Your domain.</span></figcaption></figure>
-      </div>
+      <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">Compare your options</p><h2 id="comparison-heading">What are you getting<br />beyond a template?</h2></div><p>The difference is how much control you have over the design, functionality, and future of your website. Here’s how the common approaches compare.</p></div>
       <div className="wd-comparison-board">
         <div className="wd-comparison-columns" aria-hidden="true">
           <span>The details</span>

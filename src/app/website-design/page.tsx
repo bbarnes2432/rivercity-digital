@@ -13,13 +13,15 @@ import StudioNavigation from "./_components/StudioNavigation";
 import MockupRequestForm from "./_components/MockupRequestForm";
 import StudioStickyContact from "./_components/StudioStickyContact";
 import StudioFooter from "./_components/StudioFooter";
-import { SELECTED_PROJECTS } from "./_components/selected-projects";
-import CustomBuildComparison from "./_components/CustomBuildComparison";
+import CustomBuildComparison, { CustomBuildIntroduction } from "./_components/CustomBuildComparison";
+import ProjectGallery from "./_components/ProjectGallery";
+import SearchFoundations from "./_components/SearchFoundations";
 import BusinessSystems from "./_components/BusinessSystems";
 import { BuildCapabilities, BuildProcess } from "./_components/BuildDetails";
 import StudioMotion from "./_components/StudioMotion";
 import "./website-design.css";
 import "./website-details.css";
+import "./website-conversion.css";
 import "./website-motion.css";
 
 export const metadata: Metadata = {
@@ -59,28 +61,20 @@ export default function WebsiteDesignPage() {
           <div className="wd-hero-copy">
             <p className="wd-eyebrow"><span className="wd-status-dot" /> Independent studio · St. Louis, Missouri</p>
             <h1 id="hero-heading">St. Louis<br /><em>website design.</em></h1>
-            <p className="wd-hero-description">Custom websites, online stores, and business software.<br className="wd-desktop-break" /> Designed and developed in St. Louis.</p>
+            <p className="wd-hero-description">Custom websites that make your services clear<br className="wd-desktop-break" /> and your business easy to contact.</p>
             <p className="wd-hero-detail">You own the code and domain. We agree on the scope and cost before the build starts.</p>
-            <div className="wd-actions"><CallLink context="website-design-hero" className="wd-button wd-button-mint">Talk through your project <ArrowUpRight size={18} /></CallLink><a className="wd-text-link" href="#start">Get a free mockup <ArrowUpRight size={17} /></a></div>
+            <div className="wd-actions"><CallLink context="website-design-hero" className="wd-button wd-button-mint">Talk through your project <ArrowUpRight size={18} /></CallLink><a className="wd-button wd-button-outline wd-hero-mockup" href="#start">Get a free mockup <ArrowUpRight size={19} /></a></div>
             <p className="wd-hero-phone">Call River City Digital: <CallLink context="website-design-hero-number" icon={false} /></p>
           </div>
         </div>
-        <div className="wd-container wd-hero-bottom"><span>Custom design · Next.js development · Full code ownership</span><a href="#work">Explore the work <ArrowDown size={15} /></a></div>
+        <div className="wd-container wd-hero-bottom"><span>Custom design · SEO foundations · Full code ownership</span><a href="#work">Explore the work <ArrowDown size={15} /></a></div>
       </section>
-      <section className="wd-section wd-work rcd-light" id="work" aria-labelledby="work-heading">
-        <div className="wd-container">
-          <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">Selected client work</p><h2 id="work-heading">Recent website<br />projects.</h2></div><p>Healthcare, wellness, and ecommerce. Different customers and requirements, with a design developed for each.</p></div>
-          <div className="wd-project-grid">{SELECTED_PROJECTS.map((project, index) => <Link href={project.caseStudy} className={`wd-project-card wd-project-${project.id}`} key={project.id} data-entrance="card" data-entrance-delay={index}>
-            <div className="wd-project-image"><span className="wd-project-index">0{index + 1}</span><Image src={project.image} alt={project.alt} width={1440} height={798} sizes="(max-width: 760px) 90vw, 31vw" /><span className="wd-project-open" aria-hidden="true"><ArrowUpRight size={21} /></span></div>
-            <div className="wd-project-caption"><div><p className="wd-eyebrow">{project.category}</p><h3>{project.name}</h3></div><ArrowUpRight size={20} aria-hidden="true" /></div>
-            <p className="wd-project-description">{project.description}</p><span className="wd-case-link">Explore the project <ArrowUpRight size={14} /></span>
-          </Link>)}</div>
-          <div className="wd-work-note" data-entrance="unfold"><span>View each project for its scope, design, and finished website.</span><Link href="/work">More of our work <ArrowUpRight size={15} /></Link></div>
-        </div>
-      </section>
+      <CustomBuildIntroduction />
+      <ProjectGallery />
+      <SearchFoundations />
       <CustomBuildComparison />
-      <BusinessSystems />
       <BuildCapabilities />
+      <BusinessSystems />
       <BuildProcess />
       <section className="wd-section wd-studio rcd-light" id="studio" aria-labelledby="studio-heading">
         <div className="wd-container">

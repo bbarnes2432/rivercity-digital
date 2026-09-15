@@ -1,10 +1,10 @@
 import { ArrowRight, ArrowUpRight, Check, ChevronRight, CircleCheck, FileText, FolderOpen, LayoutDashboard, Package, Search, Settings2, ShoppingBag, Users } from "lucide-react";
 
 const SYSTEMS = [
-  { name: "CRM & follow-ups", short: "Customers", Icon: Users, title: "Keep the inquiry, quote, and follow-up in one place.", description: "A custom CRM can use your fields and sales stages, attach documents to customer records, and remind your team what needs attention. Website inquiries can enter the workflow directly.", points: ["Customer records and contact history", "Quotes and follow-up reminders", "Website forms connected to your pipeline"] },
-  { name: "Orders & payments", short: "Orders", Icon: ShoppingBag, title: "Connect an approved quote to the work that follows.", description: "Create an order from a quote, connect a payment provider, and track progress through your own fulfillment stages. Build the handoffs around how your team sells and delivers.", points: ["Quote-to-order workflows", "Payment provider integrations", "Order status for your staff and customers"] },
-  { name: "Products & stock", short: "Products", Icon: Package, title: "Manage the catalog behind your online store.", description: "Build a dashboard for product information, pricing, stock, and availability. Connect the systems that need those updates so your team has fewer places to enter the same data.", points: ["Product and pricing management", "Stock and availability updates", "Storefront and software connections"] },
-  { name: "Customer portals", short: "Portal", Icon: FolderOpen, title: "Give customers access to the things they keep asking for.", description: "A customer portal can bring files, approvals, order updates, and messages into one place. Staff and customers get access to the screens and information their role requires.", points: ["File sharing and approvals", "Customer and staff permissions", "Project updates and account information"] },
+  { name: "Inquiries & follow-ups", short: "Customers", Icon: Users, title: "Spend less time moving leads between tools.", description: "An inquiry can arrive in your dashboard with the customer’s details and a next step already attached. Your team can follow up from one record instead of rebuilding the same information in a spreadsheet and a separate CRM.", points: ["Less copying from forms into spreadsheets", "Follow-ups with a clear owner and due date", "Customer history available to the whole team"] },
+  { name: "Orders & payments", short: "Orders", Icon: ShoppingBag, title: "Use the quote details again when the job starts.", description: "An approved quote can become an order without someone typing it all out again. Connect your payment provider and show the order’s next step, so staff spend less time checking different systems for updates.", points: ["Fewer repeated entries between sales and delivery", "Payment and order status in one view", "Less back-and-forth about what happens next"] },
+  { name: "Products & stock", short: "Products", Icon: Package, title: "Update a product once, instead of in three places.", description: "A connected dashboard can share product, pricing, and stock changes with your online store and other tools. That can reduce routine admin and the mistakes that come from maintaining separate lists.", points: ["Fewer manual catalog updates", "Less time reconciling different stock records", "Clear visibility when an item needs attention"] },
+  { name: "Customer portals", short: "Portal", Icon: FolderOpen, title: "Answer routine questions without another email.", description: "Give customers a secure place to find their files, review work, and check progress. They can get an update when they need it, while your team spends less time resending documents and answering the same status questions.", points: ["Fewer requests for files and progress updates", "Approvals kept with the relevant project", "Access limited to each customer’s account"] },
 ] as const;
 
 function DashboardScreen({ active }: { active: number }) {
@@ -16,7 +16,11 @@ function DashboardScreen({ active }: { active: number }) {
 
 export default function BusinessSystems() {
   return <section className="wd-section wd-systems" id="custom-systems" aria-labelledby="systems-heading"><div className="wd-container">
-    <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">Custom backends / Connected operations</p><h2 id="systems-heading">The website is only<br />part of what we build.</h2></div><p>Customer portals, CRMs, order management, and integrations—built around the way your business operates.</p></div>
+    <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">Custom dashboards & business tools</p><h2 id="systems-heading">Where a custom system<br />can save you money.</h2></div><p>Monthly subscriptions add up. So does time spent entering the same information twice. A custom dashboard can connect that work and replace tools you no longer need.</p></div>
+    <div className="wd-cost-story" data-entrance="card">
+      <div className="wd-cost-example"><span className="wd-eyebrow">Illustrative software costs</span><div className="wd-cost-equation"><span><strong>$300</strong><small>per month in subscriptions</small></span><ArrowRight size={27} /><span><strong>$10,800</strong><small>over three years</small></span></div><p>Example: $300 × 36 months in subscription fees. Compare this with the full cost of a custom build to see whether it would save you money.</p></div>
+      <div className="wd-cost-explanation"><h3>Work out what is worth replacing.</h3><p>We identify subscriptions you could replace and repetitive work you could reduce. Then we compare those benefits with development, migration, hosting, support, and any services you still need.</p><p>The goal is fewer avoidable costs and more time for your team. If an existing tool is the better fit, we can connect it instead of rebuilding it.</p></div>
+    </div>
     <div className="wd-system-list">
       {SYSTEMS.map((system, index) => (
         <article className="wd-system-detail" key={system.name} aria-labelledby={"system-" + index + "-heading"}>
@@ -25,6 +29,6 @@ export default function BusinessSystems() {
         </article>
       ))}
     </div>
-    <div className="wd-systems-cost" data-entrance="unfold"><span className="wd-eyebrow">Review your existing tools</span><p>Already paying for several subscriptions? We can compare what to keep, what to connect, and what a custom system could replace—including development, hosting, and maintenance costs.</p><a href="#start">Review my setup <ArrowRight size={17}/></a></div>
+    <div className="wd-systems-cost" data-entrance="unfold"><span className="wd-eyebrow">Make the numbers work first</span><p>Tell us which tools you pay for and where your team loses time. We’ll discuss what could be connected or replaced, then scope a build you can compare against the cost of staying as you are.</p><a href="#start">Discuss my software costs <ArrowRight size={17}/></a></div>
   </div></section>;
 }

@@ -1,0 +1,106 @@
+/* Clear offers, visible project proof, and a dedicated search section. */
+.wd-hero .wd-hero-mockup { min-height: 58px; min-width: 236px; padding: 17px 24px; font-size: 15px; border-color: #c4e6d4aa; background: #c4e6d416; color: #f6f4ee; justify-content: space-between; }
+.wd-hero .wd-hero-mockup:hover { background: #c4e6d42b; border-color: #c4e6d4; }
+.wd-build-intro .wd-comparison-intro { margin-bottom: 0; }
+.wd-build-benefits { list-style: none; padding: 0; margin: 23px 0 18px; display: grid; gap: 11px; font-size: 13px; line-height: 1.65; }
+.wd-build-benefits li { display: flex; align-items: baseline; gap: 12px; }
+.wd-build-benefits li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #467264; flex-shrink: 0; }
+.wd-project-preview { width: 100%; border: 0; cursor: zoom-in; font: inherit; }
+.wd-project-preview:focus-visible { outline-offset: -4px; }
+.wd-project-scope { list-style: none; padding: 17px 0 12px; margin: 17px 0 0; border-top: 1px solid var(--wd-line); display: grid; gap: 10px; }
+.wd-project-scope li { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #465d54; line-height: 1.65; }
+.wd-project-scope svg { margin-top: 3px; color: #467264; }
+.wd-project-card .wd-case-link { text-decoration: underline; text-decoration-color: #11242a45; }
+.wd-work-next { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 33px 36px; border: 1px solid #a6b8ac; background: #e7ece2; margin-top: 42px; border-radius: 4px; }
+.wd-work-next h3 { font-size: 27px; margin-top: 10px; }
+.wd-work-next p:not(.wd-eyebrow) { margin-top: 12px; font-size: 14px; line-height: 1.75; max-width: 610px; color: var(--wd-muted); }
+.wd-work-next > a { flex-shrink: 0; }
+.wd-project-dialog { width: min(1120px, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 1px solid #ffffff70; border-radius: 8px; color: var(--wd-ink); background: var(--wd-paper); box-shadow: 0 30px 100px #0008; overscroll-behavior: contain; }
+.wd-project-dialog::backdrop { background: #06121ee8; }
+.wd-preview-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px 28px; position: sticky; top: 0; background: var(--wd-paper); z-index: 1; border-bottom: 1px solid var(--wd-line); }
+.wd-project-dialog .wd-preview-heading h2 { margin-top: 7px; font-size: clamp(24px, 3vw, 36px); }
+.wd-preview-close { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid #11242a40; border-radius: 50%; background: transparent; cursor: pointer; flex-shrink: 0; }
+.wd-preview-close:hover { background: #e1e8df; }
+.wd-preview-image { padding: 28px; background: #dde4db; }
+.wd-preview-image img { display: block; width: 100%; height: auto; border-radius: 3px; box-shadow: 0 12px 30px #10242625; }
+.wd-preview-actions { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 24px 28px; }
+.wd-preview-actions p { font-size: 14px; line-height: 1.75; max-width: 630px; color: var(--wd-muted); }
+.wd-preview-actions a { flex-shrink: 0; }
+.wd-seo { background: #e4eadd; border-block: 1px solid #11242a1c; }
+.wd-seo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+.wd-seo-visual { min-width: 0; }
+.wd-search-preview { border: 1px solid #b4c6b2; border-radius: 9px; overflow: hidden; background: #fff; box-shadow: 0 16px 45px #20392b12; }
+.wd-search-query { display: flex; align-items: center; gap: 14px; margin: 25px; border-radius: 30px; padding: 14px 18px; border: 1px solid #ced8ca; font-size: 14px; color: #617367; }
+.wd-search-result { padding: 0 28px 29px; }
+.wd-search-domain { font-size: 11px; color: #486a4c; }
+.wd-search-result > strong { display: block; margin-top: 12px; font-size: 23px; letter-spacing: -.035em; line-height: 1.3; color: #2d4876; font-weight: 500; }
+.wd-search-result p { margin-top: 10px; font-size: 13px; line-height: 1.8; color: #566257; }
+.wd-search-result > div { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 15px; font-size: 11px; color: #2d4876; }
+.wd-search-path { display: grid; justify-items: center; gap: 12px; margin: 20px 0; color: #476648; }
+.wd-search-path > div { display: flex; align-items: center; gap: 10px; font-size: 10px; }
+.wd-seo-page { padding: 27px; border-radius: 6px; background: #193b35; color: #e9f2e7; box-shadow: 0 15px 35px #12291d16; }
+.wd-seo-page strong { display: block; font-size: 29px; font-weight: 500; line-height: 1.18; letter-spacing: -.035em; margin-top: 13px; }
+.wd-seo-page .wd-eyebrow { color: #b6d4bc; font-size: 9px; }
+.wd-seo-page ul { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 12px; }
+.wd-seo-page li { display: flex; gap: 9px; align-items: flex-start; font-size: 12px; line-height: 1.6; }
+.wd-seo-page li svg { margin-top: 2px; color: #b6d4bc; }
+.wd-seo-visual figcaption { color: #52664f; font-size: 10px; line-height: 1.75; margin-top: 17px; }
+.wd-seo-benefits { display: grid; }
+.wd-seo-benefits article { display: flex; gap: 23px; padding-block: 29px; border-bottom: 1px solid #11242a2b; }
+.wd-seo-benefits article:first-child { padding-top: 0; }
+.wd-seo-benefits article > svg { color: #42684c; margin-top: 4px; }
+.wd-seo-benefits h3 { font-size: clamp(23px,2.4vw,30px); line-height: 1.22; }
+.wd-seo-benefits p { font-size: 14px; color: #4d6253; line-height: 1.85; margin-top: 15px; }
+.wd-seo-scope { display: grid; grid-template-columns: 1fr 1fr; gap: 25px 50px; border-top: 1px solid #11242a35; margin-top: 48px; padding-top: 30px; }
+.wd-seo-scope p { color: #4d6253; font-size: 13px; line-height: 1.85; margin-top: 13px; }
+.wd-seo-scope > a { grid-column: 1/-1; justify-self: start; }
+.wd-cost-story { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 64px; background: #152e37; border: 1px solid #9ebbae50; border-radius: 7px; overflow: hidden; }
+.wd-cost-example { padding: 38px; background: #d7e5d2; color: #173a30; display: flex; flex-direction: column; justify-content: center; }
+.wd-cost-example .wd-eyebrow { color: #375c45; }
+.wd-cost-equation { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-block: 27px; }
+.wd-cost-equation strong { display: block; font-size: clamp(35px,3.8vw,56px); font-weight: 500; line-height: 1.1; letter-spacing: -.055em; }
+.wd-cost-equation small { display: block; font-size: 11px; line-height: 1.7; margin-top: 10px; color: #47614a; }
+.wd-cost-example > p { font-size: 11px; line-height: 1.8; color: #47614a; }
+.wd-cost-explanation { padding: 36px; }
+.wd-cost-explanation h3 { font-size: 26px; line-height: 1.25; }
+.wd-cost-explanation p { margin-top: 17px; font-size: 13px; line-height: 1.85; color: #c4d3d4; }
+@media (max-width: 1050px) {
+  .wd-seo-grid { gap: 35px; }
+  .wd-cost-story { grid-template-columns: 1fr; }
+  .wd-cost-equation { justify-content: flex-start; gap: 38px; }
+  .wd-cost-explanation { padding: 30px 38px; }
+}
+@media (max-width: 760px) {
+  .wd-hero-description .wd-desktop-break { display: none; }
+  .wd-hero .wd-hero-mockup { min-height: 58px; min-width: 0; width: 100%; font-size: 15px; }
+  .wd-build-benefits { font-size: 13px; }
+  .wd-project-scope { gap: 9px; }
+  .wd-work-next { display: block; padding: 26px 23px; margin-top: 30px; }
+  .wd-work-next h3 { font-size: 26px; }
+  .wd-work-next > a { display: flex; margin-top: 24px; justify-content: space-between; }
+  .wd-preview-heading { padding: 18px; gap: 12px; }
+  .wd-project-dialog .wd-preview-heading h2 { font-size: 24px; }
+  .wd-preview-image { padding: 15px; }
+  .wd-preview-actions { display: block; padding: 20px 18px; }
+  .wd-preview-actions a { display: flex; justify-content: space-between; margin-top: 20px; }
+  .wd-seo-grid { grid-template-columns: 1fr; gap: 35px; }
+  .wd-search-query { margin: 20px; font-size: 12px; padding: 13px; }
+  .wd-search-result { padding: 0 22px 24px; }
+  .wd-search-result > strong { font-size: 23px; }
+  .wd-search-result > div { gap: 13px; }
+  .wd-seo-page { padding: 25px 22px; }
+  .wd-seo-benefits article { gap: 18px; padding-block: 24px; }
+  .wd-seo-benefits h3 { font-size: 25px; }
+  .wd-seo-scope { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; padding-top: 25px; }
+  .wd-cost-story { margin-bottom: 38px; }
+  .wd-cost-example, .wd-cost-explanation { padding: 27px 23px; }
+  .wd-cost-equation { gap: 14px; justify-content: space-between; margin-block: 24px; }
+  .wd-cost-equation strong { font-size: clamp(34px,10vw,47px); }
+  .wd-cost-equation small { max-width: 120px; }
+  .wd-cost-equation > svg { width: 21px; }
+  .wd-cost-explanation h3 { font-size: 25px; }
+  .wd-cost-explanation p { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wd-project-preview:hover img { transform: none; }
+}
