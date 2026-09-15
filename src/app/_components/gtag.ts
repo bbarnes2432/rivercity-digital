@@ -174,11 +174,10 @@ function consumeContactConversionPending(): boolean {
 
 /* Enhanced conversions.
  *
- * Google Ads reported the lead-form action as "Needs attention" with one
- * issue: enhanced conversions were running in Automatic mode only, where the
- * tag guesses at form fields by scraping the page. That guess cannot work
- * here at all — the conversion fires on /thank-you, a page with no form on it
- * — so the match rate was whatever Automatic could scrape from an empty page.
+ * The form passes its matching data across the redirect to /thank-you.
+ * Configure that data when the Google tag is ready, immediately before the
+ * corresponding conversion. A delayed tag must not lose the explicit data.
+ * Google's recent "No recent data" diagnostic does not establish its cause.
  *
  * Passing the identifiers explicitly lets Google match the conversion to the
  * signed-in Google account that clicked the ad, which recovers conversions
@@ -188,7 +187,8 @@ function consumeContactConversionPending(): boolean {
  *
  * The values ride in sessionStorage for exactly as long as the redirect from
  * the form to /thank-you takes, then are deleted whether or not the
- * conversion fired. Same-origin, same tab, and gone on close.
+ * conversion fired. A pending tag retry retains the consumed data only in
+ * memory for the existing bounded retry window. Same-origin and same tab.
  *
  * Normalization follows Google's rules: email trimmed and lowercased, phone
  * in E.164. Anything we cannot put in that shape is left out rather than sent
@@ -217,29 +217,22 @@ function toE164(raw: string): string | undefined {
 function normalizeIdentity(identity: ConversionIdentity): Record<string, unknown> | null {
   const out: Record<string, unknown> = {};
 
-  const email = identity.email?.trim().toLowerCase();
-  if (email && email.includes("@")) out.email = email;
+  const email = typeof identity.email === "string" ? identity.email.trim().toLowerCase() : "";
+  // This form does not collect a full postal address. Email is the required
+  // matching key; phone alone is not sufficient for enhanced conversions.
+  if (!email || !email.includes("@")) return null;
+  out.email = email;
 
-  const phone = identity.phone?.trim();
+  const phone = typeof identity.phone === "string" ? identity.phone.trim() : "";
   if (phone) {
     const e164 = toE164(phone);
     if (e164) out.phone_number = e164;
   }
 
-  // Google wants first and last separately, lowercased and stripped of
-  // punctuation. A single-word name yields a first name and no last name,
-  // which is valid — a wrong last name would not be.
-  const name = identity.name?.trim().replace(/\s+/g, " ").toLowerCase();
-  if (name) {
-    const parts = name.split(" ").map((w) => w.replace(/[^\p{L}\p{M}'-]/gu, "")).filter(Boolean);
-    if (parts.length) {
-      const address: Record<string, string> = { first_name: parts[0] };
-      if (parts.length > 1) address.last_name = parts[parts.length - 1];
-      out.address = address;
-    }
-  }
+  // Address matching requires first/last name, country and postal code. Do
+  // not send an incomplete address or add fields to the lead form for it.
 
-  return Object.keys(out).length ? out : null;
+  return out;
 }
 
 // Called by the forms just before they redirect, alongside
@@ -277,9 +270,13 @@ function consumeConversionIdentity(): ConversionIdentity | null {
 function fireConversion(
   sendTo: string,
   params: Record<string, unknown>,
+  userData: Record<string, unknown> | null = null,
 ): void {
   const fire = () => {
     if (typeof window.gtag !== "function") return false;
+    // Keep the matching data and conversion in the same readiness callback.
+    // This ordering applies to both an already-ready and a delayed tag.
+    if (userData) window.gtag("set", "user_data", userData);
     window.gtag("event", "conversion", { send_to: sendTo, ...params });
     return true;
   };
@@ -305,17 +302,11 @@ export function trackContactConversion(
   if (typeof window === "undefined") return;
   if (!consumeContactConversionPending()) return;
 
-  // Identity first, conversion second: gtag applies user_data to events sent
-  // after the set call, so firing before it would send the conversion
-  // unenhanced. Consume it either way so a blocked or absent identity cannot
-  // leak into a later conversion on the same tab.
+  // Consume once now, then let fireConversion set the matching data only
+  // when the tag is ready. Repeated thank-you effects cannot arm another send.
   const identity = consumeConversionIdentity();
   const userData = identity ? normalizeIdentity(identity) : null;
-  if (userData && typeof window.gtag === "function") {
-    window.gtag("set", "user_data", userData);
-  }
-
-  fireConversion(CONTACT_CONVERSION_SEND_TO, params);
+  fireConversion(CONTACT_CONVERSION_SEND_TO, params, userData);
 }
 
 // Fire the Calendly conversion. No pending-flag gate here, and that asymmetry
