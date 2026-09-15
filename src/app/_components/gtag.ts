@@ -125,56 +125,74 @@ export function trackLeadEvent(
   params: Record<string, unknown> = {},
 ): void {
   if (typeof window === "undefined") return;
-  window.gtag?.("event", name, params);
-  window.fbq?.("trackCustom", name, params);
-
-  if (OAIQ_LEAD_EVENT[name] === "custom") {
-    // custom_event_name belongs in the options argument, not the props.
-    window.oaiq?.("measure", "custom", { type: "custom" }, { custom_event_name: name });
-  } else {
-    window.oaiq?.("measure", "lead_created", { type: "customer_action" });
-  }
+  // Each destination is optional. A pixel error after email delivery must not
+  // turn a successful inquiry into a form error or stop the other destinations.
+  try { window.gtag?.("event", name, params); } catch { /* Analytics only. */ }
+  try { window.fbq?.("trackCustom", name, params); } catch { /* Analytics only. */ }
+  try {
+    if (OAIQ_LEAD_EVENT[name] === "custom") {
+      // custom_event_name belongs in the options argument, not the props.
+      window.oaiq?.("measure", "custom", { type: "custom" }, { custom_event_name: name });
+    } else {
+      window.oaiq?.("measure", "lead_created", { type: "customer_action" });
+    }
+  } catch { /* Analytics only. */ }
 }
 
 // The conversion must fire once per *form submission*, not once per visit to
 // /thank-you. Otherwise a refresh, a back-button return, a bookmarked visit,
 // or React StrictMode's double-invoked effect in dev each register an extra
-// conversion. The forms arm this flag just before redirecting, and
-// trackContactConversion consumes it — no flag, no fire.
+// conversion. A successful form claims its pending token before redirecting.
+// Repeated effects cannot claim it again in this document. Storage is cleared
+// once queued (or after the bounded timeout), so a full navigation before tag
+// readiness can still resume the pending event on the thank-you page.
 //
 // The in-memory flag covers the normal client-side redirect (router.push keeps
 // the JS context alive); sessionStorage is a fallback in case the navigation
 // ever happens as a full page load (e.g. version skew after a deploy).
 const PENDING_KEY = "rcd-contact-conversion-pending";
-let pendingInMemory = false;
+let pendingInMemory: string | null = null;
+let pendingSequence = 0;
+const claimedPending = new Set<string>();
 
 export function markContactConversionPending(): void {
   if (typeof window === "undefined") return;
-  pendingInMemory = true;
+  pendingInMemory = `pending-${Date.now()}-${++pendingSequence}`;
   try {
-    sessionStorage.setItem(PENDING_KEY, "1");
+    sessionStorage.setItem(PENDING_KEY, pendingInMemory);
   } catch {
     // Storage blocked — the in-memory flag still covers the SPA redirect.
   }
 }
 
-function consumeContactConversionPending(): boolean {
+function claimContactConversionPending(): string | null {
   let pending = pendingInMemory;
-  pendingInMemory = false;
   try {
-    if (sessionStorage.getItem(PENDING_KEY) === "1") {
-      pending = true;
-      sessionStorage.removeItem(PENDING_KEY);
-    }
+    pending ||= sessionStorage.getItem(PENDING_KEY);
   } catch {
     // Storage blocked — fall through with the in-memory result.
   }
+  if (!pending || claimedPending.has(pending)) return null;
+  claimedPending.add(pending);
+  pendingInMemory = null;
   return pending;
+}
+
+function finishContactConversion(pending: string): void {
+  try {
+    // A second submission can start while the first waits for Google. Do not
+    // let the first event remove the newer submission's pending identity.
+    if (sessionStorage.getItem(PENDING_KEY) === pending) {
+      sessionStorage.removeItem(IDENTITY_KEY);
+      sessionStorage.removeItem(PENDING_KEY);
+    }
+  } catch { /* The in-memory claim still prevents duplicate effects. */ }
 }
 
 /* Enhanced conversions.
  *
- * The form passes its matching data across the redirect to /thank-you.
+ * Successful forms supply matching data alongside the conversion. The stored
+ * identity also supports the thank-you fallback for an older form version.
  * Configure that data when the Google tag is ready, immediately before the
  * corresponding conversion. A delayed tag must not lose the explicit data.
  * Google's recent "No recent data" diagnostic does not establish its cause.
@@ -185,10 +203,9 @@ function consumeContactConversionPending(): boolean {
  * these in the browser before anything leaves it; the raw values never reach
  * Google and never reach us beyond the form post we already receive.
  *
- * The values ride in sessionStorage for exactly as long as the redirect from
- * the form to /thank-you takes, then are deleted whether or not the
- * conversion fired. A pending tag retry retains the consumed data only in
- * memory for the existing bounded retry window. Same-origin and same tab.
+ * Values are removed from sessionStorage when the event is queued or the
+ * bounded tag retry expires. Until then, same-tab storage allows a full-page
+ * navigation to resume the pending event. No longer-lived storage is added.
  *
  * Normalization follows Google's rules: email trimmed and lowercased, phone
  * in E.164. Anything we cannot put in that shape is left out rather than sent
@@ -235,8 +252,8 @@ function normalizeIdentity(identity: ConversionIdentity): Record<string, unknown
   return out;
 }
 
-// Called by the forms just before they redirect, alongside
-// markContactConversionPending.
+// Called by the successful-submission helper (or an older form version),
+// alongside markContactConversionPending.
 export function markConversionIdentity(identity: ConversionIdentity): void {
   if (typeof window === "undefined") return;
   identityInMemory = identity;
@@ -252,7 +269,6 @@ function consumeConversionIdentity(): ConversionIdentity | null {
   identityInMemory = null;
   try {
     const raw = sessionStorage.getItem(IDENTITY_KEY);
-    sessionStorage.removeItem(IDENTITY_KEY);
     if (!identity && raw) identity = JSON.parse(raw) as ConversionIdentity;
   } catch {
     // Storage blocked or the value was not JSON — use the in-memory copy.
@@ -271,26 +287,35 @@ function fireConversion(
   sendTo: string,
   params: Record<string, unknown>,
   userData: Record<string, unknown> | null = null,
+  onSettled: () => void = () => {},
 ): void {
   const fire = () => {
     if (typeof window.gtag !== "function") return false;
     // Keep the matching data and conversion in the same readiness callback.
     // This ordering applies to both an already-ready and a delayed tag.
-    if (userData) window.gtag("set", "user_data", userData);
-    window.gtag("event", "conversion", { send_to: sendTo, ...params });
-    return true;
+    try {
+      if (userData) window.gtag("set", "user_data", userData);
+    } catch { /* Matching failure must not prevent the base conversion. */ }
+    try {
+      window.gtag("event", "conversion", { send_to: sendTo, ...params });
+      return true;
+    } catch {
+      // Retry only an unavailable/throwing tag, using the same bounded window.
+      // Never throw into a successful form's delivery handler.
+      return false;
+    }
   };
 
   // Fast path: tag already present. The usual case, whether we arrived by
   // client-side redirect from the form page or the visitor has been reading
   // long enough for the tag to have loaded.
-  if (fire()) return;
+  if (fire()) { onSettled(); return; }
 
   // Slow/direct load: poll until gtag is available, up to ~10s.
   let tries = 0;
   const timer = setInterval(() => {
     tries += 1;
-    if (fire() || tries > 40) clearInterval(timer);
+    if (fire() || tries > 40) { clearInterval(timer); onSettled(); }
   }, 250);
 }
 
@@ -300,20 +325,34 @@ export function trackContactConversion(
   params: Record<string, unknown> = {},
 ): void {
   if (typeof window === "undefined") return;
-  if (!consumeContactConversionPending()) return;
+  const pending = claimContactConversionPending();
+  if (!pending) return;
 
   // Consume once now, then let fireConversion set the matching data only
   // when the tag is ready. Repeated thank-you effects cannot arm another send.
   const identity = consumeConversionIdentity();
   const userData = identity ? normalizeIdentity(identity) : null;
-  fireConversion(CONTACT_CONVERSION_SEND_TO, params, userData);
+  fireConversion(CONTACT_CONVERSION_SEND_TO, params, userData, () => finishContactConversion(pending));
 }
 
-// Fire the Calendly conversion. No pending-flag gate here, and that asymmetry
-// is deliberate: the form has to arm a flag because the conversion happens on a
-// *different page* than the submission, and any other arrival at that page must
-// not count. A Calendly click has no redirect to survive — the click is the
-// event, on the page where it happens.
+// Call only after /api/contact confirms production delivery. Queue the Google
+// event here: navigating to or loading /thank-you is not part of lead success.
+// The pending claim deduplicates a later effect in this document. A full-page
+// navigation can resume the stored event if the tag is not ready yet.
+export function trackSuccessfulLead(
+  identity: ConversionIdentity,
+  params: Record<string, unknown> = {},
+): void {
+  if (typeof window === "undefined") return;
+  markConversionIdentity(identity);
+  markContactConversionPending();
+  trackContactConversion(params);
+  trackLeadEvent("form_submit", params);
+}
+
+// Fire the Calendly conversion. No pending-flag gate here: the click itself is
+// the secondary event. Form events need the gate because the success handler
+// and compatibility thank-you effect may both run for one submission.
 //
 // Repeat clicks are collapsed by the action's "count: one" setting in Google
 // Ads, which dedupes to one conversion per ad click server-side, where it can

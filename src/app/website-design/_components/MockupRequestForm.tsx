@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowUpRight, Check, LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { captureAttribution, readAttribution } from "@/app/_components/attribution";
-import { markContactConversionPending, markConversionIdentity, trackLeadEvent } from "@/app/_components/gtag";
+import { trackSuccessfulLead } from "@/app/_components/gtag";
 import CallLink from "@/app/_components/CallLink";
 import { EMAIL } from "@/app/_components/contact-info";
 
@@ -36,9 +36,10 @@ export default function MockupRequestForm() {
       if (!response.ok || !data.ok) throw new Error(data.error || "Your request couldn’t be sent. Please try again.");
       // Local previews never count as a real inquiry or store conversion identity.
       if (!data.dev) {
-        trackLeadEvent("form_submit", { page: "/website-design", form: "website-design-mockup", service: "New website" });
-        markConversionIdentity({ name: String(fields.get("name") || ""), email: String(fields.get("email") || ""), phone: String(fields.get("phone") || "") });
-        markContactConversionPending();
+        trackSuccessfulLead(
+          { name: String(fields.get("name") || ""), email: String(fields.get("email") || ""), phone: String(fields.get("phone") || "") },
+          { page: "/website-design", form: "website-design-mockup", service: "New website" },
+        );
       }
       router.push(`/website-design/thank-you${data.dev ? "?preview=1" : ""}`);
     } catch (cause) {

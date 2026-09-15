@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { readAttribution } from "./attribution";
-import { markContactConversionPending, markConversionIdentity, trackLeadEvent } from "./gtag";
+import { trackSuccessfulLead } from "./gtag";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -54,31 +54,18 @@ export default function ContactForm({ defaultService = "", variant = "contact" }
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; dev?: boolean };
       if (!res.ok || !data.ok) {
         setErrorMsg(data.error || "Something didn't go through.");
         setStatus("error");
         return;
       }
-      trackLeadEvent("form_submit", {
-        page: window.location.pathname,
-        form: "contact",
-        service: String(fd.get("service") ?? ""),
-      });
-
-      // Keep the button disabled and redirect to the thank-you page, where
-      // the Google Ads conversion fires. Status stays "submitting" so the UI
-      // doesn't flicker back to idle during the navigation.
-      // Read the identifiers off the payload before reset() clears the form.
-      // They enhance the conversion on /thank-you and are dropped immediately
-      // after it fires.
-      markConversionIdentity({
-        email: String(fd.get("email") ?? ""),
-        phone: String(fd.get("phone") ?? ""),
-        name: String(fd.get("name") ?? ""),
-      });
+      // Delivery is complete. Track before navigation, independently of pixels
+      // or whether the thank-you route loads. Preview delivery never counts.
+      if (!data.dev) trackSuccessfulLead({
+        email: String(fd.get("email") ?? ""), phone: String(fd.get("phone") ?? ""), name: String(fd.get("name") ?? ""),
+      }, { page: window.location.pathname, form: "contact", service: String(fd.get("service") ?? "") });
       form.reset();
-      markContactConversionPending();
       router.push("/thank-you");
     } catch {
       setErrorMsg("Network hiccup — try again or email us directly.");

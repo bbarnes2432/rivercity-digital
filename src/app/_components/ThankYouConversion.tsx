@@ -3,11 +3,10 @@
 import { useEffect } from "react";
 import { trackContactConversion } from "./gtag";
 
-// Fires the Google Ads "Contact Us" conversion when a visitor lands on
-// /thank-you after submitting a form. The fire is gated on the pending flag
-// the forms arm before redirecting, so it counts once per submission —
-// refreshes, back-button returns, direct visits, and StrictMode's
-// double-invoked dev effect don't register extra conversions.
+// Fallback for an older form version or a full-page navigation before Google
+// is ready. Current forms claim the event on delivery success. A same-document
+// effect cannot claim it twice; queued events have no stored pending token, so
+// a refresh, back-button return or direct visit cannot create another event.
 export default function ThankYouConversion({
   /** Distinguishes which thank-you page fired it in reporting. */
   source = "thank-you",

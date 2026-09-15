@@ -3,11 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { captureAttribution, readAttribution } from "@/app/_components/attribution";
-import {
-  markContactConversionPending,
-  markConversionIdentity,
-  trackLeadEvent,
-} from "@/app/_components/gtag";
+import { trackSuccessfulLead } from "@/app/_components/gtag";
 
 /* The mockup request, in the hero.
  *
@@ -59,26 +55,20 @@ export default function HeroMockupForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; dev?: boolean };
       if (!res.ok || !data.ok) {
         setErrorMsg(data.error || "Something didn't go through.");
         setStatus("error");
         return;
       }
 
-      trackLeadEvent("form_submit", {
-        page: "/website-design",
-        form: "hero-mockup",
-        service: String(fd.get("service") ?? ""),
-      });
       // Identifiers for enhanced conversions, read before reset clears them.
-      markConversionIdentity({
+      if (!data.dev) trackSuccessfulLead({
         email: String(fd.get("email") ?? ""),
         phone: String(fd.get("phone") ?? ""),
         name: String(fd.get("name") ?? ""),
-      });
+      }, { page: "/website-design", form: "hero-mockup", service: String(fd.get("service") ?? "") });
       form.reset();
-      markContactConversionPending();
       router.push("/thank-you");
     } catch {
       setErrorMsg("Network hiccup — try again, or just call us.");

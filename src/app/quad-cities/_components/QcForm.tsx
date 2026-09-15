@@ -4,16 +4,14 @@ import { FormEvent, useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LOOKING_FOR, EMAIL } from "../_data";
 import { ATTRIBUTION_KEYS, useAttribution } from "./attribution";
-import { markContactConversionPending, trackLeadEvent } from "../../_components/gtag";
+import { trackSuccessfulLead } from "../../_components/gtag";
 
 type Status = "idle" | "submitting" | "error";
 
 /* Five fields. Every extra one costs conversions, so there isn't a sixth.
  *
- * On success this navigates to a real /quad-cities/thank-you URL rather than
- * swapping in an inline success message. That isn't a preference: an inline
- * confirmation means no URL change, which means the conversion event never
- * fires, which means both ad platforms optimize blind. */
+ * Success is tracked after the delivery response, before navigating to the
+ * confirmation page. The event must not depend on that route loading. */
 export default function QcForm({ variant = "hero" }: { variant?: "hero" | "closing" }) {
   const router = useRouter();
   const attribution = useAttribution();
@@ -45,14 +43,16 @@ export default function QcForm({ variant = "hero" }: { variant?: "hero" | "closi
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; dev?: boolean };
       if (!res.ok || !data.ok) {
         setErrorMsg(data.error || "Something didn't go through.");
         setStatus("error");
         return;
       }
 
-      trackLeadEvent("form_submit", {
+      if (!data.dev) trackSuccessfulLead({
+        email: String(fd.get("email") ?? ""), phone: String(fd.get("phone") ?? ""), name: String(fd.get("name") ?? ""),
+      }, {
         page: "/quad-cities",
         form: variant,
         service: String(fd.get("service") ?? ""),
@@ -62,7 +62,6 @@ export default function QcForm({ variant = "hero" }: { variant?: "hero" | "closi
       // Status stays "submitting" through the navigation so the button doesn't
       // flicker back to its idle label mid-redirect.
       form.reset();
-      markContactConversionPending();
       router.push("/quad-cities/thank-you");
     } catch {
       setErrorMsg("Network hiccup — try again, or just call us.");

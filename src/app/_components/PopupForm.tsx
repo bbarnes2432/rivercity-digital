@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePopupTrigger } from "./usePopupTrigger";
-import { markContactConversionPending, markConversionIdentity, trackLeadEvent } from "./gtag";
+import { trackSuccessfulLead } from "./gtag";
 import "./PopupForm.css";
 
 type Step = "qualify" | "lead" | "curious" | "success-lead" | "success-curious";
@@ -100,28 +100,19 @@ export default function PopupForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; dev?: boolean };
       if (!res.ok || !data.ok) {
         setErrorMsg(data.error || "Something didn't go through.");
         setSubmitting(false);
         return;
       }
-      trackLeadEvent("form_submit", {
-        page: window.location.pathname,
-        form: SOURCE_QUALIFIED,
-      });
-
-      // Close the popup and send the lead to the thank-you page, where the
-      // Google Ads conversion fires (same as the main contact form).
-      // Enhances the conversion that fires on /thank-you. This form has no
-      // phone field, so it sends what it has.
-      markConversionIdentity({
+      // Track delivered inquiries before any popup cleanup or route change.
+      if (!data.dev) trackSuccessfulLead({
         email: String(fd.get("email") ?? ""),
         name: String(fd.get("name") ?? ""),
-      });
+      }, { page: window.location.pathname, form: SOURCE_QUALIFIED });
       recordSubmit();
       handleClose("submitted");
-      markContactConversionPending();
       router.push("/thank-you");
     } catch {
       setErrorMsg("Network hiccup — try again or email us directly.");

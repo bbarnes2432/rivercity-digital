@@ -29,7 +29,7 @@ function harness({ ready = true, blockedStorage = false, stored = [], server = f
   const api = loadedModule.exports;
   return {
     ...api, events, timers, memory,
-    ready() { window.gtag = tag; },
+    ready(handler = tag) { window.gtag = handler; },
     tick(count = 1) { for (let i = 0; i < count; i++) [...timers.values()].forEach(fn => fn()); },
     submit(data = identity) { if (data) api.markConversionIdentity(data); api.markContactConversionPending(); api.trackContactConversion(); },
   };
@@ -64,6 +64,7 @@ check('Direct thank-you visit sends nothing without a successful submission', ()
 check('Absent Google tag reaches a bounded timeout and cannot send later', () => {
   const h = harness({ ready: false }); h.submit(); h.tick(42);
   assert.equal(h.timers.size, 0); h.ready(); h.tick(); h.trackContactConversion(); assert.equal(h.events.length, 0);
+  assert.equal(h.memory.size, 0, 'Timed-out matching data must be removed');
 });
 check('Blocked storage keeps the existing in-memory submission path', () => {
   const h = harness({ ready: false, blockedStorage: true }); h.submit(); h.ready(); h.tick(); assertEnhanced(h);
@@ -96,6 +97,20 @@ check('Two delayed submissions each retain their own matching data', () => {
   h.ready(); h.tick(); assert.equal(conversionEvents(h).length, 2);
   assert.deepEqual(h.events.map(e => e[0]), ['set', 'event', 'set', 'event']);
   assert.deepEqual(matchingEvents(h).map(e => e[2].email), ['first@example.invalid', 'second@example.invalid']);
+});
+check('An earlier event cannot erase the later pending submission', () => {
+  const h = harness({ ready: false }); h.submit({ email: 'first@example.invalid' }); h.submit({ email: 'second@example.invalid' });
+  h.ready(); h.timers.values().next().value();
+  assert.equal(JSON.parse(h.memory.get(identityKey)).email, 'second@example.invalid');
+  assert.ok(h.memory.has(pendingKey));
+  h.tick(); assert.equal(conversionEvents(h).length, 2); assert.equal(h.memory.size, 0);
+});
+check('A matching-data exception cannot suppress the base conversion', () => {
+  const h = harness(); h.ready((...args) => {
+    if (args[0] === 'set') throw Error('Matching unavailable');
+    h.events.push(args);
+  });
+  assert.doesNotThrow(() => h.submit()); assert.equal(conversionEvents(h).length, 1); assert.equal(h.memory.size, 0);
 });
 check('Phone and booking clicks keep their existing labels without adding identity', () => {
   const h = harness({ ready: false }); h.trackClickToCallConversion(); h.trackBookCallConversion(); h.ready(); h.tick();
