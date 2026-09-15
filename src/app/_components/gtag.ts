@@ -50,24 +50,11 @@ export const BOOK_CALL_CONVERSION_SEND_TO = "AW-18272669855/8xdTCKT7oOUcEJ-hi4lE
 // (not a one) in "hi4lE". Taken from the event snippet and verified character
 // by character, never off a screenshot.
 //
-// Why taps and not connected calls. Google's other option is a forwarding
-// number, which swaps the displayed number and counts a call only once it runs
-// past a duration threshold. That hides the calls nobody picks up — and an
-// unanswered call is a lead the ad genuinely produced, so it should not be
-// invisible to reporting or to bidding. It would also put an unfamiliar number
-// on a site whose whole pitch is that you reach the person who built it.
-//
-// The cost of counting taps is that a tap is not a call. That is the same
-// objection the OAIQ_LEAD_EVENT table above raises about click_to_call, and it
-// still stands. Two things keep it in bounds:
-//
-//   1. The action carries a fixed $500 in the Ads UI, against $750 for a form
-//      submission. A tap is worth less than a captured lead because some share
-//      of taps never dial, and bidding should not treat them as equal.
-//   2. Mobile is ~86% of this campaign's spend, and on a phone a tap opens the
-//      dialer with the number already filled in. That is a far shorter gap
-//      between intent and action than a scheduler-open, which is why the
-//      Calendly action is kept out of bidding and this one is not.
+// This action was made secondary on September 14, 2026. Keep it for measuring
+// phone-button intent, including taps that do not become connected calls.
+// Actual website calls use the separate WEBSITE_CALL action configured in
+// website-call-tracking.ts, with a 60-second minimum duration and primary goal.
+// Never fire that actual-call conversion from this click handler.
 //
 // As with Calendly, no `value` is passed from here: the action is set to "use
 // the same value for each conversion", so Google ignores whatever the tag sends.

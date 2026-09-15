@@ -1,4 +1,7 @@
+"use client";
+
 import Script from "next/script";
+import { configureWebsiteCallTracking } from "./website-call-tracking";
 
 // Google Ads tag (gtag.js). Loaded site-wide from the root layout.
 export const GOOGLE_ADS_ID = "AW-18272669855";
@@ -24,8 +27,9 @@ export default function GoogleTag() {
         id="gtag-src"
         src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
         strategy="afterInteractive"
+        onReady={configureWebsiteCallTracking}
       />
-      <Script id="gtag-init" strategy="afterInteractive">
+      <Script id="gtag-init" strategy="afterInteractive" onReady={configureWebsiteCallTracking}>
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}

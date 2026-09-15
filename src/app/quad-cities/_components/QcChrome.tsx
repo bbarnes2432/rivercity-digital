@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import CallLink from "./CallLink";
-import { EMAIL, PHONE } from "../_data";
+import { EMAIL } from "../_data";
+import ForwardingPhoneNumber from "../../_components/ForwardingPhoneNumber";
 
 /* Header and footer for the landing page.
  *
@@ -29,7 +30,7 @@ export function QcHeader() {
         />
 
         <CallLink context="header" className="qc-header-call">
-          <span className="qc-header-call-full">{PHONE.display}</span>
+          <span className="qc-header-call-full"><ForwardingPhoneNumber /></span>
           <span className="qc-header-call-short">Call</span>
         </CallLink>
       </div>

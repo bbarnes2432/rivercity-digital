@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { Phone } from "lucide-react";
-import { PHONE } from "./contact-info";
+import { useWebsitePhoneNumber } from "./website-call-tracking";
 import { trackClickToCallConversion, trackLeadEvent } from "./gtag";
 
 type Props = {
@@ -30,10 +30,11 @@ type Props = {
  * desktop needs to be able to read and dial it, not just tap it. */
 export default function CallLink({ context, className, children, icon = true }: Props) {
   const pathname = usePathname();
+  const phone = useWebsitePhoneNumber();
 
   return (
     <a
-      href={PHONE.href}
+      href={phone.href}
       className={className}
       onClick={() => {
         trackLeadEvent("click_to_call", { context, page: pathname });
@@ -41,7 +42,7 @@ export default function CallLink({ context, className, children, icon = true }: 
       }}
     >
       {icon && <Phone size={15} strokeWidth={2} aria-hidden="true" />}
-      <span>{children ?? PHONE.display}</span>
+      <span>{children ?? phone.display}</span>
     </a>
   );
 }

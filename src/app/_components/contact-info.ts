@@ -5,7 +5,9 @@
  * so they moved here and that file re-exports them — a second copy would be a
  * second thing to forget when a call-tracking number gets swapped in.
  *
- * Swap PHONE here and every rendered instance follows. */
+ * PHONE remains the real business destination. Eligible paid visitors may see
+ * a dynamic Google forwarding number through website-call-tracking.ts; never
+ * replace this fallback with a forwarding number copied from a session. */
 
 export const PHONE = {
   /** What a visitor reads. */
