@@ -8,8 +8,9 @@
  *
  * The click ID only appears on the landing URL. By the time someone reaches a
  * form it may be several navigations later, and Next's client router drops the
- * query string as soon as they move. So it is captured on first paint and kept
- * in sessionStorage for the rest of the visit.
+ * query string as soon as they move. The root GoogleTag component captures it
+ * after hydration on every entry route, independently of whether the Google
+ * script loads. It stays in sessionStorage for the rest of the visit.
  *
  * First write wins. A visitor who arrives on an ad, wanders off to a blog post
  * and comes back through an organic link should still be credited to the ad

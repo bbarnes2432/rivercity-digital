@@ -1,6 +1,8 @@
 "use client";
 
 import Script from "next/script";
+import { useEffect } from "react";
+import { captureAttribution } from "./attribution";
 import { configureWebsiteCallTracking } from "./website-call-tracking";
 
 // Google Ads tag (gtag.js). Loaded site-wide from the root layout.
@@ -21,6 +23,12 @@ export const GOOGLE_ADS_ID = "AW-18272669855";
 const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID;
 
 export default function GoogleTag() {
+  // Capture the initial entry URL even when an ad lands on /work, /about or
+  // /contact. A later client-side navigation may remove its query string.
+  // This stays independent of gtag loading and retains the existing session-
+  // only, first-touch policy; it does not send a conversion or customer data.
+  useEffect(() => { captureAttribution(); }, []);
+
   return (
     <>
       <Script
