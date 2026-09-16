@@ -38,7 +38,6 @@ export default function ProjectGallery() {
         <ul className="wd-project-scope">{item.details.map(detail => <li key={detail}><Check size={14} />{detail}</li>)}</ul>
         <Link href={item.caseStudy} className="wd-case-link" prefetch={false} aria-label={`Read ${item.name} case study`}>Read the case study <ArrowUpRight size={14} /></Link>
       </article>)}</div>
-      <div className="wd-work-next" data-entrance="unfold"><div><p className="wd-eyebrow">Your business, your design</p><h3>See a direction for your own website.</h3><p>Request a free mockup. We’ll talk through your business and what the website needs to do.</p></div><a href="#start" className="wd-button wd-button-dark">Get a free mockup <ArrowUpRight size={18} /></a></div>
     </div>
     <dialog ref={dialog} className="wd-project-dialog" aria-labelledby="wd-preview-title" onClose={() => setSelected(null)} onClick={event => { if (event.target === event.currentTarget) close(); }}>
       {project && <div className="wd-preview-content">
