@@ -59,7 +59,7 @@ export default function WebsiteDesignPage() {
         <div className="wd-hero-effects" aria-hidden="true"><ShaderBackground className="wd-hero-shader" /><KineticMatrix autoImpulseDelay={2050} /></div>
         <div className="wd-container wd-hero-content">
           <div className="wd-hero-copy">
-            <p className="wd-eyebrow"><span className="wd-status-dot" /> Independent studio · St. Louis, Missouri</p>
+            <p className="wd-eyebrow"><span className="wd-status-dot" /> Your local team · St. Louis, Missouri</p>
             <h1 id="hero-heading">St. Louis<br /><em>website design.</em></h1>
             <p className="wd-hero-description">Custom websites that make your services clear<br className="wd-desktop-break" /> and your business easy to contact.</p>
             <p className="wd-hero-detail">You own the code and domain. We agree on the scope and cost before the build starts.</p>
@@ -78,7 +78,7 @@ export default function WebsiteDesignPage() {
       <BuildProcess />
       <section className="wd-section wd-studio rcd-light" id="studio" aria-labelledby="studio-heading">
         <div className="wd-container">
-          <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">River City Digital / St. Louis, Missouri</p><h2 id="studio-heading">A local team that can<br />design it and build it.</h2></div><p>We can talk through the page design, the features behind it, and the tools it needs to connect. You get one project plan for the work.</p></div>
+          <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">River City Digital / St. Louis, Missouri</p><h2 id="studio-heading">A local team that can<br />design it and build it.</h2></div><p>We’re based right here in St. Louis. Talk with our local team about the design, development, and tools your website needs, with one project plan for the work.</p></div>
           <div className="wd-local-grid">
             <figure className="wd-local-photo" data-entrance="image"><Image src="/assets/bg-st-louis-street.webp" alt="A downtown street scene with the Gateway Arch in the distance" width={1280} height={720} sizes="(max-width: 760px) 90vw, 52vw"/><figcaption><span>Based in St. Louis, Missouri</span><CallLink context="website-design-studio" className="wd-text-link">Talk with our team <ArrowUpRight size={17}/></CallLink></figcaption></figure>
             <figure className="wd-testimonial" data-entrance="card" data-entrance-delay="1"><span className="wd-eyebrow">A client’s experience</span><span className="wd-quote-mark" aria-hidden="true">“</span><blockquote>They aren&apos;t just building me a website—they&apos;re helping me build a brand.</blockquote><figcaption><span className="wd-review-avatar" aria-hidden="true">AP</span><div><strong>Angelita Pritchett</strong><span>The Wellness Collective · Google review</span></div></figcaption><Link href="/work/the-wellness-collective" className="wd-case-link">View the Wellness Collective project <ArrowUpRight size={15}/></Link></figure>
