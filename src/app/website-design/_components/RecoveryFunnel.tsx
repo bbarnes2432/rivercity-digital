@@ -17,7 +17,7 @@ export default function RecoveryFunnel() {
       if (href === "#start") trackFunnel("cta_mockup");
       else if (href?.startsWith("tel:")) trackFunnel("cta_call");
     };
-    const root = document.querySelector(".wd-recovery");
+    const root = document.querySelector(".wd-site[data-page-version]");
     root?.addEventListener("click", clicks as EventListener);
     return () => { observer?.disconnect(); root?.removeEventListener("click", clicks as EventListener); };
   }, []);

@@ -55,7 +55,7 @@ export default function MockupRequestForm() {
       window.clearTimeout(timeout);
     }
   }
-  return <form id="wd-mockup-form" className="wd-form" onSubmit={submit} onInput={() => trackFunnel("mockup_start", true)} onInvalid={() => trackFunnel("mockup_validation_error", true)} aria-busy={status === "submitting"} aria-labelledby="mockup-form-heading">
+  return <form id="wd-mockup-form" className="wd-form rcd-light" onSubmit={submit} onInput={() => trackFunnel("mockup_start", true)} onInvalid={() => trackFunnel("mockup_validation_error", true)} aria-busy={status === "submitting"} aria-labelledby="mockup-form-heading">
     <div id="start" className="wd-form-heading" tabIndex={-1}><span className="wd-eyebrow">Free design preview</span><h2 id="mockup-form-heading">Request your free mockup.</h2><p>Tell us how to reach you. We’ll follow up about your business and a possible design direction. No obligation to build.</p></div>
     <input type="hidden" name="service" value="New website" /><input type="hidden" name="source" value="Website design — free mockup" />
     <div className="wd-honeypot" aria-hidden="true"><label>Leave this empty<input type="text" name="bot-field" tabIndex={-1} autoComplete="off" /></label></div>

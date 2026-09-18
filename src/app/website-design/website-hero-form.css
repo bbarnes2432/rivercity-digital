@@ -1,0 +1,35 @@
+/* Keep the approved early mockup form within the restored animated design. */
+.wd-hero-with-form .wd-hero-content { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(360px, .9fr); gap: clamp(32px, 5vw, 80px); min-height: 0; padding-block: 50px; }
+.wd-hero-with-form h1 { font-size: clamp(48px, 5.5vw, 82px); margin-block: 22px; }
+.wd-hero-with-form .wd-hero-description { max-width: 540px; font-size: clamp(17px, 1.5vw, 21px); }
+.wd-hero-with-form .wd-hero-description strong { color: var(--wd-mint); font-weight: 600; }
+.wd-hero-with-form .wd-hero-call { border-color: #c4e6d48c; color: #fff; background: #ffffff08; }
+.wd-hero-with-form .wd-hero-call:hover { background: #ffffff18; }
+/* The original hero lets pointer input reach its effects; the whole form must stay interactive. */
+.wd-hero-with-form .wd-form { color: var(--wd-ink); width: 100%; pointer-events: auto; padding: 28px; }
+.wd-hero-with-form .wd-form-heading h2 { font-size: 27px; letter-spacing: -.035em; line-height: 1.2; margin-top: 10px; }
+.wd-hero-with-form .wd-form .wd-button { min-height: 54px; font-size: 14px; }
+.wd-hero-with-form .wd-field > span { font-size: 12px; }
+.wd-contact-preview { align-self: center; background: #fff; padding: 36px; border: 1px solid var(--wd-line); border-radius: 3px; }
+.wd-contact-preview h3 { margin-top: 14px; font-size: 28px; }
+.wd-contact-preview > p:not(.wd-eyebrow) { margin-top: 16px; line-height: 1.8; color: var(--wd-muted); font-size: 14px; }
+.wd-contact-preview > .wd-button { margin-top: 24px; }
+@media (max-width: 900px) {
+  .wd-hero-with-form .wd-hero-content { grid-template-columns: minmax(0,1fr) minmax(300px,.9fr); gap: 26px; }
+  .wd-hero-with-form h1 { font-size: 48px; }
+  .wd-hero-with-form .wd-form { padding: 24px; }
+}
+@media (max-width: 760px) {
+  .wd-hero-with-form .wd-hero-content { grid-template-columns: 1fr; gap: 30px; padding-block: 25px 32px; }
+  .wd-hero-with-form h1 { font-size: clamp(43px, 11.8vw, 68px); margin-block: 18px; }
+  .wd-hero-with-form .wd-hero-description { font-size: 17px; }
+  .wd-hero-with-form .wd-hero-detail { font-size: 13px; line-height: 1.7; }
+  .wd-hero-with-form .wd-actions { display: grid; grid-template-columns: 1fr; margin-top: 19px; gap: 10px; }
+  .wd-hero-with-form .wd-actions > a { justify-content: space-between; }
+  .wd-hero-with-form .wd-actions > a > span { flex: 1; }
+  .wd-hero-with-form .wd-form { padding: 24px 20px; }
+  .wd-hero-with-form .wd-form-heading h2 { font-size: 26px; }
+  .wd-contact-preview { padding: 28px; }
+  .wd-sticky-contact > .wd-button { flex: 1.2; }
+  .wd-sticky-contact > .wd-sticky-call { flex: 1; display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-height: 46px; color: #fff; font-size: 13px; border: 1px solid #ffffff70; border-radius: 3px; }
+}
