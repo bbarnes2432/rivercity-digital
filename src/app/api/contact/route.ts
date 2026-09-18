@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
+import { parseFunnelContext } from "@/lib/funnel-schema";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,6 +15,7 @@ type Payload = {
   message?: string;
   source?: string;
   "bot-field"?: string;
+  funnel?: unknown;
 } & Partial<Record<AttributionKey, string>>;
 
 // Campaign attribution carried by the site's lead forms. The click IDs
@@ -48,7 +51,7 @@ export async function POST(req: Request) {
   }
 
   if (trim(body["bot-field"])) {
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, ignored: true });
   }
 
   const name = trim(body.name);
@@ -59,6 +62,12 @@ export async function POST(req: Request) {
   const business = trim(body.business);
   const service = trim(body.service);
   const source = trim(body.source).slice(0, 80);
+  const receiptId = randomUUID();
+  const funnel = parseFunnelContext(body.funnel);
+  const receipt = (event: string, detail: Record<string, string | number> = {}) => {
+    // No names, email, telephone, message, URLs or advertising click IDs.
+    try { console.info(JSON.stringify({ kind: "rcd_delivery", source: "server", at: new Date().toISOString(), receiptId, event, ...(funnel || {}), ...detail })); } catch { /* Logging must never interrupt delivery. */ }
+  };
 
   const attribution = ATTRIBUTION_KEYS.map((key) => [key, trim(body[key]).slice(0, 300)] as const)
     .filter(([, value]) => value.length > 0);
@@ -111,6 +120,7 @@ export async function POST(req: Request) {
     // success here silently swallows real inquiries — surface it instead so the
     // visitor gets the "email us directly" fallback and we can see it's broken.
     if (process.env.NODE_ENV === "production") {
+      receipt("configuration_error");
       console.error("[contact] RESEND_API_KEY missing in production — inquiry not sent");
       return NextResponse.json(
         { ok: false, error: "We couldn't send the message. Please email us directly." },
@@ -122,6 +132,7 @@ export async function POST(req: Request) {
   }
 
   try {
+    receipt("provider_request");
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       signal: AbortSignal.timeout(15000),
@@ -139,14 +150,24 @@ export async function POST(req: Request) {
     });
 
     if (!res.ok) {
+      receipt("provider_rejected", { status: res.status });
       console.error("[contact] Email provider rejected request", res.status);
       return NextResponse.json(
         { ok: false, error: "We couldn't send the message. Try again or email us directly." },
         { status: 502 },
       );
     }
+    // Provider acceptance is not inbox delivery. Keep its ID in private runtime
+    // logs so delivered/bounced events can be reconciled in Resend later.
+    let providerId: string | undefined;
+    try {
+      const result = await res.json() as { id?: unknown };
+      if (typeof result.id === "string" && /^[a-zA-Z0-9_-]{1,100}$/.test(result.id)) providerId = result.id;
+    } catch { /* A successful send must not become an error due to receipt parsing. */ }
+    receipt("provider_accepted", providerId ? { providerId } : { receiptDetail: "provider_id_unavailable" });
   } catch (err) {
     const timedOut = err instanceof Error && (err.name === "TimeoutError" || err.name === "AbortError");
+    receipt("provider_unconfirmed", { reason: timedOut ? "timeout" : "network" });
     console.error("[contact] Email delivery could not be confirmed", timedOut ? "timeout" : "network error");
     return NextResponse.json(
       { ok: false, error: "We couldn't confirm delivery. Please call or email us directly before sending another request." },
@@ -154,5 +175,5 @@ export async function POST(req: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, receiptId });
 }

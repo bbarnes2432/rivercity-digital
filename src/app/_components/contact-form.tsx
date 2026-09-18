@@ -54,7 +54,7 @@ export default function ContactForm({ defaultService = "", variant = "contact" }
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; dev?: boolean };
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; dev?: boolean; ignored?: boolean };
       if (!res.ok || !data.ok) {
         setErrorMsg(data.error || "Something didn't go through.");
         setStatus("error");
@@ -62,7 +62,7 @@ export default function ContactForm({ defaultService = "", variant = "contact" }
       }
       // Delivery is complete. Track before navigation, independently of pixels
       // or whether the thank-you route loads. Preview delivery never counts.
-      if (!data.dev) trackSuccessfulLead({
+      if (!data.dev && !data.ignored) trackSuccessfulLead({
         email: String(fd.get("email") ?? ""), phone: String(fd.get("phone") ?? ""), name: String(fd.get("name") ?? ""),
       }, { page: window.location.pathname, form: "contact", service: String(fd.get("service") ?? "") });
       form.reset();

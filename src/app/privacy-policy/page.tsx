@@ -15,7 +15,7 @@ const SECTIONS = [
       <>
         <p>
           We collect only what we need to do the work and stay in touch. That includes things you give us
-          directly — your name, email, phone, and the messages you send through the contact form — and a
+          directly — your name, email, phone, and the messages you send through the contact form — and
           automatic technical information from your visit, such as browser and device information, IP address,
           referrer, and pages viewed. Hosting, advertising measurement, and fraud-prevention services process
           technical information as described below.
@@ -81,6 +81,11 @@ const SECTIONS = [
         </p>
       </>
     ),
+  },
+  {
+    id: "inquiry-diagnostics",
+    heading: "Website and inquiry diagnostics",
+    body: <><p>On our website-design page, we record anonymous visit and form-progress events to understand whether people can find and complete an inquiry. These include the page version, a temporary identifier stored for the browser tab, a mobile or desktop category, whether the visit includes paid-ad attribution, and form errors or successful acceptance. These diagnostic events do not contain the information you type, full URLs, or advertising click IDs. We respect browser Do Not Track and Global Privacy Control signals for this optional progress measurement.</p><p>Our hosting logs also record inquiry delivery attempts, random receipt identifiers and our email provider’s message identifiers. These help us investigate failed or delayed messages. Provider acceptance does not by itself mean a message reached our inbox. The information you submit is handled separately as described above.</p></>,
   },
   {
     id: "fraud-prevention",
@@ -159,7 +164,7 @@ export default function PrivacyPolicyPage() {
     <LegalPage
       title="Privacy Policy"
       preface="We've kept this short and tried to write it like a person. If anything's unclear, just email us."
-      lastUpdated="September 17, 2026"
+      lastUpdated="September 18, 2026"
       sections={SECTIONS}
       breadcrumbLabel="Privacy Policy"
     />

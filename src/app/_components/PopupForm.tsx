@@ -100,14 +100,14 @@ export default function PopupForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; dev?: boolean };
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; dev?: boolean; ignored?: boolean };
       if (!res.ok || !data.ok) {
         setErrorMsg(data.error || "Something didn't go through.");
         setSubmitting(false);
         return;
       }
       // Track delivered inquiries before any popup cleanup or route change.
-      if (!data.dev) trackSuccessfulLead({
+      if (!data.dev && !data.ignored) trackSuccessfulLead({
         email: String(fd.get("email") ?? ""),
         name: String(fd.get("name") ?? ""),
       }, { page: window.location.pathname, form: SOURCE_QUALIFIED });

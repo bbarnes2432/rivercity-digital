@@ -1,33 +1,30 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import CallLink from "../_components/CallLink";
 import BookCallLink from "../_components/BookCallLink";
-import HeroPortal from "../_components/HeroPortal";
 import { EMAIL } from "../_components/contact-info";
-import TubesCursor from "@/components/ui/tubes-cursor";
-import KineticMatrix from "@/components/ui/kinetic-matrix";
-import ShaderBackground from "@/components/ui/shader-background";
 import StudioNavigation from "./_components/StudioNavigation";
 import MockupRequestForm from "./_components/MockupRequestForm";
 import StudioStickyContact from "./_components/StudioStickyContact";
 import StudioFooter from "./_components/StudioFooter";
-import CustomBuildComparison, { CustomBuildIntroduction } from "./_components/CustomBuildComparison";
+import CustomBuildComparison from "./_components/CustomBuildComparison";
 import ProjectGallery from "./_components/ProjectGallery";
 import ClientProof from "./_components/ClientProof";
-import ProjectConversation from "./_components/ProjectConversation";
 import SearchFoundations from "./_components/SearchFoundations";
 import BusinessSystems from "./_components/BusinessSystems";
 import { BuildCapabilities, BuildProcess } from "./_components/BuildDetails";
-import StudioMotion from "./_components/StudioMotion";
+import TechnicalDetails from "./_components/TechnicalDetails";
+import RecoveryFunnel from "./_components/RecoveryFunnel";
 import "./website-design.css";
 import "./website-details.css";
 import "./website-conversion.css";
 import "./website-contact.css";
-import "./website-motion.css";
+import "./website-recovery.css";
 
 export const metadata: Metadata = {
   title: "Custom Website Design in St. Louis",
-  description: "St. Louis website design and custom development. Compare custom websites with Wix and WordPress templates, explore our work, and request a free mockup.",
+  description: "Custom website design in St. Louis. See our real client work and request a free website mockup, with no obligation to build. Or call our local team.",
   alternates: { canonical: "/website-design" },
   openGraph: {
     title: "Custom website design and development | River City Digital",
@@ -47,44 +44,47 @@ const FAQS = [
 ];
 
 export default function WebsiteDesignPage() {
-  return <div className="wd-site">
+  return <div className="wd-site wd-recovery" data-page-version="mockup-recovery-2026-09-18">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
       "@context": "https://schema.org", "@type": "Service", name: "St. Louis Website Design",
       serviceType: "Custom website design and development",
       provider: { "@type": "Organization", name: "River City Digital Co." },
       areaServed: { "@type": "City", name: "St. Louis" },
     }) }} />
-    <HeroPortal /><StudioNavigation />
+    <StudioNavigation />
     <main id="main" className="wd-page">
       <section className="wd-hero" aria-labelledby="hero-heading">
-        <div className="wd-hero-effects" aria-hidden="true"><ShaderBackground className="wd-hero-shader" /><KineticMatrix autoImpulseDelay={2050} /></div>
         <div className="wd-container wd-hero-content">
           <div className="wd-hero-copy">
             <p className="wd-eyebrow"><span className="wd-status-dot" /> Your local team · St. Louis, Missouri</p>
             <h1 id="hero-heading">St. Louis<br /><em>website design.</em></h1>
-            <p className="wd-hero-description">Custom websites that make your services clear<br className="wd-desktop-break" /> and your business easy to contact.</p>
-            <p className="wd-hero-detail">You own the code and domain. We agree on the scope and cost before the build starts.</p>
-            <div className="wd-actions"><CallLink context="website-design-hero" className="wd-button wd-button-mint">Call our St. Louis team <ArrowUpRight size={18} /></CallLink><a className="wd-button wd-button-outline wd-hero-mockup" href="#start">Get a free mockup <ArrowUpRight size={19} /></a></div>
-            <p className="wd-hero-call-note">Tell us what you need your website to do. We’ll talk through the design, features, and next steps.</p>
-            <p className="wd-hero-phone">Call River City Digital: <CallLink context="website-design-hero-number" icon={false} /></p>
+            <p className="wd-hero-description">See what your new website could look like<br className="wd-desktop-break" /> with a <strong>free custom mockup.</strong></p>
+            <p className="wd-hero-detail">A design preview for your business, with no obligation to build. If it feels like a fit, we agree on the scope and price before development.</p>
+            <div className="wd-actions"><a className="wd-button wd-button-mint" href="#start">Request my free mockup <ArrowUpRight size={19} /></a><CallLink context="website-design-hero" className="wd-button wd-recovery-call">Call our St. Louis team</CallLink></div>
+            <p className="wd-hero-phone">Prefer a conversation? <CallLink context="website-design-hero-number" icon={false} /></p>
+            <a href="#work" className="wd-hero-work"><Image src="/assets/portfolio-wellness-collective.webp" width={240} height={133} sizes="120px" alt="A real website we designed for The Wellness Collective" /><span>Made for real businesses.<strong>Explore our website projects <ArrowDown size={14} /></strong></span></a>
           </div>
+          <MockupRequestForm />
         </div>
         <div className="wd-container wd-hero-bottom"><span>Custom design · SEO foundations · Full code ownership</span><a href="#work">Explore the work <ArrowDown size={15} /></a></div>
       </section>
       <ClientProof />
-      <CustomBuildIntroduction />
       <ProjectGallery />
-      <ProjectConversation />
-      <SearchFoundations />
-      <CustomBuildComparison />
-      <BuildCapabilities />
-      <BusinessSystems />
-      <BuildProcess />
+      <section className="wd-section wd-recovery-scope rcd-light" aria-labelledby="scope-heading"><div className="wd-container">
+        <p className="wd-eyebrow">Built around your business</p><h2 id="scope-heading">A clear website.<br />An easy next step.</h2>
+        <div className="wd-recovery-cards"><article><h3>Help customers choose you.</h3><p>Clear service pages, real work and an easy way to call or inquire. Designed for mobile as well as desktop.</p></article><article><h3>Know what you’re buying.</h3><p>Your proposal sets out the pages, features, revisions, price and schedule. Hosting and ongoing support are explained separately.</p></article><article><h3>Keep control after launch.</h3><p>You own your website’s code and domain. We plan search foundations, forms and any important redirects as part of the build.</p></article></div>
+      </div></section>
+      <section className="wd-section wd-process" aria-labelledby="preview-process-heading"><div className="wd-container">
+        <p className="wd-eyebrow">From free preview to finished website</p><h2 id="preview-process-heading">See the direction.<br />Then decide.</h2>
+        <ol className="wd-recovery-steps"><li><span>01</span><h3>Tell us about your business.</h3><p>Request a mockup or call us. We’ll follow up to understand your services, customers and website needs.</p></li><li><span>02</span><h3>Discuss a design preview.</h3><p>See a possible direction for your website. The free mockup is a preview, not a complete website, and carries no obligation to build.</p></li><li><span>03</span><h3>Choose whether to move forward.</h3><p>If you want us to build it, we prepare a written scope and price. Development starts after you agree to the project.</p></li></ol>
+        <a className="wd-button wd-button-mint" href="#start">Request my free mockup <ArrowUpRight size={18} /></a>
+      </div></section>
       <section className="wd-section wd-contact rcd-light" aria-labelledby="contact-heading">
-        <div className="wd-container wd-contact-grid"><div className="wd-contact-copy" data-entrance="rise"><p className="wd-eyebrow">Discuss your project</p><h2 id="contact-heading">Tell us what<br />you need built.</h2><p>Start with a conversation about your business. Your free mockup is a preview of a possible design direction, with no obligation to build.</p><div className="wd-contact-direct"><span>Prefer to talk it through?</span><CallLink context="website-design-contact" className="wd-contact-number" /><BookCallLink context="website-design-contact" className="wd-text-link wd-link-dark">Choose a time for a 30-minute call <ArrowUpRight size={17} /></BookCallLink></div><a href={`mailto:${EMAIL}`} className="wd-contact-email">{EMAIL}</a></div><MockupRequestForm /></div>
+        <div className="wd-container wd-contact-grid"><div className="wd-contact-copy"><p className="wd-eyebrow">Your local St. Louis team</p><h2 id="contact-heading">Want to talk<br />it through?</h2><p>A new website or a redesign starts with understanding your business. Tell us what you want to improve, and we’ll discuss the options.</p><a className="wd-button wd-button-dark" href="#start">Request a free mockup <ArrowUpRight size={18} /></a></div><div className="wd-contact-direct"><CallLink context="website-design-contact" className="wd-contact-number" /><BookCallLink context="website-design-contact" className="wd-text-link wd-link-dark">Choose a time for a 30-minute call <ArrowUpRight size={17} /></BookCallLink><a href={`mailto:${EMAIL}`} className="wd-contact-email">{EMAIL}</a></div></div>
       </section>
       <section className="wd-section wd-faq rcd-light" aria-labelledby="faq-heading"><div className="wd-container wd-faq-grid"><div data-entrance="rise"><p className="wd-eyebrow">Frequently asked questions</p><h2 id="faq-heading">Questions about<br />the build.</h2></div><div>{FAQS.map(([question, answer]) => <details className="wd-faq-item" data-entrance="unfold" key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
+      <TechnicalDetails><SearchFoundations /><CustomBuildComparison /><BuildCapabilities /><BusinessSystems /><BuildProcess /></TechnicalDetails>
     </main>
-    <StudioFooter /><StudioStickyContact /><TubesCursor mobileAmbient /><StudioMotion />
+    <StudioFooter /><StudioStickyContact /><RecoveryFunnel />
   </div>;
 }

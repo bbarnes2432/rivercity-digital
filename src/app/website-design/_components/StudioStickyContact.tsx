@@ -14,7 +14,7 @@ export default function StudioStickyContact() {
     return () => observer.disconnect();
   }, []);
   return <div className={`wd-sticky-contact${formVisible ? " is-hidden" : ""}`} aria-label="Quick contact">
-    <CallLink context="website-design-mobile-sticky" className="wd-button wd-button-mint">Call River City</CallLink>
-    <a href="#start" className="wd-sticky-mockup">Free mockup <ArrowUpRight size={16} /></a>
+    <a href="#start" className="wd-button wd-button-mint">Free mockup <ArrowUpRight size={16} /></a>
+    <CallLink context="website-design-mobile-sticky" className="wd-sticky-call">Call River City</CallLink>
   </div>;
 }

@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import ts from 'typescript';
+import { randomUUID } from 'node:crypto';
 
 function compile(relative) {
   return ts.transpileModule(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'), {
@@ -13,6 +14,8 @@ function compile(relative) {
 const attributionCode = compile('../src/app/_components/attribution.ts');
 const tagCode = compile('../src/app/_components/GoogleTag.tsx');
 const routeCode = compile('../src/app/api/contact/route.ts');
+const schemaModule = { exports: {} };
+vm.runInNewContext(compile('../src/lib/funnel-schema.ts'), { module: schemaModule, exports: schemaModule.exports });
 const suffix = 'utm_source=google&utm_medium=cpc&utm_campaign=st_louis_web_design_23979555250&utm_term=website%20design%20agency&utm_content=ad_821717580434_ag_198561359915_mt_e_dev_m&gclid=test-only-not-a-real-click';
 let checks = 0;
 
@@ -38,7 +41,11 @@ async function journey(pathname, { blocked = false, stored, mountEffects = true 
   const routeModule = { exports: {} };
   vm.runInNewContext(routeCode, { module: routeModule, exports: routeModule.exports, Response, AbortSignal, console: { error() {}, log() {} },
     process: { env: { NODE_ENV: 'production', RESEND_API_KEY: 'mock-only', CONTACT_TO_EMAIL: 'test@example.invalid' } },
-    require: id => { assert.equal(id, 'next/server'); return { NextResponse: { json: (x, options) => new Response(JSON.stringify(x), { status: options?.status ?? 200 }) } }; },
+    require: id => {
+      if (id === 'node:crypto') return { randomUUID };
+      if (id === '@/lib/funnel-schema') return schemaModule.exports;
+      assert.equal(id, 'next/server'); return { NextResponse: { json: (x, options) => new Response(JSON.stringify(x), { status: options?.status ?? 200 }) } };
+    },
     fetch: async (url, options) => { assert.equal(url, 'https://api.resend.com/emails'); calls.push(JSON.parse(options.body)); return new Response('{}', { status: 200 }); },
   });
   const response = await routeModule.exports.POST({ json: async () => ({ name: 'Local Test', email: 'test@example.invalid', service: 'New website', ...saved }) });

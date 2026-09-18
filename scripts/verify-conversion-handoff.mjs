@@ -57,7 +57,7 @@ function harness(file, options = {}) {
     fetch: async (url, init) => {
       requests.push({ url, body: JSON.parse(init.body) });
       if (options.networkFailure) throw Error('Network failure');
-      return { ok: !options.failed, json: async () => options.failed ? { ok: false } : { ok: true, ...(options.dev ? { dev: true } : {}) } };
+      return { ok: !options.failed, json: async () => options.failed ? { ok: false } : { ok: true, ...(options.dev ? { dev: true } : {}), ...(options.ignored ? { ignored: true } : {}) } };
     },
   });
   function conversions() { return events.filter(e => e[0] === 'event' && e[1] === 'conversion'); }
@@ -116,7 +116,7 @@ for (const file of forms) {
     assert.equal(thankYouPage.events.find(e => e[0] === 'set' && e[1] === 'user_data')?.[2].email, 'test@example.invalid');
     assert.equal(thankYouPage.storage.size, 0);
   });
-  for (const scenario of ['failed', 'networkFailure', 'invalid', 'dev']) {
+  for (const scenario of ['failed', 'networkFailure', 'invalid', 'dev', 'ignored']) {
     await check(file + ': ' + scenario + ' cannot create a conversion', async () => {
       const h = harness(file, { [scenario]: true }); await h.submit(); h.tracking.trackContactConversion();
       assert.equal(h.conversions().length, 0);

@@ -55,7 +55,7 @@ export default function HeroMockupForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; dev?: boolean };
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; dev?: boolean; ignored?: boolean };
       if (!res.ok || !data.ok) {
         setErrorMsg(data.error || "Something didn't go through.");
         setStatus("error");
@@ -63,7 +63,7 @@ export default function HeroMockupForm() {
       }
 
       // Identifiers for enhanced conversions, read before reset clears them.
-      if (!data.dev) trackSuccessfulLead({
+      if (!data.dev && !data.ignored) trackSuccessfulLead({
         email: String(fd.get("email") ?? ""),
         phone: String(fd.get("phone") ?? ""),
         name: String(fd.get("name") ?? ""),

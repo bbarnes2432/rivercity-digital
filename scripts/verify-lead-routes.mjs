@@ -3,6 +3,11 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import ts from 'typescript';
+import { randomUUID } from 'node:crypto';
+
+const schemaModule = { exports: {} };
+const schemaCode = ts.transpileModule(fs.readFileSync(new URL('../src/lib/funnel-schema.ts', import.meta.url), 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
+vm.runInNewContext(schemaCode, { module: schemaModule, exports: schemaModule.exports });
 
 async function request(route, body, options = {}) {
   const calls = [];
@@ -10,6 +15,8 @@ async function request(route, body, options = {}) {
   const sandbox = {
     exports: routeModule.exports, module: routeModule, Error, AbortSignal,
     require(id) {
+      if (id === 'node:crypto') return { randomUUID };
+      if (id === '@/lib/funnel-schema') return schemaModule.exports;
       assert.equal(id, 'next/server');
       return { NextResponse: { json: (data, init) => Response.json(data, init) } };
     },
