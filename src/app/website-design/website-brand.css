@@ -1,0 +1,73 @@
+/* Use River City's existing navigation/brand tokens, not a separate mint palette. */
+.wd-site {
+  --wd-ink: var(--rcd-ink-500);
+  --wd-navy: var(--rcd-navy-900);
+  --wd-paper: var(--rcd-cream-500);
+  --wd-mint: var(--rcd-teal-200);
+  --wd-muted: var(--rcd-navy-600);
+  --wd-line: var(--line-strong);
+}
+.wd-site .wd-button-mint,
+.wd-site .wd-form-submit { background: var(--accent); color: var(--rcd-navy-900) !important; }
+.wd-site .wd-button-mint:hover,
+.wd-site .wd-form-submit:hover { background: var(--accent-hover); color: #fff !important; }
+.wd-site .wd-button-dark:not(.wd-form-submit):hover { background: var(--rcd-navy-700); }
+.wd-site .wd-status-dot { background: var(--rcd-teal-400); box-shadow: 0 0 12px var(--accent-glow); }
+.wd-site .wd-hero-call { border-color: var(--rcd-teal-300); }
+.wd-site .wd-form { background: #fff; border-color: var(--rcd-navy-200); }
+.wd-site .wd-field input,
+.wd-site .wd-field textarea { border-color: var(--rcd-navy-200); }
+.wd-site .wd-field input:focus,
+.wd-site .wd-field textarea:focus { border-color: var(--accent-hover); }
+.wd-site .wd-form :focus-visible { outline-color: var(--rcd-navy-500); }
+.wd-site .wd-field input::placeholder,
+.wd-site .wd-field textarea::placeholder { color: var(--rcd-navy-400); }
+
+/* Preserve the alternating sections, using the established cream and blue surfaces. */
+.wd-site .wd-client-proof,
+.wd-site .wd-seo,
+.wd-site .wd-comparison-topic { background: var(--rcd-navy-050); }
+.wd-site .wd-comparison,
+.wd-site .wd-project-conversation,
+.wd-site .wd-deliverables { background: var(--rcd-cream-500); }
+.wd-site .wd-contact { background: var(--rcd-navy-100); }
+.wd-site .wd-comparison-board,
+.wd-site .wd-comparison-columns,
+.wd-site .wd-comparison-row { background: #fff; }
+.wd-site .wd-comparison-cell-ours,
+.wd-site .wd-comparison-columns > .wd-comparison-column-ours,
+.wd-site .wd-seo-page,
+.wd-site .wd-code-photo figcaption { background: var(--rcd-navy-700); border-color: var(--rcd-navy-700); }
+.wd-site .wd-comparison-cell-ours > p,
+.wd-site .wd-seo-page { color: #fff; }
+.wd-site .wd-comparison-cell-ours h4,
+.wd-site .wd-systems .wd-eyebrow,
+.wd-site .wd-photo-process .wd-eyebrow,
+.wd-site .wd-process-deliverable,
+.wd-site .wd-system-copy li svg,
+.wd-site .wd-process-card-copy li svg,
+.wd-site .wd-seo-page .wd-eyebrow,
+.wd-site .wd-seo-page li svg { color: var(--rcd-teal-200); }
+.wd-site .wd-code-photo figcaption span:last-child { color: var(--rcd-navy-200); }
+.wd-site .wd-work-next,
+.wd-site .wd-preview-image,
+.wd-site .wd-search-deliverable { background: var(--rcd-navy-100); border-color: var(--rcd-navy-200); }
+.wd-site .wd-preview-close:hover,
+.wd-site .wd-comparison-topic { background: var(--rcd-navy-050); }
+.wd-site .wd-client-proof .wd-eyebrow,
+.wd-site .wd-conversation-intro,
+.wd-site .wd-call-topics p,
+.wd-site .wd-conversation-mockup p,
+.wd-site .wd-contact-copy > p:not(.wd-eyebrow),
+.wd-site .wd-contact-direct > span,
+.wd-site .wd-contact-email,
+.wd-site .wd-search-query,
+.wd-site .wd-search-result p,
+.wd-site .wd-seo-visual figcaption { color: var(--wd-muted); }
+.wd-site .wd-call-topic-number,
+.wd-site .wd-search-domain,
+.wd-site .wd-search-path,
+.wd-site .wd-project-type-grid article > svg { color: var(--rcd-navy-600); }
+.wd-site .wd-systems { background: radial-gradient(ellipse at 90% 40%, color-mix(in srgb, var(--rcd-navy-600) 40%, transparent), transparent 60%), var(--rcd-navy-900); }
+.wd-site .wd-footer,
+.wd-site .wd-photo-process { background: var(--rcd-navy-900); }
