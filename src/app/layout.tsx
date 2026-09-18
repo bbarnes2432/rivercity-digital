@@ -137,9 +137,25 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${barlow.variable} ${mono.variable}`}>
+      <head>
+        <script
+          async
+          src="https://ob.sornavellon.com/i/47e0b36dd9e5281ea505400cf48dc99c.js"
+          className="ct_clicktrue"
+        />
+      </head>
       <GoogleTag />
       <OpenAiPixel />
       <body>
+        <noscript>
+          <iframe
+            src="https://ob.sornavellon.com/ns/47e0b36dd9e5281ea505400cf48dc99c.html?ch="
+            width="0"
+            height="0"
+            style={{ display: "none" }}
+            title="ClickCease fraud prevention"
+          />
+        </noscript>
         <a href="#main" className="skip-link">Skip to main content</a>
         <script
           type="application/ld+json"

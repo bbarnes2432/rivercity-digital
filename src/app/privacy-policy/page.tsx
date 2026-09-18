@@ -16,8 +16,9 @@ const SECTIONS = [
         <p>
           We collect only what we need to do the work and stay in touch. That includes things you give us
           directly — your name, email, phone, and the messages you send through the contact form — and a
-          small amount of automatic information our hosting provider records when you visit the site
-          (browser type, IP, referrer, pages viewed). We don&apos;t collect more than this without telling you first.
+          automatic technical information from your visit, such as browser and device information, IP address,
+          referrer, and pages viewed. Hosting, advertising measurement, and fraud-prevention services process
+          technical information as described below.
         </p>
         <p>
           If you become a client, we collect business details required to do the work (Google Business Profile access,
@@ -82,6 +83,25 @@ const SECTIONS = [
     ),
   },
   {
+    id: "fraud-prevention",
+    heading: "Advertising fraud prevention",
+    body: (
+      <>
+        <p>
+          We use ClickCease by CHEQ to help identify automated or invalid traffic and protect our advertising
+          budget. Its website tag processes technical visit information, such as IP address, browser and
+          device information, visited pages, referrers, and advertising click information, to detect suspicious
+          activity. It may use cookies or similar identifiers for this purpose.
+        </p>
+        <p>
+          This fraud-prevention tag operates separately from our advertising measurement tags. We do not
+          explicitly send contact-form names, email addresses, phone numbers, or messages to ClickCease.
+          Session recording is not enabled as part of this integration.
+        </p>
+      </>
+    ),
+  },
+  {
     id: "your-rights",
     heading: "Your rights",
     body: (
@@ -101,7 +121,7 @@ const SECTIONS = [
       <>
         <p>
           We use a small set of third-party services to do our work: Google (Workspace, Search Console, Business Profile,
-          Google Ads), OpenAI (ChatGPT Ads measurement), Microsoft / Bing (Webmaster Tools), Meta (Business Manager, when
+          Google Ads), OpenAI (ChatGPT Ads measurement), ClickCease / CHEQ (advertising fraud prevention), Microsoft / Bing (Webmaster Tools), Meta (Business Manager, when
           running campaigns), AWS / Vercel / Resend (hosting, DNS, transactional email). Each has its own privacy policy.
           We share the minimum information required for the service to function.
         </p>
@@ -139,7 +159,7 @@ export default function PrivacyPolicyPage() {
     <LegalPage
       title="Privacy Policy"
       preface="We've kept this short and tried to write it like a person. If anything's unclear, just email us."
-      lastUpdated="August 18, 2026"
+      lastUpdated="September 17, 2026"
       sections={SECTIONS}
       breadcrumbLabel="Privacy Policy"
     />
