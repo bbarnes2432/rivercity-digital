@@ -6,7 +6,10 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   const origin = req.headers.get("origin");
-  if ((origin && origin !== new URL(req.url).origin) || req.headers.get("sec-fetch-site") === "cross-site") return new Response(null, { status: 403 });
+  // The hosting proxy may expose an internal req.url origin. Trust the exact
+  // public site origins as well, never an arbitrary forwarded host header.
+  const allowedOrigins = [new URL(req.url).origin, "https://rivercitydigitalco.com", "https://www.rivercitydigitalco.com"];
+  if ((origin && !allowedOrigins.includes(origin)) || req.headers.get("sec-fetch-site") === "cross-site") return new Response(null, { status: 403 });
   if (Number(req.headers.get("content-length") || 0) > 2048) return new Response(null, { status: 413 });
   let body: Record<string, unknown>;
   try {

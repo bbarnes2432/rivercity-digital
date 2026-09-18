@@ -32,6 +32,8 @@ await check('Only allowlisted diagnostic fields reach runtime logs', async () =>
   assert.ok(!JSON.stringify(logs).includes('must-not-log'));
 });
 await check('Cross-site submission is rejected', async () => assert.equal((await post(event, { origin: 'https://foreign.invalid' })).status, 403));
+await check('Exact public origin works behind the hosting proxy', async () => assert.equal((await post(event, { origin: 'https://rivercitydigitalco.com', 'sec-fetch-site': 'same-origin' })).status, 200));
+await check('Cross-site fetch stays blocked even with an allowed origin header', async () => assert.equal((await post(event, { origin: 'https://rivercitydigitalco.com', 'sec-fetch-site': 'cross-site' })).status, 403));
 await check('Invalid event is rejected', async () => assert.equal((await post({ ...event, event: 'lead_from_phone_tap' })).status, 400));
 await check('Arbitrary identifiers are rejected', async () => assert.equal((await post({ ...event, session: 'email@example.invalid' })).status, 400));
 await check('Oversized event is rejected', async () => assert.equal((await post({ ...event, excess: 'a'.repeat(2200) })).status, 413));
