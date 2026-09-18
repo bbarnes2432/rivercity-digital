@@ -1,0 +1,41 @@
+/* Offer clarity within the existing page and brand; keep the early form intact. */
+.wd-form-example-link { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; min-height: 36px; text-decoration: underline; text-decoration-color: var(--wd-line); color: var(--wd-ink); pointer-events: auto; }
+.wd-hero-with-form .wd-form-heading { margin-bottom: 20px; }
+.wd-site .wd-form-next { font-size: 11px; line-height: 1.7; color: var(--wd-muted); margin-top: 16px; }
+.wd-form-next strong { color: var(--wd-ink); font-weight: 600; }
+.wd-site .wd-form-logo-note { font-size: 11px; color: var(--wd-muted); line-height: 1.6; margin-top: -5px; }
+.wd-site .wd-form-proof { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--wd-line); }
+.wd-form-proof blockquote { font-family: Georgia, "Times New Roman", serif; font-size: 16px; line-height: 1.45; color: var(--wd-ink); }
+.wd-form-proof figcaption { display: flex; flex-wrap: wrap; gap: 3px 10px; align-items: baseline; font-size: 10px; line-height: 1.6; color: var(--wd-muted); margin-top: 9px; }
+.wd-form-proof figcaption strong { color: var(--wd-ink); font-weight: 600; }
+.wd-form-proof figcaption > a { flex-basis: 100%; display: flex; width: fit-content; align-items: center; gap: 5px; min-height: 30px; text-decoration: underline; text-decoration-color: var(--wd-line); }
+.wd-review-source { display: flex; align-items: center; gap: 6px; width: fit-content; min-height: 36px; font-size: 11px; color: var(--wd-muted); text-decoration: underline; text-decoration-color: var(--wd-line); }
+.wd-mockup-example { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(32px, 5vw, 70px); margin-top: 40px; padding-top: 50px; border-top: 1px solid var(--wd-line); scroll-margin-top: 112px; }
+.wd-mockup-example-copy h2 { margin-top: 16px; font-size: clamp(30px, 3.1vw, 44px); }
+.wd-site .wd-mockup-example-intro { max-width: 490px; margin-top: 20px; font-size: 15px; line-height: 1.8; color: var(--wd-muted); }
+.wd-mockup-next-steps { list-style: none; padding: 0; margin: 26px 0; display: grid; gap: 22px; }
+.wd-mockup-next-steps li { display: flex; align-items: flex-start; gap: 16px; }
+.wd-mockup-next-steps li > span { font-size: 10px; line-height: 2; color: var(--rcd-navy-600); padding-top: 1px; }
+.wd-mockup-next-steps h3 { font-size: 15px; letter-spacing: -.01em; }
+.wd-mockup-next-steps p { margin-top: 6px; max-width: 450px; font-size: 13px; line-height: 1.75; color: var(--wd-muted); }
+.wd-mockup-document { min-width: 0; border: 1px solid var(--rcd-navy-200); border-radius: 8px; overflow: hidden; background: var(--rcd-navy-100); }
+.wd-mockup-document-bar { display: flex; align-items: center; gap: 9px; background: var(--rcd-navy-900); color: #fff; padding: 15px 19px; font-size: 11px; }
+.wd-mockup-document-bar > span:last-child { margin-left: auto; font-size: 9px; text-transform: uppercase; letter-spacing: .06em; color: var(--rcd-navy-100); }
+.wd-mockup-paper { background: #fff; margin: 25px; border: 1px solid #10243216; padding: 24px 18px; box-shadow: 0 10px 24px #10243216; }
+.wd-mockup-paper-heading { display: grid; gap: 7px; margin-bottom: 20px; }
+.wd-mockup-paper-heading > span { font-size: 9px; text-transform: uppercase; letter-spacing: .13em; color: var(--wd-muted); }
+.wd-mockup-paper-heading > strong { font-family: Georgia, "Times New Roman", serif; font-size: 23px; font-weight: 400; line-height: 1.3; }
+.wd-mockup-paper img { display: block; width: 100%; height: auto; border: 1px solid var(--wd-line); }
+.wd-mockup-paper-notes { display: grid; gap: 7px; padding-top: 20px; color: var(--wd-muted); font-size: 10px; line-height: 1.6; }
+.wd-mockup-paper-notes > span:first-child { color: var(--wd-ink); font-weight: 600; }
+.wd-mockup-document figcaption { padding: 0 25px 23px; font-size: 11px; line-height: 1.75; color: var(--wd-muted); }
+@media (max-width: 760px) {
+  .wd-mockup-example { grid-template-columns: 1fr; gap: 30px; margin-top: 30px; padding-top: 32px; scroll-margin-top: 95px; }
+  .wd-mockup-example-copy h2 { font-size: 34px; }
+  .wd-mockup-example-copy > a { display: flex; justify-content: space-between; }
+  .wd-mockup-paper { margin: 18px; padding: 20px 14px; }
+  .wd-mockup-paper-heading > strong { font-size: 21px; }
+  .wd-mockup-document-bar { padding-inline: 16px; font-size: 10px; }
+  .wd-mockup-document figcaption { padding: 0 18px 20px; }
+  .wd-form-proof blockquote { font-size: 15px; }
+}

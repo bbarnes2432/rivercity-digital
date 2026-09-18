@@ -29,6 +29,7 @@ import "./website-motion.css";
 import "./website-hero-form.css";
 import "./website-brand.css";
 import "./website-portfolio.css";
+import "./website-mockup-offer.css";
 
 export const metadata: Metadata = {
   title: "Custom Website Design in St. Louis",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
 
 const FAQS = [
   ["What does a custom website cost?", "The investment depends on the pages, content, and functionality your business needs. A focused service website and a custom online store have different scopes. We talk through your priorities and provide a written proposal before you commit."],
-  ["What happens when I request a free mockup?", "We follow up to learn about your business and discuss a possible design direction. The mockup is a preview of what your website could look like, with no obligation to move forward. It is not a complete, ready-to-launch website."],
+  ["What happens when I request a free mockup?", "We follow up to learn about your business, your design ideas, and your logo before preparing a PDF mockup. It shows a possible direction for what your website could look like, with no obligation to build. If you want to move forward, we agree on scope and price in a written proposal before development. The mockup is a design preview, not a complete, ready-to-launch website."],
   ["Can you redesign my existing website?", "Yes. We can assess what is working, what customers struggle with, and what deserves a fresh start. If you have an existing website, include its address in your request so we have a place to begin."],
   ["How long does a project take?", "Timing depends on scope, content readiness, integrations, and feedback. We agree on a project schedule in the proposal and explain what we need from you before the work begins."],
   ["Will I own my website?", "Yes. You own your website and domain. We explain hosting, third-party subscriptions, and any ongoing support separately in your proposal, so you know what is included and what continues after launch."],
@@ -86,7 +87,7 @@ export default function WebsiteDesignPage() {
       <BusinessSystems />
       <BuildProcess />
       <section className="wd-section wd-contact rcd-light" aria-labelledby="contact-heading">
-        <div className="wd-container wd-contact-grid"><div className="wd-contact-copy" data-entrance="rise"><p className="wd-eyebrow">Discuss your project</p><h2 id="contact-heading">Tell us what<br />you need built.</h2><p>Start with a conversation about your business. Your free mockup is a preview of a possible design direction, with no obligation to build.</p><div className="wd-contact-direct"><span>Prefer to talk it through?</span><CallLink context="website-design-contact" className="wd-contact-number" /><BookCallLink context="website-design-contact" className="wd-text-link wd-link-dark">Choose a time for a 30-minute call <ArrowUpRight size={17} /></BookCallLink></div><a href={`mailto:${EMAIL}`} className="wd-contact-email">{EMAIL}</a></div><div className="wd-contact-preview" data-entrance="rise"><p className="wd-eyebrow">Free design preview</p><h3>Request your free mockup.</h3><p>Tell us how to reach you. We’ll follow up about your business and a possible design direction. No obligation to build.</p><a className="wd-button wd-button-dark" href="#start">Request my free mockup <ArrowUpRight size={19} /></a></div></div>
+        <div className="wd-container wd-contact-grid"><div className="wd-contact-copy" data-entrance="rise"><p className="wd-eyebrow">Discuss your project</p><h2 id="contact-heading">Tell us what<br />you need built.</h2><p>Start with a conversation about your business. Your free mockup is a preview of a possible design direction, with no obligation to build.</p><div className="wd-contact-direct"><span>Prefer to talk it through?</span><CallLink context="website-design-contact" className="wd-contact-number" /><BookCallLink context="website-design-contact" className="wd-text-link wd-link-dark">Choose a time for a 30-minute call <ArrowUpRight size={17} /></BookCallLink></div><a href={`mailto:${EMAIL}`} className="wd-contact-email">{EMAIL}</a></div><div className="wd-contact-preview" data-entrance="rise"><p className="wd-eyebrow">Free design preview</p><h3>Request your free mockup.</h3><p>We’ll follow up about your ideas and logo, then prepare a PDF preview of a possible website design. No obligation to build.</p><a className="wd-button wd-button-dark" href="#start">Request my free mockup <ArrowUpRight size={19} /></a></div></div>
       </section>
       <section className="wd-section wd-faq rcd-light" aria-labelledby="faq-heading"><div className="wd-container wd-faq-grid"><div data-entrance="rise"><p className="wd-eyebrow">Frequently asked questions</p><h2 id="faq-heading">Questions about<br />the build.</h2></div><div>{FAQS.map(([question, answer]) => <details className="wd-faq-item" data-entrance="unfold" key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
     </main>

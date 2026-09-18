@@ -9,6 +9,7 @@ import { trackSuccessfulLead } from "@/app/_components/gtag";
 import CallLink from "@/app/_components/CallLink";
 import { EMAIL } from "@/app/_components/contact-info";
 import { funnelContext, trackFunnel } from "./funnel";
+import { CLIENT_REVIEW } from "./client-review";
 
 export default function MockupRequestForm() {
   const router = useRouter();
@@ -56,16 +57,18 @@ export default function MockupRequestForm() {
     }
   }
   return <form id="wd-mockup-form" className="wd-form rcd-light" onSubmit={submit} onInput={() => trackFunnel("mockup_start", true)} onInvalid={() => trackFunnel("mockup_validation_error", true)} aria-busy={status === "submitting"} aria-labelledby="mockup-form-heading">
-    <div id="start" className="wd-form-heading" tabIndex={-1}><span className="wd-eyebrow">Free design preview</span><h2 id="mockup-form-heading">Request your free mockup.</h2><p>Tell us how to reach you. We’ll follow up about your business and a possible design direction. No obligation to build.</p></div>
+    <div id="start" className="wd-form-heading" tabIndex={-1}><span className="wd-eyebrow">Free PDF design preview</span><h2 id="mockup-form-heading">Request your free mockup.</h2><p>A possible website design, shaped around your ideas and logo. Start with your name and email. No obligation to build.</p><a className="wd-form-example-link" href="#mockup-preview">See what the mockup includes <ArrowUpRight size={13} /></a></div>
     <input type="hidden" name="service" value="New website" /><input type="hidden" name="source" value="Website design — free mockup" />
     <div className="wd-honeypot" aria-hidden="true"><label>Leave this empty<input type="text" name="bot-field" tabIndex={-1} autoComplete="off" /></label></div>
     <label className="wd-field"><span>Your name <span aria-hidden="true">*</span></span><input name="name" required autoComplete="name" maxLength={120} placeholder="Alex Morgan" /></label>
     <label className="wd-field"><span>Email address <span aria-hidden="true">*</span></span><input type="email" name="email" required autoComplete="email" maxLength={254} placeholder="you@yourbusiness.com" /></label>
     <label className="wd-field"><span>Phone number <small>Optional</small></span><input type="tel" name="phone" autoComplete="tel" maxLength={40} placeholder="(314) 555-0123" /></label>
-    <details className="wd-form-details"><summary>Add a website or a little context <span aria-hidden="true">+</span></summary><label className="wd-field"><span>Current website <small>Optional</small></span><input type="text" name="website" inputMode="url" autoComplete="url" maxLength={500} placeholder="yourbusiness.com" /></label><label className="wd-field"><span>What are you thinking? <small>Optional</small></span><textarea name="message" maxLength={5000} rows={3} placeholder="A fresh look, more inquiries, a new business…" /></label></details>
+    <details className="wd-form-details"><summary>Share your website or design ideas <span aria-hidden="true">+</span></summary><label className="wd-field"><span>Current website <small>Optional</small></span><input type="text" name="website" inputMode="url" autoComplete="url" maxLength={500} placeholder="yourbusiness.com" /></label><label className="wd-field"><span>What do you imagine for your website? <small>Optional</small></span><textarea name="message" maxLength={5000} rows={3} placeholder="A style you like, colors, websites that inspire you…" /></label><p className="wd-form-logo-note">You can share your logo when we follow up.</p></details>
     {status === "error" && <div className="wd-form-error" role="alert"><p>{error}</p><div><CallLink context="website-design-form-error" /> <a href={`mailto:${EMAIL}`}>Email us directly</a></div></div>}
     <button type="submit" className="wd-button wd-button-dark wd-form-submit" disabled={status === "submitting"}>{status === "submitting" ? <>Sending your request <LoaderCircle size={18} className="wd-spinner" /></> : <>Request my free mockup <ArrowUpRight size={19} /></>}</button>
     <p className="wd-form-assurance"><Check size={14} /> No payment details. No commitment.</p>
+    <p className="wd-form-next"><strong>What happens next?</strong> We’ll follow up about your ideas and logo before preparing your PDF mockup.</p>
     <p className="wd-form-privacy">We’ll use your details to respond to your request. <Link href="/privacy-policy">Privacy policy</Link></p>
+    <figure className="wd-form-proof"><blockquote>“{CLIENT_REVIEW.excerpt}”</blockquote><figcaption><strong>{CLIENT_REVIEW.author}</strong><span>{CLIENT_REVIEW.business}</span><a href={CLIENT_REVIEW.url} target="_blank" rel="noopener noreferrer">Read her Google review <ArrowUpRight size={12} /><span className="sr-only"> (opens in a new tab)</span></a></figcaption></figure>
   </form>;
 }
