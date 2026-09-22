@@ -1,15 +1,14 @@
-import { ArrowDown, ArrowUpRight, Check, FileSearch, MapPin, MessageSquareText, Search, Waypoints } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Check, FileSearch, MapPin, MessageSquareText, Search } from "lucide-react";
 
 const FOUNDATIONS = [
-  { Icon: FileSearch, title: "Explain your services.", text: "Clear pages answer what you do, who you help, and how to get in touch." },
-  { Icon: MapPin, title: "Show where you work.", text: "Your service area and contact details help local customers know you serve them." },
-  { Icon: Waypoints, title: "Help Google read your site.", text: "We set up page titles, links, and a sitemap. For redesigns, we plan redirects so old links still lead somewhere useful." },
-  { Icon: MessageSquareText, title: "Make your business clear to AI search.", text: "Useful answers and accurate business details help search tools understand what you offer. Showing up in AI answers is not guaranteed." },
+  { Icon: MapPin, title: "Help customers find you.", text: "Pages built around your services and the areas you serve." },
+  { Icon: FileSearch, title: "Give them a reason to choose you.", text: "Clear explanations, real examples, and customer reviews." },
+  { Icon: MessageSquareText, title: "Make contacting you easy.", text: "Simple forms and phone options that work on every device." },
 ];
 
 export default function SearchFoundations() {
   return <section className="wd-section wd-seo rcd-light" id="seo" aria-labelledby="seo-heading"><div className="wd-container">
-    <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">SEO & AI search optimization</p><h2 id="seo-heading">Help local customers<br />find your business.</h2></div><p>A good website should be easy to find and easy to understand. We plan your service pages and search setup with the design.</p></div>
+    <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">SEO & AI search optimization</p><h2 id="seo-heading">A great-looking website.<br />Built to attract customers.</h2></div><p>We combine custom design, SEO, and clear writing to help people discover your business on Google and in tools like ChatGPT. Once they arrive, your website shows why they should choose you—and makes it easy to call or request a quote.</p></div>
     <div className="wd-seo-grid">
       <figure className="wd-seo-visual" data-entrance="screen">
         <div className="wd-search-preview"><div className="wd-search-query"><Search size={18} /><span>Your service + your city</span></div><div className="wd-search-result"><span className="wd-search-domain">yourbusiness.com / your-service</span><strong>Your service. Your area. Your business.</strong><p>A useful description of what you offer, who it’s for, and how to get in touch.</p><div><span>Services</span><span>About the team</span><span>Contact</span></div></div></div>
