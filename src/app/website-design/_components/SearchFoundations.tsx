@@ -1,15 +1,15 @@
 import { ArrowDown, ArrowUpRight, Check, FileSearch, MapPin, MessageSquareText, Search, Waypoints } from "lucide-react";
 
 const FOUNDATIONS = [
-  { Icon: FileSearch, title: "Pages for the services people search for.", text: "We organize your services into useful pages with clear titles, headings, and answers to customer questions. Visitors can find the information they need before making an inquiry." },
-  { Icon: MapPin, title: "A clear connection to the areas you serve.", text: "Your location, service area, and contact details belong in the plan. Relevant local content helps customers understand whether you serve them." },
-  { Icon: Waypoints, title: "The technical work behind discovery.", text: "Crawlable links, metadata, a sitemap, and relevant structured data help search engines understand your pages. For a redesign, we also plan redirects from important old URLs." },
-  { Icon: MessageSquareText, title: "Optimized for AI search, too.", text: "We plan clear answers to customer questions, consistent business details, and structured service information for AI search as well as traditional search engines. The focus is making what you do, where you work, and your experience easy to understand." },
+  { Icon: FileSearch, title: "Explain your services.", text: "Clear pages answer what you do, who you help, and how to get in touch." },
+  { Icon: MapPin, title: "Show where you work.", text: "Your service area and contact details help local customers know you serve them." },
+  { Icon: Waypoints, title: "Help Google read your site.", text: "We set up page titles, links, and a sitemap. For redesigns, we plan redirects so old links still lead somewhere useful." },
+  { Icon: MessageSquareText, title: "Make your business clear to AI search.", text: "Useful answers and accurate business details help search tools understand what you offer. Showing up in AI answers is not guaranteed." },
 ];
 
 export default function SearchFoundations() {
   return <section className="wd-section wd-seo rcd-light" id="seo" aria-labelledby="seo-heading"><div className="wd-container">
-    <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">SEO & AI search optimization</p><h2 id="seo-heading">Built for the searches<br />that matter to you.</h2></div><p>Help potential customers find the services you offer. We plan SEO and AI search optimization alongside the design, with useful service pages, local content, and clear business information.</p></div>
+    <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">SEO & AI search optimization</p><h2 id="seo-heading">Help local customers<br />find your business.</h2></div><p>A good website should be easy to find and easy to understand. We plan your service pages and search setup with the design.</p></div>
     <div className="wd-seo-grid">
       <figure className="wd-seo-visual" data-entrance="screen">
         <div className="wd-search-preview"><div className="wd-search-query"><Search size={18} /><span>Your service + your city</span></div><div className="wd-search-result"><span className="wd-search-domain">yourbusiness.com / your-service</span><strong>Your service. Your area. Your business.</strong><p>A useful description of what you offer, who it’s for, and how to get in touch.</p><div><span>Services</span><span>About the team</span><span>Contact</span></div></div></div>
@@ -19,6 +19,6 @@ export default function SearchFoundations() {
       </figure>
       <div className="wd-seo-benefits">{FOUNDATIONS.map(({ Icon, title, text }, index) => <article key={title} data-entrance="unfold" data-entrance-delay={index % 2}><Icon size={24} /><div><h3>{title}</h3><p>{text}</p></div></article>)}</div>
     </div>
-    <div className="wd-seo-scope" data-entrance="rise"><div><span className="wd-eyebrow">Included in the website build</span><p>Page structure, on-page SEO, AI search foundations, technical setup, and a plan for existing URLs.</p></div><div><span className="wd-eyebrow">Ongoing SEO & AI search</span><p>Content development, Google Business Profile work, local and AI search visibility reviews. Scoped separately; rankings and inclusion in AI answers aren’t guaranteed.</p></div><a href="#start" className="wd-text-link wd-link-dark">Discuss my website and search visibility <ArrowUpRight size={17} /></a></div>
+    <div className="wd-seo-scope" data-entrance="rise"><div><span className="wd-eyebrow">Included in the website build</span><p>Clear page titles, service information, search setup, and a plan for your existing links.</p></div><div><span className="wd-eyebrow">Ongoing SEO & AI search</span><p>New content and ongoing search work are priced separately. Rankings and AI mentions are not guaranteed.</p></div></div>
   </div></section>;
 }

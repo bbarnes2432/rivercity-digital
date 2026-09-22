@@ -33,3 +33,9 @@
   .wd-sticky-contact > .wd-button { flex: 1.2; }
   .wd-sticky-contact > .wd-sticky-call { flex: 1; display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-height: 46px; color: #fff; font-size: 13px; border: 1px solid #ffffff70; border-radius: 3px; }
 }
+body:has(dialog[open]) .wd-sticky-contact,
+.wd-site:has(input:focus, textarea:focus) .wd-sticky-contact { display: none; }
+
+/* Keep the offer in the first screen even when the form is taller. */
+.wd-hero-with-form .wd-hero-copy { align-self: start; padding-top: 64px; }
+@media(max-width:760px) { .wd-hero-with-form .wd-hero-copy { padding-top: 0; } }

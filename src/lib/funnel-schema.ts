@@ -1,4 +1,4 @@
-export const PAGE_VERSION = "pdf-mockup-proof-2026-09-18";
+export const PAGE_VERSION = "clear-mockup-live-work-2026-09-22";
 export const FUNNEL_EVENTS = ["landing_view", "mockup_view", "mockup_start", "mockup_validation_error", "mockup_submit", "mockup_error", "mockup_accepted", "cta_mockup", "cta_call"] as const;
 export type FunnelEvent = typeof FUNNEL_EVENTS[number];
 export type FunnelContext = { session: string; version: typeof PAGE_VERSION; paid: boolean; device: "mobile" | "desktop" };

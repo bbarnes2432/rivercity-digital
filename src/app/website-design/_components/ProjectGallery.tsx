@@ -1,15 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Check, ExternalLink, Maximize2, X } from "lucide-react";
+import { ArrowUpRight, Check, ExternalLink, Maximize2, Pause, Play, X } from "lucide-react";
+import LiveProjectPreview from "./LiveProjectPreview";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { SELECTED_PROJECTS } from "./selected-projects";
 
 export default function ProjectGallery() {
+  const [manualPause, setManualPause] = useState(false);
+  const reduced = useReducedMotion();
+  const paused = reduced || manualPause;
   const [selected, setSelected] = useState<number | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
-  const returnToForm = useRef(false);
   const project = selected === null ? null : SELECTED_PROJECTS[selected];
 
   useEffect(() => {
@@ -23,9 +26,7 @@ export default function ProjectGallery() {
     return () => {
       document.body.style.overflow = overflow;
       if (modal.open) modal.close();
-      const focusTarget = returnToForm.current ? document.getElementById("start") : trigger;
-      returnToForm.current = false;
-      focusTarget?.focus({ preventScroll: true });
+      trigger?.focus({ preventScroll: true });
     };
   }, [selected]);
 
@@ -35,15 +36,16 @@ export default function ProjectGallery() {
     <div className="wd-container">
       <div className="wd-section-heading" data-entrance="rise">
         <div><p className="wd-eyebrow">Selected client work</p><h2 id="work-heading">Different businesses.<br />Distinctive websites.</h2></div>
-        <p>Explore real websites we’ve built. Take a closer look here, or visit a live site to experience the design in action.</p>
+        <p>See websites we’ve built, with their original hero animations playing here. You can also open the full sites.</p>
       </div>
+      <div className="wd-preview-controls"><span>Move over a preview to explore the effect.</span><button type="button" onClick={() => setManualPause(value => !value)} disabled={reduced} aria-pressed={paused}>{paused ? <Play size={14} /> : <Pause size={14} />}{reduced ? "Reduced motion" : paused ? "Play previews" : "Pause previews"}</button></div>
       <div className="wd-showcase-grid">{SELECTED_PROJECTS.map((item, index) => <article className={`wd-showcase-card wd-showcase-${item.id}`} key={item.id} data-entrance="card">
         <div className="wd-showcase-stage">
-          <button type="button" className="wd-showcase-screen" onClick={() => setSelected(index)} aria-label={`Enlarge ${item.name} website preview`} aria-haspopup="dialog">
+          <div className="wd-showcase-screen">
             <span className="wd-browser-bar" aria-hidden="true"><span className="wd-browser-dots"><i /><i /><i /></span><span>{item.domain}</span><Maximize2 size={13} /></span>
-            <Image src={item.image} alt={item.alt} width={item.width} height={item.height} sizes={index === 0 ? "(max-width: 900px) 90vw, 60vw" : "(max-width: 760px) 90vw, 45vw"} loading="lazy" />
-            <span className="wd-screen-hint"><Maximize2 size={14} /> Enlarge preview</span>
-          </button>
+            <LiveProjectPreview project={item} paused={paused || selected !== null} sizes="(max-width: 760px) 90vw, 700px" />
+            <button type="button" className="wd-screen-hint" onClick={() => setSelected(index)} aria-label={`Enlarge ${item.name} website preview`} aria-haspopup="dialog"><Maximize2 size={14} /> Enlarge preview</button>
+          </div>
           <div className="wd-showcase-stage-caption"><span>0{index + 1} / Selected work</span><span>Custom design & development</span></div>
         </div>
         <div className="wd-showcase-copy">
@@ -59,14 +61,13 @@ export default function ProjectGallery() {
           {item.caseStudy && <Link href={item.caseStudy} className="wd-showcase-case" prefetch={false} aria-label={`Read ${item.name} case study`}>Explore the project <ArrowUpRight size={14} /></Link>}
         </div>
       </article>)}</div>
-      <div className="wd-showcase-next" data-entrance="rise"><div><p className="wd-eyebrow">Your business, your design</p><h3>See a direction for your own website.</h3><p>Tell us about your business and request a free custom mockup.</p></div><a className="wd-button wd-button-mint" href="#start">Request my free mockup <ArrowUpRight size={18} /></a></div>
     </div>
     <dialog ref={dialog} className="wd-project-dialog wd-showcase-dialog rcd-light" aria-labelledby="wd-preview-title" onClose={() => setSelected(null)} onClick={event => { if (event.target === event.currentTarget) close(); }}>
       {project && <div className="wd-preview-content">
         <div className="wd-preview-heading"><div><p className="wd-eyebrow">Explore our work</p><h2 id="wd-preview-title">{project.name}</h2></div><button type="button" className="wd-preview-close" onClick={close} aria-label="Close website preview" autoFocus><X size={24} /></button></div>
-        <div className="wd-preview-toolbar"><p>See the scrolling, motion, and details on the live site.</p><a href={project.website} target="_blank" rel="noopener noreferrer">Visit live website <ExternalLink size={14} /><span className="sr-only"> in a new tab</span></a></div>
-        <div className="wd-preview-image"><Image src={project.image} alt={project.alt} width={project.width} height={project.height} sizes="(max-width: 760px) 92vw, 1050px" /></div>
-        <div className="wd-preview-actions"><p>Like this direction? Let’s explore what would fit your business.</p><a href="#start" className="wd-button wd-button-dark" onClick={() => { returnToForm.current = true; close(); }}>Get a free mockup <ArrowUpRight size={18} /></a></div>
+        <div className="wd-preview-toolbar"><p>Live hero preview. Open the full site to explore its pages.</p><a href={project.website} target="_blank" rel="noopener noreferrer">Visit live website <ExternalLink size={14} /><span className="sr-only"> in a new tab</span></a></div>
+        <div className="wd-preview-image"><LiveProjectPreview project={project} paused={paused} sizes="(max-width: 760px) 92vw, 1050px" /></div>
+        <div className="wd-preview-actions"><button type="button" className="wd-button wd-button-dark" disabled={reduced} onClick={() => setManualPause(value => !value)} aria-pressed={paused}>{reduced ? "Reduced motion" : paused ? "Play previews" : "Pause previews"}</button></div>
       </div>}
     </dialog>
   </section>;

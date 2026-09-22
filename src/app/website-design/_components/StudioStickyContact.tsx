@@ -5,12 +5,18 @@ import { ArrowUpRight } from "lucide-react";
 import CallLink from "@/app/_components/CallLink";
 
 export default function StudioStickyContact() {
-  const [formVisible, setFormVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState(true);
   useEffect(() => {
-    const form = document.getElementById("wd-mockup-form");
-    if (!form) return;
-    const observer = new IntersectionObserver(([entry]) => setFormVisible(entry.isIntersecting), { threshold: 0 });
-    observer.observe(form);
+    const targets = document.querySelectorAll(".wd-hero, #wd-mockup-form, #final-request");
+    const visible = new Set<Element>();
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) visible.add(entry.target);
+        else visible.delete(entry.target);
+      }
+      setFormVisible(visible.size > 0);
+    });
+    targets.forEach(target => observer.observe(target));
     return () => observer.disconnect();
   }, []);
   return <div className={`wd-sticky-contact${formVisible ? " is-hidden" : ""}`} aria-label="Quick contact">

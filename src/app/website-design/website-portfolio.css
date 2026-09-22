@@ -72,3 +72,30 @@
   .wd-showcase-screen { transition: none; }
   .wd-showcase-screen:hover { transform: none; }
 }
+.wd-preview-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; font-size: 12px; color: var(--wd-muted); }
+.wd-preview-controls button { display: flex; align-items: center; gap: 8px; padding: 10px 14px; min-height: 44px; border: 1px solid var(--wd-line); border-radius: 5px; background: #fff; color: var(--wd-ink); font: inherit; cursor: pointer; }
+.wd-live-preview { position: relative; isolation: isolate; overflow: hidden; aspect-ratio: 1920 / 1800; container-type: inline-size; background: #183027; }
+.wd-live-preview.wd-live-marble { aspect-ratio: 1440 / 798; }
+.wd-showcase-screen .wd-live-preview > *, .wd-preview-image .wd-live-preview > * { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.wd-live-preview canvas { display: block; width: 100%; height: 100%; }
+.wd-live-layer, .wd-live-foreground { opacity: 0; }
+.wd-live-preview[data-live="true"] > .wd-live-layer, .wd-live-preview[data-live="true"] > .wd-live-foreground { opacity: 1; }
+.wd-mend-hero { color: #f1eee8; font-family: Georgia, serif; background: linear-gradient(0deg,#10161166,transparent); }
+.wd-mend-nav { padding: 3cqw 5cqw; display: flex; justify-content: space-between; align-items: center; font-size: 2cqw; letter-spacing: .08em; }
+.wd-mend-nav span { font: 1cqw Arial, sans-serif; }
+.wd-mend-content { padding: 5cqw; max-width: 78%; }
+.wd-mend-content > span:first-child { font: 1.3cqw Arial, sans-serif; letter-spacing: .08em; }
+.wd-mend-content > strong { display: block; margin: 2cqw 0; font-size: 5cqw; line-height: 1.07; font-weight: 400; }
+.wd-site .wd-mend-content > p { font: 1.65cqw/1.6 Arial, sans-serif; color: #f1eee8; }
+.wd-mend-cta { display: inline-block; margin-top: 2cqw; padding: 1.2cqw 2cqw; background: #f1eee8; color: #294534; border-radius: .5cqw; font: 1.25cqw Arial, sans-serif; }
+
+/* Give moving work room to be understood, without changing the page palette. */
+.wd-showcase-grid { grid-template-columns: minmax(0,1fr); }
+.wd-showcase-card, .wd-showcase-card:first-child { display: grid; grid-template-columns: 1.3fr 1fr; align-items: stretch; }
+.wd-showcase-copy { align-self: center; }
+.wd-showcase-screen { cursor: default; }
+.wd-showcase-screen:hover { transform: none; }
+.wd-screen-hint { cursor: pointer; min-height: 44px; font-family: inherit; z-index: 2; }
+@media(max-width:900px) {
+ .wd-showcase-card, .wd-showcase-card:first-child { display: block; }
+}
