@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { ArrowDown, Check, FileText, Globe, KeyRound, LayoutTemplate, ShieldCheck, ShoppingBag, Smartphone } from "lucide-react";
+import { Check, FileText, Globe, LayoutTemplate, ShieldCheck, ShoppingBag, Smartphone } from "lucide-react";
+import BenefitIllustration, { type BenefitKind } from "./BenefitIllustration";
+import "../website-benefits.css";
 
 const PROJECT_TYPES = [
   { Icon: Globe, title: "Business websites", text: "Service pages, reviews, project galleries, calls, and quote requests." },
@@ -8,16 +10,29 @@ const PROJECT_TYPES = [
   { Icon: Smartphone, title: "Website redesigns", text: "Better navigation, updated content, mobile layouts, and redirect planning." },
 ];
 
+const BENEFITS: { kind: BenefitKind; title: string; text: string }[] = [
+  { kind: "design", title: "A design made for you", text: "A design built around your business, services, and style." },
+  { kind: "mobile", title: "Looks right on phones", text: "Easy-to-read pages and contact buttons on phones and computers." },
+  { kind: "writing", title: "Clear page writing", text: "We help explain what you do and why customers should choose you." },
+  { kind: "search", title: "Search setup included", text: "Page titles and service information planned for your business and area." },
+  { kind: "contact", title: "Easy ways to contact you", text: "Make it easy for customers to call or send an inquiry." },
+  { kind: "ownership", title: "A website you own", text: "Your code and domain belong to you, with access handed over after launch." },
+];
+
 export function BuildCapabilities() {
   return <section className="wd-section wd-deliverables rcd-light" id="included" aria-labelledby="included-heading"><div className="wd-container">
     <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">What you get / Design through launch</p><h2 id="included-heading">Your website,<br />from design to launch.</h2></div><p>We handle the writing, design, code, and launch checks.</p></div>
-    <div className="wd-deliverable-grid">
-      <article className="wd-design-deliverable"><div className="wd-design-photo" data-entrance="image"><Image src="/assets/card-website-design.webp" alt="Desktop displays showing two different page layout compositions" width={1280} height={720} sizes="(max-width: 760px) 90vw, 48vw" /><span>01 / CONTENT & DESIGN</span></div><div className="wd-deliverable-copy" data-entrance="rise"><h3>Clear pages. Your style.</h3><p>Show your services, reviews, and work in a design made for you. You review it before we build, on phones and computers.</p><ul><li><Check size={15}/> Content and navigation planning</li><li><Check size={15}/> Brand-specific layouts and imagery</li><li><Check size={15}/> Design review and agreed revisions</li></ul></div></article>
-      <div className="wd-technical-deliverables">
-        <article className="wd-search-deliverable" data-entrance="card" data-entrance-delay="1"><div className="wd-deliverable-heading"><KeyRound size={23}/><span className="wd-eyebrow">02 / Ownership & access</span></div><div className="wd-page-map" aria-hidden="true"><span><Globe size={14}/> Your business</span><ArrowDown size={18}/><div><span>Your code</span><span>Your domain</span><span>Your access</span></div></div><h3>You keep control after launch.</h3><p>The code and domain are yours. You can change developers or move to compatible hosting. We hand over your access after launch.</p><span className="wd-deliverable-footnote">Hosting, maintenance, and third-party services are set out in the proposal.</span></article>
-        <article className="wd-launch-deliverable" data-entrance="unfold"><div className="wd-deliverable-heading"><ShieldCheck size={23}/><span className="wd-eyebrow">03 / Launch checks & handover</span></div><h3>Check the details customers rely on.</h3><div className="wd-check-matrix">{["Mobile layouts", "Forms & phone links", "Keyboard & contrast", "Image performance", "Analytics setup", "Redirects & domain"].map(item=><span key={item}><Check size={14}/>{item}</span>)}</div><p>You receive site access and a handover. We explain hosting, updates, and support so you know what happens after launch.</p></article>
-      </div>
+    <div className="wd-benefit-grid">
+      {BENEFITS.map(({ kind, title, text }, index) => <article className="wd-benefit-card" key={kind} data-entrance="card" data-entrance-delay={index % 3}>
+        <BenefitIllustration kind={kind} />
+        <div className="wd-benefit-copy"><h3>{title}</h3><p>{text}</p></div>
+      </article>)}
     </div>
+    <div className="wd-benefit-launch" data-entrance="unfold">
+      <h3><ShieldCheck size={22} />Checked before launch</h3>
+      <ul>{["Mobile layouts", "Forms & phone links", "Keyboard & contrast", "Image performance", "Analytics setup", "Redirects & domain"].map(item => <li key={item}><Check size={14} />{item}</li>)}</ul>
+    </div>
+    <p className="wd-benefit-scope">You review the design before we build, with revisions agreed in your proposal. We hand over your site access and explain hosting, updates, and support. Hosting, maintenance, and third-party services are set out separately in your proposal.</p>
     <div className="wd-project-types" id="custom-systems"><div data-entrance="rise"><p className="wd-eyebrow">The projects we take on</p><h3>A new website or a fresh start.</h3></div><div className="wd-project-type-grid">{PROJECT_TYPES.map(({Icon,title,text},index)=><article key={title} data-entrance="card" data-entrance-delay={index % 3}><Icon size={22}/><h4>{title}</h4><p>{text}</p></article>)}</div></div>
   </div></section>;
 }
