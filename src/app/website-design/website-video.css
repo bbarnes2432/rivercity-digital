@@ -1,0 +1,12 @@
+/* The original homepage video, framed in the landing page's existing brand. */
+.wd-vsl { background: var(--wd-paper); }
+.wd-vsl .wd-section-heading > p { max-width: 340px; }
+.wd-vsl-player { max-width: 860px; margin-inline: auto; }
+.wd-vsl .rcd-hook-video { border-radius: 3px; border-color: var(--wd-line); }
+
+@media (max-width: 540px) {
+  .wd-vsl .rcd-hook-video-cta { gap: 10px; padding: 16px; }
+  .wd-vsl .rcd-hook-video-play { width: 46px; height: 46px; }
+  .wd-vsl .rcd-hook-video-cta-text { font-size: 15px; }
+  .wd-vsl .rcd-hook-video-cta-sub { font-size: 9px; }
+}

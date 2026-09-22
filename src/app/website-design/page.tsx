@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import CallLink from "../_components/CallLink";
 import HeroPortal from "../_components/HeroPortal";
+import HookVideo from "../_components/HookVideo";
 import TubesCursor from "@/components/ui/tubes-cursor";
 import KineticMatrix from "@/components/ui/kinetic-matrix";
 import ShaderBackground from "@/components/ui/shader-background";
@@ -27,6 +28,7 @@ import "./website-hero-form.css";
 import "./website-brand.css";
 import "./website-portfolio.css";
 import "./website-mockup-offer.css";
+import "./website-video.css";
 
 export const metadata: Metadata = {
   title: "Custom Website Design in St. Louis",
@@ -72,6 +74,22 @@ export default function WebsiteDesignPage() {
           <MockupRequestForm />
         </div>
         <div className="wd-container wd-hero-bottom"><span>Custom design · Built for phones · A website you own</span><a href="#work">Explore the work <ArrowDown size={15} /></a></div>
+      </section>
+      <section className="wd-section wd-vsl rcd-light" id="why-river-city" aria-labelledby="why-river-city-heading">
+        <div className="wd-container">
+          <div className="wd-section-heading" data-entrance="rise">
+            <div><p className="wd-eyebrow">Meet River City Digital</p><h2 id="why-river-city-heading">See who’s behind<br />your new website.</h2></div>
+            <p>A quick introduction to our team and how we help local businesses.</p>
+          </div>
+          <div className="wd-vsl-player" data-entrance="image">
+            <HookVideo
+              src="/assets/why-river-city-digital.mp4"
+              poster="/assets/why-river-city-digital-poster.jpg"
+              ctaLabel="Watch: Why River City Digital"
+              preload="none"
+            />
+          </div>
+        </div>
       </section>
       <ClientProof />
       <CustomBuildIntroduction />

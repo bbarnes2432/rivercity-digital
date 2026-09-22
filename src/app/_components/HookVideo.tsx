@@ -12,6 +12,8 @@ type Props = {
   ctaLabel?: string;
   /** Smaller line under the CTA label. */
   ctaSub?: string;
+  /** Landing pages can defer the media download until the visitor presses play. */
+  preload?: "none" | "metadata" | "auto";
 };
 
 /**
@@ -24,6 +26,7 @@ export default function HookVideo({
   poster,
   ctaLabel = "Watch the video",
   ctaSub = "Tap to play with sound",
+  preload = "metadata",
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -45,7 +48,7 @@ export default function HookVideo({
         src={src}
         poster={poster}
         playsInline
-        preload="metadata"
+        preload={preload}
         aria-label={ctaLabel}
       />
       {!playing && (
