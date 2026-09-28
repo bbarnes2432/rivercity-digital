@@ -193,6 +193,33 @@ export const PROJECTS: CaseStudy[] = [
       "A gallery this visual wants fresh photos often. Next step we'd set up an easy way for the owners to drop in new event shots themselves, so the site stays as current as their last party.",
   },
   {
+    slug: "lindas-cheesecakes",
+    name: "Linda's Specialty Cheesecakes",
+    where: "Winfield, MO",
+    sector: "Handmade cheesecakes",
+    year: "2026",
+    services: ["Website"],
+    blurb:
+      "A custom site for a made-to-order cheesecake baker — 39 signature flavors, a request-to-order form Linda confirms by text, and a wholesale path for restaurants and markets.",
+    img: "/assets/portfolio-lindas-cheesecakes.webp",
+    brief:
+      "Linda baked her first batch for her daughter's wedding rehearsal dinner in 2018 and was taking orders by that Thanksgiving. Now every cheesecake is handmade to order — 39 signature flavors plus flavors of the month — and sold at markets and craft fairs from Lake St. Louis to Winfield and through a string of local restaurants. Every order is custom and priced by Linda directly. The brief: a site that shows off the menu, turns a taste at a market table into an order, and gives restaurants a way to carry the cakes.",
+    approach: [
+      "Built the order path around how Linda actually works: a four-step request form — who, what, when, details — that ends with Linda texting to confirm flavors, pricing, and pickup, instead of a checkout that can't quote a custom cake.",
+      "Put the full 39-flavor menu on a page of its own with the best sellers flagged, and made flavors searchable right inside the order form.",
+      "Gave wholesale its own page and inquiry form for restaurants, cafés, and markets, with inspection, delivery, and minimums answered before the first call.",
+      "Listed every restaurant and market that carries the cheesecakes, each linked to a map, so a first-timer can try a slice before ordering a whole cake.",
+      "Marked up the bakery's contact details and FAQ as structured data, so search engines and AI tools can read sizes, notice, and pickup answers straight from the page.",
+    ],
+    results: [
+      { value: "Live", label: "Custom order-request site" },
+      { value: "39", label: "Flavors, searchable in the order form" },
+      { value: "2", label: "Order paths, retail and wholesale" },
+    ],
+    reflection:
+      "Flavors of the month change all year, and right now they're announced on Facebook. Next step we'd give Linda a simple way to post the current flavor on the site herself, so the menu is as fresh as the market table.",
+  },
+  {
     slug: "mend-health",
     name: "Mend Health",
     where: "Kirkwood, MO",
