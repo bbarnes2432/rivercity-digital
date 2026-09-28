@@ -9,9 +9,10 @@ frontend:
     build:
       commands:
         # Amplify exposes console env vars to the build shell but NOT to the
-        # Next.js SSR runtime. Persist the ones the API routes need at request
-        # time into .env.production so Next loads them when the server boots.
-        - env | grep -E '^(RESEND_API_KEY|CONTACT_TO_EMAIL|CONTACT_FROM_EMAIL)=' >> .env.production || true
+        # Next.js SSR runtime. Persist the ones the API routes and the
+        # homepage's Google reviews (revalidated at request time) need into
+        # .env.production so Next loads them when the server boots.
+        - env | grep -E '^(RESEND_API_KEY|CONTACT_TO_EMAIL|CONTACT_FROM_EMAIL|GOOGLE_PLACES_API_KEY|GOOGLE_PLACE_ID)=' >> .env.production || true
         - pnpm run build
   artifacts:
     baseDirectory: .next

@@ -7,10 +7,11 @@ import Footer from "./_components/Footer";
 import Button from "./_components/Button";
 import Faq from "./_components/Faq";
 import ContactForm from "./_components/contact-form";
-import Testimonials from "./_components/testimonials";
+import GoogleReviews from "./_components/GoogleReviews";
 import ScrollReveal from "./_components/ScrollReveal";
 import MobileStickyCta from "./_components/MobileStickyCta";
 import HookVideo from "./_components/HookVideo";
+import { getGoogleReviews } from "@/lib/google-reviews";
 
 export const metadata: Metadata = {
   title: "St. Louis Digital Marketing Studio — Local Roots. Built to Be Found.",
@@ -172,7 +173,8 @@ const PROCESS = [
 
 const TRUST = [
   {
-    label: "5.0 Google Rating",
+    label: "Google Rating",
+    rating: true,
     svg: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" strokeLinecap="round" aria-hidden="true">
         <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
@@ -235,7 +237,14 @@ const Check = () => (
   </svg>
 );
 
-export default function HomePage() {
+// Last-resort figure for the rating badges when the Places API isn't
+// configured or is unreachable; the live rating replaces it otherwise.
+const FALLBACK_RATING = "5.0";
+
+export default async function HomePage() {
+  const reviews = await getGoogleReviews();
+  const rating = reviews ? reviews.rating.toFixed(1) : FALLBACK_RATING;
+
   return (
     <>
       <script
@@ -282,7 +291,7 @@ export default function HomePage() {
                   <svg className="star" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" strokeLinecap="round" aria-hidden="true">
                     <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
                   </svg>
-                  5.0 Google Rating
+                  {rating} Google Rating
                 </span>
                 <span className="chip">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -310,7 +319,7 @@ export default function HomePage() {
             {TRUST.map((t) => (
               <div key={t.label} className="rcd-trust-item fx-reveal">
                 <span className="ico">{t.svg}</span>
-                <span>{t.label}</span>
+                <span>{t.rating ? `${rating} ${t.label}` : t.label}</span>
               </div>
             ))}
           </div>
@@ -430,7 +439,7 @@ export default function HomePage() {
               <div className="lbl">AI Brand Visibility Score</div>
             </div>
             <div className="rcd-stat-cell fx-reveal">
-              <div className="num">5.0<small>★</small></div>
+              <div className="num">{rating}<small>★</small></div>
               <span className="rule" />
               <div className="lbl">Google Rating</div>
             </div>
@@ -507,13 +516,19 @@ export default function HomePage() {
         {/* ============ TESTIMONIALS ============ */}
         <section id="testimonials" className="rcd-home-sec dark bg-deeper">
           <div className="container">
-            <div className="rcd-home-sec-head fx-reveal">
-              <div className="label">Testimonials</div>
-              <h2>What St. Louis <span className="accent">Businesses Say</span></h2>
-            </div>
-            <div className="rcd-quote-grid-wrap fx-reveal">
-              <Testimonials count={3} />
-            </div>
+            {/* Only ever real Google reviews. With the API unconfigured or
+                down there's nothing to show, so the heading goes too. */}
+            {reviews && (
+              <>
+                <div className="rcd-home-sec-head fx-reveal">
+                  <div className="label">Google Reviews</div>
+                  <h2>What St. Louis <span className="accent">Businesses Say</span></h2>
+                </div>
+                <div className="rcd-quote-grid-wrap fx-reveal">
+                  <GoogleReviews data={reviews} count={3} />
+                </div>
+              </>
+            )}
             <aside className="rcd-next-success fx-reveal" aria-label="Be our next success story">
               <div className="rcd-next-success-img">
                 <Image
