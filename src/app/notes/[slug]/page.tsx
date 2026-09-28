@@ -79,14 +79,19 @@ function renderBlock(b: Block, i: number) {
           dangerouslySetInnerHTML={{ __html: b.text }}
         />
       );
-    case "list":
+    case "list": {
+      const List = b.ordered ? "ol" : "ul";
       return (
-        <ul key={i} className="rcd-article-list">
+        <List
+          key={i}
+          className={b.ordered ? "rcd-article-list rcd-article-list--ordered" : "rcd-article-list"}
+        >
           {b.items.map((it, j) => (
             <li key={j} dangerouslySetInnerHTML={{ __html: it }} />
           ))}
-        </ul>
+        </List>
       );
+    }
     case "pullquote":
       return (
         <figure key={i} className="rcd-article-pullquote">

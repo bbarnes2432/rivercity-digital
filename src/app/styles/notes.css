@@ -198,6 +198,41 @@
   height: 1px;
   background: var(--accent);
 }
+.rcd-article-list--ordered {
+  counter-reset: rcd-step;
+}
+.rcd-article-list--ordered li {
+  counter-increment: rcd-step;
+}
+.rcd-article-list--ordered li::before {
+  content: counter(rcd-step) ".";
+  top: 0;
+  width: auto;
+  height: auto;
+  background: none;
+  font: 700 15px/1.75 var(--font-mono), monospace;
+  color: var(--accent-hover);
+}
+
+/* The global reset strips link styling, so inline links in a note would
+   otherwise be indistinguishable from the text around them. */
+.rcd-article-body a {
+  color: var(--accent-hover);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.rcd-article-body a:hover {
+  color: var(--ink-primary);
+}
+.rcd-article-body code {
+  font: 400 0.85em var(--font-mono), monospace;
+  background: var(--rcd-cream-200);
+  border: 1px solid var(--line-default);
+  border-radius: 4px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
 
 .rcd-article-pullquote {
   margin: var(--s-8) 0;

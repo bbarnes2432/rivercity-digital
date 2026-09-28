@@ -2,7 +2,7 @@ export type Block =
   | { type: "h2"; text: string }
   | { type: "p"; text: string }
   | { type: "pullquote"; text: string; cite?: string }
-  | { type: "list"; items: string[] }
+  | { type: "list"; items: string[]; ordered?: boolean }
   | { type: "callout"; eyebrow: string; text: string };
 
 export type Note = {
@@ -18,6 +18,168 @@ export type Note = {
 };
 
 export const NOTES: Note[] = [
+  {
+    slug: "ai-crawlers-blank-page",
+    title: "Your website looks great. To ChatGPT, it might be a blank page.",
+    excerpt:
+      "Both sites looked great in Chrome. Asked for the way an AI crawler asks, each came back as a name and a sentence.",
+    date: "2026-09-25",
+    readTime: "7 min read",
+    category: "AI Search",
+    deck:
+      "This month we pulled up two local business websites the way an AI crawler does. No browser, no clicking around. Just ask the server for the page and read exactly what comes back.",
+    body: [
+      {
+        type: "p",
+        text:
+          "Both sites looked great in Chrome. Real photos, clear menus, reviews, a big &ldquo;Order Now&rdquo; button. The kind of site an owner is proud to send people to.",
+      },
+      {
+        type: "p",
+        text:
+          "Here&rsquo;s what came back when we asked like a crawler: a page title, a one-line description, and nothing else. No services. No phone number. No reviews. No menu. As far as a machine reading that response was concerned, the business was a name and a sentence.",
+      },
+      {
+        type: "p",
+        text:
+          "That&rsquo;s not a hypothetical problem. It&rsquo;s how a large share of AI search reads the web right now.",
+      },
+      { type: "h2", text: "Two ways to build the same page" },
+      {
+        type: "p",
+        text:
+          "There are two basic ways a website can get a page to your screen, and a visitor can&rsquo;t tell them apart.",
+      },
+      {
+        type: "p",
+        text:
+          "<strong>The server sends the finished page.</strong> The words, the headings, the phone number are all in the file that arrives. Your browser just displays it.",
+      },
+      {
+        type: "p",
+        text:
+          "<strong>The server sends an empty shell and a set of instructions.</strong> The file that arrives is mostly blank: a placeholder and a pile of JavaScript. Your browser runs that JavaScript, and <em>then</em> the page builds itself on your screen, usually in under a second.",
+      },
+      {
+        type: "p",
+        text:
+          "To a person, both look identical. To a machine that doesn&rsquo;t run the instructions, the second one is an empty box.",
+      },
+      { type: "h2", text: "Google runs the instructions. Most AI crawlers don&rsquo;t." },
+      {
+        type: "p",
+        text:
+          "Google figured this out years ago. Its crawler loads the page, runs the JavaScript, and reads what gets built. That&rsquo;s why plenty of shell-style sites rank perfectly well on Google, and why their owners have no reason to think anything is wrong.",
+      },
+      {
+        type: "p",
+        text: "The crawlers feeding most AI answers don&rsquo;t do that step.",
+      },
+      {
+        type: "p",
+        text:
+          "Vercel, the company behind one of the most popular web frameworks, studied AI crawler traffic across its network and reported the numbers: OpenAI&rsquo;s crawler alone was making hundreds of millions of requests a month, with Anthropic&rsquo;s close behind. And across the major AI crawlers they measured, none of them rendered JavaScript. Some would download the script files, but they never ran them. They read the raw page the server handed over and moved on.",
+      },
+      {
+        type: "p",
+        text:
+          "The notable exceptions were Google&rsquo;s own crawler, which also feeds Gemini, and Apple&rsquo;s. Everything else reads the shell.",
+      },
+      {
+        type: "p",
+        text:
+          "So the same website can sit on page one of Google and be close to invisible to ChatGPT. Same page, same day, two completely different results.",
+      },
+      { type: "h2", text: "It hides more than your words" },
+      {
+        type: "p",
+        text:
+          "If your site builds itself in the browser, it&rsquo;s not just your headline and service list that go missing.",
+      },
+      {
+        type: "p",
+        text:
+          "The structured data we keep talking about — the labels that tell a machine &ldquo;<em>this is a bakery, here&rsquo;s its phone number, here&rsquo;s where it is</em>&rdquo; — is often added by that same JavaScript. If the crawler never runs it, the labels never exist. We covered those tags in <a href=\"/notes/five-tags-missing\">The five tags every St. Louis business website is missing</a>. On a shell-style site, you can do all five right and still have a crawler see none of them.",
+      },
+      {
+        type: "p",
+        text:
+          "In the two sites we pulled, the only things that survived were the page title and meta description, because those happened to be in the shell. Everything that would actually help an AI recommend the business was built later, in a step the crawler skipped.",
+      },
+      { type: "h2", text: "Who&rsquo;s at risk" },
+      {
+        type: "p",
+        text:
+          "Not every site. If you&rsquo;re on a mainstream builder like WordPress, Squarespace, Wix, or Shopify, your pages generally arrive with the words already in them. Still worth a check, but it&rsquo;s usually fine.",
+      },
+      { type: "p", text: "The risk is concentrated in two places:" },
+      {
+        type: "list",
+        items: [
+          "<strong>Custom-built sites on modern JavaScript frameworks</strong> that were set up to build pages in the browser, which is the default for a lot of them.",
+          "<strong>Sites spun up quickly with newer AI app builders,</strong> which often produce exactly this kind of shell by default. They look fantastic. They load fast. And they can be nearly blank to the machines deciding who gets recommended.",
+        ],
+      },
+      {
+        type: "p",
+        text:
+          "The frustrating part is that these are often the <em>nicest-looking</em> local sites. Someone invested in a modern build, and it&rsquo;s quietly invisible to the fastest-growing kind of search.",
+      },
+      { type: "h2", text: "The 30-second test" },
+      { type: "p", text: "You don&rsquo;t need any tools for this." },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          "Open your homepage in Chrome.",
+          "View the page source: <strong>Ctrl+U</strong> on Windows, <strong>⌘ + Option + U</strong> on a Mac.",
+          "Press <strong>Ctrl+F</strong> (or <strong>⌘+F</strong>) and search for a sentence you can see on your homepage. Your headline works. So does your phone number.",
+        ],
+      },
+      {
+        type: "p",
+        text:
+          "If it&rsquo;s there, the words are in the page, and crawlers can read them.",
+      },
+      {
+        type: "p",
+        text:
+          "If it&rsquo;s not — if you see a short page with something like an empty <code>&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;</code> and a stack of script tags — that&rsquo;s what ChatGPT sees when it looks at your business. The page you&rsquo;re proud of is being built after the crawler already left.",
+      },
+      { type: "h2", text: "The fix usually isn&rsquo;t a rebuild" },
+      {
+        type: "p",
+        text: "This sounds like &ldquo;start over,&rdquo; and it usually isn&rsquo;t.",
+      },
+      {
+        type: "p",
+        text:
+          "The fix is to have the server send the finished page instead of the shell. Depending on how the site was built, that&rsquo;s called server-side rendering, static generation, or prerendering. The names differ, the result is the same: every page arrives with its words, headings, and structured data already inside it. The design doesn&rsquo;t change. Visitors don&rsquo;t notice anything. The crawler just finally gets something to read.",
+      },
+      {
+        type: "p",
+        text:
+          "For most sites it&rsquo;s a change to how the site is built and served, plus careful testing to make sure every page comes out complete.",
+      },
+      { type: "h2", text: "What this means if you run a St. Louis business" },
+      {
+        type: "p",
+        text:
+          "In our last few notes we kept coming back to the same three traits the AI-recommended businesses share: consistent facts everywhere, a site a machine can understand, and authority from sources the model trusts.",
+      },
+      {
+        type: "p",
+        text:
+          "This is the step underneath the second one. Before a machine can understand your site, it has to be able to <em>read</em> it. A beautiful site that arrives blank doesn&rsquo;t get partial credit. It gets skipped, and the AI names someone else.",
+      },
+      {
+        type: "callout",
+        eyebrow: "What does ChatGPT see?",
+        text:
+          "If you&rsquo;re not sure which kind of site you have, that&rsquo;s one of the first things our free audit checks. We&rsquo;ll pull your site the way the AI crawlers do and show you exactly what comes back. No pitch. We&rsquo;ll just tell you what we see.",
+      },
+    ],
+  },
   {
     slug: "ai-search-st-louis-dentist-test",
     title:
