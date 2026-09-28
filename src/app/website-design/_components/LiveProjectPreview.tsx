@@ -26,7 +26,7 @@ export default function LiveProjectPreview({ project, paused, sizes }: { project
 
   useEffect(() => {
     const element = frame.current;
-    if (!near || paused || !element) return;
+    if (!near || paused || !element || project.effect === "static") return;
     let disposed = false;
     let teardown = () => {};
     if (project.effect === "video") {
@@ -106,6 +106,11 @@ export default function LiveProjectPreview({ project, paused, sizes }: { project
     })();
     return () => { disposed = true; teardown(); setLive(false); };
   }, [near, paused, project.effect]);
+
+  // Screenshot-only projects: no live hero to reproduce, so just the image.
+  if (project.effect === "static") return <div ref={frame} className="wd-live-preview wd-live-screenshot" role="img" aria-label={`${project.name} website homepage`}>
+    <Image className="wd-live-static" src={project.image} alt="" width={project.width} height={project.height} sizes={sizes} loading="lazy" />
+  </div>;
 
   return <div ref={frame} className={`wd-live-preview wd-live-${project.effect}`} data-live={live && !paused ? "true" : "false"} role="img" aria-label={`${project.name} website hero preview`}>
     <Image className="wd-live-static" src={project.effect === "marble" ? project.image : `${media}/static.webp`} alt="" width={project.effect === "marble" ? project.width : 1920} height={project.effect === "marble" ? project.height : 1800} sizes={sizes} loading="lazy" />

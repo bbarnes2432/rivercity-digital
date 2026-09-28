@@ -6,7 +6,7 @@
 .wd-showcase-stage { padding: 34px 28px 20px; background: var(--rcd-navy-100); min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 22px; }
 .wd-showcase-wellness .wd-showcase-stage { background: #eee9f4; }
 .wd-showcase-mend .wd-showcase-stage { background: #e5ece7; }
-.wd-showcase-highlife .wd-showcase-stage { background: var(--rcd-navy-800); color: var(--rcd-navy-100); }
+.wd-showcase-highlife .wd-showcase-stage, .wd-showcase-saucefix .wd-showcase-stage { background: var(--rcd-navy-800); color: var(--rcd-navy-100); }
 .wd-showcase-screen { position: relative; display: block; width: 100%; overflow: hidden; padding: 0; border: 1px solid #10243225; border-radius: 8px; background: #fff; color: var(--wd-ink); cursor: zoom-in; text-align: left; box-shadow: 0 18px 38px #0b1d3024; transition: transform .3s ease, box-shadow .3s ease; }
 .wd-showcase-screen:hover { transform: translateY(-4px); box-shadow: 0 24px 42px #0b1d3030; }
 .wd-showcase-screen img { display: block; width: 100%; height: auto; }
@@ -75,7 +75,7 @@
 .wd-preview-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; font-size: 12px; color: var(--wd-muted); }
 .wd-preview-controls button { display: flex; align-items: center; gap: 8px; padding: 10px 14px; min-height: 44px; border: 1px solid var(--wd-line); border-radius: 5px; background: #fff; color: var(--wd-ink); font: inherit; cursor: pointer; }
 .wd-live-preview { position: relative; isolation: isolate; overflow: hidden; aspect-ratio: 1920 / 1800; container-type: inline-size; background: #183027; }
-.wd-live-preview.wd-live-marble { aspect-ratio: 1440 / 798; }
+.wd-live-preview.wd-live-marble, .wd-live-preview.wd-live-screenshot { aspect-ratio: 1440 / 798; }
 .wd-showcase-screen .wd-live-preview > *, .wd-preview-image .wd-live-preview > * { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 .wd-live-preview canvas { display: block; width: 100%; height: 100%; }
 .wd-live-layer, .wd-live-foreground { opacity: 0; }

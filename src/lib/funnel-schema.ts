@@ -1,4 +1,4 @@
-export const PAGE_VERSION = "focused-landings-2026-09-24";
+export const PAGE_VERSION = "focused-landings-four-sites-2026-09-28";
 export const FUNNEL_EVENTS = ["landing_view", "mockup_view", "mockup_start", "mockup_validation_error", "mockup_submit", "mockup_error", "mockup_accepted", "cta_mockup", "cta_call"] as const;
 export type FunnelEvent = typeof FUNNEL_EVENTS[number];
 export type FunnelContext = { session: string; version: typeof PAGE_VERSION; paid: boolean; device: "mobile" | "desktop"; page?: "/website-design" | "/chicago-web-design" };

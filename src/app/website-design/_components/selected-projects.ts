@@ -1,6 +1,8 @@
 export type SelectedProject = {
-  preview: "wellness-collective" | "mend" | "high-life-journeys";
-  effect: "fluid" | "marble" | "video";
+  // Folder under /public/work holding the live-hero assets. Screenshot-only
+  // ("static") projects have no live hero, so they have no folder.
+  preview?: "wellness-collective" | "mend" | "high-life-journeys";
+  effect: "fluid" | "marble" | "video" | "static";
   id: string;
   name: string;
   category: string;
@@ -40,13 +42,24 @@ export const SELECTED_PROJECTS: SelectedProject[] = [
     details: ["Treatment & pricing pages", "Local service-area pages", "Booking throughout"],
   },
   {
-    id: "highlife", preview: "high-life-journeys", effect: "video", name: "High Life Journeys", category: "Travel · Custom website",
-    image: "/assets/portfolio-high-life-journeys.webp",
-    alt: "High Life Journeys website featuring an ocean voyage and the headline Sail somewhere extraordinary",
-    width: 1920, height: 1080,
-    website: "https://www.highlifejourneys.com/", domain: "highlifejourneys.com",
-    headline: "Turn a destination into something you can picture.",
-    description: "A moving ocean scene, destination guides, and a simple way to ask about a trip.",
-    details: ["Immersive motion", "Destination discovery", "Personal inquiry path"],
+    id: "stjoseph", effect: "static", name: "St. Joseph Boat Rentals", category: "Boat rentals · Custom website & booking",
+    image: "/assets/qc-sample-st-joseph.webp",
+    alt: "St. Joseph Boat Rentals website with the St. Joseph lighthouse and pier on Lake Michigan behind hourly and multi-day booking buttons",
+    width: 1440, height: 798,
+    website: "https://www.stjosephboatrentals.com/", domain: "stjosephboatrentals.com",
+    headline: "Book a boat without picking up the phone.",
+    description: "Self-serve booking for hourly pontoon rentals and multi-day lake drop-offs, with captained trips and fishing charters alongside.",
+    details: ["Online booking", "Rentals & charters", "Service-area pages"],
+  },
+  {
+    id: "saucefix", effect: "static", name: "The Sauce Fix", category: "Hot sauce · Online store",
+    image: "/assets/qc-sample-sauce-fix.webp",
+    alt: "The Sauce Fix website with a hand-illustrated flaming skull behind the headline Fiercely Flavorful",
+    width: 1440, height: 798,
+    website: "https://thesaucefix.com/", domain: "thesaucefix.com",
+    caseStudy: "/work/the-sauce-fix",
+    headline: "A small-batch brand with a storefront to match.",
+    description: "Small-batch Iowa hot sauce and salsa, with an online shop, recipes, and a list to join for the next batch.",
+    details: ["Online shop", "Hand-drawn brand art", "Email list signup"],
   },
 ];
