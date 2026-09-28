@@ -1,0 +1,29 @@
+.wd-policy-link { border: 0; padding: 0; background: none; color: inherit; font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.wd-policy-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+.wd-policy-dialog { width: min(760px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); margin: auto; padding: 0; border: 1px solid var(--line-default); border-radius: 18px; color: var(--ink-primary); background: var(--bg-page, #f6f2ea); overscroll-behavior: contain; }
+.wd-policy-dialog::backdrop { background: rgba(15, 30, 51, .76); backdrop-filter: blur(8px); }
+.wd-policy-document { padding: clamp(24px, 5vw, 48px); }
+.wd-policy-document > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 32px; }
+.wd-policy-document h2 { font-size: clamp(30px, 6vw, 48px); line-height: 1.05; margin: 8px 0 12px; }
+.wd-policy-document header p { font-size: 13px; }
+.wd-policy-body { font-size: 15px; line-height: 1.7; overflow-wrap: anywhere; }
+.wd-policy-body section { margin: 0 0 28px; scroll-margin-top: 24px; }
+.wd-policy-body h3 { font-size: 20px; margin-bottom: 10px; }
+.wd-policy-body p + p { margin-top: 12px; }
+.wd-policy-body a { color: var(--accent); text-decoration: underline; }
+.wd-chicago-video-background { position: absolute; inset: 0 0 auto; height: min(100%, 760px); z-index: 0; pointer-events: none; overflow: hidden; }
+.wd-chicago-video, .wd-chicago-video-poster, .wd-chicago-video-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wd-chicago-video { object-fit: cover; opacity: 0; }
+.wd-chicago-video[data-ready="true"] { opacity: 1; }
+.wd-chicago-video-poster picture, .wd-chicago-video-poster img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.wd-chicago-video-poster { background: radial-gradient(ellipse at 25% 30%, #4ca5ad55, transparent 60%), linear-gradient(140deg, #132d46, #0f1e33 65%); background-size: cover; background-position: center; }
+.wd-chicago-video-shade { background: linear-gradient(90deg, rgba(15,30,51,.72), rgba(15,30,51,.32)), linear-gradient(0deg, #0f1e33, transparent 45%); }
+.wd-video-background-control { position: absolute; right: clamp(16px, 4vw, 56px); top: 10px; display: inline-flex; align-items: center; gap: 7px; min-height: 36px; pointer-events: auto; border: 1px solid #ffffff55; border-radius: 20px; padding: 8px 12px; background: #0f1e33c9; color: #fff; font: 500 12px/1.2 var(--font-inter), sans-serif; cursor: pointer; }
+.wd-video-background-control:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+@media (max-width: 760px) {
+  .wd-chicago-video-background { bottom: auto; height: 760px; }
+  .wd-chicago-video-shade { background: linear-gradient(180deg, rgba(15,30,51,.52), rgba(15,30,51,.65) 65%, #0f1e33); }
+  .wd-video-background-control { top: 12px; right: 16px; bottom: auto; min-height: 40px; }
+  .wd-hero-video .wd-hero-copy { padding-top: 44px; }
+  .wd-hero-video .wd-hero-bottom { padding-bottom: 24px; }
+}

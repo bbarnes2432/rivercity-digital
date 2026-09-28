@@ -50,7 +50,7 @@ export function CustomBuildIntroduction() {
   </section>;
 }
 
-export default function CustomBuildComparison() {
+export default function CustomBuildComparison({ focused = false }: { focused?: boolean }) {
   return <section className="wd-section wd-comparison rcd-light" id="custom-build" aria-labelledby="comparison-heading">
     <div className="wd-container">
       <div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">Why choose a custom build?</p><h2 id="comparison-heading">Your business deserves<br />more than a template.</h2></div><p>A template gives you a starting point. We handle the design, writing, and build around your business.</p></div>
@@ -70,7 +70,7 @@ export default function CustomBuildComparison() {
           </article>
         ))}
       </div>
-      <div className="wd-comparison-note" data-entrance="rise"><p>With River City, you get a design made for you, clear steps before launch, and ownership after the build.</p><p>Comparing template-led builds with our custom service. WordPress and Wix also support custom work; results depend on the implementation. Every website needs upkeep, including ours. <a href="https://support.wix.com/en/article/exporting-or-embedding-your-wix-site-elsewhere" target="_blank" rel="noopener noreferrer">Wix hosting details</a> · <a href="https://wordpress.org/documentation/article/manage-plugins/" target="_blank" rel="noopener noreferrer">WordPress plugin management</a>.</p></div>
+      <div className="wd-comparison-note" data-entrance="rise"><p>With River City, you get a design made for you, clear steps before launch, and ownership after the build.</p><p>Comparing template-led builds with our custom service. WordPress and Wix also support custom work; results depend on the implementation. Every website needs upkeep, including ours. {!focused && <><a href="https://support.wix.com/en/article/exporting-or-embedding-your-wix-site-elsewhere" target="_blank" rel="noopener noreferrer">Wix hosting details</a> · <a href="https://wordpress.org/documentation/article/manage-plugins/" target="_blank" rel="noopener noreferrer">WordPress plugin management</a>.</>}</p></div>
     </div>
   </section>;
 }

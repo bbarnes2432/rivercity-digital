@@ -5,7 +5,7 @@ export function observeTubeOcclusion(layer: HTMLElement, ambient: boolean) {
   const page = layer.closest<HTMLElement>(".wd-site");
   if (!page) return;
 
-  const selector = ".btn, .wd-button, .wd-app-window, .rcd-light, .rcd-tilt-fill i";
+  const selector = ".btn, .wd-button, .wd-app-window, .rcd-light, .rcd-tilt-fill i, .wd-hero-video";
   let masks: HTMLElement[] = [];
   const nearby = new Set<HTMLElement>();
   const moving = new Map<HTMLElement, Set<string>>();
@@ -52,7 +52,10 @@ export function observeTubeOcclusion(layer: HTMLElement, ambient: boolean) {
   }, { rootMargin: "120px" });
   const resize = new ResizeObserver(request);
   const collect = () => {
-    const next = Array.from(page.querySelectorAll<HTMLElement>(selector));
+    // The Chicago video is its hero's motion layer. Keep the ribbons elsewhere,
+    // and avoid overlapping holes for controls inside the already-masked hero.
+    const next = Array.from(page.querySelectorAll<HTMLElement>(selector))
+      .filter(mask => !mask.parentElement?.closest(".wd-hero-video"));
     for (const mask of masks) {
       if (!next.includes(mask)) {
         nearby.delete(mask); intersection.unobserve(mask); resize.unobserve(mask);

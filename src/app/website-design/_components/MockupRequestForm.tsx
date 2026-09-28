@@ -10,8 +10,9 @@ import CallLink from "@/app/_components/CallLink";
 import { EMAIL } from "@/app/_components/contact-info";
 import { funnelContext, trackFunnel } from "./funnel";
 import { CLIENT_REVIEW } from "./client-review";
+import { PolicyButton } from "./LandingPolicyProvider";
 
-export default function MockupRequestForm() {
+export default function MockupRequestForm({ focused = false, landingPath = "/website-design" }: { focused?: boolean; landingPath?: "/website-design" | "/chicago-web-design" }) {
   const router = useRouter();
   const submitting = useRef(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
@@ -42,10 +43,10 @@ export default function MockupRequestForm() {
         trackFunnel("mockup_accepted", false, data.receiptId);
         trackSuccessfulLead(
           { name: String(fields.get("name") || ""), email: String(fields.get("email") || ""), phone: String(fields.get("phone") || "") },
-          { page: "/website-design", form: "website-design-mockup", service: "New website", ...(data.receiptId ? { transaction_id: data.receiptId } : {}) },
+          { page: landingPath, form: "website-design-mockup", service: "New website", ...(data.receiptId ? { transaction_id: data.receiptId } : {}) },
         );
       }
-      router.push(`/website-design/thank-you${data.dev ? "?preview=1" : ""}`);
+      router.push(`${landingPath}/thank-you${data.dev ? "?preview=1" : ""}`);
     } catch (cause) {
       trackFunnel("mockup_error");
       const timedOut = cause instanceof Error && (cause.name === "TimeoutError" || cause.name === "AbortError");
@@ -58,7 +59,7 @@ export default function MockupRequestForm() {
   }
   return <form id="wd-mockup-form" className="wd-form rcd-light" onSubmit={submit} onInput={() => trackFunnel("mockup_start", true)} onInvalid={() => trackFunnel("mockup_validation_error", true)} aria-busy={status === "submitting"} aria-labelledby="mockup-form-heading">
     <div id="start" className="wd-form-heading" tabIndex={-1}><span className="wd-eyebrow">See your website’s potential</span><h2 id="mockup-form-heading">Request your free mockup.</h2><p>See what your website could look like. Tell us a little about your business to get started.</p><a className="wd-form-example-link" href="#mockup-preview">See what the mockup includes <ArrowUpRight size={13} /></a></div>
-    <input type="hidden" name="service" value="New website" /><input type="hidden" name="source" value="Website design — free mockup" />
+    <input type="hidden" name="service" value="New website" /><input type="hidden" name="source" value={landingPath === "/chicago-web-design" ? "Chicago website design — free mockup" : "Website design — free mockup"} />
     <div className="wd-honeypot" aria-hidden="true"><label>Leave this empty<input type="text" name="bot-field" tabIndex={-1} autoComplete="off" /></label></div>
     <label className="wd-field"><span>Your name <span aria-hidden="true">*</span></span><input name="name" required autoComplete="name" maxLength={120} placeholder="Alex Morgan" /></label>
     <label className="wd-field"><span>Email address <span aria-hidden="true">*</span></span><input type="email" name="email" required autoComplete="email" maxLength={254} placeholder="you@yourbusiness.com" /></label>
@@ -69,7 +70,7 @@ export default function MockupRequestForm() {
     <button type="submit" className="wd-button wd-button-dark wd-form-submit" disabled={status === "submitting"}>{status === "submitting" ? <>Sending your request <LoaderCircle size={18} className="wd-spinner" /></> : <>Request my free mockup <ArrowUpRight size={19} /></>}</button>
     <p className="wd-form-assurance"><Check size={14} /> No payment details. No commitment.</p>
     <p className="wd-form-next"><strong>What happens next?</strong> We’ll get in touch about your ideas and logo, then prepare your free mockup.</p>
-    <p className="wd-form-privacy">We’ll use your details to respond to your request. <Link href="/privacy-policy">Privacy policy</Link></p>
-    <figure className="wd-form-proof"><blockquote>“{CLIENT_REVIEW.excerpt}”</blockquote><figcaption><strong>{CLIENT_REVIEW.author}</strong><span>{CLIENT_REVIEW.business}</span><a href={CLIENT_REVIEW.url} target="_blank" rel="noopener noreferrer">Read her Google review <ArrowUpRight size={12} /><span className="sr-only"> (opens in a new tab)</span></a></figcaption></figure>
+    <p className="wd-form-privacy">We’ll use your details to respond to your request. {focused ? <PolicyButton policy="privacy">Privacy policy</PolicyButton> : <Link href="/privacy-policy">Privacy policy</Link>}</p>
+    <figure className="wd-form-proof"><blockquote>“{CLIENT_REVIEW.excerpt}”</blockquote><figcaption><strong>{CLIENT_REVIEW.author}</strong><span>{CLIENT_REVIEW.business}</span>{focused ? <span>Google review</span> : <a href={CLIENT_REVIEW.url} target="_blank" rel="noopener noreferrer">Read her Google review <ArrowUpRight size={12} /><span className="sr-only"> (opens in a new tab)</span></a>}</figcaption></figure>
   </form>;
 }

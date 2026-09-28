@@ -39,12 +39,19 @@ await check('Arbitrary identifiers are rejected', async () => assert.equal((awai
 await check('Oversized event is rejected', async () => assert.equal((await post({ ...event, excess: 'a'.repeat(2200) })).status, 413));
 await check('Null event is rejected', async () => assert.equal((await post(null)).status, 400));
 await check('Old page versions are not silently combined', async () => assert.equal((await post({ ...event, version: 'old' })).status, 400));
+await check('Chicago diagnostics are attributed to the Chicago landing page', async () => {
+  assert.equal((await post({ ...event, page: '/chicago-web-design' })).status, 200);
+  assert.equal(logs.at(-1).page, '/chicago-web-design');
+});
+await check('An arbitrary page cannot leak contact data into diagnostics', async () => {
+  assert.equal((await post({ ...event, page: '/someone@example.invalid' })).status, 400);
+});
 
-function client({ dnt = false, gpc = false, storageFailure = false, fetchFailure = false } = {}) {
+function client({ dnt = false, gpc = false, storageFailure = false, fetchFailure = false, pathname = '/website-design' } = {}) {
   const store = new Map(), requests = [];
   const api = load('app/website-design/_components/funnel.ts', {
     require: id => id.endsWith('/attribution') ? { readAttribution: () => ({ gclid: 'PRIVATE_CLICK', utm_medium: 'cpc' }) } : requireBase(id),
-    window: {}, navigator: { doNotTrack: dnt ? '1' : '0', globalPrivacyControl: gpc }, crypto: { randomUUID },
+    window: { location: { pathname } }, navigator: { doNotTrack: dnt ? '1' : '0', globalPrivacyControl: gpc }, crypto: { randomUUID },
     sessionStorage: { getItem: key => { if (storageFailure) throw Error('blocked'); return store.get(key); }, setItem: (k,v) => store.set(k,v) },
     matchMedia: () => ({ matches: true }),
     fetch: (_url, init) => { if (fetchFailure) throw Error('offline'); requests.push(JSON.parse(init.body)); return Promise.resolve(); },
@@ -55,6 +62,10 @@ await check('First-party form views and starts deduplicate', async () => {
   const h = client(); h.api.trackFunnel('mockup_view', true); h.api.trackFunnel('mockup_view', true); h.api.trackFunnel('mockup_start', true);
   assert.equal(h.requests.length, 2); assert.equal(h.requests[0].session, h.requests[1].session);
   assert.ok(!JSON.stringify(h.requests).includes('PRIVATE_CLICK'));
+});
+await check('Client Chicago diagnostics preserve the exact allowlisted path', async () => {
+  const h = client({ pathname: '/chicago-web-design' }); h.api.trackFunnel('mockup_view', true);
+  assert.equal(h.requests[0].page, '/chicago-web-design');
 });
 for (const flag of ['dnt', 'gpc', 'storageFailure']) await check(flag + ' preserves a usable form without diagnostics', async () => {
   const h = client({ [flag]: true }); assert.doesNotThrow(() => h.api.trackFunnel('mockup_start')); assert.equal(h.requests.length, 0);

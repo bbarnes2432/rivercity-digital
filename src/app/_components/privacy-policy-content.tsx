@@ -1,0 +1,151 @@
+export const PRIVACY_SECTIONS = [
+  {
+    id: "what-we-collect",
+    heading: "What we collect",
+    body: (
+      <>
+        <p>
+          We collect only what we need to do the work and stay in touch. That includes things you give us
+          directly — your name, email, phone, and the messages you send through the contact form — and
+          automatic technical information from your visit, such as browser and device information, IP address,
+          referrer, and pages viewed. Hosting, advertising measurement, and fraud-prevention services process
+          technical information as described below.
+        </p>
+        <p>
+          If you become a client, we collect business details required to do the work (Google Business Profile access,
+          analytics access, ad-account access, and any business data you provide for content or strategy). We treat that
+          information as confidential.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "how-we-use-it",
+    heading: "How we use it",
+    body: (
+      <>
+        <p>
+          We use the information you give us to respond to inquiries, provide services, and improve the work we deliver.
+          For prospective clients, that means we may follow up about a request, send a proposal, or share an audit summary.
+          For active clients, we use business information solely to deliver agreed-upon services.
+        </p>
+        <p>
+          We don&apos;t sell your information, and we don&apos;t hand your contact details to anyone else for their own
+          marketing. One nuance worth stating plainly: the advertising tags described under{" "}
+          <a href="#cookies-and-analytics">Cookies and analytics</a> do send limited technical data — page views, and the
+          fact that a form was submitted — to Google and OpenAI so we can measure our own ads.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "how-we-store-it",
+    heading: "How we store it",
+    body: (
+      <>
+        <p>
+          We use established hosting providers (Vercel, AWS) for site infrastructure, and standard tools (Google Workspace,
+          encrypted password managers) for our internal records. Access to client information is limited to people doing the work.
+        </p>
+        <p>
+          We retain inquiry records for up to 24 months. Active client data is retained for the duration of the engagement and
+          a reasonable period thereafter for tax and legal purposes.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "cookies-and-analytics",
+    heading: "Cookies and analytics",
+    body: (
+      <>
+        <p>
+          This site uses cookies and similar technologies for two purposes: to understand which pages are useful and how
+          visitors arrive, and to measure our own advertising. That includes measurement tags from Google (Google Ads) and
+          OpenAI (ChatGPT Ads). These record page views and form submissions so we can tell which ads actually produced an
+          inquiry, and they may be used to show you our ads on other services.
+        </p>
+        <p>
+          We don&apos;t currently show a cookie consent banner. You can opt out at any time using your browser&apos;s
+          tracking-protection settings or an ad blocker, or through the ad-settings pages each provider maintains — both are
+          linked from their own privacy policies. Blocking them changes nothing about how this site works.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "inquiry-diagnostics",
+    heading: "Website and inquiry diagnostics",
+    body: <><p>On our website-design page, we record limited visit and form-progress events to understand whether people can find and complete an inquiry. These include the page version, a temporary identifier stored for the browser tab, a mobile or desktop category, whether the visit includes paid-ad attribution, and form errors or successful acceptance. These diagnostic events do not contain the information you type, full URLs, or advertising click IDs. We respect browser Do Not Track and Global Privacy Control signals for this optional progress measurement.</p><p>Our hosting logs also record inquiry delivery attempts, random receipt identifiers and our email provider’s message identifiers. These help us investigate failed or delayed messages. Provider acceptance does not by itself mean a message reached our inbox. The information you submit is handled separately as described above.</p></>,
+  },
+  {
+    id: "fraud-prevention",
+    heading: "Advertising fraud prevention",
+    body: (
+      <>
+        <p>
+          We use ClickCease by CHEQ to help identify automated or invalid traffic and protect our advertising
+          budget. Its website tag processes technical visit information, such as IP address, browser and
+          device information, visited pages, referrers, and advertising click information, to detect suspicious
+          activity. It may use cookies or similar identifiers for this purpose.
+        </p>
+        <p>
+          This fraud-prevention tag operates separately from our advertising measurement tags. We do not
+          explicitly send contact-form names, email addresses, phone numbers, or messages to ClickCease.
+          Session recording is not enabled as part of this integration.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "your-rights",
+    heading: "Your rights",
+    body: (
+      <>
+        <p>
+          You can ask us, at any time, to show you the information we have about you, correct it, or delete it. Email{" "}
+          <a href="mailto:hello@rivercitydigitalco.com">hello@rivercitydigitalco.com</a>. We&apos;ll get back the same day in most cases,
+          and we&apos;ll act on the request within 30 days.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "third-parties",
+    heading: "Third parties we work with",
+    body: (
+      <>
+        <p>
+          We use a small set of third-party services to do our work: Google (Workspace, Search Console, Business Profile,
+          Google Ads), OpenAI (ChatGPT Ads measurement), ClickCease / CHEQ (advertising fraud prevention), Microsoft / Bing (Webmaster Tools), Meta (Business Manager, when
+          running campaigns), AWS / Vercel / Resend (hosting, DNS, transactional email). Each has its own privacy policy.
+          We share the minimum information required for the service to function.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "changes",
+    heading: "Changes to this policy",
+    body: (
+      <>
+        <p>
+          If we make material changes to this policy, we&apos;ll update the date above and post a brief note about what changed.
+          Minor edits (typos, clarifications) don&apos;t reset that date.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "contact",
+    heading: "Contact",
+    body: (
+      <>
+        <p>
+          Privacy questions: <a href="mailto:hello@rivercitydigitalco.com">hello@rivercitydigitalco.com</a> · River City Digital Co.,
+          St. Louis, Missouri.
+        </p>
+      </>
+    ),
+  },
+];

@@ -19,12 +19,14 @@ type Props = {
   overlayMode?: "light-on-dark" | "dark-on-light";
   primaryHref?: string;
   primaryLabel?: string;
+  sectionLinks?: { href: string; label: string }[];
+  brandHref?: string;
 };
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/contact", primaryLabel = "Free Audit" }: Props) {
+export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/contact", primaryLabel = "Free Audit", sectionLinks, brandHref = "/" }: Props) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -130,7 +132,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
         aria-label="Primary"
       >
         <div className="rcd-nav-inner container">
-          <Link href="/" className="rcd-nav-brand" aria-label="River City Digital home">
+          <Link href={brandHref} className="rcd-nav-brand" aria-label={sectionLinks ? "River City Digital — back to top" : "River City Digital home"}>
             <Image
               src="/assets/logo-white.webp"
               alt="River City Digital Co."
@@ -142,6 +144,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
           </Link>
 
           <ul className="rcd-nav-links">
+            {sectionLinks ? sectionLinks.map(link => <li key={link.href}><a href={link.href}>{link.label}</a></li>) : <>
             <li>
               <Link href="/about" aria-current={isCurrent("/about") ? "page" : undefined}>
                 About
@@ -189,6 +192,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
                 Contact
               </Link>
             </li>
+            </>}
           </ul>
 
           {/* The number sits left of the Free Audit button so the cheapest
@@ -230,7 +234,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
         <div className="rcd-drawer-scrim" onClick={() => setDrawerOpen(false)} aria-hidden="true" />
         <div className="rcd-drawer-panel" ref={drawerPanelRef}>
           <div className="rcd-drawer-head">
-            <Link href="/" className="rcd-drawer-brand" onClick={() => setDrawerOpen(false)}>
+            <Link href={brandHref} className="rcd-drawer-brand" onClick={() => setDrawerOpen(false)}>
               <Image
                 src="/assets/logo-white.webp"
                 alt="River City Digital"
@@ -254,6 +258,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
           </div>
 
           <nav className="rcd-drawer-nav" aria-label="Mobile">
+            {sectionLinks ? sectionLinks.map(link => <a key={link.href} href={link.href} onClick={() => setDrawerOpen(false)}>{link.label}</a>) : <>
             <Link href="/about" onClick={() => setDrawerOpen(false)}>About</Link>
             <p className="rcd-drawer-section-label">Services</p>
             {SERVICES.map((s) => (
@@ -263,6 +268,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
             ))}
             <Link href="/service-areas" onClick={() => setDrawerOpen(false)}>Service Areas</Link>
             <Link href="/contact" onClick={() => setDrawerOpen(false)}>Contact</Link>
+            </>}
           </nav>
 
           <div className="rcd-drawer-foot">

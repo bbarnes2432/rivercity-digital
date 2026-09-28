@@ -1,7 +1,7 @@
-export const PAGE_VERSION = "customer-focused-seo-2026-09-22";
+export const PAGE_VERSION = "focused-landings-2026-09-24";
 export const FUNNEL_EVENTS = ["landing_view", "mockup_view", "mockup_start", "mockup_validation_error", "mockup_submit", "mockup_error", "mockup_accepted", "cta_mockup", "cta_call"] as const;
 export type FunnelEvent = typeof FUNNEL_EVENTS[number];
-export type FunnelContext = { session: string; version: typeof PAGE_VERSION; paid: boolean; device: "mobile" | "desktop" };
+export type FunnelContext = { session: string; version: typeof PAGE_VERSION; paid: boolean; device: "mobile" | "desktop"; page?: "/website-design" | "/chicago-web-design" };
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 export function safeUuid(value: unknown): string | undefined {
   return typeof value === "string" && UUID.test(value) ? value : undefined;
@@ -11,6 +11,7 @@ export function parseFunnelContext(value: unknown): FunnelContext | null {
   const v = value as Record<string, unknown>;
   const session = safeUuid(v.session);
   if (!session || v.version !== PAGE_VERSION || typeof v.paid !== "boolean" || !["mobile", "desktop"].includes(String(v.device))) return null;
+  if (v.page !== undefined && v.page !== "/website-design" && v.page !== "/chicago-web-design") return null;
   // Only allowlisted values survive; never copy arbitrary form/contact data.
-  return { session, version: PAGE_VERSION, paid: v.paid, device: v.device as FunnelContext["device"] };
+  return { session, version: PAGE_VERSION, paid: v.paid, device: v.device as FunnelContext["device"], ...(v.page ? { page: v.page as FunnelContext["page"] } : {}) };
 }

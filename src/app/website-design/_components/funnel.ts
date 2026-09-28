@@ -12,7 +12,7 @@ export function funnelContext(): FunnelContext | null {
     let session = safeUuid(sessionStorage.getItem(SESSION_KEY));
     if (!session) { session = crypto.randomUUID(); sessionStorage.setItem(SESSION_KEY, session); }
     const attribution = readAttribution();
-    return { session, version: PAGE_VERSION, paid: Boolean(attribution.gclid || attribution.gbraid || attribution.wbraid || /^(cpc|ppc|paidsearch)$/i.test(attribution.utm_medium || "")), device: matchMedia("(max-width: 760px)").matches ? "mobile" : "desktop" };
+    return { session, version: PAGE_VERSION, paid: Boolean(attribution.gclid || attribution.gbraid || attribution.wbraid || /^(cpc|ppc|paidsearch)$/i.test(attribution.utm_medium || "")), device: matchMedia("(max-width: 760px)").matches ? "mobile" : "desktop", page: window.location?.pathname === "/chicago-web-design" ? "/chicago-web-design" : "/website-design" };
   } catch { return null; }
 }
 
@@ -21,7 +21,7 @@ export function trackFunnel(event: FunnelEvent, single = false, receipt?: string
   try {
     const context = funnelContext();
     if (!context || sent >= 48) return;
-    const key = `${context.session}:${event}`;
+    const key = `${context.session}:${context.page}:${event}`;
     if (single && once.has(key)) return;
     if (single) once.add(key);
     sent++;
