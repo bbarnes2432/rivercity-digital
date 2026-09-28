@@ -54,7 +54,7 @@ export default function Footer() {
           <div className="rcd-footer-brand">
             <Link href="/" aria-label="River City Digital home" className="rcd-footer-logo">
               <Image
-                src="/assets/logo-white.webp"
+                src="/assets/logo-color.webp"
                 alt="River City Digital Co."
                 width={248}
                 height={40}

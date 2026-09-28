@@ -134,7 +134,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
         <div className="rcd-nav-inner container">
           <Link href={brandHref} className="rcd-nav-brand" aria-label={sectionLinks ? "River City Digital — back to top" : "River City Digital home"}>
             <Image
-              src="/assets/logo-white.webp"
+              src="/assets/logo-color.webp"
               alt="River City Digital Co."
               width={248}
               height={40}
@@ -236,7 +236,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
           <div className="rcd-drawer-head">
             <Link href={brandHref} className="rcd-drawer-brand" onClick={() => setDrawerOpen(false)}>
               <Image
-                src="/assets/logo-white.webp"
+                src="/assets/logo-color.webp"
                 alt="River City Digital"
                 width={222}
                 height={36}
