@@ -1,7 +1,12 @@
-export const PAGE_VERSION = "focused-landings-four-sites-2026-09-28";
+export const PAGE_VERSION = "separate-service-paid-routes-2026-09-28";
 export const FUNNEL_EVENTS = ["landing_view", "mockup_view", "mockup_start", "mockup_validation_error", "mockup_submit", "mockup_error", "mockup_accepted", "cta_mockup", "cta_call"] as const;
 export type FunnelEvent = typeof FUNNEL_EVENTS[number];
-export type FunnelContext = { session: string; version: typeof PAGE_VERSION; paid: boolean; device: "mobile" | "desktop"; page?: "/website-design" | "/chicago-web-design" };
+export const FUNNEL_PAGES = ["/website-design", "/st-louis-web-design", "/chicago-web-design"] as const;
+export type FunnelPage = typeof FUNNEL_PAGES[number];
+export type FunnelContext = { session: string; version: typeof PAGE_VERSION; paid: boolean; device: "mobile" | "desktop"; page?: FunnelPage };
+export function isFunnelPage(value: unknown): value is FunnelPage {
+  return typeof value === "string" && FUNNEL_PAGES.some(page => page === value);
+}
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 export function safeUuid(value: unknown): string | undefined {
   return typeof value === "string" && UUID.test(value) ? value : undefined;
@@ -11,7 +16,7 @@ export function parseFunnelContext(value: unknown): FunnelContext | null {
   const v = value as Record<string, unknown>;
   const session = safeUuid(v.session);
   if (!session || v.version !== PAGE_VERSION || typeof v.paid !== "boolean" || !["mobile", "desktop"].includes(String(v.device))) return null;
-  if (v.page !== undefined && v.page !== "/website-design" && v.page !== "/chicago-web-design") return null;
+  if (v.page !== undefined && !isFunnelPage(v.page)) return null;
   // Only allowlisted values survive; never copy arbitrary form/contact data.
   return { session, version: PAGE_VERSION, paid: v.paid, device: v.device as FunnelContext["device"], ...(v.page ? { page: v.page as FunnelContext["page"] } : {}) };
 }

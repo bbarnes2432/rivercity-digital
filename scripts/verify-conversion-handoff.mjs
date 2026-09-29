@@ -67,7 +67,7 @@ function harness(file, options = {}) {
     for (const child of [node.props?.children].flat(Infinity)) { const found = findForm(child); if (found) return found; }
     return null;
   }
-  const rendered = findForm(api.default({}));
+  const rendered = findForm(api.default(options.props ?? {}));
   assert.ok(rendered, 'Must find the real form submit handler');
   return {
     events, requests, routes, states, tracking, conversions, storage,
@@ -127,6 +127,23 @@ for (const file of forms) {
     const h = harness(file, { googleThrows: true }); await h.submit(); h.tick(45);
     assert.equal(h.routes.length, 1);
     assert.ok(!h.states.includes('error'));
+  });
+}
+for (const landingPath of ['/website-design', '/st-louis-web-design', '/chicago-web-design']) {
+  await check(landingPath + ': accepted mockup retains its route and one conversion', async () => {
+    const h = harness(forms[0], { props: { landingPath, focused: landingPath !== '/website-design' } });
+    await h.submit();
+    assert.equal(h.routes[0].url, landingPath + '/thank-you');
+    assert.equal(h.conversions().length, 1);
+    assert.equal(h.conversions()[0][2].page, landingPath);
+    h.tracking.trackContactConversion();
+    assert.equal(h.conversions().length, 1);
+  });
+  await check(landingPath + ': preview stays on the correct confirmation without a conversion', async () => {
+    const h = harness(forms[0], { props: { landingPath }, dev: true });
+    await h.submit();
+    assert.equal(h.routes[0].url, landingPath + '/thank-you?preview=1');
+    assert.equal(h.conversions().length, 0);
   });
 }
 console.log(`${checks} passed; ${failures} failed. All submissions, delivery and analytics mocked.`);

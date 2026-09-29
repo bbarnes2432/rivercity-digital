@@ -43,6 +43,12 @@ await check('Chicago diagnostics are attributed to the Chicago landing page', as
   assert.equal((await post({ ...event, page: '/chicago-web-design' })).status, 200);
   assert.equal(logs.at(-1).page, '/chicago-web-design');
 });
+await check('St. Louis paid diagnostics remain separate from the regular service page', async () => {
+  assert.equal((await post({ ...event, page: '/st-louis-web-design' })).status, 200);
+  assert.equal(logs.at(-1).page, '/st-louis-web-design');
+  assert.equal((await post({ ...event, page: '/website-design' })).status, 200);
+  assert.equal(logs.at(-1).page, '/website-design');
+});
 await check('An arbitrary page cannot leak contact data into diagnostics', async () => {
   assert.equal((await post({ ...event, page: '/someone@example.invalid' })).status, 400);
 });
@@ -66,6 +72,10 @@ await check('First-party form views and starts deduplicate', async () => {
 await check('Client Chicago diagnostics preserve the exact allowlisted path', async () => {
   const h = client({ pathname: '/chicago-web-design' }); h.api.trackFunnel('mockup_view', true);
   assert.equal(h.requests[0].page, '/chicago-web-design');
+});
+await check('Client St. Louis paid diagnostics preserve the separate route', async () => {
+  const h = client({ pathname: '/st-louis-web-design' }); h.api.trackFunnel('mockup_view', true);
+  assert.equal(h.requests[0].page, '/st-louis-web-design');
 });
 for (const flag of ['dnt', 'gpc', 'storageFailure']) await check(flag + ' preserves a usable form without diagnostics', async () => {
   const h = client({ [flag]: true }); assert.doesNotThrow(() => h.api.trackFunnel('mockup_start')); assert.equal(h.requests.length, 0);

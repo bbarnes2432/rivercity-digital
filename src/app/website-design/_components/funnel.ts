@@ -1,5 +1,5 @@
 import { readAttribution } from "@/app/_components/attribution";
-import { PAGE_VERSION, type FunnelContext, type FunnelEvent, safeUuid } from "@/lib/funnel-schema";
+import { PAGE_VERSION, type FunnelContext, type FunnelEvent, safeUuid, isFunnelPage } from "@/lib/funnel-schema";
 
 const SESSION_KEY = "rcd-funnel-session";
 let sent = 0;
@@ -12,7 +12,8 @@ export function funnelContext(): FunnelContext | null {
     let session = safeUuid(sessionStorage.getItem(SESSION_KEY));
     if (!session) { session = crypto.randomUUID(); sessionStorage.setItem(SESSION_KEY, session); }
     const attribution = readAttribution();
-    return { session, version: PAGE_VERSION, paid: Boolean(attribution.gclid || attribution.gbraid || attribution.wbraid || /^(cpc|ppc|paidsearch)$/i.test(attribution.utm_medium || "")), device: matchMedia("(max-width: 760px)").matches ? "mobile" : "desktop", page: window.location?.pathname === "/chicago-web-design" ? "/chicago-web-design" : "/website-design" };
+    const pathname = window.location?.pathname;
+    return { session, version: PAGE_VERSION, paid: Boolean(attribution.gclid || attribution.gbraid || attribution.wbraid || /^(cpc|ppc|paidsearch)$/i.test(attribution.utm_medium || "")), device: matchMedia("(max-width: 760px)").matches ? "mobile" : "desktop", page: isFunnelPage(pathname) ? pathname : "/website-design" };
   } catch { return null; }
 }
 

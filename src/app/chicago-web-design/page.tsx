@@ -15,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function ChicagoWebsiteDesignPage() {
-  return <StudioLandingPage market="chicago" heroVideoSrc={CHICAGO_HERO_MEDIA.src} heroVideoMobileSrc={CHICAGO_HERO_MEDIA.mobileSrc} heroVideoPoster={CHICAGO_HERO_MEDIA.poster} heroVideoMobilePoster={CHICAGO_HERO_MEDIA.mobilePoster} />;
+  return <StudioLandingPage market="chicago" focused heroVideoSrc={CHICAGO_HERO_MEDIA.src} heroVideoMobileSrc={CHICAGO_HERO_MEDIA.mobileSrc} heroVideoPoster={CHICAGO_HERO_MEDIA.poster} heroVideoMobilePoster={CHICAGO_HERO_MEDIA.mobilePoster} />;
 }

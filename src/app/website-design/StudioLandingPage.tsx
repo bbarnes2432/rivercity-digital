@@ -43,21 +43,21 @@ const FAQS = [
   ["Will my website be ready for search and mobile?", "Yes. We design for phones and computers, write clear page titles, and set up your pages for search engines. Ongoing SEO is separate. No website can guarantee rankings or leads."],
 ];
 
-export default function StudioLandingPage({ market = "st-louis", heroVideoSrc, heroVideoMobileSrc, heroVideoPoster, heroVideoMobilePoster }: { market?: "st-louis" | "chicago"; heroVideoSrc?: string; heroVideoMobileSrc?: string; heroVideoPoster?: string; heroVideoMobilePoster?: string }) {
+export default function StudioLandingPage({ market = "st-louis", focused = false, heroVideoSrc, heroVideoMobileSrc, heroVideoPoster, heroVideoMobilePoster }: { market?: "st-louis" | "chicago"; focused?: boolean; heroVideoSrc?: string; heroVideoMobileSrc?: string; heroVideoPoster?: string; heroVideoMobilePoster?: string }) {
   const chicago = market === "chicago";
   const city = chicago ? "Chicago" : "St. Louis";
-  const landingPath = chicago ? "/chicago-web-design" : "/website-design";
+  const landingPath = chicago ? "/chicago-web-design" : focused ? "/st-louis-web-design" : "/website-design";
   // Each market has its own VSL, with a silent preview loop until the viewer presses play.
   const vslName = chicago ? "river-city-chicago-vsl" : "river-city-st-louis-vsl";
   const vsl = { src: `/assets/vsl/${vslName}.mp4`, preview: `/assets/vsl/${vslName}-preview.mp4`, poster: `/assets/vsl/${vslName}-poster.jpg` };
-  return <LandingPolicyProvider><div id="top" className="wd-site" data-page-version={PAGE_VERSION} data-market={market}>
+  return <LandingPolicyProvider><div id="top" className="wd-site" data-page-version={PAGE_VERSION} data-market={market} data-page-mode={focused ? "paid-landing" : "service"}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
       "@context": "https://schema.org", "@type": "Service", name: `${city} Website Design`,
       serviceType: "Custom website design and development",
       provider: { "@type": "Organization", name: "River City Digital Co." },
       areaServed: { "@type": "City", name: city },
     }) }} />
-    <HeroPortal /><StudioNavigation focused />
+    <HeroPortal /><StudioNavigation focused={focused} landingPath={landingPath} />
     <main id="main" className="wd-page">
       <section className={`wd-hero wd-hero-with-form${chicago ? " wd-hero-video" : ""}`} aria-labelledby="hero-heading">
         {chicago ? <ChicagoHeroBackground src={heroVideoSrc} mobileSrc={heroVideoMobileSrc} poster={heroVideoPoster} mobilePoster={heroVideoMobilePoster} /> : <div className="wd-hero-effects" aria-hidden="true"><ShaderBackground className="wd-hero-shader" /><KineticMatrix autoImpulseDelay={2050} /></div>}
@@ -69,7 +69,7 @@ export default function StudioLandingPage({ market = "st-louis", heroVideoSrc, h
             <p className="wd-hero-detail">See what your website could look like, using your ideas and logo. No payment details. No obligation to build.</p>
             <div className="wd-actions"><a className="wd-button wd-button-mint" href="#start">Request my free mockup <ArrowUpRight size={19} /></a><CallLink context="website-design-hero" className="wd-button wd-hero-call">Call our St. Louis team</CallLink></div>
           </div>
-          <MockupRequestForm focused landingPath={landingPath} />
+          <MockupRequestForm focused={focused} landingPath={landingPath} />
         </div>
         <div className="wd-container wd-hero-bottom"><span>Custom design · Built for phones · A website you own</span><a href="#work">Explore the work <ArrowDown size={15} /></a></div>
       </section>
@@ -92,10 +92,10 @@ export default function StudioLandingPage({ market = "st-louis", heroVideoSrc, h
       </section>
       <ClientProof />
       <CustomBuildIntroduction />
-      <ProjectGallery focused />
+      <ProjectGallery focused={focused} />
       <ProjectConversation />
       <SearchFoundations />
-      <CustomBuildComparison focused />
+      <CustomBuildComparison focused={focused} />
       <BuildCapabilities />
       <BuildProcess />
       <section className="wd-section wd-faq rcd-light" id="faq" aria-labelledby="faq-heading"><div className="wd-container wd-faq-grid"><div data-entrance="rise"><p className="wd-eyebrow">Frequently asked questions</p><h2 id="faq-heading">Questions about<br />the build.</h2></div><div>{FAQS.map(([question, answer]) => <details className="wd-faq-item" data-entrance="unfold" key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
@@ -103,6 +103,6 @@ export default function StudioLandingPage({ market = "st-louis", heroVideoSrc, h
         <div className="wd-container wd-contact-grid"><div className="wd-contact-copy" data-entrance="rise"><p className="wd-eyebrow">Your business. Your website.</p><h2 id="contact-heading">See what your website<br />could look like.</h2><p>Share your ideas. Get a free mockup. Decide on the full website when you’re ready.</p><div className="wd-contact-direct"><span>Prefer to talk?</span><CallLink context="website-design-contact" className="wd-contact-number" /></div></div><div className="wd-contact-preview" data-entrance="rise"><p className="wd-eyebrow">Free design preview</p><h3>Request your free mockup.</h3><p>No payment details and no obligation. We agree on the price before building your website.</p><a className="wd-button wd-button-dark" href="#start">Request my free mockup <ArrowUpRight size={19} /></a></div></div>
       </section>
     </main>
-    <StudioFooter focused /><StudioStickyContact /><TubesCursor mobileAmbient /><StudioMotion /><RecoveryFunnel />
+    <StudioFooter focused={focused} /><StudioStickyContact /><TubesCursor mobileAmbient /><StudioMotion /><RecoveryFunnel />
   </div></LandingPolicyProvider>;
 }
