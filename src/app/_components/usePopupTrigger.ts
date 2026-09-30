@@ -10,6 +10,8 @@ const SUPPRESS_PATHS = new Set<string>([
   "/website-design/thank-you",
   "/st-louis-web-design",
   "/st-louis-web-design/thank-you",
+  "/chicago-web-design",
+  "/chicago-web-design/thank-you",
   "/privacy-policy",
   "/terms-of-use",
   // Paid-traffic landing page and its thank-you URL. Google and Meta both

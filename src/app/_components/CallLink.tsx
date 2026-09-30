@@ -14,6 +14,8 @@ type Props = {
   className?: string;
   /** Defaults to the formatted number itself. */
   children?: ReactNode;
+  /** Optional wording before the live display number, preserving forwarding. */
+  numberPrefix?: string;
   /** Small phone glyph before the label. */
   icon?: boolean;
 };
@@ -28,7 +30,7 @@ type Props = {
  *
  * Renders the number as text as well as in the href on purpose: a visitor on a
  * desktop needs to be able to read and dial it, not just tap it. */
-export default function CallLink({ context, className, children, icon = true }: Props) {
+export default function CallLink({ context, className, children, numberPrefix = "", icon = true }: Props) {
   const pathname = usePathname();
   const phone = useWebsitePhoneNumber();
 
@@ -42,7 +44,7 @@ export default function CallLink({ context, className, children, icon = true }: 
       }}
     >
       {icon && <Phone size={15} strokeWidth={2} aria-hidden="true" />}
-      <span>{children ?? phone.display}</span>
+      <span>{children ?? `${numberPrefix}${phone.display}`}</span>
     </a>
   );
 }

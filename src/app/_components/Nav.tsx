@@ -122,6 +122,8 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
 
   const isCurrent = (href: string) => pathname === href;
   const isOnService = SERVICES.some((s) => s.href === pathname);
+  // Use native fragment navigation for paid-page logos, including repeated clicks.
+  const BrandLink = brandHref.includes("#") ? "a" : Link;
 
   return (
     <>
@@ -132,7 +134,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
         aria-label="Primary"
       >
         <div className="rcd-nav-inner container">
-          <Link href={brandHref} className="rcd-nav-brand" aria-label={sectionLinks ? "River City Digital — back to top" : "River City Digital home"}>
+          <BrandLink href={brandHref} className="rcd-nav-brand" aria-label={sectionLinks ? "River City Digital — back to top" : "River City Digital home"}>
             <Image
               src="/assets/logo-color.webp"
               alt="River City Digital Co."
@@ -141,7 +143,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
               priority
               sizes="248px"
             />
-          </Link>
+          </BrandLink>
 
           <ul className="rcd-nav-links">
             {sectionLinks ? sectionLinks.map(link => <li key={link.href}><a href={link.href}>{link.label}</a></li>) : <>
@@ -234,7 +236,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
         <div className="rcd-drawer-scrim" onClick={() => setDrawerOpen(false)} aria-hidden="true" />
         <div className="rcd-drawer-panel" ref={drawerPanelRef}>
           <div className="rcd-drawer-head">
-            <Link href={brandHref} className="rcd-drawer-brand" onClick={() => setDrawerOpen(false)}>
+            <BrandLink href={brandHref} className="rcd-drawer-brand" onClick={() => setDrawerOpen(false)}>
               <Image
                 src="/assets/logo-color.webp"
                 alt="River City Digital"
@@ -242,7 +244,7 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
                 height={36}
                 sizes="222px"
               />
-            </Link>
+            </BrandLink>
             <button
               type="button"
               ref={drawerCloseRef}

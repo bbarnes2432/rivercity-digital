@@ -1,0 +1,333 @@
+{
+  "created": "2026-09-30",
+  "provenance": "Owner-supplied Chicago footage; source license was not independently verified. No new stock download or AI imagery.",
+  "playlistOrder": [
+    "day-skyline",
+    "bridge",
+    "sunset",
+    "bean"
+  ],
+  "sourceFilenames": {
+    "sunset": "chicago-city-in-illinois-2026-09-17-18-14-40-utc.mp4",
+    "bridge": "chicago-bridge-lifting-2026-09-17-09-27-57-utc.mov",
+    "bean": "M18-1013.mov",
+    "day-skyline": "chicago-city-in-illinois-2026-09-17-18-16-48-utc.mp4"
+  },
+  "newVideoEncoding": {
+    "derivedFrom": "Existing same-name responsive MP4 encodes",
+    "format": "WebM VP9",
+    "audio": "none",
+    "fps": 24,
+    "dimensionsPreserved": true,
+    "quality": "CRF 34, capped target rates, 2 threads, sequential",
+    "desktopTargetBitsPerSecond": 1000000,
+    "mobileTargetBitsPerSecond": 500000
+  },
+  "story": {
+    "filename": "chicago-river-story.webp",
+    "smallFilename": "chicago-river-story-small.webp",
+    "sourceFilename": "chicago-bridge-lifting-2026-09-17-09-27-57-utc.mov",
+    "sourceTimeSeconds": 5,
+    "description": "Chicago River, raised bridges and surrounding towers in daylight",
+    "treatment": "Frame extraction and resize only; original color preserved",
+    "candidatesInspectedSeconds": [
+      1,
+      5,
+      8
+    ]
+  },
+  "recommendedHeroPoster": "chicago-day-skyline-desktop.webp",
+  "recommendedMobilePoster": "chicago-day-skyline-mobile.webp",
+  "recommendedSourceOrder": [
+    "video/webm",
+    "video/mp4"
+  ],
+  "assets": [
+    {
+      "filename": "chicago-bean-desktop.mp4",
+      "bytes": 2357991,
+      "sha256": "bf4fe80747b19a7f6e2aed33f442f3fd2e3b1ee6955854b9da124b43c047a606",
+      "codec": "h264",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": 14.0,
+      "fps": "24/1",
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-bean-desktop.webm",
+      "bytes": 1816842,
+      "sha256": "c8067341c5ea714c269520ff36e8a29202e92a28bee2f088cb13900208da6d20",
+      "codec": "vp9",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": 14.0,
+      "fps": "24/1",
+      "newForRedesign": true
+    },
+    {
+      "filename": "chicago-bean-desktop.webp",
+      "bytes": 142324,
+      "sha256": "b60431d67bc82dc9eeb6092b534343b3559dd136e7df3f25a3b62682454d7d93",
+      "codec": "webp",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": null,
+      "fps": null,
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-bean-mobile.mp4",
+      "bytes": 1011424,
+      "sha256": "0377a787d8ffe569fe20eda2b4bd93506b2d48fc1a4591154ba63cff2ea77987",
+      "codec": "h264",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": 14.0,
+      "fps": "24/1",
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-bean-mobile.webm",
+      "bytes": 892441,
+      "sha256": "a28f57195fee9e9e0cd9ab57051ba559c45d4394e0b525478e8de0c17a69b52a",
+      "codec": "vp9",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": 14.0,
+      "fps": "24/1",
+      "newForRedesign": true
+    },
+    {
+      "filename": "chicago-bean-mobile.webp",
+      "bytes": 61220,
+      "sha256": "e500d546b16be50ce01ea51c65a18547610c1001566d531a7481b9755be51882",
+      "codec": "webp",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": null,
+      "fps": null,
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-bridge-desktop.mp4",
+      "bytes": 2873484,
+      "sha256": "bd4abb8e565e163249bf6ce4c3c0a9b5476fbc3a025cd151eabd41fc2b1e91d3",
+      "codec": "h264",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": 10.166667,
+      "fps": "24/1",
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-bridge-desktop.webm",
+      "bytes": 1286528,
+      "sha256": "d2137ec8c6c502aab31805dfa7c9e11080740240e025e45e8fd97ea3bc4addef",
+      "codec": "vp9",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": 10.167,
+      "fps": "24/1",
+      "newForRedesign": true
+    },
+    {
+      "filename": "chicago-bridge-desktop.webp",
+      "bytes": 133506,
+      "sha256": "5d369d528791c0f03a8a52865258e5ac0fd0ea168f8feaefcdcc5a6ca73b00fe",
+      "codec": "webp",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": null,
+      "fps": null,
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-bridge-mobile.mp4",
+      "bytes": 2046916,
+      "sha256": "8367c4a9c64cb127fd8cd28629b1ec73596ed5a7e469898213fe0f00ebb5dede",
+      "codec": "h264",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": 10.166667,
+      "fps": "24/1",
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-bridge-mobile.webm",
+      "bytes": 656817,
+      "sha256": "8f73d1917e1efa78841bb2a845c0bcca66b4efa54ab78ec2005a5c16c35436f2",
+      "codec": "vp9",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": 10.167,
+      "fps": "24/1",
+      "newForRedesign": true
+    },
+    {
+      "filename": "chicago-bridge-mobile.webp",
+      "bytes": 53710,
+      "sha256": "102bc202baaf06da303ed146ddb7fedb7066312b1a1a162641785d0d6bf398c9",
+      "codec": "webp",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": null,
+      "fps": null,
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-day-skyline-desktop.mp4",
+      "bytes": 2240037,
+      "sha256": "bf77eb732a22d6e384ea1a6bd3698c5b9ad65171853e29ce7e400458ce7447ee",
+      "codec": "h264",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": 10.666667,
+      "fps": "24/1",
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-day-skyline-desktop.webm",
+      "bytes": 1447636,
+      "sha256": "e25b7516bc1985b6848d401a3ea1ac47c8e05d691585e9d20674fb065aabc39c",
+      "codec": "vp9",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": 10.667,
+      "fps": "24/1",
+      "newForRedesign": true
+    },
+    {
+      "filename": "chicago-day-skyline-desktop.webp",
+      "bytes": 124200,
+      "sha256": "fb88f30f141559a2c06e1e16381b8e3281004c7dbea5d195fff1c3bbf5bd343d",
+      "codec": "webp",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": null,
+      "fps": null,
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-day-skyline-mobile.mp4",
+      "bytes": 933107,
+      "sha256": "fe3ab4ea687060c91420d6e913f7033bb4fc689226014aa881b05968c2a0708d",
+      "codec": "h264",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": 10.666667,
+      "fps": "24/1",
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-day-skyline-mobile.webm",
+      "bytes": 694969,
+      "sha256": "d1fa11404ab2417ddfe3a368ab04590f327df95cfd6187a6ccee21abb8627039",
+      "codec": "vp9",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": 10.667,
+      "fps": "24/1",
+      "newForRedesign": true
+    },
+    {
+      "filename": "chicago-day-skyline-mobile.webp",
+      "bytes": 41862,
+      "sha256": "dadec2f4c8c1828c7831b63d41596f38d0a7667c41494460588222d8afa283fb",
+      "codec": "webp",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": null,
+      "fps": null,
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-river-story-small.webp",
+      "bytes": 85012,
+      "sha256": "96cb0598d8cf825a3440574feaa007ac8b543edcc236b9ce563623d70485a57a",
+      "codec": "webp",
+      "width": 960,
+      "height": 540,
+      "durationSeconds": null,
+      "fps": null,
+      "newForRedesign": true
+    },
+    {
+      "filename": "chicago-river-story.webp",
+      "bytes": 340126,
+      "sha256": "9c271c66d3ce1a4dbdb3118072a90693bf0caf4f8c36e549bc3f359ba04cd4ec",
+      "codec": "webp",
+      "width": 1920,
+      "height": 1080,
+      "durationSeconds": null,
+      "fps": null,
+      "newForRedesign": true
+    },
+    {
+      "filename": "chicago-sunset-desktop.mp4",
+      "bytes": 1652542,
+      "sha256": "30004bba27dfbc3bf077185368aafb05fcecadb7c39684a8f7cd1b56abe07044",
+      "codec": "h264",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": 10.25,
+      "fps": "24/1",
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-sunset-desktop.webm",
+      "bytes": 1200675,
+      "sha256": "a692a882585af5735ce90fa260d6502b1fe3ca7891f49740328601991d4cc8e2",
+      "codec": "vp9",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": 10.25,
+      "fps": "24/1",
+      "newForRedesign": true
+    },
+    {
+      "filename": "chicago-sunset-desktop.webp",
+      "bytes": 26440,
+      "sha256": "066f999a6695ca056062c8916ecec15b597074250e5ce6baaf9d7a9fd8ad42c0",
+      "codec": "webp",
+      "width": 1440,
+      "height": 810,
+      "durationSeconds": null,
+      "fps": null,
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-sunset-mobile.mp4",
+      "bytes": 758824,
+      "sha256": "053a17c253599c1e5b47049df19b3411e411fb520ad70fa6ebfd5024ddd34406",
+      "codec": "h264",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": 10.25,
+      "fps": "24/1",
+      "newForRedesign": false
+    },
+    {
+      "filename": "chicago-sunset-mobile.webm",
+      "bytes": 543792,
+      "sha256": "9b2e08e6cbf73dcb3f56b018c29fefc121c5d4e9e1a7542b0cd9dd5870f98168",
+      "codec": "vp9",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": 10.25,
+      "fps": "24/1",
+      "newForRedesign": true
+    },
+    {
+      "filename": "chicago-sunset-mobile.webp",
+      "bytes": 10268,
+      "sha256": "b65c8418753c62b09c3e7669a18a1a3264db298e7e595929313351f4a3745edc",
+      "codec": "webp",
+      "width": 576,
+      "height": 1024,
+      "durationSeconds": null,
+      "fps": null,
+      "newForRedesign": false
+    }
+  ]
+}

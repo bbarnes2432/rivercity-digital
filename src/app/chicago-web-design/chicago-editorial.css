@@ -1,0 +1,187 @@
+/* Chicago only: one cream canvas, a continuous river, navy at the beginning/end. */
+.wd-site.chicago-editorial { --ch-rule: #101d3125; --ch-section-space: clamp(64px, 7vw, 104px); background: var(--rcd-cream-500); color: var(--rcd-navy-900); }
+.chicago-editorial .wd-container { width: min(1280px, calc(100% - 112px)); }
+.chicago-editorial #main h1, .chicago-editorial #main h2 { font-family: var(--font-barlow), sans-serif; font-weight: 500; line-height: 1.02; letter-spacing: -.025em; }
+.chicago-editorial #main h2 { font-size: clamp(38px, 4.5vw, 60px); margin-top: 0; }
+.chicago-editorial #main h2 em { font-family: inherit; font-style: normal; letter-spacing: inherit; }
+.chicago-editorial h3 { font-weight: 500; }
+.chicago-editorial .wd-section, .ch-river-journey > section { padding-block: var(--ch-section-space); }
+.chicago-editorial .wd-button { border-radius: 4px; box-shadow: none; font-size: 15px; }
+.chicago-editorial .wd-button:hover { box-shadow: none; transform: none; }
+.chicago-editorial .wd-global-navigation .btn-primary { color: var(--rcd-navy-900); }
+.chicago-editorial .wd-global-navigation .btn-primary:hover { color: var(--rcd-navy-900); }
+.chicago-editorial .wd-button-mint:hover, .chicago-editorial .wd-form-submit:hover { color: var(--rcd-navy-900) !important; background: #76bbc1; }
+.chicago-editorial :focus-visible { outline: 2px solid var(--rcd-navy-600); outline-offset: 5px; }
+.chicago-editorial .ch-hero :focus-visible, .chicago-editorial .ch-final :focus-visible { outline-color: white; }
+.chicago-editorial .ch-hero { background: var(--rcd-navy-900); }
+.ch-hero-film { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: center; width: 100%; min-width: 0; aspect-ratio: 16 / 9; min-height: min(820px, calc(100svh - 84px)); color: #fff; background: var(--rcd-navy-900); }
+.chicago-editorial .ch-hero-film .wd-chicago-video-background { height: 100%; }
+.chicago-editorial .ch-hero-film .wd-chicago-video, .chicago-editorial .ch-hero-film .wd-chicago-video-poster img { object-fit: cover; }
+/* The weakest overlay still produces AA text contrast over a pure white frame. */
+.chicago-editorial .wd-chicago-video-shade { background: linear-gradient(90deg, #101d31d6 0%, #101d31b8 52%, #101d31a6 100%); }
+.ch-hero-title { position: relative; z-index: 1; padding-block: 75px 95px; }
+.chicago-editorial .ch-hero-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 23px; color: #fff; }
+.ch-hero-eyebrow span { padding-inline: 9px; }
+.chicago-editorial #main .ch-hero h1 { font-size: clamp(58px, 6.65vw, 101px); line-height: .99; margin: 0; max-width: 1000px; }
+.ch-hero h1 span { color: #fff; }
+.chicago-editorial .ch-hero-description { font-size: 17px; line-height: 1.75; max-width: 570px; margin-top: 28px; color: #fff; }
+.ch-hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.chicago-editorial .ch-hero-actions .wd-button { min-height: 56px; padding: 16px 22px; font-size: 15px; }
+.chicago-editorial .ch-hero-call { border: 1px solid #ffffffa6; color: white; background: #101d3138; }
+.chicago-editorial .ch-hero-call:hover { border-color: white; background: #ffffff15; }
+.ch-hero-footnote { position: absolute; z-index: 1; left: 0; right: 0; bottom: 28px; display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid #ffffff50; color: white; font-size: 12px; }
+.ch-hero-footnote a { display: flex; align-items: center; gap: 12px; min-height: 40px; }
+.chicago-editorial .wd-video-background-control { right: 28px; top: 22px; z-index: 3; min-height: 40px; padding: 9px 12px; color: white; border: 1px solid #ffffff65; border-radius: 3px; background: #101d317a; }
+.ch-neighborhoods { position: relative; display: flex; align-items: center; gap: 12px; padding-block: 20px; border-bottom: 1px solid var(--ch-rule); background: var(--rcd-cream-500); }
+.ch-ticker-window { flex: 1; min-width: 0; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 3%, #000 96%, transparent); }
+.ch-ticker-track { display: flex; width: max-content; animation: ch-ticker 105s linear infinite; }
+.ch-ticker-track ul { display: flex; align-items: center; list-style: none; padding: 0; margin: 0; }
+.ch-ticker-track li { display: flex; align-items: center; gap: 28px; padding-right: 28px; white-space: nowrap; font: 500 18px/1.5 var(--font-barlow), sans-serif; letter-spacing: .05em; text-transform: uppercase; }
+.ch-ticker-track li span { color: #357780; }
+.ch-neighborhoods:hover .ch-ticker-track, .ch-neighborhoods:focus-within .ch-ticker-track, .ch-neighborhoods[data-paused="true"] .ch-ticker-track { animation-play-state: paused; }
+.ch-ticker-control { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; margin-right: 18px; border: 1px solid var(--ch-rule); border-radius: 50%; cursor: pointer; color: var(--rcd-navy-900); background: transparent; }
+@keyframes ch-ticker { to { transform: translateX(-50%); } }
+.ch-river-journey { position: relative; isolation: isolate; overflow: clip; }
+.ch-river-thread { position: absolute; inset: 0; width: 100%; height: 100%; color: #4ca5ad; opacity: .48; pointer-events: none; z-index: -1; }
+.chicago-editorial .ch-river-journey > section { position: relative; background: transparent; }
+.ch-start-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(40px, 6vw, 84px); align-items: center; }
+.ch-vsl { min-width: 0; }
+.ch-vsl .rcd-hook-video { border-radius: 5px; box-shadow: 0 24px 60px #101d3117; }
+.ch-vsl > p { font-size: 13px; line-height: 1.7; color: var(--wd-muted); margin-top: 18px; }
+.chicago-editorial .ch-form { padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+.ch-form .wd-form-heading { grid-column: 1 / -1; scroll-margin-top: 112px; margin-bottom: 9px; }
+.ch-form .wd-form-heading .wd-eyebrow { display: none; }
+.chicago-editorial #main .ch-form h2 { font-size: clamp(30px, 3vw, 38px); letter-spacing: -.02em; }
+.ch-form .wd-form-heading > p { font-size: 14px; line-height: 1.7; color: var(--wd-muted); margin-top: 12px; }
+.ch-form .wd-form-example-link { font-size: 12px; min-height: 40px; margin-top: 3px; width: fit-content; }
+.chicago-editorial .ch-form .wd-field { margin: 0; min-width: 0; }
+.chicago-editorial .ch-form .wd-field > span { font-size: 12px; line-height: 1.5; margin-bottom: 7px; flex-wrap: wrap; gap: 4px 8px; }
+.chicago-editorial .ch-form .wd-field small { font-size: 10px; }
+.chicago-editorial .ch-form .wd-field input, .chicago-editorial .ch-form .wd-field textarea { min-height: 49px; font-size: 16px; border: 1px solid #101d3140; border-radius: 3px; background: #fff8; color: var(--rcd-navy-900); padding: 12px; }
+.chicago-editorial .ch-form .wd-field input::placeholder { color: #68717c; font-size: 13px; }
+.ch-form .wd-form-details { grid-column: 1 / -1; margin: 0; }
+.ch-form .wd-form-details summary { min-height: 44px; padding: 8px 0; font-size: 12px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--ch-rule); }
+.ch-form .wd-form-details[open] summary { margin-bottom: 12px; }
+.chicago-editorial .ch-form .wd-form-submit { grid-column: 1 / -1; min-height: 52px; margin: 0; font-size: 15px; }
+.ch-form .wd-form-error, .ch-form .wd-form-assurance, .ch-form .wd-form-privacy { grid-column: 1 / -1; }
+.chicago-editorial .ch-form .wd-form-assurance { margin: 0; font-size: 11px; }
+.chicago-editorial .ch-form .wd-form-privacy { margin: -4px 0 0; font-size: 10px; line-height: 1.7; }
+.ch-connection-layout { display: grid; grid-template-columns: 1.25fr 1fr; align-items: center; gap: clamp(40px, 7vw, 100px); }
+.ch-river-photo { position: relative; }
+.ch-river-photo img { display: block; width: 100%; aspect-ratio: 1.15; height: auto; object-fit: cover; }
+.chicago-editorial .ch-river-photo figcaption { margin-top: 14px; font-size: 11px; color: var(--wd-muted); }
+.chicago-editorial .ch-connection-copy p { font-size: 16px; line-height: 1.85; color: var(--wd-muted); margin-top: 25px; max-width: 440px; }
+.ch-handled { display: block; font-size: 12px; font-weight: 500; margin-top: 32px; padding-top: 17px; border-top: 1px solid var(--ch-rule); width: fit-content; }
+.ch-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 35px; }
+.ch-section-heading > p { max-width: 310px; font-size: 14px; line-height: 1.75; color: var(--wd-muted); }
+.ch-project-tabs { display: flex; border-top: 1px solid var(--ch-rule); border-bottom: 1px solid var(--ch-rule); margin-bottom: 32px; overflow-x: auto; }
+.ch-project-tabs button { flex: 1 0 140px; min-height: 65px; display: flex; align-items: center; gap: 9px; justify-content: space-between; padding: 14px 12px; border: 0; border-bottom: 3px solid transparent; background: transparent; text-align: left; color: var(--wd-muted); font: 500 12px/1.5 var(--font-inter), sans-serif; cursor: pointer; }
+.ch-project-tabs button[aria-selected="true"] { color: var(--rcd-navy-900); border-bottom-color: var(--accent); }
+.ch-project-tabs svg { display: none; }
+.ch-project-tabs button[aria-selected="true"] svg { display: block; }
+.ch-project-panel:not([hidden]) { display: grid; grid-template-columns: 1.7fr 1fr; align-items: center; gap: 60px; }
+.ch-project-panel[hidden] { display: none; }
+.ch-project-stage { min-width: 0; padding-bottom: 24px; }
+.ch-project-browser { position: relative; overflow: hidden; border: 6px solid #273240; border-radius: 10px; box-shadow: 0 18px 40px #101d3118; background: #fff; }
+.ch-project-browser::after { content: ""; display: block; height: 5px; background: #273240; }
+.ch-project-browserbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 13px; background: #faf9f6; color: var(--wd-muted); gap: 12px; font-size: 9px; border-bottom: 1px solid #101d3120; }
+.ch-project-stage::after { content: ""; display: block; height: 9px; width: calc(100% + 30px); margin-left: -15px; border-radius: 0 0 50% 50%; background: linear-gradient(#b6bbc1, #737e89); }
+.ch-project-browser .wd-live-preview { aspect-ratio: 16 / 10; }
+.ch-project-browser .wd-live-preview > * { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; pointer-events: none; }
+.ch-scroll-preview { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: #fff; }
+.ch-scroll-preview img { display: block; width: 100%; height: auto; animation: ch-site-scroll 12s ease-in-out infinite alternate; animation-play-state: paused; }
+.ch-scroll-preview[data-scrolling="true"] img { animation-play-state: running; }
+@keyframes ch-site-scroll { 0%, 12% { transform: translateY(0); } 88%, 100% { transform: translateY(min(0px, calc(100cqw * .625 - 100%))); } }
+.ch-scroll-preview { container-type: inline-size; }
+.ch-enlarge { position: absolute; right: 10px; bottom: 13px; z-index: 2; display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 9px 12px; border: 1px solid #ffffff70; border-radius: 3px; background: var(--rcd-navy-900); color: white; font: 500 11px var(--font-inter), sans-serif; cursor: pointer; }
+.ch-project-copy .ch-kicker { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--wd-muted); margin-bottom: 14px; }
+.chicago-editorial .ch-project-copy h3 { font-family: var(--font-barlow), sans-serif; font-size: clamp(30px, 3vw, 43px); line-height: 1.08; letter-spacing: -.02em; }
+.ch-project-copy > p:not(.ch-kicker) { margin-top: 18px; font-size: 14px; line-height: 1.8; color: var(--wd-muted); }
+.ch-project-copy ul { padding: 0; margin: 25px 0; list-style: none; border-top: 1px solid var(--ch-rule); }
+.ch-project-copy li { padding-block: 10px; border-bottom: 1px solid var(--ch-rule); font-size: 12px; }
+.ch-project-controls { display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--wd-muted); }
+.ch-preview-control { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; background: none; border: 0; padding: 0; font: 500 11px var(--font-inter), sans-serif; color: inherit; cursor: pointer; }
+.ch-preview-control:disabled { cursor: default; }
+.ch-visit-project { display: inline-flex; gap: 7px; align-items: center; min-height: 44px; font-size: 12px; color: var(--rcd-navy-900); text-decoration: underline; }
+.chicago-editorial .ch-project-dialog { border-radius: 6px; background: var(--rcd-cream-500); }
+.chicago-editorial .ch-project-dialog h2 { font-size: 30px; }
+.ch-project-dialog .ch-scroll-preview { max-height: 65vh; aspect-ratio: 16 / 10; }
+.ch-dialog-controls { padding: 12px 28px 20px; display: flex; justify-content: space-between; }
+.ch-faq-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; }
+.ch-faq details { border-top: 1px solid var(--ch-rule); }
+.ch-faq details:last-child { border-bottom: 1px solid var(--ch-rule); }
+.ch-faq summary { padding-block: 22px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 20px; font-size: 15px; line-height: 1.6; font-weight: 500; cursor: pointer; }
+.ch-faq summary::-webkit-details-marker { display: none; }
+.ch-faq summary > span { font-size: 24px; font-weight: 400; transition: transform .2s; }
+.ch-faq details[open] summary > span { transform: rotate(45deg); }
+.ch-faq details > p { padding: 0 24px 23px 0; color: var(--wd-muted); font-size: 14px; line-height: 1.8; }
+.chicago-editorial .ch-final { position: relative; isolation: isolate; overflow: hidden; background: var(--rcd-navy-900); color: #fff; padding-block: 95px 160px; }
+.ch-final-content { position: relative; z-index: 1; text-align: center; }
+.chicago-editorial #main .ch-final h2 { font-size: clamp(45px, 5.2vw, 74px); }
+.ch-final p { margin: 24px auto 28px; color: #e2e7ee; font-size: 15px; line-height: 1.7; }
+.ch-final .wd-button { min-width: 235px; }
+.ch-final-call { display: flex; justify-content: center; align-items: center; gap: 7px; min-height: 44px; margin-top: 13px; font-size: 13px; color: #fff; }
+.ch-skyline { position: absolute; bottom: 0; width: 100%; height: 150px; color: #294054; opacity: .65; pointer-events: none; }
+.chicago-editorial .wd-footer { background: var(--rcd-navy-900); color: #fff; border-top: 1px solid #ffffff22; }
+.chicago-editorial .wd-footer-top { padding-top: 8px; }
+@media (min-width:1600px) { .chicago-editorial .wd-video-background-control { right: calc((100vw - 1280px)/2); } }
+@media (max-width:1100px) {
+  .chicago-editorial .wd-container { width: calc(100% - 72px); }
+  .ch-hero-film { min-height: 760px; }
+  .ch-start-layout { gap: 35px; grid-template-columns: 1fr 1fr; }
+  .ch-connection-layout { gap: 40px; }
+  .ch-project-panel:not([hidden]) { gap: 35px; grid-template-columns: 1.45fr 1fr; }
+  .ch-faq-layout { gap: 40px; }
+}
+@media (max-width:800px) {
+  .ch-start-layout, .ch-connection-layout, .ch-faq-layout { grid-template-columns: 1fr; gap: 42px; }
+  .ch-start-layout { max-width: 640px; }
+  .chicago-editorial .ch-start { padding-top: 56px; }
+  .ch-connection-copy { max-width: 570px; }
+  .ch-river-photo img { aspect-ratio: 1.65; }
+  .ch-project-panel:not([hidden]) { grid-template-columns: 1fr; gap: 24px; }
+  .ch-project-copy ul { display: flex; flex-wrap: wrap; gap: 9px 20px; border-top: 0; margin-block: 16px; }
+  .ch-project-copy li { border: 0; padding: 0; }
+}
+@media (max-width:600px) {
+  .chicago-editorial .wd-container { width: calc(100% - 44px); }
+  .ch-hero-film { aspect-ratio: auto; min-height: 710px; }
+  .ch-hero-title { padding-block: 72px 125px; }
+  .chicago-editorial .ch-hero-eyebrow { font-size: 9px; letter-spacing: .08em; margin-bottom: 20px; }
+  .ch-hero-eyebrow span { padding-inline: 4px; }
+  .chicago-editorial #main .ch-hero h1 { font-size: clamp(47px, 11vw, 63px); max-width: 580px; }
+  .chicago-editorial .ch-hero-description { font-size: 15px; line-height: 1.75; margin-top: 23px; }
+  .ch-hero-actions { flex-direction: column; gap: 10px; margin-top: 26px; }
+  .chicago-editorial .ch-hero-actions .wd-button { width: 100%; font-size: 14px; min-height: 53px; }
+  .ch-hero-footnote { bottom: 20px; font-size: 10px; padding-top: 12px; }
+  .chicago-editorial .wd-video-background-control { top: 12px; right: 16px; font-size: 9px; min-height: 36px; padding: 7px 9px; }
+  .ch-neighborhoods { padding-block: 9px; }
+  .ch-ticker-track li { font-size: 14px; gap: 19px; padding-right: 19px; }
+  .ch-ticker-control { margin-right: 7px; }
+  .chicago-editorial #main .ch-form h2 { font-size: 34px; }
+  .chicago-editorial .ch-form { gap: 16px 12px; }
+  .ch-form .wd-field { grid-column: 1 / -1; }
+  .chicago-editorial .ch-form .wd-field > span { font-size: 13px; }
+  .ch-river-photo { margin-inline: -22px !important; }
+  .ch-river-photo figcaption { padding-inline: 22px; }
+  .chicago-editorial .ch-connection-copy p { font-size: 15px; }
+  .ch-section-heading { display: block; margin-bottom: 25px; }
+  .ch-section-heading > p { margin-top: 18px; }
+  .ch-project-tabs button { flex-basis: 135px; }
+  .ch-project-browser { border-width: 4px; }
+  .ch-project-browserbar { font-size: 7px; padding: 8px; }
+  .ch-project-stage::after { width: calc(100% + 12px); margin-left: -6px; }
+  .ch-enlarge { font-size: 10px; padding: 8px; }
+  .chicago-editorial #main .ch-final h2 { font-size: 45px; }
+  .chicago-editorial .ch-final { padding-block: 75px 145px; }
+  .ch-skyline { height: 110px; }
+  .ch-final p { font-size: 14px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .ch-ticker-track { animation: none; width: auto; }
+  .ch-ticker-track ul:first-child { flex-wrap: wrap; justify-content: center; gap: 9px 14px; padding: 12px 18px; }
+  .ch-ticker-track li { white-space: normal; font-size: 12px; padding: 0; gap: 14px; }
+  .ch-ticker-track ul[aria-hidden], .ch-ticker-control { display: none; }
+  .ch-ticker-window { mask-image: none; }
+  .ch-scroll-preview img { animation: none; transition: none; transform: none !important; }
+}

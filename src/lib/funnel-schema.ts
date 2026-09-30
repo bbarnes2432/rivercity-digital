@@ -1,4 +1,4 @@
-export const PAGE_VERSION = "separate-service-paid-routes-2026-09-28";
+export const PAGE_VERSION = "chicago-river-2026-09-30";
 export const FUNNEL_EVENTS = ["landing_view", "mockup_view", "mockup_start", "mockup_validation_error", "mockup_submit", "mockup_error", "mockup_accepted", "cta_mockup", "cta_call"] as const;
 export type FunnelEvent = typeof FUNNEL_EVENTS[number];
 export const FUNNEL_PAGES = ["/website-design", "/st-louis-web-design", "/chicago-web-design"] as const;

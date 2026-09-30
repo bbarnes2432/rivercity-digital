@@ -30,7 +30,7 @@ import "./website-mockup-offer.css";
 import "./website-video.css";
 import "./website-focused.css";
 import LandingPolicyProvider from "./_components/LandingPolicyProvider";
-import ChicagoHeroBackground from "./_components/ChicagoHeroBackground";
+import ChicagoHeroBackground, { type HeroVideoClip } from "./_components/ChicagoHeroBackground";
 
 
 
@@ -43,7 +43,7 @@ const FAQS = [
   ["Will my website be ready for search and mobile?", "Yes. We design for phones and computers, write clear page titles, and set up your pages for search engines. Ongoing SEO is separate. No website can guarantee rankings or leads."],
 ];
 
-export default function StudioLandingPage({ market = "st-louis", focused = false, heroVideoSrc, heroVideoMobileSrc, heroVideoPoster, heroVideoMobilePoster }: { market?: "st-louis" | "chicago"; focused?: boolean; heroVideoSrc?: string; heroVideoMobileSrc?: string; heroVideoPoster?: string; heroVideoMobilePoster?: string }) {
+export default function StudioLandingPage({ market = "st-louis", focused = false, heroVideoClips }: { market?: "st-louis" | "chicago"; focused?: boolean; heroVideoClips?: readonly HeroVideoClip[] }) {
   const chicago = market === "chicago";
   const city = chicago ? "Chicago" : "St. Louis";
   const landingPath = chicago ? "/chicago-web-design" : focused ? "/st-louis-web-design" : "/website-design";
@@ -60,7 +60,7 @@ export default function StudioLandingPage({ market = "st-louis", focused = false
     <HeroPortal /><StudioNavigation focused={focused} landingPath={landingPath} />
     <main id="main" className="wd-page">
       <section className={`wd-hero wd-hero-with-form${chicago ? " wd-hero-video" : ""}`} aria-labelledby="hero-heading">
-        {chicago ? <ChicagoHeroBackground src={heroVideoSrc} mobileSrc={heroVideoMobileSrc} poster={heroVideoPoster} mobilePoster={heroVideoMobilePoster} /> : <div className="wd-hero-effects" aria-hidden="true"><ShaderBackground className="wd-hero-shader" /><KineticMatrix autoImpulseDelay={2050} /></div>}
+        {chicago ? <ChicagoHeroBackground clips={heroVideoClips} /> : <div className="wd-hero-effects" aria-hidden="true"><ShaderBackground className="wd-hero-shader" /><KineticMatrix autoImpulseDelay={2050} /></div>}
         <div className="wd-container wd-hero-content">
           <div className="wd-hero-copy">
             <p className="wd-eyebrow"><span className="wd-status-dot" /> {chicago ? "Family-owned in St. Louis · Serving Chicago remotely" : "Local & family-owned · St. Louis"}</p>

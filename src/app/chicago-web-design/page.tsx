@@ -1,19 +1,26 @@
 import type { Metadata } from "next";
-import StudioLandingPage from "../website-design/StudioLandingPage";
-import { CHICAGO_HERO_MEDIA } from "./hero-media";
+import ChicagoLandingPage from "./ChicagoLandingPage";
 
 export const metadata: Metadata = {
   title: "Chicago Website Design — Start With a Free Mockup",
-  description: "Custom websites for Chicago businesses. Work directly with our family-owned St. Louis studio, wherever you are. Request your free website mockup.",
+  description: "Custom websites for Chicago businesses. Work directly with our family-owned studio. Request your free website mockup.",
+  keywords: ["Chicago website design", "Custom website design", "Chicago web design agency"],
   alternates: { canonical: "/chicago-web-design" },
   robots: { index: false, follow: false },
   openGraph: {
     title: "Chicago website design | River City Digital",
-    description: "See what your website could look like. Custom design for Chicago businesses, delivered remotely by our St. Louis studio.",
+    description: "See what your website could look like. Custom design for Chicago businesses, delivered by our family-owned studio.",
     url: "/chicago-web-design",
+    images: [{ url: "/assets/chicago/chicago-day-skyline-desktop.webp", width: 1440, height: 810, alt: "Chicago website design by River City Digital" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chicago website design | River City Digital",
+    description: "Custom websites for Chicago businesses. See what your website could look like with a free mockup.",
+    images: [{ url: "/assets/chicago/chicago-day-skyline-desktop.webp", alt: "Chicago website design by River City Digital" }],
   },
 };
 
 export default function ChicagoWebsiteDesignPage() {
-  return <StudioLandingPage market="chicago" focused heroVideoSrc={CHICAGO_HERO_MEDIA.src} heroVideoMobileSrc={CHICAGO_HERO_MEDIA.mobileSrc} heroVideoPoster={CHICAGO_HERO_MEDIA.poster} heroVideoMobilePoster={CHICAGO_HERO_MEDIA.mobilePoster} />;
+  return <ChicagoLandingPage />;
 }

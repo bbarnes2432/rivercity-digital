@@ -14,7 +14,8 @@
 .wd-chicago-video-background { position: absolute; inset: 0 0 auto; height: min(100%, 760px); z-index: 0; pointer-events: none; overflow: hidden; }
 .wd-chicago-video, .wd-chicago-video-poster, .wd-chicago-video-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
 .wd-chicago-video { object-fit: cover; opacity: 0; }
-.wd-chicago-video[data-ready="true"] { opacity: 1; }
+.wd-chicago-video[data-ready="true"][data-active="true"] { opacity: 1; }
+.wd-chicago-playlist { position: absolute; inset: 0; }
 .wd-chicago-video-poster picture, .wd-chicago-video-poster img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .wd-chicago-video-poster { background: radial-gradient(ellipse at 25% 30%, #4ca5ad55, transparent 60%), linear-gradient(140deg, #132d46, #0f1e33 65%); background-size: cover; background-position: center; }
 .wd-chicago-video-shade { background: linear-gradient(90deg, rgba(15,30,51,.72), rgba(15,30,51,.32)), linear-gradient(0deg, #0f1e33, transparent 45%); }
@@ -24,6 +25,6 @@
   .wd-chicago-video-background { bottom: auto; height: 760px; }
   .wd-chicago-video-shade { background: linear-gradient(180deg, rgba(15,30,51,.52), rgba(15,30,51,.65) 65%, #0f1e33); }
   .wd-video-background-control { top: 12px; right: 16px; bottom: auto; min-height: 40px; }
-  .wd-hero-video .wd-hero-copy { padding-top: 44px; }
+  .wd-hero-with-form.wd-hero-video .wd-hero-copy { padding-top: 44px; }
   .wd-hero-video .wd-hero-bottom { padding-bottom: 24px; }
 }
