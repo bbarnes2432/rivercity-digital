@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ChicagoLandingPage from "./ChicagoLandingPage";
+import { CHICAGO_HERO_CLIPS } from "./hero-media";
 
 export const metadata: Metadata = {
   title: "Chicago Website Design — Start With a Free Mockup",
@@ -22,5 +23,10 @@ export const metadata: Metadata = {
 };
 
 export default function ChicagoWebsiteDesignPage() {
-  return <ChicagoLandingPage />;
+  const first = CHICAGO_HERO_CLIPS[0];
+  return <>
+    <link rel="preload" as="image" href={first.mobilePoster} media="(max-width: 760px)" fetchPriority="high" />
+    <link rel="preload" as="image" href={first.poster} media="(min-width: 761px)" fetchPriority="high" />
+    <ChicagoLandingPage />
+  </>;
 }
