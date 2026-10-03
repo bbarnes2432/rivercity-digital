@@ -13,7 +13,7 @@ import { CLIENT_REVIEW } from "./client-review";
 import { PolicyButton } from "./LandingPolicyProvider";
 import type { FunnelPage } from "@/lib/funnel-schema";
 
-export default function MockupRequestForm({ focused = false, landingPath = "/website-design", compact = false }: { focused?: boolean; landingPath?: FunnelPage; compact?: boolean }) {
+export default function MockupRequestForm({ focused = false, landingPath = "/website-design", compact = false, nextStep }: { focused?: boolean; landingPath?: FunnelPage; compact?: boolean; nextStep?: string }) {
   const router = useRouter();
   const submitting = useRef(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
@@ -59,7 +59,7 @@ export default function MockupRequestForm({ focused = false, landingPath = "/web
     }
   }
   return <form id="wd-mockup-form" className={`wd-form rcd-light${compact ? " ch-form" : ""}`} onSubmit={submit} onInput={() => trackFunnel("mockup_start", true)} onInvalid={() => trackFunnel("mockup_validation_error", true)} aria-busy={status === "submitting"} aria-labelledby="mockup-form-heading">
-    <div id="start" className="wd-form-heading" tabIndex={-1}><span className="wd-eyebrow">{compact ? "Start with a free mockup" : "See your website’s potential"}</span><h2 id="mockup-form-heading">{compact ? "See it before we build it." : "Request your free mockup."}</h2><p>{compact ? "Tell us about your business. We’ll get in touch about your ideas and logo, then create your free design preview." : "See what your website could look like. Tell us a little about your business to get started."}</p><a className="wd-form-example-link" href="#mockup-preview">See what the mockup includes <ArrowUpRight size={13} /></a></div>
+    <div id="start" className="wd-form-heading" tabIndex={-1}><span className="wd-eyebrow">{compact ? "Start with a free mockup" : "See your website’s potential"}</span><h2 id="mockup-form-heading">{compact ? "See it before we build it." : "Request your free mockup."}</h2><p>{compact ? "Tell us a little about your business and the website you have in mind." : "See what your website could look like. Tell us a little about your business to get started."}</p><a className="wd-form-example-link" href="#mockup-preview">See what the mockup includes <ArrowUpRight size={13} /></a></div>
     <input type="hidden" name="service" value="New website" /><input type="hidden" name="source" value={landingPath === "/chicago-web-design" ? "Chicago website design — free mockup" : landingPath === "/st-louis-web-design" ? "St. Louis landing page — free mockup" : "Website design — free mockup"} />
     <div className="wd-honeypot" aria-hidden="true"><label>Leave this empty<input type="text" name="bot-field" tabIndex={-1} autoComplete="off" /></label></div>
     <label className="wd-field"><span>Your name <span aria-hidden="true">*</span></span><input name="name" required autoComplete="name" maxLength={120} placeholder="Alex Morgan" /></label>
@@ -70,7 +70,7 @@ export default function MockupRequestForm({ focused = false, landingPath = "/web
     {status === "error" && <div className="wd-form-error" role="alert"><p>{error}</p><div><CallLink context="website-design-form-error" /> <a href={`mailto:${EMAIL}`}>Email us directly</a></div></div>}
     <button type="submit" className="wd-button wd-button-dark wd-form-submit" disabled={status === "submitting"}>{status === "submitting" ? <>Sending your request <LoaderCircle size={18} className="wd-spinner" /></> : <>Request my free mockup <ArrowUpRight size={19} /></>}</button>
     <p className="wd-form-assurance"><Check size={14} /> No payment details. No commitment.</p>
-    {!compact && <p className="wd-form-next"><strong>What happens next?</strong> We’ll get in touch about your ideas and logo, then prepare your free mockup.</p>}
+    {(!compact || nextStep) && <p className="wd-form-next"><strong>What happens next?</strong> {nextStep ?? "We’ll get in touch about your ideas and logo, then prepare your free mockup."}</p>}
     <p className="wd-form-privacy">We’ll use your details to respond to your request. {focused ? <PolicyButton policy="privacy">Privacy policy</PolicyButton> : <Link href="/privacy-policy">Privacy policy</Link>}</p>
     {!compact && <figure className="wd-form-proof"><blockquote>“{CLIENT_REVIEW.excerpt}”</blockquote><figcaption><strong>{CLIENT_REVIEW.author}</strong><span>{CLIENT_REVIEW.business}</span>{focused ? <span>Google review</span> : <a href={CLIENT_REVIEW.url} target="_blank" rel="noopener noreferrer">Read her Google review <ArrowUpRight size={12} /><span className="sr-only"> (opens in a new tab)</span></a>}</figcaption></figure>}
   </form>;

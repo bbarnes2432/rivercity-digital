@@ -7,6 +7,7 @@ import StudioNavigation from "../website-design/_components/StudioNavigation";
 import StudioFooter from "../website-design/_components/StudioFooter";
 import StudioStickyContact from "../website-design/_components/StudioStickyContact";
 import MockupRequestForm from "../website-design/_components/MockupRequestForm";
+import { CLIENT_REVIEW } from "../website-design/_components/client-review";
 import LandingPolicyProvider from "../website-design/_components/LandingPolicyProvider";
 import ChicagoHeroBackground from "../website-design/_components/ChicagoHeroBackground";
 import StudioMotion from "../website-design/_components/StudioMotion";
@@ -41,16 +42,16 @@ const FAQS = [
 ];
 
 export default function ChicagoLandingPage() {
-  return <LandingPolicyProvider><div id="top" className="wd-site chicago-editorial" data-page-version={PAGE_VERSION} data-design="chicago-river-2026-09-30" data-market="chicago" data-page-mode="paid-landing">
+  return <LandingPolicyProvider><div id="top" className="wd-site chicago-editorial" data-page-version={PAGE_VERSION} data-design="chicago-launch-2026-10-02" data-market="chicago" data-page-mode="paid-landing">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "Service", name: "Chicago Website Design", serviceType: "Custom website design and development", provider: { "@type": "Organization", name: "River City Digital Co." }, areaServed: { "@type": "City", name: "Chicago" } }) }} />
     <StudioNavigation focused landingPath="/chicago-web-design" />
     <main id="main" className="wd-page">
       <section className="wd-hero ch-hero" aria-labelledby="hero-heading">
         <div className="ch-hero-film"><ChicagoHeroBackground clips={CHICAGO_HERO_CLIPS} />
           <div className="wd-container ch-hero-title">
-            <p className="ch-hero-eyebrow">Chicago businesses <span aria-hidden="true">·</span> Free mockup</p>
-            <h1 id="hero-heading">See your new website<br /><span>before you spend a dime.</span></h1>
-            <p className="ch-hero-description">Custom websites built around your business, not a template. Tell us what you do, and we’ll design a free mockup so you can see it first. No payment details. No obligation.</p>
+            <p className="ch-hero-eyebrow">Chicago-area businesses <span aria-hidden="true">·</span> Free mockup</p>
+            <h1 id="hero-heading">Custom websites for<br /><span>Chicago-area businesses.</span></h1>
+            <p className="ch-hero-description">Show customers what makes your business different—and make it easy to get in touch. Start with a free mockup before you commit to the build.</p>
             <div className="ch-hero-actions"><a href="#start" className="wd-button wd-button-mint">Get my free mockup <ArrowUpRight size={18} aria-hidden="true" /></a><CallLink context="chicago-hero" className="wd-button ch-hero-call" numberPrefix="Call " /></div>
           </div>
           <div className="wd-container ch-hero-footnote"><span>Family-owned. Personally built.</span><a href="#meet-river-city">Meet River City <ArrowDown size={15} aria-hidden="true" /></a></div>
@@ -60,18 +61,20 @@ export default function ChicagoLandingPage() {
       <div className="ch-river-journey"><RiverThread />
         <section className="wd-section ch-start rcd-light" id="meet-river-city" aria-label="Meet River City and request your free mockup" data-river-stop>
           <div className="wd-container ch-start-layout">
-            <div className="ch-vsl" data-entrance="image"><HookVideo src="/assets/vsl/river-city-chicago-vsl.mp4" poster="/assets/vsl/river-city-chicago-vsl-poster.jpg" ctaLabel="Meet River City. See how we build." preload="none" /><p>A look at the people, the work, and your next website.</p></div>
-            <MockupRequestForm focused compact landingPath="/chicago-web-design" />
+            <div className="ch-vsl" data-entrance="image"><HookVideo src="/assets/vsl/river-city-chicago-vsl.mp4" poster="/assets/vsl/river-city-chicago-vsl-poster.jpg" ctaLabel="Meet River City. See how we build." preload="none" /><p>A look at the people, the work, and your next website.</p>
+              <figure className="ch-client-proof"><blockquote>“{CLIENT_REVIEW.excerpt}”</blockquote><figcaption><strong>{CLIENT_REVIEW.author}</strong><span>{CLIENT_REVIEW.business}</span><a href={CLIENT_REVIEW.url} target="_blank" rel="noopener noreferrer">Read her Google review <ArrowUpRight size={12} aria-hidden="true" /><span className="sr-only"> (opens in a new tab)</span></a></figcaption></figure>
+            </div>
+            <MockupRequestForm focused compact landingPath="/chicago-web-design" nextStep="We’ll contact you about your business and design ideas, then prepare your free mockup. You’ll receive a written scope and price before any website build begins." />
           </div>
         </section>
         <section className="wd-section ch-connection rcd-light" id="studio" aria-labelledby="studio-heading" data-river-stop>
           <div className="wd-container ch-connection-layout">
             <figure className="ch-river-photo" data-entrance="image"><Image src="/assets/chicago/chicago-river-story.webp" alt="Chicago River between downtown towers and raised bridges" width={1920} height={1080} sizes="(max-width: 800px) 100vw, 760px" /><figcaption>Two river cities. One shared way of doing business.</figcaption></figure>
-            <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Chicago’s a<br />river city too.</h2><p>So is St. Louis. We’re River City Digital, a family-owned web design studio working with businesses up and down the Midwest.</p><p>You work directly with us from first mockup to launch. No account managers, no runaround, and a website you own when it’s done.</p><span className="ch-handled">From our family to your business.</span></div>
+            <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Chicago’s a<br />river city too.</h2><p>So is St. Louis. We’re River City Digital, a family-owned web design studio working with businesses up and down the Midwest.</p><p>Custom websites for businesses in Chicago, Naperville, Arlington Heights and surrounding communities.</p><p>You work directly with us from first mockup to launch. No account managers, no runaround, and a website you own when it’s done.</p><span className="ch-handled">From our family to your business.</span></div>
           </div>
         </section>
         {/* Awaiting authentic before/after screenshots from Linda's project. */}
-        <MockupJourney mobileImage={{src:"/assets/chicago/portfolio/lindas-mobile.webp",alt:"Linda’s Specialty Cheesecakes website on a phone",width:375,height:812,caption:"Linda’s Specialty Cheesecakes · mobile website"}} />
+        <MockupJourney />
         <ChicagoProjectGallery />
         <Suspense fallback={null}><ChicagoReviews /></Suspense>
         <SearchVisibility />
