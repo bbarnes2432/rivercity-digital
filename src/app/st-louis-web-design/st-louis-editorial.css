@@ -1,0 +1,10 @@
+/* St. Louis uses the shared editorial composition with its own still-photo hero. */
+.stl-hero-photo { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
+.stl-hero-photo img { object-fit: cover; object-position: center; }
+.stl-hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, #101d31c9, #101d318c); }
+.st-louis-editorial .ch-hero-film { background: transparent; }
+.st-louis-editorial .stl-skyline { opacity: .2; }
+@media (max-width: 700px) {
+  .stl-hero-photo img { object-position: 24% center; }
+  .stl-hero-shade { background: #101d31a6; }
+}

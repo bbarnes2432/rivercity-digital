@@ -47,7 +47,7 @@ function harness(file, options = {}) {
       if (id.endsWith('/gtag')) return tracking;
       if (id === 'react/jsx-runtime') return { jsx, jsxs: jsx };
       if (id === 'react') return { useEffect() {}, useRef: value => ({ current: value }), useId: () => 'test', useState: value => [value === 'qualify' ? 'lead' : value, next => states.push(next)] };
-      if (id === 'next/navigation') return { useRouter: () => ({ push: url => routes.push({ url, conversionsBeforeNavigation: conversions().length }) }) };
+      if (id === 'next/navigation') return { usePathname: () => window.location.pathname, useRouter: () => ({ push: url => routes.push({ url, conversionsBeforeNavigation: conversions().length }) }) };
       if (id.endsWith('/attribution')) return { readAttribution: () => ({}), captureAttribution() {}, useAttribution: () => ({}), ATTRIBUTION_KEYS: [] };
       if (id.endsWith('/_data')) return { LOOKING_FOR: ['New website'], EMAIL: 'test@example.invalid' };
       if (id.endsWith('/usePopupTrigger')) return { usePopupTrigger: () => ({ shouldOpen: true, dismiss() {}, recordSubmit() {} }) };

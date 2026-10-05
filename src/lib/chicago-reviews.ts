@@ -49,16 +49,19 @@ function validRating(value: number | undefined): value is number {
 // only deduplicates calls within one server render; it is not persistent storage.
 // https://developers.google.com/maps/documentation/places/web-service/policies
 // https://cloud.google.com/maps-platform/terms/maps-service-terms#14-places-api-legacy-and-new
-// The server-only GOOGLE_CHICAGO_REVIEWS_ENABLED=true flag is an explicit opt-in.
+// GOOGLE_LANDING_REVIEWS_ENABLED=true opts both ad pages into the same feed.
+// GOOGLE_CHICAGO_REVIEWS_ENABLED remains supported for Chicago alone.
 // Existing homepage credentials alone must not activate new API usage: Google
 // reviews trigger the Enterprise + Atmosphere SKU, and a daily content cache is
 // not available under the standard terms. With the flag AND both credentials,
-// this makes one Places request per Chicago page render, subject to account
+// this makes one Places request per enabled landing-page render, subject to account
 // pricing/quota. No polling, retries, background jobs or stale fallback.
-export const getChicagoReviews = cache(async (): Promise<ChicagoReviewsData | null> => {
+export const getChicagoReviews = cache(async (market: "chicago" | "st-louis" = "chicago"): Promise<ChicagoReviewsData | null> => {
   await connection();
 
-  if (process.env.GOOGLE_CHICAGO_REVIEWS_ENABLED !== "true") return null;
+  const enabled = process.env.GOOGLE_LANDING_REVIEWS_ENABLED === "true"
+    || (market === "chicago" && process.env.GOOGLE_CHICAGO_REVIEWS_ENABLED === "true");
+  if (!enabled) return null;
 
   const key = process.env.GOOGLE_PLACES_API_KEY?.trim();
   const placeId = process.env.GOOGLE_PLACE_ID?.trim();

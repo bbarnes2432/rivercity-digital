@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { usePopupTrigger } from "./usePopupTrigger";
 import { trackSuccessfulLead } from "./gtag";
 import "./PopupForm.css";
@@ -13,6 +13,7 @@ const SOURCE_CURIOUS = "popup-curious";
 
 export default function PopupForm() {
   const router = useRouter();
+  const isChicago = usePathname()?.startsWith("/chicago-web-design");
   const { shouldOpen, dismiss, recordSubmit } = usePopupTrigger();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [step, setStep] = useState<Step>("qualify");
@@ -172,7 +173,7 @@ export default function PopupForm() {
         <div className="rcd-popup-signature" aria-hidden="true">
           <span className="rcd-popup-monogram">RC</span>
           <span className="rcd-popup-sig-rule" />
-          <span className="rcd-popup-sig-meta">St. Louis · MO</span>
+          <span className="rcd-popup-sig-meta">{isChicago ? "Family-owned studio" : "St. Louis · MO"}</span>
         </div>
 
         <button
@@ -194,7 +195,7 @@ export default function PopupForm() {
               A quick read on what&apos;s helping &mdash; or hurting &mdash; your site.
             </h2>
             <p id="rcd-popup-body" className="rcd-popup-lede">
-              A real St. Louis studio looks at your site by hand. No drip campaigns,
+              A real {isChicago ? "family-owned" : "St. Louis"} studio looks at your site by hand. No drip campaigns,
               no sales call &mdash; just a short report you can act on.
             </p>
 

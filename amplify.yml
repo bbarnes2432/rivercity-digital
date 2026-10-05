@@ -12,7 +12,7 @@ frontend:
         # Next.js SSR runtime. Persist the ones the API routes and the
         # homepage's Google reviews (revalidated at request time) need into
         # .env.production so Next loads them when the server boots.
-        - env | grep -E '^(RESEND_API_KEY|CONTACT_TO_EMAIL|CONTACT_FROM_EMAIL|GOOGLE_PLACES_API_KEY|GOOGLE_PLACE_ID)=' >> .env.production || true
+        - env | grep -E '^(RESEND_API_KEY|CONTACT_TO_EMAIL|CONTACT_FROM_EMAIL|GOOGLE_PLACES_API_KEY|GOOGLE_PLACE_ID|GOOGLE_LANDING_REVIEWS_ENABLED|GOOGLE_CHICAGO_REVIEWS_ENABLED)=' >> .env.production || true
         - pnpm run build
   artifacts:
     baseDirectory: .next

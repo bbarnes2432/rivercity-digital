@@ -18,10 +18,10 @@ function smoothRiver(points: RiverPoint[], closed = false) {
   return path + (closed ? " Z" : ` L${pointText(last)}`);
 }
 
-export function NeighborhoodTicker() {
+export function NeighborhoodTicker({ communities = NEIGHBORHOODS, label = "Chicago and surrounding communities" }: { communities?: readonly string[]; label?: string }) {
   const [paused, setPaused] = useState(false);
-  return <div className="ch-neighborhoods" role="region" aria-label="Chicago and surrounding communities" data-paused={paused}>
-    <div className="ch-ticker-window"><div className="ch-ticker-track"><ul>{NEIGHBORHOODS.map(name => <li key={name}>{name}<span aria-hidden="true">·</span></li>)}</ul><ul aria-hidden="true">{NEIGHBORHOODS.map(name => <li key={name}>{name}<span>·</span></li>)}</ul></div></div>
+  return <div className="ch-neighborhoods" role="region" aria-label={label} data-paused={paused}>
+    <div className="ch-ticker-window"><div className="ch-ticker-track"><ul>{communities.map(name => <li key={name}>{name}<span aria-hidden="true">·</span></li>)}</ul><ul aria-hidden="true">{communities.map(name => <li key={name}>{name}<span>·</span></li>)}</ul></div></div>
     <button type="button" className="ch-ticker-control" onClick={() => setPaused(value => !value)} aria-label={paused ? "Play community names and river animation" : "Pause community names and river animation"} title={paused ? "Play community names and river animation" : "Pause community names and river animation"} aria-pressed={paused}>{paused ? <Play size={14} /> : <Pause size={14} />}</button>
   </div>;
 }

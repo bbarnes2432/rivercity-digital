@@ -8,9 +8,9 @@ import LiveProjectPreview from "../website-design/_components/LiveProjectPreview
 import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { LINDA_PROJECT } from "./linda-project";
 
-type ChicagoProject = SelectedProject & { scrollPreview?: boolean };
+export type ChicagoProject = SelectedProject & { scrollPreview?: boolean };
 const original = (id: string) => SELECTED_PROJECTS.find(project => project.id === id)!;
-const PROJECTS: ChicagoProject[] = [
+export const CHICAGO_PROJECTS: ChicagoProject[] = [
   {...original("stjoseph"),image:"/assets/chicago/portfolio/stjoseph-desktop.webp",width:1250,height:1780,scrollPreview:true},
   {id:"robinsons",effect:"static",scrollPreview:true,name:"Robinson’s Contracting",category:"Roofing & exteriors · Custom website",image:"/assets/chicago/portfolio/robinsons-desktop.webp",width:1424,height:2160,alt:"Robinson’s Contracting roofing and exteriors website with photographs of its work",website:"",domain:"Robinson’s Contracting",headline:"Real work. A name you can put to it.",description:"Roofing, repairs and exterior transformations, with real project photography and direct contact with the owner.",details:["Service pages","Before & after project work","Direct owner contact"]},
   {...LINDA_PROJECT, image:"/assets/chicago/portfolio/lindas-desktop.webp", width:1424, height:2160, scrollPreview:true},
@@ -32,7 +32,8 @@ function ProjectPreview({ project, paused, sizes }: {project:ChicagoProject;paus
   return <div ref={frame} className="ch-scroll-preview" data-scrolling={visible && !paused}><Image src={project.image} alt={project.alt} width={project.width} height={project.height} sizes={sizes} loading="lazy" /></div>;
 }
 
-export default function ChicagoProjectGallery() {
+export default function ChicagoProjectGallery({ projects = CHICAGO_PROJECTS }: { projects?: ChicagoProject[] }) {
+  const countLabel = projects.length === 6 ? "Six" : String(projects.length);
   const [selected, setSelected] = useState<ChicagoProject | null>(null);
   const [paused, setPaused] = useState(false);
   const reduced = useReducedMotion();
@@ -71,9 +72,9 @@ export default function ChicagoProjectGallery() {
   </article>;
   return <section className="wd-section ch-work rcd-light" id="work" aria-labelledby="work-heading">
     <div className="wd-container">
-      <div className="ch-section-heading" data-entrance="rise"><h2 id="work-heading">Different businesses.<br />Distinctly their own.</h2><p>Six businesses. Six custom websites.<br />Take a closer look at any design.</p></div>
-      <div className="ch-gallery-toolbar"><span>Six examples of our work</span>{motionButton}</div>
-      <div className="ch-featured-projects">{PROJECTS.map(projectCard)}</div>
+      <div className="ch-section-heading" data-entrance="rise"><h2 id="work-heading">Different businesses.<br />Distinctly their own.</h2><p>{countLabel} businesses. {countLabel} custom websites.<br />Take a closer look at any design.</p></div>
+      <div className="ch-gallery-toolbar"><span>{countLabel} examples of our work</span>{motionButton}</div>
+      <div className="ch-featured-projects">{projects.map(projectCard)}</div>
     </div>
     <dialog ref={dialog} className="wd-project-dialog ch-project-dialog" aria-labelledby="ch-expanded-title" onClose={() => setSelected(null)} onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
       {selected && <><div className="wd-preview-heading"><h2 id="ch-expanded-title">{selected.name}</h2><button type="button" className="wd-preview-close" aria-label="Close website preview" onClick={() => dialog.current?.close()} autoFocus><X size={22} /></button></div><div className="wd-preview-image"><ProjectPreview key={selected.id} project={selected} paused={paused || reduced} sizes="(max-width: 900px) 90vw, 1000px" /></div><div className="ch-dialog-controls">{motionButton}</div></>}

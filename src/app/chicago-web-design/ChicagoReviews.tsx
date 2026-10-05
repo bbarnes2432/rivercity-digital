@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { getChicagoReviews } from "@/lib/chicago-reviews";
+import { CLIENT_REVIEW } from "../website-design/_components/client-review";
 import styles from "./ChicagoReviews.module.css";
 
 function ReviewStars({ rating }: { rating: number }) {
@@ -13,19 +14,27 @@ function ReviewStars({ rating }: { rating: number }) {
 
 // Server Component: mount below ChicagoProjectGallery inside a Suspense boundary
 // with a null fallback, so a slow third-party response cannot delay the page.
-export default async function ChicagoReviews() {
-  const data = await getChicagoReviews();
-  if (!data) return null;
+export default async function ChicagoReviews({ market = "chicago" }: { market?: "chicago" | "st-louis" }) {
+  const data = await getChicagoReviews(market);
+  const headingId = `${market}-reviews-heading`;
+  // Keep a useful review destination while Jon connects the live feed. Never
+  // substitute invented stars, counts or cached quotes for unavailable data.
+  if (!data) return <section className={`${styles.section} rcd-light`} aria-labelledby={headingId}>
+    <div className="wd-container"><div className={styles.headingRow}>
+      <div><p className={styles.eyebrow}>From our clients</p><h2 className={styles.heading} id={headingId}>In their own words.</h2></div>
+      <a className={styles.source} href={CLIENT_REVIEW.url} target="_blank" rel="noopener noreferrer">Read a client’s review on Google <ArrowUpRight size={16} aria-hidden="true" /><span className={styles.srOnly}> (opens a new tab)</span></a>
+    </div></div>
+  </section>;
 
   const reviews = data.reviews.slice(0, 3);
 
   return (
-    <section className={`${styles.section} rcd-light`} aria-labelledby="chicago-reviews-heading">
+    <section className={`${styles.section} rcd-light`} aria-labelledby={headingId}>
       <div className="wd-container">
         <div className={styles.headingRow}>
           <div>
             <p className={styles.eyebrow}>From our clients</p>
-            <h2 className={styles.heading} id="chicago-reviews-heading">In their own words.</h2>
+            <h2 className={styles.heading} id={headingId}>In their own words.</h2>
           </div>
           <a className={styles.summary} href={data.profileUrl} target="_blank" rel="noopener noreferrer">
             <span className={styles.rating}>{data.rating.toFixed(1)}<span>/ 5</span></span>
