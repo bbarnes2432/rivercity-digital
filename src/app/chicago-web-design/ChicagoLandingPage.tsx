@@ -32,50 +32,50 @@ import "../website-design/website-video.css";
 import "../website-design/website-focused.css";
 import "./chicago-editorial.css";
 
-const FAQS = landingFaqs("chicago");
+const FAQS = landingFaqs("chicago", "consultation");
 
 export default function ChicagoLandingPage() {
-  return <LandingPolicyProvider><div id="top" className="wd-site chicago-editorial" data-page-version={PAGE_VERSION} data-design="chicago-launch-2026-10-02" data-market="chicago" data-page-mode="paid-landing">
+  return <LandingPolicyProvider><div id="top" className="wd-site chicago-editorial" data-page-version={PAGE_VERSION} data-design="chicago-launch-2026-10-02" data-market="chicago" data-offer="consultation-2026-10-10" data-page-mode="paid-landing">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "Service", name: "Chicago Website Design", serviceType: "Custom website design and development", provider: { "@type": "Organization", name: "River City Digital Co." }, areaServed: { "@type": "City", name: "Chicago" } }) }} />
-    <StudioNavigation focused landingPath="/chicago-web-design" />
+    <StudioNavigation focused landingPath="/chicago-web-design" primaryLabel="Discuss my website" />
     <main id="main" className="wd-page">
       <section className="wd-hero ch-hero" aria-labelledby="hero-heading">
         <div className="ch-hero-film"><ChicagoHeroBackground clips={CHICAGO_HERO_CLIPS} />
           <div className="wd-container ch-hero-title">
-            <p className="ch-hero-eyebrow">Chicago-area businesses <span aria-hidden="true">·</span> Free mockup</p>
-            <h1 id="hero-heading">Custom websites for<br /><span>Chicago-area businesses.</span></h1>
-            <p className="ch-hero-description">Show customers what makes your business different—and make it easy to get in touch. Start with a free mockup before you commit to the build.</p>
-            <div className="ch-hero-actions"><a href="#start" className="wd-button wd-button-mint">Get my free mockup <ArrowUpRight size={18} aria-hidden="true" /></a><CallLink context="chicago-hero" className="wd-button ch-hero-call" numberPrefix="Call " /></div>
+            <p className="ch-hero-eyebrow">Chicago-area businesses <span aria-hidden="true">·</span> Custom web design</p>
+            <h1 id="hero-heading">A custom website.<br /><span>Built around your business.</span></h1>
+            <p className="ch-hero-description">Tell us about your business and the website you need. We’ll talk through your goals, the pages and features you need, and your options. You’ll receive a clear scope and price before deciding to build.</p>
+            <div className="ch-hero-actions"><a href="#start" className="wd-button wd-button-mint">Discuss my website <ArrowUpRight size={18} aria-hidden="true" /></a><CallLink context="chicago-hero" className="wd-button ch-hero-call" numberPrefix="Call " /></div>
           </div>
           <div className="wd-container ch-hero-footnote"><span>Family-owned. Personally built.</span><a href="#meet-river-city">Meet River City <ArrowDown size={15} aria-hidden="true" /></a></div>
         </div>
       </section>
       <NeighborhoodTicker />
       <div className="ch-river-journey"><RiverThread />
-        <section className="wd-section ch-start rcd-light" id="meet-river-city" aria-label="Meet River City and request your free mockup" data-river-stop>
+        <section className="wd-section ch-start rcd-light" id="meet-river-city" aria-label="Meet River City and discuss your website" data-river-stop>
           <div className="wd-container ch-start-layout">
             <div className="ch-vsl" data-entrance="image"><HookVideo src="/assets/vsl/river-city-chicago-vsl.mp4" poster="/assets/vsl/river-city-chicago-vsl-poster.jpg" ctaLabel="Meet River City. See how we build." preload="none" /><p>A look at the people, the work, and your next website.</p>
               <figure className="ch-client-proof"><blockquote>“{CLIENT_REVIEW.excerpt}”</blockquote><figcaption><strong>{CLIENT_REVIEW.author}</strong><span>{CLIENT_REVIEW.business}</span><a href={CLIENT_REVIEW.url} target="_blank" rel="noopener noreferrer">Read her Google review <ArrowUpRight size={12} aria-hidden="true" /><span className="sr-only"> (opens in a new tab)</span></a></figcaption></figure>
             </div>
-            <MockupRequestForm focused compact landingPath="/chicago-web-design" nextStep="We’ll contact you about your business and design ideas, then prepare your free mockup. You’ll receive a written scope and price before any website build begins." />
+            <MockupRequestForm focused compact offer="consultation" landingPath="/chicago-web-design" nextStep="We’ll contact you to discuss your goals and the website you need. You’ll receive a written scope and price before deciding to build." />
           </div>
         </section>
         <section className="wd-section ch-connection rcd-light" id="studio" aria-labelledby="studio-heading" data-river-stop>
           <div className="wd-container ch-connection-layout">
             <figure className="ch-river-photo" data-entrance="image"><Image src="/assets/chicago/chicago-river-story.webp" alt="Chicago River between downtown towers and raised bridges" width={1920} height={1080} sizes="(max-width: 800px) 100vw, 760px" /><figcaption>Two river cities. One shared way of doing business.</figcaption></figure>
-            <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Chicago’s a<br />river city too.</h2><p>So is St. Louis. We’re River City Digital, a family-owned web design studio working with businesses up and down the Midwest.</p><p>Custom websites for businesses in Chicago, Naperville, Arlington Heights and surrounding communities.</p><p>You work directly with us from first mockup to launch. No account managers, no runaround, and a website you own when it’s done.</p><span className="ch-handled">From our family to your business.</span></div>
+            <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Chicago’s a<br />river city too.</h2><p>So is St. Louis. We’re River City Digital, a family-owned web design studio working with businesses up and down the Midwest.</p><p>Custom websites for businesses in Chicago, Naperville, Arlington Heights and surrounding communities.</p><p>You work directly with us from first conversation to launch. No account managers, no runaround, and a website you own when it’s done.</p><span className="ch-handled">From our family to your business.</span></div>
           </div>
         </section>
         {/* Awaiting authentic before/after screenshots from Linda's project. */}
-        <MockupJourney />
+        <MockupJourney offer="consultation" />
         <ChicagoProjectGallery />
         <Suspense fallback={null}><ChicagoReviews /></Suspense>
         <SearchVisibility />
         <CompactComparison />
         <section className="wd-section ch-faq rcd-light" id="faq" aria-labelledby="faq-heading" data-river-stop><div className="wd-container ch-faq-layout"><div data-entrance="rise"><h2 id="faq-heading">A few things<br />worth knowing.</h2></div><div>{FAQS.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
       </div>
-      <section className="wd-section ch-final" id="final-request" aria-labelledby="contact-heading"><div className="wd-container ch-final-content"><h2 id="contact-heading">See what your website<br />could look like.</h2><p>Your business. Your ideas. A design you can see first.</p><a className="wd-button wd-button-mint" href="#start">Get my free mockup <ArrowUpRight size={20} aria-hidden="true" /></a><CallLink context="chicago-final" className="ch-final-call" numberPrefix="Or call " /></div><svg className="ch-skyline" viewBox="0 0 1440 170" preserveAspectRatio="none" aria-hidden="true"><path d="M0 155H55V120H84V94H112V132H151V73H180V111H215V54H228V23H235V5H241V23H250V54H263V103H289V80H333V130H363V57H387V42H421V57H443V132H475V110H511V87H536V101H560V140H604V68H628V40H636V16H640V40H651V68H676V119H716V84H743V116H778V54H805V38H826V54H843V127H881V99H910V44H936V13H942V44H961V85H986V134H1021V62H1062V106H1094V80H1119V47H1140V80H1161V139H1198V99H1234V119H1267V77H1281V61H1304V77H1326V136H1361V102H1395V149H1440V170H0Z" fill="currentColor" /></svg></section>
+      <section className="wd-section ch-final" id="final-request" aria-labelledby="contact-heading"><div className="wd-container ch-final-content"><h2 id="contact-heading">Let’s talk about<br />your next website.</h2><p>Tell us what you want to achieve. We’ll help you plan the next steps.</p><a className="wd-button wd-button-mint" href="#start">Discuss my website <ArrowUpRight size={20} aria-hidden="true" /></a><CallLink context="chicago-final" className="ch-final-call" numberPrefix="Or call " /></div><svg className="ch-skyline" viewBox="0 0 1440 170" preserveAspectRatio="none" aria-hidden="true"><path d="M0 155H55V120H84V94H112V132H151V73H180V111H215V54H228V23H235V5H241V23H250V54H263V103H289V80H333V130H363V57H387V42H421V57H443V132H475V110H511V87H536V101H560V140H604V68H628V40H636V16H640V40H651V68H676V119H716V84H743V116H778V54H805V38H826V54H843V127H881V99H910V44H936V13H942V44H961V85H986V134H1021V62H1062V106H1094V80H1119V47H1140V80H1161V139H1198V99H1234V119H1267V77H1281V61H1304V77H1326V136H1361V102H1395V149H1440V170H0Z" fill="currentColor" /></svg></section>
     </main>
-    <StudioFooter focused market="chicago" /><StudioStickyContact /><StudioMotion /><RecoveryFunnel />
+    <StudioFooter focused market="chicago" /><StudioStickyContact primaryLabel="Discuss my website" /><StudioMotion /><RecoveryFunnel />
   </div></LandingPolicyProvider>;
 }

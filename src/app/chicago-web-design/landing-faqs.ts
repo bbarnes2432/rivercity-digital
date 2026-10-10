@@ -7,8 +7,11 @@ const SHARED_FAQS = [
   ["Can you redesign my existing website?", "Yes. We review what you want to keep, what needs to improve, and which pages and links should carry over. Your design and written scope are agreed before development."],
 ];
 
-export function landingFaqs(market: "chicago" | "st-louis") {
-  return [...SHARED_FAQS, market === "chicago"
+export function landingFaqs(market: "chicago" | "st-louis", offer: "mockup" | "consultation" = "mockup") {
+  const questions = offer === "consultation"
+    ? [["What happens when I get in touch?", "We’ll contact you to discuss your business, what you need from a new website or redesign, and your options. You receive a written scope and price before deciding to build. If you’d like to see a design direction first, we can discuss a free mockup during that conversation."], ...SHARED_FAQS.slice(1)]
+    : SHARED_FAQS;
+  return [...questions, market === "chicago"
     ? ["How do we work together?", "You work directly with our family-owned team by phone, email and video call. We plan the project together, review your design, agree on a schedule and get your approval before launch. We serve Chicago and the surrounding communities remotely."]
     : ["Can we meet in person?", "Yes. We’re based in St. Louis and can arrange to meet in person. You work directly with our family-owned team from the first mockup through launch."]];
 }

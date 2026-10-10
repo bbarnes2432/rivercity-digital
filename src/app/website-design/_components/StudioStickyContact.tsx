@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import CallLink from "@/app/_components/CallLink";
 
-export default function StudioStickyContact() {
+export default function StudioStickyContact({ primaryLabel = "Free mockup" }: { primaryLabel?: string }) {
   const [formVisible, setFormVisible] = useState(true);
   useEffect(() => {
     const targets = document.querySelectorAll(".wd-hero, #wd-mockup-form, #final-request");
@@ -20,7 +20,7 @@ export default function StudioStickyContact() {
     return () => observer.disconnect();
   }, []);
   return <div className={`wd-sticky-contact${formVisible ? " is-hidden" : ""}`} aria-label="Quick contact">
-    <a href="#start" className="wd-button wd-button-mint">Free mockup <ArrowUpRight size={16} /></a>
+    <a href="#start" className="wd-button wd-button-mint">{primaryLabel} <ArrowUpRight size={16} /></a>
     <CallLink context="website-design-mobile-sticky" className="wd-sticky-call">Call River City</CallLink>
   </div>;
 }

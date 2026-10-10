@@ -47,9 +47,10 @@ function DesignReveal() {
   </div>;
 }
 
-export function MockupJourney() {
+export function MockupJourney({ offer = "mockup" }: { offer?: "mockup" | "consultation" }) {
+  const consultation = offer === "consultation";
   return <section className={styles.section} id="mockup-preview" aria-labelledby="chicago-journey-heading"><div className={styles.container}>
-    <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>See it before you build it</p><h2 id="chicago-journey-heading">Your idea.<br />Your next website.</h2></div><p>Start with a free mockup. Make the decision to build when you know what you’re getting.</p></div>
+    <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>{consultation ? "From conversation to launch" : "See it before you build it"}</p><h2 id="chicago-journey-heading">Your idea.<br />Your next website.</h2></div><p>{consultation ? "Talk through your goals with the people who will build your website. Agree on a clear plan before the work begins." : "Start with a free mockup. Make the decision to build when you know what you’re getting."}</p></div>
     <ol className={styles.journey} id="process">
       <li className={styles.journeyStep}>
         <div className={styles.intakeStage}>
@@ -60,7 +61,7 @@ export function MockupJourney() {
       </li>
       <li className={`${styles.journeyStep} ${styles.designStep}`}>
         <div className={styles.designStage}><DesignReveal /><p className={styles.projectCredit}>Example mockup · Fictional business</p></div>
-        <div className={styles.stepCopy}><span className={styles.stepNumber}>02</span><div><h3>See your free mockup.</h3><p>Review a design direction. Get a written scope and price before you decide to build.</p></div></div>
+        <div className={styles.stepCopy}><span className={styles.stepNumber}>02</span><div><h3>{consultation ? "Agree on the plan." : "See your free mockup."}</h3><p>{consultation ? "Discuss the pages, features and design direction. Get a written scope and price before you decide to build." : "Review a design direction. Get a written scope and price before you decide to build."}</p></div></div>
       </li>
       <li className={styles.journeyStep}>
         <div className={styles.phoneStage}><div className={styles.phone}><div className={styles.phoneSpeaker} aria-hidden="true" /><FictionalMockupSite mobile /></div><div className={styles.ownershipNote}><Code2 size={18} aria-hidden="true" /><span>Your website.<br /><strong>Yours to keep.</strong></span></div><p className={styles.mobileCredit}>Same concept, made for mobile</p></div>

@@ -1,0 +1,29 @@
+{
+  "checks": [
+    "chicago-web-design HTTP200",
+    "Chicago consultation hero",
+    "Chicago CTA across surfaces",
+    "Chicago no mockup acquisition buttons",
+    "Chicago only secondary free mockup mention",
+    "Chicago form source",
+    "Chicago name and email required",
+    "Chicago optional qualification preserved",
+    "Chicago phone retained",
+    "Chicago anchors resolve",
+    "Chicago noindex retained",
+    "chicago-web-design/thank-you HTTP200",
+    "Chicago confirmation matches consultation",
+    "st-louis-web-design HTTP200",
+    "STL original offer preserved",
+    "STL form source preserved",
+    "website-design HTTP200",
+    "Organic service navigation retained",
+    "Form delivery and conversion handler byte-identical"
+  ],
+  "passed": 19,
+  "visual_browser_check": "Unavailable: inventory empty; iab not available",
+  "build": "PASS 41 routes",
+  "mocked_checks": 111,
+  "live_form_submissions": 0,
+  "public_site_changed": false
+}
