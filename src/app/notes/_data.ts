@@ -1,9 +1,16 @@
 export type Block =
   | { type: "h2"; text: string }
+  | { type: "h3"; text: string }
   | { type: "p"; text: string }
   | { type: "pullquote"; text: string; cite?: string }
   | { type: "list"; items: string[]; ordered?: boolean }
-  | { type: "callout"; eyebrow: string; text: string };
+  | { type: "callout"; eyebrow: string; text: string }
+  | { type: "table"; head: string[]; rows: string[][] }
+  /* Client-site screenshots only, never stock. */
+  | { type: "figure"; src: string; alt: string; width: number; height: number; caption?: string }
+  /* Rendered as question/answer pairs and emitted as FAQPage schema. */
+  | { type: "faq"; items: { q: string; a: string }[] }
+  | { type: "cta"; href: string; label: string };
 
 export type Note = {
   slug: string;
@@ -14,10 +21,241 @@ export type Note = {
   category: string;
   /* The deck — first paragraph in italic display, sets up the piece. */
   deck: string;
+  /* Search-result overrides. The title is used as-is, without the site-name suffix. */
+  metaTitle?: string;
+  metaDescription?: string;
   body: Block[];
 };
 
 export const NOTES: Note[] = [
+  {
+    slug: "small-business-website-cost-st-charles-mo",
+    title: "How Much Does a Small Business Website Cost in St. Charles, MO? (2026 Guide)",
+    metaTitle: "How Much Does a Website Cost in St. Charles, MO? (2026)",
+    metaDescription:
+      "What a small business website really costs in St. Charles, MO in 2026, what drives the price, and how to avoid paying twice. Straight answers, no fluff.",
+    excerpt:
+      "Quotes run from $500 to $15,000. Here&rsquo;s what a small business website in St. Charles actually costs, and what drives the price.",
+    date: "2026-10-18",
+    readTime: "7 min read",
+    category: "Web",
+    deck:
+      "If you own a business in St. Charles, you&rsquo;ve probably gotten website quotes that are all over the map. One person says $500. Another says $15,000. A website builder ad says $16 a month. It&rsquo;s hard to know what&rsquo;s fair, what&rsquo;s a trap, and what you actually need.",
+    body: [
+      {
+        type: "p",
+        text:
+          "This guide gives you straight answers: what <a href=\"/website-design\">small business websites</a> cost in St. Charles in 2026, what drives the price up or down, and the questions to ask before you sign anything.",
+      },
+      { type: "h2", text: "The short answer" },
+      {
+        type: "p",
+        text:
+          "For most small businesses in St. Charles County, a professionally built website costs <strong>$1,500 to $5,000 up front</strong>, plus <strong>$50 to $150 a month</strong> for hosting and upkeep.",
+      },
+      { type: "p", text: "Here&rsquo;s how that breaks down:" },
+      {
+        type: "table",
+        head: ["Type of website", "Typical up-front cost", "Best for"],
+        rows: [
+          ["DIY builder (Wix, Squarespace, GoDaddy)", "$0–$500 + $20–$50/mo", "Hobbies, side projects, testing an idea"],
+          ["Template site built by a freelancer", "$500–$1,500", "Very simple sites with no growth plans"],
+          ["Custom small business website", "$1,500–$5,000", "Restaurants, contractors, salons, professional services, retail"],
+          ["Advanced or e-commerce website", "$5,000–$15,000+", "Large product catalogs, booking systems, custom features"],
+        ],
+      },
+      {
+        type: "p",
+        text:
+          "Most of the local businesses we work with, from a cheesecake bakery in Winfield to a bar and grill in Old Monroe to contractors across St. Charles County, land in that $1,500 to $3,500 range.",
+      },
+      {
+        type: "figure",
+        src: "/assets/portfolio-lindas-cheesecakes.webp",
+        alt: "Small business website designed by River City Digital Co. for a St. Charles area business",
+        width: 1440,
+        height: 798,
+        caption:
+          "<a href=\"/work/lindas-cheesecakes\">Linda&rsquo;s Specialty Cheesecakes</a>, Winfield: a custom site with a 39-flavor menu and a request-to-order form.",
+      },
+      { type: "h2", text: "What actually drives the price" },
+      {
+        type: "p",
+        text: "Two websites can look similar and cost very different amounts. These are the real factors.",
+      },
+      { type: "h3", text: "1. Custom-built vs. template" },
+      {
+        type: "p",
+        text:
+          "A template site starts from a pre-made design and swaps in your logo and photos. It&rsquo;s faster and cheaper, but it often looks like every other business in town, and it usually carries extra code that slows your site down.",
+      },
+      {
+        type: "p",
+        text:
+          "A custom site is designed around your business and built clean. It loads faster, ranks better on Google, and doesn&rsquo;t fight you when you want to add something later.",
+      },
+      { type: "h3", text: "2. Number of pages" },
+      {
+        type: "p",
+        text:
+          "A one-page site and a twelve-page site are different projects. Most small businesses need 5 to 8 pages: Home, About, Services (or one page per service), a Gallery or Portfolio, FAQ, and Contact.",
+      },
+      {
+        type: "p",
+        text:
+          "Here&rsquo;s a tip most designers won&rsquo;t tell you: a separate page for each service you offer is one of the best investments you can make. &ldquo;Roof repair St. Charles&rdquo; and &ldquo;gutter installation St. Charles&rdquo; are different searches. One page can&rsquo;t rank well for both.",
+      },
+      {
+        type: "figure",
+        src: "/assets/portfolio-mend-health.webp",
+        alt: "Mend Health website designed by River City Digital Co., a chiropractic practice site with a page for each service",
+        width: 1440,
+        height: 798,
+        caption:
+          "<a href=\"/work/mend-health\">Mend Health</a>, Kirkwood: a page per service, plus six service-area pages.",
+      },
+      { type: "h3", text: "3. Features" },
+      { type: "p", text: "Every extra feature adds time:" },
+      {
+        type: "list",
+        items: [
+          "Online booking or scheduling",
+          "Online ordering or a store",
+          "Payment processing",
+          "Custom forms (quotes, catering requests, applications)",
+          "Menus, galleries, or event calendars that you update yourself",
+        ],
+      },
+      { type: "h3", text: "4. Content and photos" },
+      {
+        type: "p",
+        text:
+          "Who&rsquo;s writing the words and supplying the photos? If you have them ready, the project moves faster and costs less. If your designer writes the copy and sources images, expect that to be reflected in the price. It&rsquo;s usually worth it, because good copy is what turns visitors into calls.",
+      },
+      { type: "h3", text: "5. SEO built in from day one" },
+      {
+        type: "p",
+        text:
+          "This is the biggest difference between a cheap site and a smart one. A website that isn&rsquo;t set up for Google is like a storefront with no sign. At a minimum, a new site should launch with:",
+      },
+      {
+        type: "list",
+        items: [
+          "A unique title and description on every page",
+          "Your business name, phone, and service area shown clearly",
+          "Fast load times on phones",
+          "Structured data that tells Google what you do and where",
+          "Google Search Console and Google Analytics connected",
+        ],
+      },
+      { type: "p", text: "If a quote doesn&rsquo;t mention these, ask." },
+      { type: "h2", text: "The monthly costs nobody mentions up front" },
+      { type: "p", text: "Your website needs a home after launch. Plan for:" },
+      {
+        type: "table",
+        head: ["Monthly cost", "Typical range", "What it covers"],
+        rows: [
+          ["Hosting and domain", "$10–$50/mo", "Keeping your site online, fast, and secure"],
+          ["Care plan (optional)", "$100–$200/mo", "Updates, new pages, menu or price changes, fixes"],
+          ["SEO (optional)", "$500–$1,500/mo", "Ongoing work to rank higher on Google, Maps, and AI search"],
+        ],
+      },
+      {
+        type: "p",
+        text:
+          "A care plan is worth considering if you change things often. Restaurants update menus, contractors add project photos, and retailers run seasonal promotions. Instead of paying per change, you get a set amount of help every month.",
+      },
+      { type: "h2", text: "Red flags to watch for" },
+      {
+        type: "p",
+        text:
+          "We rebuild a lot of websites for St. Charles area businesses. These are the most common reasons owners end up paying twice:",
+      },
+      {
+        type: "list",
+        items: [
+          "<strong>You don&rsquo;t own your website or domain.</strong> Some companies keep ownership, so if you leave, you lose your site. Always ask: &ldquo;Do I own the domain and the website when we&rsquo;re done?&rdquo;",
+          "<strong>Rock-bottom prices with no SEO.</strong> A $400 site that nobody can find on Google isn&rsquo;t a bargain.",
+          "<strong>Locked into a long contract.</strong> Hosting and care plans should be month to month.",
+          "<strong>No mobile testing.</strong> More than half of local searches happen on a phone. If the site doesn&rsquo;t work well on a phone, it doesn&rsquo;t work.",
+          "<strong>Slow load times.</strong> Heavy page builders and stacked plugins can make a site crawl. Google notices, and so do your customers.",
+        ],
+      },
+      { type: "h2", text: "Questions to ask any St. Charles web designer" },
+      { type: "p", text: "Before you hire anyone, including us, ask:" },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          "Will I own my domain and website?",
+          "How many pages and revision rounds are included?",
+          "What SEO setup is included at launch?",
+          "What happens after launch? What does hosting cost, and what if I need changes?",
+          "Can I see websites you&rsquo;ve built for businesses like mine?",
+          "How long will it take?",
+        ],
+      },
+      { type: "p", text: "A good designer will answer all six without hesitating." },
+      { type: "h2", text: "How we approach it at River City Digital Co." },
+      {
+        type: "p",
+        text:
+          "We&rsquo;re a family-owned marketing agency based in St. Louis, and we build websites for small businesses across St. Charles County and the surrounding areas. Every site we build is:",
+      },
+      {
+        type: "list",
+        items: [
+          "<strong>Custom designed</strong> for your business, not a recycled template",
+          "<strong>Fast and mobile-first</strong>, built on modern technology",
+          "<strong><a href=\"/local-seo-optimization\">SEO</a>-ready at launch</strong>, with Google Business Profile, Search Console, and Analytics connected",
+          "<strong>Yours.</strong> You own your domain and your website.",
+        ],
+      },
+      {
+        type: "p",
+        text:
+          "You work directly with our team from the first mockup to launch, with no account managers and no handoffs. Most projects launch in 2 to 4 weeks.",
+      },
+      { type: "h2", text: "Frequently asked questions" },
+      {
+        type: "faq",
+        items: [
+          {
+            q: "How much does a basic website cost in St. Charles, MO?",
+            a: "A basic professionally built small business website typically costs $1,500 to $3,500, plus $50 to $150 a month for hosting and upkeep.",
+          },
+          {
+            q: "Is a website builder like Wix or Squarespace good enough?",
+            a: "For a hobby or a brand-new idea, it can be. For a business that depends on local customers finding it on Google, a custom site usually loads faster, ranks better, and converts more visitors into calls.",
+          },
+          {
+            q: "How long does it take to build a small business website?",
+            a: "Most small business websites take 2 to 4 weeks from kickoff to launch, depending on the number of pages and how quickly content and approvals come in.",
+          },
+          {
+            q: "Do I need SEO if I have a new website?",
+            a: "Your site should launch with SEO basics built in. Ongoing SEO is optional, but it&rsquo;s how you move up in Google and Maps over time, especially in competitive categories.",
+          },
+          {
+            q: "Will I own my website?",
+            a: "You should. Always confirm in writing that you own your domain and website before you sign.",
+          },
+        ],
+      },
+      { type: "h2", text: "Ready to see what your website should cost?" },
+      {
+        type: "p",
+        text:
+          "Every business is different, so the best way to get a real number is a quick conversation. Tell us what you do and what you need, and we&rsquo;ll give you a straight quote with no pressure and no surprises.",
+      },
+      { type: "cta", href: "/contact", label: "Get your free website quote →" },
+      {
+        type: "p",
+        text:
+          "<em>River City Digital Co. builds websites and runs local SEO, AI search visibility, and paid ads for small businesses in St. Charles, St. Louis, and across the Midwest.</em>",
+      },
+    ],
+  },
   {
     slug: "ai-crawlers-blank-page",
     title: "Your website looks great. To ChatGPT, it might be a blank page.",

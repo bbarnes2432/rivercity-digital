@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import Nav from "../../_components/Nav";
 import Footer from "../../_components/Footer";
@@ -34,6 +35,16 @@ function decodeHeading(text: string): string {
     .replace(/<[^>]+>/g, "");
 }
 
+/* Plain text for metadata and JSON-LD, where markup and entities don't render. */
+function plain(text: string): string {
+  return text
+    .replace(/<[^>]+>/g, "")
+    .replace(/&[lr]squo;/g, "'")
+    .replace(/&[lr]dquo;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, "&");
+}
+
 type Params = Promise<{ slug: string }>;
 
 export function generateStaticParams() {
@@ -45,9 +56,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const n = getNote(slug);
   if (!n) return { title: "Field Notes" };
   const cleanTitle = n.title.replace(/&[lr]squo;/g, "'").replace(/&apos;/g, "'");
-  const cleanExcerpt = n.excerpt.replace(/&[lr]squo;/g, "'").replace(/&apos;/g, "'");
+  const cleanExcerpt = plain(n.metaDescription ?? n.excerpt);
   return {
-    title: cleanTitle,
+    title: n.metaTitle ? { absolute: n.metaTitle } : cleanTitle,
     description: cleanExcerpt,
     alternates: { canonical: `/notes/${n.slug}` },
     openGraph: {
@@ -68,6 +79,14 @@ function renderBlock(b: Block, i: number) {
           key={i}
           id={slugifyHeading(b.text)}
           className="rcd-article-h2"
+          dangerouslySetInnerHTML={{ __html: b.text }}
+        />
+      );
+    case "h3":
+      return (
+        <h3
+          key={i}
+          className="rcd-article-h3"
           dangerouslySetInnerHTML={{ __html: b.text }}
         />
       );
@@ -112,6 +131,65 @@ function renderBlock(b: Block, i: number) {
           />
         </aside>
       );
+    case "table":
+      return (
+        <div key={i} className="rcd-article-table-wrap">
+          <table className="rcd-article-table">
+            <thead>
+              <tr>
+                {b.head.map((h, j) => (
+                  <th key={j} scope="col" dangerouslySetInnerHTML={{ __html: h }} />
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {b.rows.map((row, j) => (
+                <tr key={j}>
+                  {row.map((cell, k) =>
+                    k === 0 ? (
+                      <th key={k} scope="row" dangerouslySetInnerHTML={{ __html: cell }} />
+                    ) : (
+                      <td key={k} dangerouslySetInnerHTML={{ __html: cell }} />
+                    ),
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    case "figure":
+      return (
+        <figure key={i} className="rcd-article-figure">
+          <Image
+            src={b.src}
+            alt={b.alt}
+            width={b.width}
+            height={b.height}
+            sizes="(min-width: 1024px) 640px, 100vw"
+          />
+          {b.caption && <figcaption dangerouslySetInnerHTML={{ __html: b.caption }} />}
+        </figure>
+      );
+    case "faq":
+      return (
+        <div key={i} className="rcd-article-faq">
+          {b.items.map((it, j) => (
+            <div key={j} className="rcd-article-faq-item">
+              <h3 className="rcd-article-h3" dangerouslySetInnerHTML={{ __html: it.q }} />
+              <p className="rcd-article-faq-answer" dangerouslySetInnerHTML={{ __html: it.a }} />
+            </div>
+          ))}
+        </div>
+      );
+    case "cta":
+      return (
+        <p key={i} className="rcd-article-cta">
+          <Link href={b.href} className="btn btn-primary btn-lg">
+            {b.label}
+          </Link>
+        </p>
+      );
   }
 }
 
@@ -124,12 +202,32 @@ export default async function NotePage({ params }: { params: Params }) {
   const idx = NOTES.findIndex((x) => x.slug === n.slug);
   const next = NOTES[(idx + 1) % NOTES.length];
 
+  const figures = n.body.filter(
+    (b): b is Extract<Block, { type: "figure" }> => b.type === "figure",
+  );
+  const faqs = n.body.flatMap((b) => (b.type === "faq" ? b.items : []));
+  const faqLd =
+    faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: plain(f.q),
+            acceptedAnswer: { "@type": "Answer", text: plain(f.a) },
+          })),
+        }
+      : null;
+
   const ld = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: cleanTitle,
-    description: n.excerpt.replace(/&[lr]squo;/g, "'"),
+    description: plain(n.metaDescription ?? n.excerpt),
     datePublished: n.date,
+    ...(figures.length > 0 && {
+      image: figures.map((f) => `https://rivercitydigitalco.com${f.src}`),
+    }),
     author: {
       "@type": "Organization",
       name: "River City Digital Co.",
@@ -150,6 +248,7 @@ export default async function NotePage({ params }: { params: Params }) {
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC",
   });
 
   const tocItems = n.body
@@ -162,6 +261,12 @@ export default async function NotePage({ params }: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
       />
+      {faqLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        />
+      )}
       <Nav overlayMode="dark-on-light" />
       <ReadingProgress />
 

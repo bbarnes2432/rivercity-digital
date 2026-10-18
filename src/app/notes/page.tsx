@@ -65,9 +65,9 @@ export default function NotesPage() {
             <ul className="rcd-filing-grid fx-stagger">
               {POSTS.map((p) => {
                 const d = new Date(p.date);
-                const day = d.getDate();
-                const month = d.toLocaleDateString("en-US", { month: "short" });
-                const year = d.getFullYear();
+                const day = d.getUTCDate();
+                const month = d.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" });
+                const year = d.getUTCFullYear();
                 return (
                   <li key={p.slug}>
                     <Link href={`/notes/${p.slug}`} className="rcd-filing-card">
