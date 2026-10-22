@@ -11,7 +11,6 @@ import GoogleReviews from "./_components/GoogleReviews";
 import ScrollReveal from "./_components/ScrollReveal";
 import MobileStickyCta from "./_components/MobileStickyCta";
 import HookVideo from "./_components/HookVideo";
-import FamilyPhoto from "./_components/FamilyPhoto";
 import { getGoogleReviews } from "@/lib/google-reviews";
 
 export const metadata: Metadata = {
@@ -397,7 +396,6 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="rcd-why-stack fx-stagger">
-              <FamilyPhoto />
               <div className="rcd-why-tile fx-reveal">
                 <h4>Personally Handled</h4>
                 <p>Every project from first call to launch — one point of contact, start to finish.</p>
