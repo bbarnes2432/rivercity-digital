@@ -43,28 +43,28 @@ export default function StLouisLandingPage() {
       <section className="wd-hero ch-hero" aria-labelledby="hero-heading">
         <div className="ch-hero-film"><div className="stl-hero-photo" aria-hidden="true"><Image src="/assets/bg-river.webp" alt="" fill sizes="100vw" preload /><div className="stl-hero-shade" /></div>
           <div className="wd-container ch-hero-title">
-            <p className="ch-hero-eyebrow">St. Louis businesses <span aria-hidden="true">·</span> Free mockup</p>
+            <p className="ch-hero-eyebrow">St. Louis web design <span aria-hidden="true">·</span> Local &amp; family-owned</p>
             <h1 id="hero-heading">Custom websites for<br /><span>St. Louis businesses.</span></h1>
-            <p className="ch-hero-description">Show customers what makes your business different—and make it easy to get in touch. Start with a free mockup before you commit to the build.</p>
+            <p className="ch-hero-description">Work directly with a local, family-owned team to build a website around your business. Start with a free mockup before you commit to the build.</p>
             <div className="ch-hero-actions"><a href="#start" className="wd-button wd-button-mint">Get my free mockup <ArrowUpRight size={18} aria-hidden="true" /></a><CallLink context="st-louis-hero" className="wd-button ch-hero-call" numberPrefix="Call " /></div>
           </div>
-          <div className="wd-container ch-hero-footnote"><span>Local. Family-owned. Personally built.</span><a href="#meet-river-city">Meet River City <ArrowDown size={15} aria-hidden="true" /></a></div>
+          <div className="wd-container ch-hero-footnote"><span>Personally involved. Start to finish.</span><a href="#meet-river-city">Meet River City <ArrowDown size={15} aria-hidden="true" /></a></div>
         </div>
       </section>
       <NeighborhoodTicker communities={STL_COMMUNITIES} label="St. Louis and surrounding communities" />
       <div className="ch-river-journey"><RiverThread />
         <section className="wd-section ch-start rcd-light" id="meet-river-city" aria-label="Meet River City and request your free mockup" data-river-stop>
           <div className="wd-container ch-start-layout">
-            <div className="ch-vsl" data-entrance="image"><HookVideo src="/assets/vsl/river-city-st-louis-vsl.mp4" poster="/assets/vsl/river-city-st-louis-vsl-poster.jpg" ctaLabel="Meet River City. See how we build." preload="none" /><p>A look at the people, the work, and your next website.</p>
+            <div className="ch-vsl" data-entrance="image"><HookVideo src="/assets/vsl/river-city-st-louis-vsl.mp4" poster="/assets/vsl/river-city-st-louis-vsl-poster.jpg" ctaLabel="Meet River City. See how we build." preload="none" /><p>Get to know River City and how we approach your website.</p>
               <figure className="ch-client-proof"><blockquote>“{CLIENT_REVIEW.excerpt}”</blockquote><figcaption><strong>{CLIENT_REVIEW.author}</strong><span>{CLIENT_REVIEW.business}</span><a href={CLIENT_REVIEW.url} target="_blank" rel="noopener noreferrer">Read her Google review <ArrowUpRight size={12} aria-hidden="true" /><span className="sr-only"> (opens in a new tab)</span></a></figcaption></figure>
             </div>
-            <MockupRequestForm focused compact landingPath="/st-louis-web-design" nextStep="We’ll contact you about your business and design ideas, then prepare your free mockup. You’ll receive a written scope and price before any website build begins." />
+            <MockupRequestForm focused compact landingPath="/st-louis-web-design" nextStep="You’ll hear from our team about your business and design ideas, then we’ll prepare your free mockup. You’ll receive a written scope and price before any website build begins." />
           </div>
         </section>
         <section className="wd-section ch-connection rcd-light" id="studio" aria-labelledby="studio-heading" data-river-stop>
           <div className="wd-container ch-connection-layout">
             <figure className="ch-river-photo" data-entrance="image"><Image src="/assets/bg-st-louis-street.webp" alt="A St. Louis street looking toward the Gateway Arch" width={1280} height={720} sizes="(max-width: 800px) 100vw, 760px" /><figcaption>Built here. For businesses like yours.</figcaption></figure>
-            <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Local enough to<br />meet in person.</h2><p>We’re River City Digital, a family-owned web design studio based in St. Louis.</p><p>You work directly with us from first mockup to launch. We can meet in person, talk through your ideas, and build a website around your business.</p><p>No account managers, no runaround, and a website you own when it’s done.</p><span className="ch-handled">From our family to your business.</span></div>
+            <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Local enough to<br />meet in person.</h2><p>We’re River City Digital, a family-owned web design studio based in St. Louis.</p><p>We take the time to understand your business, explain your options and build around what you need. You work directly with us—and we can meet in person to talk it through.</p><p>A clear scope and price before we build. A website you own when it’s done.</p><span className="ch-handled">From our family to your business.</span></div>
           </div>
         </section>
         <MockupJourney />

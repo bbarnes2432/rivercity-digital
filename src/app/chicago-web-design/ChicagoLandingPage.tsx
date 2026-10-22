@@ -42,9 +42,9 @@ export default function ChicagoLandingPage() {
       <section className="wd-hero ch-hero" aria-labelledby="hero-heading">
         <div className="ch-hero-film"><ChicagoHeroBackground clips={CHICAGO_HERO_CLIPS} />
           <div className="wd-container ch-hero-title">
-            <p className="ch-hero-eyebrow">Chicago-area businesses <span aria-hidden="true">·</span> Custom web design</p>
+            <p className="ch-hero-eyebrow">Serving Chicago <span aria-hidden="true">·</span> Family-owned web design</p>
             <h1 id="hero-heading">A custom website.<br /><span>Built around your business.</span></h1>
-            <p className="ch-hero-description">Tell us about your business and the website you need. We’ll talk through your goals, the pages and features you need, and your options. You’ll receive a clear scope and price before deciding to build.</p>
+            <p className="ch-hero-description">Work directly with our family-owned team to plan the website your business needs. We’ll talk through your goals, pages and features, then give you a clear scope and price before you decide to build.</p>
             <div className="ch-hero-actions"><a href="#start" className="wd-button wd-button-mint">Discuss my website <ArrowUpRight size={18} aria-hidden="true" /></a><CallLink context="chicago-hero" className="wd-button ch-hero-call" numberPrefix="Call " /></div>
           </div>
           <div className="wd-container ch-hero-footnote"><span>Family-owned. Personally built.</span><a href="#meet-river-city">Meet River City <ArrowDown size={15} aria-hidden="true" /></a></div>
@@ -54,16 +54,16 @@ export default function ChicagoLandingPage() {
       <div className="ch-river-journey"><RiverThread />
         <section className="wd-section ch-start rcd-light" id="meet-river-city" aria-label="Meet River City and discuss your website" data-river-stop>
           <div className="wd-container ch-start-layout">
-            <div className="ch-vsl" data-entrance="image"><HookVideo src="/assets/vsl/river-city-chicago-vsl.mp4" poster="/assets/vsl/river-city-chicago-vsl-poster.jpg" ctaLabel="Meet River City. See how we build." preload="none" /><p>A look at the people, the work, and your next website.</p>
+            <div className="ch-vsl" data-entrance="image"><HookVideo src="/assets/vsl/river-city-chicago-vsl.mp4" poster="/assets/vsl/river-city-chicago-vsl-poster.jpg" ctaLabel="Meet River City. See how we build." preload="none" /><p>Get to know River City and how we approach your website.</p>
               <figure className="ch-client-proof"><blockquote>“{CLIENT_REVIEW.excerpt}”</blockquote><figcaption><strong>{CLIENT_REVIEW.author}</strong><span>{CLIENT_REVIEW.business}</span><a href={CLIENT_REVIEW.url} target="_blank" rel="noopener noreferrer">Read her Google review <ArrowUpRight size={12} aria-hidden="true" /><span className="sr-only"> (opens in a new tab)</span></a></figcaption></figure>
             </div>
-            <MockupRequestForm focused compact offer="consultation" landingPath="/chicago-web-design" nextStep="We’ll contact you to discuss your goals and the website you need. You’ll receive a written scope and price before deciding to build." />
+            <MockupRequestForm focused compact offer="consultation" landingPath="/chicago-web-design" nextStep="You’ll hear from our team to discuss your goals and the website you need. You’ll receive a written scope and price before deciding to build." />
           </div>
         </section>
         <section className="wd-section ch-connection rcd-light" id="studio" aria-labelledby="studio-heading" data-river-stop>
           <div className="wd-container ch-connection-layout">
             <figure className="ch-river-photo" data-entrance="image"><Image src="/assets/chicago/chicago-river-story.webp" alt="Chicago River between downtown towers and raised bridges" width={1920} height={1080} sizes="(max-width: 800px) 100vw, 760px" /><figcaption>Two river cities. One shared way of doing business.</figcaption></figure>
-            <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Chicago’s a<br />river city too.</h2><p>So is St. Louis. We’re River City Digital, a family-owned web design studio working with businesses up and down the Midwest.</p><p>Custom websites for businesses in Chicago, Naperville, Arlington Heights and surrounding communities.</p><p>You work directly with us from first conversation to launch. No account managers, no runaround, and a website you own when it’s done.</p><span className="ch-handled">From our family to your business.</span></div>
+            <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Chicago’s a<br />river city too.</h2><p>So is St. Louis, where our family-owned studio is based. We work with businesses across the Midwest.</p><p>Custom websites for businesses in Chicago, Naperville, Arlington Heights and surrounding communities.</p><p>Work directly with our team by phone and video call. We get to know your business, plan the project with you and keep you involved from the first conversation to launch.</p><span className="ch-handled">From our family to your business.</span></div>
           </div>
         </section>
         {/* Awaiting authentic before/after screenshots from Linda's project. */}

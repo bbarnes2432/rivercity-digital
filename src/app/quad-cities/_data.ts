@@ -33,9 +33,9 @@ export const HERO = {
   /** The differentiator is the first thing read. That is the whole point. */
   headline: "Quad Cities websites, built by a Davenport native.",
   subhead:
-    "Custom website design — plus the local SEO and AI search visibility that gets the site found once it's live.",
+    "Custom websites from a family-owned studio with Quad Cities roots. Work directly with our team, with a foundation for Google and AI search visibility.",
   formHeading: "Tell us what you're working with.",
-  formNote: "A real person reads this. Usually answered the same day.",
+  formNote: "You'll hear from our team about your business and what you need.",
 } as const;
 
 /* ---------- 2 · The local angle ----------------------------------------- */
@@ -44,8 +44,8 @@ export const LOCAL_ANGLE = {
   /** First person on purpose. This is the one thing a competitor can't copy. */
   body: [
     "I grew up in Davenport. Boarding school down in Keokuk, then Loras College up in Dubuque — most of my life happened along one stretch of one river.",
-    "River City Digital runs out of St. Louis now, about three hundred miles downstream on that same Mississippi. Same water, different bend.",
-    "So when I say I know what it's like to run a business in a metro that the Chicago and Des Moines agencies treat as a rounding error — that isn't positioning. It's just where I'm from.",
+    "Our family-owned studio runs out of St. Louis now, about three hundred miles downstream on that same Mississippi. Same water, different bend.",
+    "Those roots matter to us. We take the time to understand your business, explain your options and build a website around what you need. You work directly with our team from the first conversation to launch.",
   ],
   /** Upper Mississippi river miles, measured upstream from Cairo, Illinois.
    *  Lock & Dam 15 at Rock Island sits at ~mile 483; St. Louis at ~mile 180.
@@ -256,7 +256,7 @@ export const FAQ = [
   },
   {
     q: "You're based in St. Louis. Does that matter for a Quad Cities business?",
-    a: "We serve the Quad Cities. We don't have an office there and we're not going to pretend we do — the owner grew up in Davenport, which is the reason this market is on our list at all. Everything else runs the way it does for every client: calls, screen shares, and email. You'll be working with the person doing the work either way.",
+    a: "Our family-owned studio is based in St. Louis, and the owner grew up in Davenport. We serve the Quad Cities through phone calls, video meetings and email. You'll work directly with our team to plan your website and review the work. We don't have a staffed Quad Cities office.",
   },
   {
     q: "What happens after launch?",

@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 const FAQ_ITEMS = [
   {
     q: "What makes River City Digital different from other St. Louis marketing agencies?",
-    a: "Every project is personally handled — start to finish — by a local St. Louis team. There's no rotating account manager, no support ticket queue. You work directly with the people doing the work, building a real partnership instead of feeling like a number in a national agency's pipeline. Every website and campaign is custom-built for the St. Louis market.",
+    a: "We're a family-owned studio based in St. Louis. You work directly with our team from the first conversation to launch. We learn about your business, explain your options and agree on the scope and price before building your website. For local businesses, we can also meet in person.",
   },
   {
     q: "What is AI Search Visibility, and why does my business need it?",
@@ -46,7 +46,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Who will I be working with on my project?",
-    a: "You'll work directly with our St. Louis team — one consistent point of contact from your first conversation through launch and beyond. No rotating account managers, no support tickets, no being passed around a national agency. We bring in trusted specialists when a project benefits from deeper expertise, but you always have one local person who knows your business, your goals, and your project inside and out.",
+    a: "You'll work directly with our family-owned St. Louis team, with one consistent point of contact throughout your project. We keep you involved in the decisions and explain your options in plain language. We bring in trusted specialists when a project benefits from deeper expertise, while your River City contact stays involved.",
   },
   {
     q: "Do you require a contract?",
@@ -66,7 +66,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Do you work with businesses outside of St. Louis?",
-    a: "Our focus is the St. Louis metro because local expertise matters — we know this market, these customers, and the specific platforms and directories that drive results here. If you're outside the region, we'll be straightforward about whether we're the right fit before taking on the project.",
+    a: "Yes. Our family-owned studio is based in St. Louis and serves businesses across the Midwest, including Chicago and the Quad Cities. We work together by phone, video call and email. We'll discuss your needs and whether we're the right fit before taking on the project.",
   },
 ];
 
@@ -272,15 +272,15 @@ export default async function HomePage() {
             <div className="rcd-home-hero-copy">
               <div className="rcd-home-hero-eyebrow fx-blur-in">
                 <span className="rcd-home-hero-eyebrow-rule" />
-                <span className="rcd-home-hero-eyebrow-text">St. Louis, Missouri</span>
+                <span className="rcd-home-hero-eyebrow-text">Family-owned · St. Louis, Missouri</span>
               </div>
               <h1 className="fx-blur-in">River City<br />Digital</h1>
               <p className="rcd-home-hero-tagline fx-blur-in">Local Roots. Built to Be Found.</p>
               <p className="rcd-home-hero-lede fx-blur-in">
-                We create modern, search-ready websites for local businesses — built for Google and the new era of AI search.
+                We&apos;re a family-owned St. Louis studio building custom websites that help people find your business and get in touch.
               </p>
               <p className="rcd-home-hero-sub fx-blur-in">
-                St. Louis-based. Personally handled — clean, fast websites that get found.
+                Work directly with our team, from the first conversation to launch.
               </p>
               <div className="rcd-home-hero-cta fx-blur-in">
                 <Button href="#contact" size="lg" arrow className="fx-shine">Get a Free Audit</Button>
@@ -385,9 +385,9 @@ export default async function HomePage() {
               <div className="label">Why River City Digital</div>
               <h2>Real People.<br />Real Work.<br /><span className="accent">Real Results.</span></h2>
               <p>
-                River City Digital isn&apos;t a faceless agency with a revolving door of account managers.
-                It&apos;s a hands-on operation based right here in St. Louis — local, accessible, and
-                personally invested in every project.
+                We&apos;re a family-owned studio based right here in St. Louis. We take the time to
+                understand your business, explain your options and build a website around what
+                you need. You work directly with us throughout the project.
               </p>
               <p>
                 <strong>Every project is handled personally — start to finish.</strong> One dedicated
@@ -402,11 +402,11 @@ export default async function HomePage() {
               </div>
               <div className="rcd-why-tile fx-reveal">
                 <h4>St. Louis Based</h4>
-                <p>We know this city, these customers, and this market better than any national agency ever could.</p>
+                <p>We&apos;re based in St. Louis and can meet in person to talk through your business and ideas.</p>
               </div>
               <div className="rcd-why-tile fx-reveal">
                 <h4>Direct Communication</h4>
-                <p>Real people, real conversations — no support tickets, no rotating account managers, no being passed around.</p>
+                <p>Talk directly with our team. We keep you involved and explain your options in plain language.</p>
               </div>
             </div>
           </div>
@@ -457,7 +457,7 @@ export default async function HomePage() {
             <div className="rcd-home-sec-head fx-reveal">
               <div className="label">The Difference</div>
               <h2>River City Digital vs. <span className="accent">The Big Agencies</span></h2>
-              <p>Most agencies make you feel like a ticket number. We don&apos;t work that way.</p>
+              <p>A clear plan, direct communication and a team that knows your business.</p>
             </div>
             <div className="rcd-cmp-wrap fx-reveal">
               <div className="rcd-cmp">
@@ -594,7 +594,7 @@ export default async function HomePage() {
               <div className="rcd-home-contact-eyebrow">Contact</div>
               <h2>Let&apos;s Build Something That Gets Found</h2>
               <p style={{ maxWidth: 640, margin: "0" }}>
-                Reach out and we&apos;ll put together a free audit of your current site — or talk through building something new. No pressure, no pitch decks.
+                Talk directly with our team about a free audit of your current site — or building something new. We&apos;ll learn about your business and what you need.
               </p>
             </div>
             <div className="rcd-home-contact-grid fx-reveal">

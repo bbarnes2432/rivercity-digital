@@ -65,8 +65,8 @@ export default function StudioLandingPage({ market = "st-louis", focused = false
           <div className="wd-hero-copy">
             <p className="wd-eyebrow"><span className="wd-status-dot" /> {chicago ? "Family-owned in St. Louis · Serving Chicago remotely" : "Local & family-owned · St. Louis"}</p>
             <h1 id="hero-heading">{city}<br /><em>website design.</em></h1>
-            <p className="wd-hero-description">A website that shows what you do and makes it easy to contact you.<br className="wd-desktop-break" /> Start with a <strong>free mockup.</strong></p>
-            <p className="wd-hero-detail">See what your website could look like, using your ideas and logo. No payment details. No obligation to build.</p>
+            <p className="wd-hero-description">A custom website, built around your business by our family-owned team.<br className="wd-desktop-break" /> Start with a <strong>free mockup.</strong></p>
+            <p className="wd-hero-detail">Work directly with us. See your ideas and logo in a design preview before you decide to build. No payment details. No obligation.</p>
             <div className="wd-actions"><a className="wd-button wd-button-mint" href="#start">Request my free mockup <ArrowUpRight size={19} /></a><CallLink context="website-design-hero" className="wd-button wd-hero-call">Call our St. Louis team</CallLink></div>
           </div>
           <MockupRequestForm focused={focused} landingPath={landingPath} />
