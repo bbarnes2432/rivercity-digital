@@ -62,7 +62,7 @@ export default function ChicagoLandingPage() {
         </section>
         <section className="wd-section ch-connection rcd-light" id="studio" aria-labelledby="studio-heading" data-river-stop>
           <div className="wd-container ch-connection-layout">
-            <figure className="ch-river-photo" data-entrance="image"><Image src="/assets/chicago/chicago-river-story.webp" alt="Chicago River between downtown towers and raised bridges" width={1920} height={1080} sizes="(max-width: 800px) 100vw, 760px" /><figcaption>Two river cities. One shared way of doing business.</figcaption></figure>
+            <figure className="ch-river-photo" data-entrance="image"><Image src="/assets/river-city-family.webp" alt="The family behind River City Digital" width={1200} height={1200} sizes="(max-width: 800px) 100vw, 760px" style={{ objectPosition: "50% 40%" }} /><figcaption>The family behind River City Digital.</figcaption></figure>
             <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Chicago’s a<br />river city too.</h2><p>So is St. Louis, where our family-owned studio is based. We work with businesses across the Midwest.</p><p>Custom websites for businesses in Chicago, Naperville, Arlington Heights and surrounding communities.</p><p>Work directly with our team by phone and video call. We get to know your business, plan the project with you and keep you involved from the first conversation to launch.</p><span className="ch-handled">From our family to your business.</span></div>
           </div>
         </section>

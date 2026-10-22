@@ -63,7 +63,7 @@ export default function StLouisLandingPage() {
         </section>
         <section className="wd-section ch-connection rcd-light" id="studio" aria-labelledby="studio-heading" data-river-stop>
           <div className="wd-container ch-connection-layout">
-            <figure className="ch-river-photo" data-entrance="image"><Image src="/assets/bg-st-louis-street.webp" alt="A St. Louis street looking toward the Gateway Arch" width={1280} height={720} sizes="(max-width: 800px) 100vw, 760px" /><figcaption>Built here. For businesses like yours.</figcaption></figure>
+            <figure className="ch-river-photo" data-entrance="image"><Image src="/assets/river-city-family.webp" alt="The family behind River City Digital" width={1200} height={1200} sizes="(max-width: 800px) 100vw, 760px" style={{ objectPosition: "50% 40%" }} /><figcaption>The family behind River City Digital.</figcaption></figure>
             <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Local enough to<br />meet in person.</h2><p>We’re River City Digital, a family-owned web design studio based in St. Louis.</p><p>We take the time to understand your business, explain your options and build around what you need. You work directly with us—and we can meet in person to talk it through.</p><p>A clear scope and price before we build. A website you own when it’s done.</p><span className="ch-handled">From our family to your business.</span></div>
           </div>
         </section>

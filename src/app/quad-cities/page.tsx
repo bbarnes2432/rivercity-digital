@@ -3,6 +3,7 @@ import "./quad-cities.css";
 import Faq from "../_components/Faq";
 import Folio from "../_components/Folio";
 import ScrollReveal from "../_components/ScrollReveal";
+import FamilyPhoto from "../_components/FamilyPhoto";
 import { QcFooter, QcHeader } from "./_components/QcChrome";
 import QcForm from "./_components/QcForm";
 import QcVideo from "./_components/QcVideo";
@@ -112,6 +113,7 @@ export default function QuadCitiesPage() {
           <div className="qc-container qc-narrow">
             <Folio number={folio("local-angle")} title="The local angle" date="Mile 483" />
             <h2 className="qc-h2">{LOCAL_ANGLE.title}</h2>
+            <FamilyPhoto compact />
             <div className="qc-angle-body fx-reveal">
               {LOCAL_ANGLE.body.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>

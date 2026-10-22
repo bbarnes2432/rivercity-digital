@@ -20,8 +20,8 @@ export default function ProjectConversation() {
 
       </div>
       <figure className="wd-local-photo wd-conversation-photo" data-entrance="image">
-        <Image src="/assets/bg-st-louis-street.webp" alt="A downtown street scene with the Gateway Arch in the distance" width={1280} height={720} sizes="(max-width: 760px) 90vw, 44vw" />
-        <figcaption><span>Based right here in St. Louis.</span><p>Design, development, and a clear plan for your website.</p></figcaption>
+        <Image src="/assets/river-city-family.webp" alt="The family behind River City Digital" width={1200} height={1200} sizes="(max-width: 760px) 90vw, 44vw" style={{ objectPosition: "50% 40%" }} />
+        <figcaption><span>Family-owned. Personally involved.</span><p>Based right here in St. Louis.</p></figcaption>
       </figure>
     </div>
   </section>;
