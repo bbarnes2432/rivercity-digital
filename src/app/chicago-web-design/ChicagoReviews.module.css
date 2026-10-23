@@ -96,6 +96,18 @@
 .section a:focus-visible { outline: 2px solid var(--rcd-navy-900, #101d31); outline-offset: 5px; }
 .srOnly { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; clip: rect(0, 0, 0, 0); overflow: hidden; white-space: nowrap; }
 
+.ticker { min-width: 0; }
+.tickerTools { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.tickerTools p { margin: 0; font-size: 13px; line-height: 1.5; }
+.controls { display: flex; gap: 8px; flex-shrink: 0; }
+.controls button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 44px; min-height: 44px; padding: 10px; border: 1px solid var(--ch-rule, #101d3133); border-radius: 50px; background: transparent; color: inherit; cursor: pointer; font: inherit; font-size: 12px; }
+.controls button:hover { background: #4ca5ad20; }
+.controls button:focus-visible, .reviewRow:focus-visible { outline: 2px solid #101d31; outline-offset: 3px; }
+.reviewRow { display: flex; align-items: stretch; gap: 18px; overflow-x: auto; padding: 4px 0 18px; scrollbar-width: thin; scrollbar-color: #4ca5ad #101d3110; overscroll-behavior-x: contain; }
+.reviewRow .card { flex: 0 0 min(360px, 86%); display: flex; flex-direction: column; border-top: 3px solid #4ca5ad; }
+.reviewRow .quote { flex: 1; }
+@media (max-width: 700px) { .tickerTools { align-items: start; flex-wrap: wrap; } }
+
 @media (max-width: 900px) {
   .grid { gap: 12px; }
   .card { padding: 20px; }
