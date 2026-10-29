@@ -143,29 +143,6 @@ export default function RootLayout({
           src="https://ob.sornavellon.com/i/47e0b36dd9e5281ea505400cf48dc99c.js"
           className="ct_clicktrue"
         />
-
-        <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0022/1041.js" async="async"></script>
-        
-        <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QJ0E3LB3BD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-QJ0E3LB3BD');
-</script>
-          <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-5Z42J9RF"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-</script>
-
-          <meta name="msvalidate.01" content="497566C831E8FDD23DCD2BA9EE408E24" />
-
-<meta name="google-site-verification" content="RcLSHaS6xLizUbLJQNo6FMab-192hfAsfW4SUR3bXYI" />
-          
       </head>
       <GoogleTag />
       <OpenAiPixel />
