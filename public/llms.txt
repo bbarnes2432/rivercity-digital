@@ -1,0 +1,49 @@
+# Rivercitydigitalco
+
+> A St. Louis digital studio offering custom websites and AI search visibility for local businesses.
+
+## Main
+
+- [St. Louis Digital Marketing Studio — Local Roots. Built to Be Found.](https://rivercitydigitalco.com/): River City Digital — a St. Louis digital studio building modern, search-ready websites and AI search visibility for local businesses. Custom work, personally handled
+
+## Company
+
+- [About — Two of Us. One City. The Work. | River City Digital Co.](https://rivercitydigitalco.com/about): We're River City Digital — a small St. Louis studio building websites and search visibility for local businesses. Personally handled, here
+
+## Notes
+
+- [Field Notes | River City Digital Co.](https://rivercitydigitalco.com/notes): Writing on local search, AI search visibility, websites, and the work, from a small St. Louis studio
+- [We asked ChatGPT to recommend a St. Louis dentist 50 times. It named the same handful every time. | River City Digital Co.](https://rivercitydigitalco.com/notes/ai-search-st-louis-dentist-test): Hundreds of practices in the metro. A handful got named repeatedly — and the difference wasn't clinical
+- [We tested 47 St. Louis HVAC contractors on ChatGPT. Here's what we found. | River City Digital Co.](https://rivercitydigitalco.com/notes/ai-search-st-louis-hvac-test): Most weren't mentioned. The ones who were shared three structural traits
+- [Your website looks great. To ChatGPT, it might be a blank page. | River City Digital Co.](https://rivercitydigitalco.com/notes/ai-crawlers-blank-page): Both sites looked great in Chrome. Asked for the way an AI crawler asks, each came back as a name and a sentence
+- [How Much Does a Website Cost in St. Charles, MO? (2026)](https://rivercitydigitalco.com/notes/small-business-website-cost-st-charles-mo): What a small business website really costs in St. Charles, MO in 2026, what drives the price, and how to avoid paying twice. Straight answers, no fluff
+- [How AI search actually works, in 800 words. | River City Digital Co.](https://rivercitydigitalco.com/notes/how-ai-search-works): From web crawl to schema to citation to answer. The whole pipeline, no jargon
+- [What we audit when we audit a Google Business Profile. | River City Digital Co.](https://rivercitydigitalco.com/notes/google-business-profile-audit): A 17-step checklist we run on every new client. Most owners are at 4 of 17
+- [The five tags every St. Louis business website is missing. | River City Digital Co.](https://rivercitydigitalco.com/notes/five-tags-missing): Schema, OG, canonical, robots — the basics, and why most local sites don't have them
+
+## Work
+
+- [Selected Work | River City Digital Co.](https://rivercitydigitalco.com/work): A short selection of websites and search visibility projects River City Digital has shipped for St. Louis businesses
+- [Pet Planet — Pet retail in St. Charles, MO | River City Digital Co.](https://rivercitydigitalco.com/work/pet-planet): New e-commerce build + Meta and Google Ads. First quarter outperformed the prior year by 38%
+- [Shear Fantasy Salon — Hair salon in Kirkwood, MO | River City Digital Co.](https://rivercitydigitalco.com/work/shear-fantasy): New site + reworked Google Ads campaigns. Cost-per-booking dropped from $42 to $14
+- [Lucky Puppy Custom Cuts — Pet grooming in Webster Groves, MO | River City Digital Co.](https://rivercitydigitalco.com/work/lucky-puppy): Rebuilt a slow, template-driven site into a fast custom storefront. Phone calls up 60% in the first month
+- [The Sauce Fix — Small-batch hot sauce in Iowa | River City Digital Co.](https://rivercitydigitalco.com/work/the-sauce-fix): A custom direct-to-consumer storefront for a maker who grows, ferments, and bottles every batch by hand — built to sell out drops and grow the list between them
+- [Lovely Nails — Nail salon in Clayton, MO | River City Digital Co.](https://rivercitydigitalco.com/work/lovely-nails): Page 4 to Page 1 in 90 days. Now cited by ChatGPT and Perplexity for the category
+- [The Wellness Collective — Therapy & wellness in St. Louis, MO | River City Digital Co.](https://rivercitydigitalco.com/work/the-wellness-collective): A brand-led build for a practice that spans clinical therapy and spiritual work — custom illustration, its own type system, and booking on the page
+- [Mend Health — Chiropractic & soft tissue in Kirkwood, MO | River City Digital Co.](https://rivercitydigitalco.com/work/mend-health): A custom site for a solo chiropractic and soft tissue practice — a page per service, six service-area pages, and booking from anywhere on the site
+- [Confetti & Co. — Event styling & party rentals in Troy, MO | River City Digital Co.](https://rivercitydigitalco.com/work/confetti-and-co): A bright, bookable site for a family-run party styling business — balloon garlands and luxury teepee sleepovers across the St. Louis metro
+- [Linda's Specialty Cheesecakes — Handmade cheesecakes in Winfield, MO | River City Digital Co.](https://rivercitydigitalco.com/work/lindas-cheesecakes): A custom site for a made-to-order cheesecake baker — 39 signature flavors, a request-to-order form Linda confirms by text, and a wholesale path for restaurants and markets
+
+## More
+
+- [AI Search Visibility for St. Louis Businesses | River City Digital Co.](https://rivercitydigitalco.com/ai-search-visibility): Get recommended by ChatGPT, Gemini, and Perplexity. AI search visibility audits and optimization for St. Louis local businesses
+- [Digital Marketing for St. Louis Businesses | River City Digital Co.](https://rivercitydigitalco.com/digital-marketing): Google Ads, Meta, social, and email — managed personally by St. Louis people. We treat your ad budget like our own
+- [Custom Website Design in St. Louis | River City Digital Co.](https://rivercitydigitalco.com/website-design): St. Louis website design and custom development. Compare custom websites with Wix and WordPress templates, explore our work, and request a free mockup
+- [Local SEO for St. Louis — Page 1 in Your Zip Code | River City Digital Co.](https://rivercitydigitalco.com/local-seo-optimization): Local SEO for St. Louis businesses. Map Pack rankings, Google Business Profile optimization, citation building, review strategy. Free audit
+- [Service Areas — Every Block. Every Neighborhood. | River City Digital Co.](https://rivercitydigitalco.com/service-areas): We work with businesses across the greater St. Louis metro — Soulard, Clayton, Webster Groves, Kirkwood, Chesterfield, O'Fallon, St. Charles, and beyond
+- [Terms of Use | River City Digital Co.](https://rivercitydigitalco.com/terms-of-use): Terms of use for River City Digital Co
+- [Privacy Policy | River City Digital Co.](https://rivercitydigitalco.com/privacy-policy): How River City Digital Co. handles your information
+
+## Optional
+
+- [Contact | River City Digital Co.](https://rivercitydigitalco.com/contact): Talk to a real St. Louis person. Free audit, honest scope, response within a day. Email, phone, or book a 15-minute call
