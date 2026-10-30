@@ -163,7 +163,6 @@ export default function RootLayout({
 </script>
 
           <meta name="msvalidate.01" content="497566C831E8FDD23DCD2BA9EE408E24" />
-
 <meta name="google-site-verification" content="RcLSHaS6xLizUbLJQNo6FMab-192hfAsfW4SUR3bXYI" />
           
       </head>
