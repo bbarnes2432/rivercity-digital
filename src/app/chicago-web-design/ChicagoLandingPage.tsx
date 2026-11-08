@@ -9,14 +9,15 @@ import StudioStickyContact from "../website-design/_components/StudioStickyConta
 import MockupRequestForm from "../website-design/_components/MockupRequestForm";
 import { CLIENT_REVIEW } from "../website-design/_components/client-review";
 import LandingPolicyProvider from "../website-design/_components/LandingPolicyProvider";
-import ChicagoHeroBackground from "../website-design/_components/ChicagoHeroBackground";
 import StudioMotion from "../website-design/_components/StudioMotion";
 import RecoveryFunnel from "../website-design/_components/RecoveryFunnel";
 import { PAGE_VERSION } from "@/lib/funnel-schema";
 import { landingFaqs } from "./landing-faqs";
-import { CHICAGO_HERO_CLIPS } from "./hero-media";
-import ChicagoProjectGallery from "./ChicagoProjectGallery";
-import ChicagoReviews from "./ChicagoReviews";
+import ScrollWall from "../_components/showcase/ScrollWall";
+import MotionToggle from "../_components/showcase/MotionToggle";
+import FeaturedBuilds from "../_components/showcase/FeaturedBuilds";
+import DetailTiles from "../_components/showcase/DetailTiles";
+import ReviewsShowcase from "../_components/showcase/ReviewsShowcase";
 import { MockupJourney, SearchVisibility, CompactComparison } from "./ChicagoStorySections";
 import { NeighborhoodTicker, RiverThread } from "./ChicagoRiverDetails";
 import "../website-design/website-design.css";
@@ -31,6 +32,7 @@ import "../website-design/website-mockup-offer.css";
 import "../website-design/website-video.css";
 import "../website-design/website-focused.css";
 import "./chicago-editorial.css";
+import "../website-design/website-showcase.css";
 
 const FAQS = landingFaqs("chicago", "consultation");
 
@@ -40,14 +42,14 @@ export default function ChicagoLandingPage() {
     <StudioNavigation focused landingPath="/chicago-web-design" primaryLabel="Discuss my website" />
     <main id="main" className="wd-page">
       <section className="wd-hero ch-hero" aria-labelledby="hero-heading">
-        <div className="ch-hero-film"><ChicagoHeroBackground clips={CHICAGO_HERO_CLIPS} />
+        <div className="ch-hero-film"><ScrollWall backdrop="/assets/chicago/chicago-day-skyline-desktop.webp" />
           <div className="wd-container ch-hero-title">
             <p className="ch-hero-eyebrow">Serving Chicago <span aria-hidden="true">·</span> Family-owned web design</p>
             <h1 id="hero-heading">A custom website.<br /><span>Built around your business.</span></h1>
             <p className="ch-hero-description">Work directly with our family-owned team to plan the website your business needs. We’ll talk through your goals, pages and features, then give you a clear scope and price before you decide to build.</p>
             <div className="ch-hero-actions"><a href="#start" className="wd-button wd-button-mint">Discuss my website <ArrowUpRight size={18} aria-hidden="true" /></a><CallLink context="chicago-hero" className="wd-button ch-hero-call" numberPrefix="Call " /></div>
           </div>
-          <div className="wd-container ch-hero-footnote"><span>Family-owned. Personally built.</span><a href="#meet-river-city">Meet River City <ArrowDown size={15} aria-hidden="true" /></a></div>
+          <div className="wd-container ch-hero-footnote"><span>Family-owned. Personally built.</span><span className="ch-hero-footnote-actions"><MotionToggle /><a href="#meet-river-city">Meet River City <ArrowDown size={15} aria-hidden="true" /></a></span></div>
         </div>
       </section>
       <NeighborhoodTicker />
@@ -63,13 +65,14 @@ export default function ChicagoLandingPage() {
         <section className="wd-section ch-connection rcd-light" id="studio" aria-labelledby="studio-heading" data-river-stop>
           <div className="wd-container ch-connection-layout">
             <figure className="ch-river-photo" data-entrance="image"><Image src="/assets/river-city-family.webp" alt="The family behind River City Digital" width={1200} height={1200} sizes="(max-width: 800px) 100vw, 760px" style={{ objectPosition: "50% 40%" }} /><figcaption>The family behind River City Digital.</figcaption></figure>
-            <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Chicago’s a<br />river city too.</h2><p>So is St. Louis, where our family-owned studio is based. We work with businesses across the Midwest.</p><p>Custom websites for businesses in Chicago, Naperville, Arlington Heights and surrounding communities.</p><p>Work directly with our team by phone and video call. We get to know your business, plan the project with you and keep you involved from the first conversation to launch.</p><span className="ch-handled">From our family to your business.</span></div>
+            <div className="ch-connection-copy" data-entrance="rise"><h2 id="studio-heading">Chicago’s a<br />river city too.</h2><p>So is St. Louis, where our family-owned marketing agency is based. We work with businesses across the Midwest.</p><p>Custom websites for businesses in Chicago, Naperville, Arlington Heights and surrounding communities.</p><p>Work directly with our team by phone and video call. We get to know your business, plan the project with you and keep you involved from the first conversation to launch.</p><span className="ch-handled">From our family to your business.</span></div>
           </div>
         </section>
         {/* Awaiting authentic before/after screenshots from Linda's project. */}
         <MockupJourney offer="consultation" />
-        <ChicagoProjectGallery />
-        <Suspense fallback={null}><ChicagoReviews /></Suspense>
+        <FeaturedBuilds heading={<div className="ch-section-heading" data-entrance="rise"><h2 id="builds-heading">Different businesses.<br />Distinctly their own.</h2><p>Pick a build and watch its homepage scroll on a phone, top to bottom, the way its customers see it.</p></div>} />
+        <DetailTiles heading={<div className="ch-section-heading" data-entrance="rise"><h2 id="details-heading">Built for one business.<br />Not from a template.</h2><p>Every website gets features planned around how that business works. A few favorites from recent projects.</p></div>} />
+        <Suspense fallback={null}><ReviewsShowcase id="chicago-reviews" heading={<h2 className="ch-reviews-heading" id="chicago-reviews-heading">In their own words.</h2>} /></Suspense>
         <SearchVisibility />
         <CompactComparison />
         <section className="wd-section ch-faq rcd-light" id="faq" aria-labelledby="faq-heading" data-river-stop><div className="wd-container ch-faq-layout"><div data-entrance="rise"><h2 id="faq-heading">A few things<br />worth knowing.</h2></div><div>{FAQS.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>

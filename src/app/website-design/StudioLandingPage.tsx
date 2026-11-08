@@ -3,14 +3,16 @@ import CallLink from "../_components/CallLink";
 import HeroPortal from "../_components/HeroPortal";
 import HookVideo from "../_components/HookVideo";
 import TubesCursor from "@/components/ui/tubes-cursor";
-import KineticMatrix from "@/components/ui/kinetic-matrix";
-import ShaderBackground from "@/components/ui/shader-background";
+import ScrollWall from "../_components/showcase/ScrollWall";
+import MotionToggle from "../_components/showcase/MotionToggle";
+import FeaturedBuilds from "../_components/showcase/FeaturedBuilds";
+import DetailTiles from "../_components/showcase/DetailTiles";
+import ReviewsShowcase from "../_components/showcase/ReviewsShowcase";
 import StudioNavigation from "./_components/StudioNavigation";
 import MockupRequestForm from "./_components/MockupRequestForm";
 import StudioStickyContact from "./_components/StudioStickyContact";
 import StudioFooter from "./_components/StudioFooter";
 import CustomBuildComparison, { CustomBuildIntroduction } from "./_components/CustomBuildComparison";
-import ProjectGallery from "./_components/ProjectGallery";
 import ClientProof from "./_components/ClientProof";
 import ProjectConversation from "./_components/ProjectConversation";
 import SearchFoundations from "./_components/SearchFoundations";
@@ -29,6 +31,7 @@ import "./website-portfolio.css";
 import "./website-mockup-offer.css";
 import "./website-video.css";
 import "./website-focused.css";
+import "./website-showcase.css";
 import LandingPolicyProvider from "./_components/LandingPolicyProvider";
 import ChicagoHeroBackground, { type HeroVideoClip } from "./_components/ChicagoHeroBackground";
 
@@ -60,7 +63,7 @@ export default function StudioLandingPage({ market = "st-louis", focused = false
     <HeroPortal /><StudioNavigation focused={focused} landingPath={landingPath} />
     <main id="main" className="wd-page">
       <section className={`wd-hero wd-hero-with-form${chicago ? " wd-hero-video" : ""}`} aria-labelledby="hero-heading">
-        {chicago ? <ChicagoHeroBackground clips={heroVideoClips} /> : <div className="wd-hero-effects" aria-hidden="true"><ShaderBackground className="wd-hero-shader" /><KineticMatrix autoImpulseDelay={2050} /></div>}
+        {chicago ? <ChicagoHeroBackground clips={heroVideoClips} /> : <ScrollWall />}
         <div className="wd-container wd-hero-content">
           <div className="wd-hero-copy">
             <p className="wd-eyebrow"><span className="wd-status-dot" /> {chicago ? "Family-owned in St. Louis · Serving Chicago remotely" : "Local & family-owned · St. Louis"}</p>
@@ -71,7 +74,7 @@ export default function StudioLandingPage({ market = "st-louis", focused = false
           </div>
           <MockupRequestForm focused={focused} landingPath={landingPath} />
         </div>
-        <div className="wd-container wd-hero-bottom"><span>Custom design · Built for phones · A website you own</span><a href="#work">Explore the work <ArrowDown size={15} /></a></div>
+        <div className="wd-container wd-hero-bottom"><span>Custom design · Built for phones · A website you own</span><span className="wd-hero-bottom-actions"><MotionToggle /><a href="#work">Explore the work <ArrowDown size={15} /></a></span></div>
       </section>
       <section className="wd-section wd-vsl rcd-light" id="why-river-city" aria-labelledby="why-river-city-heading">
         <div className="wd-container">
@@ -92,13 +95,15 @@ export default function StudioLandingPage({ market = "st-louis", focused = false
       </section>
       <ClientProof />
       <CustomBuildIntroduction />
-      <ProjectGallery focused={focused} />
+      <FeaturedBuilds heading={<div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">Recent client builds</p><h2 id="builds-heading">Real businesses.<br /><em>Websites of their own.</em></h2></div><p>Pick a build to watch its homepage scroll on a phone, top to bottom, the way its customers see it.</p></div>} />
+      <DetailTiles heading={<div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">Made for one business</p><h2 id="details-heading">Features built<br /><em>around the business.</em></h2></div><p>Every website we build gets features planned around how that business works. A few favorites from recent projects.</p></div>} />
       <ProjectConversation />
       <SearchFoundations />
       <CustomBuildComparison focused={focused} />
       <BuildCapabilities />
       <BuildProcess />
       <section className="wd-section wd-faq rcd-light" id="faq" aria-labelledby="faq-heading"><div className="wd-container wd-faq-grid"><div data-entrance="rise"><p className="wd-eyebrow">Frequently asked questions</p><h2 id="faq-heading">Questions about<br />the build.</h2></div><div>{FAQS.map(([question, answer]) => <details className="wd-faq-item" data-entrance="unfold" key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
+      <ReviewsShowcase heading={<><p className="wd-eyebrow">Google reviews</p><h2 id="reviews-heading">Straight from<br /><em>our clients.</em></h2></>} />
       <section className="wd-section wd-contact rcd-light" id="final-request" aria-labelledby="contact-heading">
         <div className="wd-container wd-contact-grid"><div className="wd-contact-copy" data-entrance="rise"><p className="wd-eyebrow">Your business. Your website.</p><h2 id="contact-heading">See what your website<br />could look like.</h2><p>Share your ideas. Get a free mockup. Decide on the full website when you’re ready.</p><div className="wd-contact-direct"><span>Prefer to talk?</span><CallLink context="website-design-contact" className="wd-contact-number" /></div></div><div className="wd-contact-preview" data-entrance="rise"><p className="wd-eyebrow">Free design preview</p><h3>Request your free mockup.</h3><p>No payment details and no obligation. We agree on the price before building your website.</p><a className="wd-button wd-button-dark" href="#start">Request my free mockup <ArrowUpRight size={19} /></a></div></div>
       </section>
