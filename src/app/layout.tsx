@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "St. Louis digital marketing studio combining Google SEO with AI search visibility. Custom websites, local SEO, Google Ads, Meta Ads. Personally handled.",
+    "St. Louis family-owned marketing agency combining Google SEO with AI search visibility. Custom websites, local SEO, Google Ads, Meta Ads. Personally handled.",
   applicationName: SITE_NAME,
   authors: [{ name: SITE_NAME }],
   generator: "Next.js",
@@ -62,13 +62,13 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: `${SITE_NAME} — Local Roots. Built to Be Found.`,
     description:
-      "St. Louis digital marketing studio. Custom websites, local SEO, AI search visibility. Personally handled.",
+      "St. Louis family-owned marketing agency. Custom websites, local SEO, AI search visibility. Personally handled.",
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} — Local Roots. Built to Be Found.`,
     description:
-      "St. Louis digital marketing studio. Custom websites, local SEO, AI search visibility.",
+      "St. Louis family-owned marketing agency. Custom websites, local SEO, AI search visibility.",
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
@@ -144,27 +144,23 @@ export default function RootLayout({
           className="ct_clicktrue"
         />
 
-        <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0022/1041.js" async="async"></script>
-        
-        <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QJ0E3LB3BD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+        <script src="https://script.crazyegg.com/pages/scripts/0022/1041.js" async />
 
-  gtag('config', 'G-QJ0E3LB3BD');
-</script>
-          <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-5Z42J9RF"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-</script>
+        {/* Alpha SEO: Google Analytics, Tag Manager and search verification. */}
+        <script src="https://www.googletagmanager.com/gtag/js?id=G-QJ0E3LB3BD" async />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-QJ0E3LB3BD');
+window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});`,
+          }}
+        />
+        <script src="https://www.googletagmanager.com/gtm.js?id=GTM-5Z42J9RF" async />
 
-          <meta name="msvalidate.01" content="497566C831E8FDD23DCD2BA9EE408E24" />
-<meta name="google-site-verification" content="RcLSHaS6xLizUbLJQNo6FMab-192hfAsfW4SUR3bXYI" />
-          
+        <meta name="msvalidate.01" content="497566C831E8FDD23DCD2BA9EE408E24" />
+        <meta name="google-site-verification" content="RcLSHaS6xLizUbLJQNo6FMab-192hfAsfW4SUR3bXYI" />
       </head>
       <GoogleTag />
       <OpenAiPixel />
