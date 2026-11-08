@@ -14,14 +14,14 @@ import HookVideo from "./_components/HookVideo";
 import { getGoogleReviews } from "@/lib/google-reviews";
 
 export const metadata: Metadata = {
-  title: "St. Louis Digital Marketing Studio — Local Roots. Built to Be Found.",
+  title: "St. Louis Family-Owned Marketing Agency — Local Roots. Built to Be Found.",
   description:
-    "River City Digital — a St. Louis digital studio building modern, search-ready websites and AI search visibility for local businesses. Custom work, personally handled.",
+    "River City Digital — a family-owned St. Louis marketing agency building modern, search-ready websites and AI search visibility for local businesses. Custom work, personally handled.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "River City Digital Co. — Local Roots. Built to Be Found.",
     description:
-      "St. Louis digital marketing studio. Custom websites, local SEO, AI search visibility.",
+      "St. Louis family-owned marketing agency. Custom websites, local SEO, AI search visibility.",
     url: "/",
     type: "website",
   },
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 const FAQ_ITEMS = [
   {
     q: "What makes River City Digital different from other St. Louis marketing agencies?",
-    a: "We're a family-owned studio based in St. Louis. You work directly with our team from the first conversation to launch. We learn about your business, explain your options and agree on the scope and price before building your website. For local businesses, we can also meet in person.",
+    a: "We're a family-owned marketing agency based in St. Louis. You work directly with our team from the first conversation to launch. We learn about your business, explain your options and agree on the scope and price before building your website. For local businesses, we can also meet in person.",
   },
   {
     q: "What is AI Search Visibility, and why does my business need it?",
@@ -66,7 +66,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Do you work with businesses outside of St. Louis?",
-    a: "Yes. Our family-owned studio is based in St. Louis and serves businesses across the Midwest, including Chicago and the Quad Cities. We work together by phone, video call and email. We'll discuss your needs and whether we're the right fit before taking on the project.",
+    a: "Yes. Our family-owned marketing agency is based in St. Louis and serves businesses across the Midwest, including Chicago and the Quad Cities. We work together by phone, video call and email. We'll discuss your needs and whether we're the right fit before taking on the project.",
   },
 ];
 
@@ -277,7 +277,7 @@ export default async function HomePage() {
               <h1 className="fx-blur-in">River City<br />Digital</h1>
               <p className="rcd-home-hero-tagline fx-blur-in">Local Roots. Built to Be Found.</p>
               <p className="rcd-home-hero-lede fx-blur-in">
-                We&apos;re a family-owned St. Louis studio building custom websites that help people find your business and get in touch.
+                We&apos;re a family-owned St. Louis marketing agency building custom websites that help people find your business and get in touch.
               </p>
               <p className="rcd-home-hero-sub fx-blur-in">
                 Work directly with our team, from the first conversation to launch.
@@ -385,7 +385,7 @@ export default async function HomePage() {
               <div className="label">Why River City Digital</div>
               <h2>Real People.<br />Real Work.<br /><span className="accent">Real Results.</span></h2>
               <p>
-                We&apos;re a family-owned studio based right here in St. Louis. We take the time to
+                We&apos;re a family-owned marketing agency based right here in St. Louis. We take the time to
                 understand your business, explain your options and build a website around what
                 you need. You work directly with us throughout the project.
               </p>

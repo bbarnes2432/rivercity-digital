@@ -37,6 +37,9 @@ type PlaceDetails = {
   }>;
 };
 
+// Reviews the owner asked us not to show on the site (Nov 2026 brief).
+const EXCLUDED_AUTHORS = ["crystal b", "daniel barnes"];
+
 // A day. Reviews trickle in; there's no reason to spend an API call per visit.
 const REVALIDATE_SECONDS = 60 * 60 * 24;
 
@@ -67,6 +70,8 @@ export async function getGoogleReviews(): Promise<GoogleReviews | null> {
       const text = (r.originalText?.text ?? r.text?.text ?? "").trim();
       const author = r.authorAttribution?.displayName;
       if (!text || !author || !r.rating) return [];
+      // Left out at the owner's request (Nov 2026 brief), whatever their rating.
+      if (EXCLUDED_AUTHORS.some(name => author.trim().toLowerCase().startsWith(name))) return [];
       return [{
         author,
         authorUrl: r.authorAttribution?.uri,
