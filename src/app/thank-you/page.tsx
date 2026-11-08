@@ -52,7 +52,7 @@ export default function ThankYouPage() {
                   Your note landed. We&apos;ll be in touch within a day — usually the same day.
                 </p>
                 <p className="rcd-hero-lede fx-blur-in">
-                  We&apos;re a small St. Louis studio. The person who reads your message is the same
+                  We&apos;re a small, family-owned St. Louis marketing agency. The person who reads your message is the same
                   person who&apos;ll do the work. Keep an eye on your inbox.
                 </p>
               </div>
@@ -91,7 +91,7 @@ export default function ThankYouPage() {
                   See our recent work
                 </Link>
                 <Link href="/notes" className="btn btn-secondary btn-md">
-                  Read the studio notes
+                  Read our notes
                 </Link>
               </div>
 

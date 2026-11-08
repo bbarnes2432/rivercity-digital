@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "St. Louis website design | River City Digital",
-    description: "Custom websites from our local, family-owned St. Louis studio. See your design with a free mockup.",
+    description: "Custom websites from our local, family-owned St. Louis marketing agency. See your design with a free mockup.",
     images: ["/assets/bg-river.webp"],
   },
 };

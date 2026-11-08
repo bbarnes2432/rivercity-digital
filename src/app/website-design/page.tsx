@@ -11,6 +11,11 @@ export const metadata: Metadata = {
     url: "/website-design",
     images: [{ url: "/assets/portfolio-wellness-collective.webp", width: 1440, height: 798, alt: "The Wellness Collective website, designed by River City Digital" }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "River City Digital — Local Roots. Built to Be Found.",
+    description: "St. Louis family-owned marketing agency. Custom websites, local SEO, AI search visibility.",
+  },
 };
 
 export default function WebsiteDesignPage() {

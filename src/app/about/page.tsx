@@ -15,11 +15,11 @@ import MobileStickyCta from "../_components/MobileStickyCta";
 export const metadata: Metadata = {
   title: "About — Two of Us. One City. The Work.",
   description:
-    "We're River City Digital — a small St. Louis studio building websites and search visibility for local businesses. Personally handled, here.",
+    "We're River City Digital — a family-owned St. Louis marketing agency building websites and search visibility for local businesses. Personally handled, here.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About — River City Digital",
-    description: "A small St. Louis studio. The same person who picks up the phone is the one writing your schema.",
+    description: "A family-owned St. Louis marketing agency. The same person who picks up the phone is the one writing your schema.",
     url: "/about",
   },
 };
@@ -71,7 +71,7 @@ export default function AboutPage() {
                   Two of us.<br />One city.<br />The work.
                 </h1>
                 <p className="rcd-hero-tagline fx-blur-in">
-                  A small St. Louis studio. Personally handled, here.
+                  A family-owned St. Louis marketing agency. Personally handled, here.
                 </p>
                 <p className="rcd-hero-lede fx-blur-in">
                   We make the websites here. Run the campaigns here. Pick up the phone — actually pick it up.
@@ -110,7 +110,7 @@ export default function AboutPage() {
                 than the typical agency pitch — it is. It also tends to work.
               </p>
               <p>
-                We&apos;re a small studio. We won&apos;t be a fit for everyone. If you&apos;re a St. Louis owner who wants the
+                We&apos;re a small, family-owned marketing agency. We won&apos;t be a fit for everyone. If you&apos;re a St. Louis owner who wants the
                 work done by the same person who answers your emails, we&apos;d like to talk.
               </p>
               <div className="rcd-about-letter-sign">
@@ -125,7 +125,7 @@ export default function AboutPage() {
         <Section mode="working">
           <Container>
             <SectionHeader
-              eyebrow="The studio"
+              eyebrow="The agency"
               title="Where the work gets made."
               lede="A small space in St. Louis. A window, a desk, books, coffee. The usual."
             />

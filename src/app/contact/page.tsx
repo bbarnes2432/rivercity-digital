@@ -106,7 +106,7 @@ export default function ContactPage() {
                   A few sentences is plenty. Same-day reply most days.
                 </p>
                 <p className="rcd-hero-lede fx-blur-in">
-                  We&apos;re a small studio. The person who picks up the phone is the same
+                  We&apos;re a small, family-owned marketing agency. The person who picks up the phone is the same
                   person who&apos;ll do the work. We answer email within a day — usually within an hour.
                 </p>
               </div>

@@ -12,7 +12,7 @@ import { NOTES as POSTS } from "./_data";
 
 export const metadata: Metadata = {
   title: "Field Notes",
-  description: "Writing on local search, AI search visibility, websites, and the work, from a small St. Louis studio.",
+  description: "Writing on local search, AI search visibility, websites, and the work, from a family-owned St. Louis marketing agency.",
   alternates: { canonical: "/notes" },
   openGraph: {
     title: "Field Notes — River City Digital",

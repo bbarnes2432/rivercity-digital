@@ -62,7 +62,7 @@ export default function Footer() {
               />
             </Link>
             <p className="rcd-footer-blurb">
-              A St. Louis digital studio building websites and search visibility for local businesses.
+              A family-owned St. Louis marketing agency building websites and search visibility for local businesses.
               Personally handled, here.
             </p>
             <a className="rcd-footer-mail" href="mailto:hello@rivercitydigitalco.com">

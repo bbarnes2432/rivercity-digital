@@ -17,7 +17,7 @@ export const TERMS_SECTIONS = [
     body: (
       <>
         <p>
-          This is the marketing website for River City Digital Co., a digital marketing studio based in St. Louis, Missouri.
+          This is the marketing website for River City Digital Co., a family-owned marketing agency based in St. Louis, Missouri.
           It exists to describe our services, share our point of view, and let prospective clients reach us.
         </p>
         <p>

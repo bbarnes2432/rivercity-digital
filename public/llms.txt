@@ -1,18 +1,18 @@
 # Rivercitydigitalco
 
-> A St. Louis digital studio offering custom websites and AI search visibility for local businesses.
+> A family-owned St. Louis marketing agency offering custom websites and AI search visibility for local businesses.
 
 ## Main
 
-- [St. Louis Digital Marketing Studio — Local Roots. Built to Be Found.](https://rivercitydigitalco.com/): River City Digital — a St. Louis digital studio building modern, search-ready websites and AI search visibility for local businesses. Custom work, personally handled
+- [St. Louis Family-Owned Marketing Agency — Local Roots. Built to Be Found.](https://rivercitydigitalco.com/): River City Digital — a family-owned St. Louis marketing agency building modern, search-ready websites and AI search visibility for local businesses. Custom work, personally handled
 
 ## Company
 
-- [About — Two of Us. One City. The Work. | River City Digital Co.](https://rivercitydigitalco.com/about): We're River City Digital — a small St. Louis studio building websites and search visibility for local businesses. Personally handled, here
+- [About — Two of Us. One City. The Work. | River City Digital Co.](https://rivercitydigitalco.com/about): We're River City Digital — a family-owned St. Louis marketing agency building websites and search visibility for local businesses. Personally handled, here
 
 ## Notes
 
-- [Field Notes | River City Digital Co.](https://rivercitydigitalco.com/notes): Writing on local search, AI search visibility, websites, and the work, from a small St. Louis studio
+- [Field Notes | River City Digital Co.](https://rivercitydigitalco.com/notes): Writing on local search, AI search visibility, websites, and the work, from a family-owned St. Louis marketing agency
 - [We asked ChatGPT to recommend a St. Louis dentist 50 times. It named the same handful every time. | River City Digital Co.](https://rivercitydigitalco.com/notes/ai-search-st-louis-dentist-test): Hundreds of practices in the metro. A handful got named repeatedly — and the difference wasn't clinical
 - [We tested 47 St. Louis HVAC contractors on ChatGPT. Here's what we found. | River City Digital Co.](https://rivercitydigitalco.com/notes/ai-search-st-louis-hvac-test): Most weren't mentioned. The ones who were shared three structural traits
 - [Your website looks great. To ChatGPT, it might be a blank page. | River City Digital Co.](https://rivercitydigitalco.com/notes/ai-crawlers-blank-page): Both sites looked great in Chrome. Asked for the way an AI crawler asks, each came back as a name and a sentence

@@ -54,7 +54,7 @@ export function QcFooter() {
         <p className="qc-footer-meta">
           Serving the Quad Cities — Davenport, Bettendorf, Rock Island and Moline.
           <br />
-          Studio in St. Louis, Missouri.
+          Marketing agency in St. Louis, Missouri.
         </p>
 
         <div className="qc-footer-links">

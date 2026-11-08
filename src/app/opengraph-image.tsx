@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "River City Digital Co. — A St. Louis digital studio building websites and search visibility for local businesses.";
+export const alt = "River City Digital Co. — A family-owned St. Louis marketing agency building websites and search visibility for local businesses.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -109,7 +109,7 @@ export default function Image() {
               maxWidth: 880,
             }}
           >
-            A St. Louis digital studio. Websites, local SEO, and AI search visibility — personally handled, here.
+            A family-owned St. Louis marketing agency. Websites, local SEO, and AI search visibility — personally handled, here.
           </div>
         </div>
 

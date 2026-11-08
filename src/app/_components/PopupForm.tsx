@@ -173,7 +173,7 @@ export default function PopupForm() {
         <div className="rcd-popup-signature" aria-hidden="true">
           <span className="rcd-popup-monogram">RC</span>
           <span className="rcd-popup-sig-rule" />
-          <span className="rcd-popup-sig-meta">{isChicago ? "Family-owned studio" : "St. Louis · MO"}</span>
+          <span className="rcd-popup-sig-meta">{isChicago ? "Family-owned marketing agency" : "St. Louis · MO"}</span>
         </div>
 
         <button
@@ -195,7 +195,7 @@ export default function PopupForm() {
               A quick read on what&apos;s helping &mdash; or hurting &mdash; your site.
             </h2>
             <p id="rcd-popup-body" className="rcd-popup-lede">
-              A real {isChicago ? "family-owned" : "St. Louis"} studio looks at your site by hand. No drip campaigns,
+              A real {isChicago ? "family-owned marketing agency" : "St. Louis marketing agency"} looks at your site by hand. No drip campaigns,
               no sales call &mdash; just a short report you can act on.
             </p>
 
@@ -306,7 +306,7 @@ export default function PopupForm() {
               One email a month. No pitches.
             </h2>
             <p id="rcd-popup-body" className="rcd-popup-lede">
-              Field notes from a St. Louis web studio &mdash; what&apos;s changing
+              Field notes from a St. Louis marketing agency &mdash; what&apos;s changing
               in Google, AI search, and small-business marketing.
             </p>
             <form className="rcd-popup-form" onSubmit={submitCurious} noValidate>

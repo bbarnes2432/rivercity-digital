@@ -33,7 +33,7 @@ export const HERO = {
   /** The differentiator is the first thing read. That is the whole point. */
   headline: "Quad Cities websites, built by a Davenport native.",
   subhead:
-    "Custom websites from a family-owned studio with Quad Cities roots. Work directly with our team, with a foundation for Google and AI search visibility.",
+    "Custom websites from a family-owned marketing agency with Quad Cities roots. Work directly with our team, with a foundation for Google and AI search visibility.",
   formHeading: "Tell us what you're working with.",
   formNote: "You'll hear from our team about your business and what you need.",
 } as const;
@@ -44,7 +44,7 @@ export const LOCAL_ANGLE = {
   /** First person on purpose. This is the one thing a competitor can't copy. */
   body: [
     "I grew up in Davenport. Boarding school down in Keokuk, then Loras College up in Dubuque — most of my life happened along one stretch of one river.",
-    "Our family-owned studio runs out of St. Louis now, about three hundred miles downstream on that same Mississippi. Same water, different bend.",
+    "Our family-owned marketing agency runs out of St. Louis now, about three hundred miles downstream on that same Mississippi. Same water, different bend.",
     "Those roots matter to us. We take the time to understand your business, explain your options and build a website around what you need. You work directly with our team from the first conversation to launch.",
   ],
   /** Upper Mississippi river miles, measured upstream from Cairo, Illinois.
@@ -187,7 +187,7 @@ export const VIDEO: {
   poster: null,
   captions: null,
   heading: "Ninety seconds, if you'd rather hear it.",
-  lede: "Who we are, what we build, and why a Davenport kid is running a studio out of St. Louis.",
+  lede: "Who we are, what we build, and why a Davenport kid is running a marketing agency out of St. Louis.",
 };
 
 /* ---------- 7 · Review ---------------------------------------------------
@@ -256,7 +256,7 @@ export const FAQ = [
   },
   {
     q: "You're based in St. Louis. Does that matter for a Quad Cities business?",
-    a: "Our family-owned studio is based in St. Louis, and the owner grew up in Davenport. We serve the Quad Cities through phone calls, video meetings and email. You'll work directly with our team to plan your website and review the work. We don't have a staffed Quad Cities office.",
+    a: "Our family-owned marketing agency is based in St. Louis, and the owner grew up in Davenport. We serve the Quad Cities through phone calls, video meetings and email. You'll work directly with our team to plan your website and review the work. We don't have a staffed Quad Cities office.",
   },
   {
     q: "What happens after launch?",

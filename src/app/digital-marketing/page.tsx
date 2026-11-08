@@ -148,7 +148,7 @@ export default function DigitalMarketingPage() {
                 style={{ width: "100%", height: "auto", borderRadius: "var(--r-lg)" }}
               />
               <p className="t-mono" style={{ color: "var(--ink-tertiary)", marginTop: 16, letterSpacing: "0.06em", textAlign: "center" }}>
-                FIG. 01 — WHERE A $1,000 AD BUDGET GOES, NATIONAL AGENCY VS. LOCAL STUDIO
+                FIG. 01 — WHERE A $1,000 AD BUDGET GOES, NATIONAL AGENCY VS. LOCAL AGENCY
               </p>
             </div>
           </Container>
