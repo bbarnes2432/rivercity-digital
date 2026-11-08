@@ -1,0 +1,176 @@
+.section {
+  --fb-navy: #101d31;
+  --fb-teal: #4ca5ad;
+  --fb-teal-deep: #2f7d85;
+  --fb-ink: #11242a;
+  --fb-muted: #53615f;
+  --fb-line: rgba(17, 36, 42, .14);
+  background: #f6f4ee;
+  color: var(--fb-ink);
+  padding-block: clamp(72px, 9vw, 128px);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 300px) minmax(260px, 330px) minmax(240px, 1fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+  margin-top: clamp(36px, 4vw, 56px);
+}
+
+/* Build list */
+.list { display: flex; flex-direction: column; border-top: 1px solid var(--fb-line); }
+
+.tab {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 6px 15px;
+  border: 0;
+  border-bottom: 1px solid var(--fb-line);
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .2s ease;
+}
+
+.tab:hover { background: rgba(76, 165, 173, .07); }
+.tab:focus-visible { outline: 2px solid var(--fb-teal-deep); outline-offset: -2px; }
+
+.tabNumber { flex: none; padding-top: 3px; color: var(--fb-muted); font-size: 11px; font-variant-numeric: tabular-nums; letter-spacing: .06em; }
+.tabText { display: grid; gap: 3px; min-width: 0; }
+.tabText strong { font-size: 15px; font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
+.tabText span { color: var(--fb-muted); font-size: 12.5px; line-height: 1.4; }
+
+.tab[aria-selected="true"] .tabNumber { color: var(--fb-teal-deep); font-weight: 600; }
+.tab[aria-selected="true"] .tabText strong { color: var(--fb-navy); }
+
+/* Thin teal bar that fills as the site scrolls past. */
+.tabProgress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--fb-teal);
+  transform-origin: left center;
+  transform: scaleX(var(--progress, 0));
+}
+
+/* Phone */
+.stage { display: flex; justify-content: center; }
+
+.phone {
+  position: relative;
+  width: min(100%, 318px);
+  padding: 13px;
+  border-radius: 46px;
+  background: linear-gradient(160deg, #233650, #0b1524);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, .06) inset,
+    0 40px 70px -20px rgba(16, 29, 49, .45),
+    0 18px 30px -18px rgba(16, 29, 49, .5);
+}
+
+.speaker {
+  position: absolute;
+  z-index: 2;
+  top: 22px;
+  left: 50%;
+  width: 84px;
+  height: 22px;
+  border-radius: 999px;
+  background: #050a12;
+  transform: translateX(-50%);
+}
+
+.screen {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 390 / 800;
+  border-radius: 34px;
+  background: #e9e6de;
+}
+
+.shot { display: block; width: 100%; height: auto; will-change: transform; }
+.preload { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+/* Details */
+.detailsMeta { color: var(--fb-teal-deep); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.detailsName { margin-top: 10px; color: var(--fb-navy); font-size: clamp(28px, 2.6vw, 38px); line-height: 1.05; letter-spacing: -.03em; }
+
+.callouts { display: grid; gap: 16px; margin: 26px 0 30px; padding: 0; list-style: none; }
+.callouts li { display: flex; gap: 14px; align-items: flex-start; font-size: 16px; line-height: 1.5; }
+.callouts li span {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--fb-teal);
+  border-radius: 50%;
+  color: var(--fb-teal-deep);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.visit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  background: var(--fb-navy);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color .2s ease;
+}
+
+.visit:hover { background: var(--fb-teal-deep); }
+.visit:focus-visible { outline: 2px solid var(--fb-teal-deep); outline-offset: 3px; }
+
+@media (max-width: 1080px) {
+  .layout { grid-template-columns: minmax(220px, 280px) 1fr; }
+  .details { grid-column: 1 / -1; max-width: 640px; }
+}
+
+/* Mobile: the list becomes a swipeable row of tabs above the phone. */
+@media (max-width: 760px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .list {
+    flex-direction: row;
+    gap: 8px;
+    margin-inline: -20px;
+    padding: 2px 20px 6px;
+    overflow-x: auto;
+    border-top: 0;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 20px;
+    scrollbar-width: none;
+  }
+  .list::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: none;
+    width: auto;
+    max-width: 230px;
+    padding: 10px 14px 12px;
+    border: 1px solid var(--fb-line);
+    border-radius: 10px;
+    scroll-snap-align: start;
+    overflow: hidden;
+  }
+  .tab[aria-selected="true"] { border-color: var(--fb-teal); background: #fff; }
+  .tabNumber { display: none; }
+  .tabText strong { font-size: 14px; white-space: nowrap; }
+  .tabText span { font-size: 11.5px; white-space: nowrap; }
+  .tabProgress { bottom: 0; }
+  .phone { width: min(78vw, 300px); }
+  .details { grid-column: auto; }
+  .callouts li { font-size: 15px; }
+  .visit { width: 100%; justify-content: center; }
+}

@@ -1220,3 +1220,22 @@
     transition: none;
   }
 }
+
+/* ============ GOOGLE REVIEWS (shared showcase component) ============ */
+.rcd-reviews-label {
+  display: inline-block;
+  margin: 0 0 16px;
+  font: 700 12px/1 var(--font-inter), sans-serif;
+  letter-spacing: 0.22em;
+  font-variant-caps: all-small-caps;
+  color: var(--accent);
+}
+.rcd-reviews-title {
+  font-family: var(--font-barlow), "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 4.2vw, 56px);
+  line-height: 1.04;
+  text-transform: uppercase;
+  margin: 0;
+}
+.rcd-reviews-title .accent { color: var(--accent); }
