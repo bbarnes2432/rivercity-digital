@@ -209,10 +209,10 @@ export default async function WorkCaseStudy({ params }: { params: Params }) {
 
         <CtaBand
           eyebrow="Your website project"
-          title="See a design direction for your business."
-          lede="Request a free mockup. We’ll talk through your business, the website you need, and a possible design direction. No obligation to build."
+          title="Ready for a website built around your business?"
+          lede="Start with a free call. We’ll talk through your business and the website you need. No obligation to build."
           primaryHref="/website-design#start"
-          primaryLabel="Get a free mockup"
+          primaryLabel="Book a free call"
           secondaryHref="/website-design#work"
           secondaryLabel="Back to website examples"
         />

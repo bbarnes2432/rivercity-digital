@@ -14,6 +14,8 @@ type Payload = {
   service?: string;
   message?: string;
   source?: string;
+  /** Website Design page picker: the features the visitor tapped. */
+  picks?: string;
   "bot-field"?: string;
   funnel?: unknown;
 } & Partial<Record<AttributionKey, string>>;
@@ -62,6 +64,7 @@ export async function POST(req: Request) {
   const business = trim(body.business);
   const service = trim(body.service);
   const source = trim(body.source).slice(0, 80);
+  const picks = trim(body.picks).replace(/\s+/g, " ").slice(0, 300);
   const receiptId = randomUUID();
   const funnel = parseFunnelContext(body.funnel);
   const receipt = (event: string, detail: Record<string, string | number> = {}) => {
@@ -103,6 +106,7 @@ export async function POST(req: Request) {
     website && `Site:  ${website}`,
     `Service: ${service}`,
     source && `Source:  ${source}`,
+    picks && `Picks:   ${picks}`,
     "",
     message || "(no message)",
     ...(attribution.length

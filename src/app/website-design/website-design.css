@@ -370,3 +370,16 @@ body:has(.wd-page) .rcd-back-to-top { display: none; }
   .wd-footer-navigation { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 18px; margin-block: 24px; }
   .wd-global-navigation .rcd-drawer-mail { font-size: 12px; overflow-wrap: anywhere; }
 }
+
+/* Footer menu: matches the header menu (Brandon's Nov 9, 2026 brief). */
+.wd-footer-menu { display: grid; grid-template-columns: repeat(4, minmax(0, auto)) 1fr; gap: 20px 48px; align-items: start; }
+.wd-footer-group { display: grid; align-content: start; }
+.wd-footer-group > p { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #8FA0B5; }
+.wd-footer-menu .wd-footer-group a { min-height: 36px; }
+.wd-footer-book { justify-self: end; }
+.wd-footer-menu .wd-footer-book a.wd-footer-book-link { min-height: 44px; padding: 0 22px; gap: 8px; border-radius: 999px; background: var(--cl-teal, #3A9FAB); color: #fff; font-weight: 600; }
+@media (max-width: 760px) {
+  .wd-footer-menu { grid-template-columns: 1fr 1fr; }
+  .wd-footer-book { justify-self: start; grid-column: 1 / -1; }
+}
+

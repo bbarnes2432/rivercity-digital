@@ -10,7 +10,7 @@ import BookCallLink from "@/app/_components/BookCallLink";
 export default function StudioStickyContact({ primaryLabel = "Free mockup", book = false }: { primaryLabel?: string; book?: boolean }) {
   const [formVisible, setFormVisible] = useState(true);
   useEffect(() => {
-    const targets = document.querySelectorAll(".wd-hero, #wd-mockup-form, #final-request");
+    const targets = document.querySelectorAll(".wd-hero, .cl-hero, #wd-mockup-form, #final-request");
     const visible = new Set<Element>();
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
