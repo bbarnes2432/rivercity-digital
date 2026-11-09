@@ -10,6 +10,8 @@ type Props = {
   context: string;
   className?: string;
   children: ReactNode;
+  /** Extra click handling, such as closing the mobile menu. */
+  onClick?: () => void;
 };
 
 /* "Book a 30-min call" — the outbound Calendly link.
@@ -33,7 +35,7 @@ type Props = {
  * Closing that last gap properly means importing completed bookings back from
  * Calendly as offline conversions against the stored gclid. Until that exists,
  * this counts the intent honestly and keeps it out of the bidding. */
-export default function BookCallLink({ context, className, children }: Props) {
+export default function BookCallLink({ context, className, children, onClick }: Props) {
   const pathname = usePathname();
 
   return (
@@ -45,6 +47,7 @@ export default function BookCallLink({ context, className, children }: Props) {
       onClick={() => {
         trackLeadEvent("book_call_click", { context, page: pathname });
         trackBookCallConversion();
+        onClick?.();
       }}
     >
       {children}

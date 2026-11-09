@@ -165,15 +165,6 @@ window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});`,
       <GoogleTag />
       <OpenAiPixel />
       <body>
-        <noscript>
-          <iframe
-            src="https://ob.sornavellon.com/ns/47e0b36dd9e5281ea505400cf48dc99c.html?ch="
-            width="0"
-            height="0"
-            style={{ display: "none" }}
-            title="ClickCease fraud prevention"
-          />
-        </noscript>
         <a href="#main" className="skip-link">Skip to main content</a>
         <script
           type="application/ld+json"
@@ -194,6 +185,21 @@ window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});`,
         <Suspense fallback={null}>
           <PopupForm />
         </Suspense>
+        {/* ClickCease (CHEQ) no-JS fallback. Kept last in <body> and hidden from
+            people and assistive tech: as the first thing in <body>, text views
+            and reader tools showed it as an "ob.sornavellon.com" link above the
+            menu. The main tag is the async script in <head>. */}
+        <noscript>
+          <iframe
+            src="https://ob.sornavellon.com/ns/47e0b36dd9e5281ea505400cf48dc99c.html?ch="
+            width="0"
+            height="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="ClickCease fraud prevention"
+            aria-hidden="true"
+            tabIndex={-1}
+          />
+        </noscript>
       </body>
     </html>
   );

@@ -70,7 +70,7 @@ export default async function WorkCaseStudy({ params }: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
       />
-      <Nav overlayMode="dark-on-light" primaryHref="/website-design#start" primaryLabel="Free mockup" />
+      <Nav overlayMode="dark-on-light" />
 
       <main id="main">
         {/* Hero — editorial cover spread */}

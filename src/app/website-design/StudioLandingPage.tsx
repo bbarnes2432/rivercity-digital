@@ -1,5 +1,6 @@
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Check } from "lucide-react";
 import CallLink from "../_components/CallLink";
+import BookCallLink from "../_components/BookCallLink";
 import HeroPortal from "../_components/HeroPortal";
 import HookVideo from "../_components/HookVideo";
 import TubesCursor from "@/components/ui/tubes-cursor";
@@ -13,7 +14,6 @@ import MockupRequestForm from "./_components/MockupRequestForm";
 import StudioStickyContact from "./_components/StudioStickyContact";
 import StudioFooter from "./_components/StudioFooter";
 import CustomBuildComparison, { CustomBuildIntroduction } from "./_components/CustomBuildComparison";
-import ClientProof from "./_components/ClientProof";
 import ProjectConversation from "./_components/ProjectConversation";
 import SearchFoundations from "./_components/SearchFoundations";
 import { BuildCapabilities, BuildProcess } from "./_components/BuildDetails";
@@ -37,13 +37,20 @@ import ChicagoHeroBackground, { type HeroVideoClip } from "./_components/Chicago
 
 
 
+// FAQ copy from Brandon's Nov 8, 2026 notes (page 10). No mockup offer.
 const FAQS = [
-  ["What does a custom website cost?", "The price depends on the pages and features you need. We give you a written price and plan before you decide to build."],
-  ["What happens when I request a free mockup?", "We get in touch about your business, ideas, and logo. Then we create a preview of what your website could look like. The mockup is free, with no obligation. Building the working website is a separate paid project, with the price agreed first."],
-  ["Can you redesign my existing website?", "Yes. Share your current website so we can see what to keep and what to improve."],
-  ["How long does a project take?", "It depends on the size of the website and how soon your content is ready. We agree on a schedule before the build."],
-  ["Will I own my website?", "Yes. You own your website’s code and domain. Hosting, maintenance, and other ongoing costs are listed separately in your proposal."],
-  ["Will my website be ready for search and mobile?", "Yes. We design for phones and computers, write clear page titles, and set up your pages for search engines. Ongoing SEO is separate. No website can guarantee rankings or leads."],
+  ["How much does a website cost?", "It depends on what your site needs to do: how many pages, booking, an online store, or a client dashboard. We’ll walk through it on a quick call and give you a clear price in writing before any work starts."],
+  ["Is the first call really free?", "Yes. The intro call is free, with no obligation. If you want to move forward, you get a written plan and price before any work starts."],
+  ["Can you redesign my current website?", "Yes. Share your current site and we’ll show you what we’d keep, what we’d change, and why."],
+  ["How long does it take?", "Most sites launch in about 2–3 weeks once we have your content. Bigger builds with stores or custom features take longer, and we’ll give you a timeline up front."],
+  ["Will I own my website?", "Yes. You own your site, your code, and your domain. Hosting is separate, and you can move it anywhere."],
+  ["Will my site show up on Google?", "Every site is built mobile-first and set up for search from day one. No website can guarantee rankings or leads, but we build yours to give it the best start."],
+];
+
+const PROJECT_PROMISES = [
+  "Free intro call, no obligation",
+  "A clear plan and price before any work starts",
+  "A real person follows up, usually the same business day",
 ];
 
 export default function StudioLandingPage({ market = "st-louis", focused = false, heroVideoClips }: { market?: "st-louis" | "chicago"; focused?: boolean; heroVideoClips?: readonly HeroVideoClip[] }) {
@@ -62,25 +69,23 @@ export default function StudioLandingPage({ market = "st-louis", focused = false
     }) }} />
     <HeroPortal /><StudioNavigation focused={focused} landingPath={landingPath} />
     <main id="main" className="wd-page">
-      <section className={`wd-hero wd-hero-with-form${chicago ? " wd-hero-video" : ""}`} aria-labelledby="hero-heading">
+      <section className={`wd-hero wd-hero-no-form${chicago ? " wd-hero-video" : ""}`} aria-labelledby="hero-heading">
         {chicago ? <ChicagoHeroBackground clips={heroVideoClips} /> : <ScrollWall />}
         <div className="wd-container wd-hero-content">
           <div className="wd-hero-copy">
-            <p className="wd-eyebrow"><span className="wd-status-dot" /> {chicago ? "Family-owned in St. Louis · Serving Chicago remotely" : "Local & family-owned · St. Louis"}</p>
-            <h1 id="hero-heading">{city}<br /><em>website design.</em></h1>
-            <p className="wd-hero-description">A custom website, built around your business by our family-owned team.<br className="wd-desktop-break" /> Start with a <strong>free mockup.</strong></p>
-            <p className="wd-hero-detail">Work directly with us. See your ideas and logo in a design preview before you decide to build. No payment details. No obligation.</p>
-            <div className="wd-actions"><a className="wd-button wd-button-mint" href="#start">Request my free mockup <ArrowUpRight size={19} /></a><CallLink context="website-design-hero" className="wd-button wd-hero-call">Call our St. Louis team</CallLink></div>
+            <p className="wd-eyebrow"><span className="wd-status-dot" /> Website design · Custom built</p>
+            <h1 id="hero-heading">Custom website design.<br /><em>Built around your business.</em></h1>
+            <p className="wd-hero-description">No templates and no page builders. Our family-owned team designs and builds your site from scratch, and you approve the design before we build a thing.</p>
+            <div className="wd-actions"><BookCallLink context="website-design-hero" className="wd-button wd-button-mint">Book a free call <ArrowUpRight size={19} /></BookCallLink><CallLink context="website-design-hero" className="wd-button wd-hero-call" numberPrefix="Call us " /></div>
           </div>
-          <MockupRequestForm focused={focused} landingPath={landingPath} />
         </div>
-        <div className="wd-container wd-hero-bottom"><span>Custom design · Built for phones · A website you own</span><span className="wd-hero-bottom-actions"><MotionToggle /><a href="#work">Explore the work <ArrowDown size={15} /></a></span></div>
+        <div className="wd-container wd-hero-bottom"><span>Rooted in {city} · Working across the Midwest · A website you own</span><span className="wd-hero-bottom-actions"><MotionToggle /><a href="#work">Explore the work <ArrowDown size={15} /></a></span></div>
       </section>
       <section className="wd-section wd-vsl rcd-light" id="why-river-city" aria-labelledby="why-river-city-heading">
         <div className="wd-container">
           <div className="wd-section-heading" data-entrance="rise">
-            <div><p className="wd-eyebrow">Meet River City Digital</p><h2 id="why-river-city-heading">See how we build<br />your new website.</h2></div>
-            <p>A short look at how we design your website, help customers find and call you, and how your free mockup works.</p>
+            <div><p className="wd-eyebrow">Meet River City Digital</p><h2 id="why-river-city-heading">See how we build<br />your website.</h2></div>
+            <p>A short look at how we design your website and help customers find and call you.</p>
           </div>
           <div className="wd-vsl-player" data-entrance="image">
             <HookVideo
@@ -89,25 +94,37 @@ export default function StudioLandingPage({ market = "st-louis", focused = false
               poster={vsl.poster}
               ctaLabel="Watch: How we build your website"
               preload="none"
+              captions={chicago ? undefined : `/assets/vsl/${vslName}.vtt`}
             />
           </div>
         </div>
       </section>
-      <ClientProof />
       <CustomBuildIntroduction />
       <FeaturedBuilds heading={<div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">Recent client builds</p><h2 id="builds-heading">Real businesses.<br /><em>Websites of their own.</em></h2></div><p>Pick a build to watch its homepage scroll on a phone, top to bottom, the way its customers see it.</p></div>} />
       <DetailTiles heading={<div className="wd-section-heading" data-entrance="rise"><div><p className="wd-eyebrow">Made for one business</p><h2 id="details-heading">Features built<br /><em>around the business.</em></h2></div><p>Every website we build gets features planned around how that business works. A few favorites from recent projects.</p></div>} />
+      <section className="wd-section wd-project rcd-light" id="start" tabIndex={-1} aria-labelledby="project-heading">
+        <div className="wd-container wd-project-grid">
+          <div className="wd-project-copy" data-entrance="rise">
+            <p className="wd-eyebrow">Start your project</p>
+            <h2 id="project-heading">Tell us about your website.<br /><em>We’ll come back with a plan.</em></h2>
+            <p>Tell us a little about your business and what you need. We’ll set up a quick call, then put together a clear plan and price in writing. No pressure, no surprises.</p>
+            <ul className="wd-project-promises">{PROJECT_PROMISES.map(promise => <li key={promise}><Check size={18} aria-hidden="true" />{promise}</li>)}</ul>
+            <p className="wd-project-direct"><span>Rather talk now?</span><CallLink context="website-design-project" className="wd-contact-number" /></p>
+          </div>
+          <MockupRequestForm focused={focused} landingPath={landingPath} offer="call" labelledBy="project-heading" />
+        </div>
+      </section>
       <ProjectConversation />
       <SearchFoundations />
-      <CustomBuildComparison focused={focused} />
+      <CustomBuildComparison />
       <BuildCapabilities />
       <BuildProcess />
       <section className="wd-section wd-faq rcd-light" id="faq" aria-labelledby="faq-heading"><div className="wd-container wd-faq-grid"><div data-entrance="rise"><p className="wd-eyebrow">Frequently asked questions</p><h2 id="faq-heading">Questions about<br />the build.</h2></div><div>{FAQS.map(([question, answer]) => <details className="wd-faq-item" data-entrance="unfold" key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
       <ReviewsShowcase heading={<><p className="wd-eyebrow">Google reviews</p><h2 id="reviews-heading">Straight from<br /><em>our clients.</em></h2></>} />
       <section className="wd-section wd-contact rcd-light" id="final-request" aria-labelledby="contact-heading">
-        <div className="wd-container wd-contact-grid"><div className="wd-contact-copy" data-entrance="rise"><p className="wd-eyebrow">Your business. Your website.</p><h2 id="contact-heading">See what your website<br />could look like.</h2><p>Share your ideas. Get a free mockup. Decide on the full website when you’re ready.</p><div className="wd-contact-direct"><span>Prefer to talk?</span><CallLink context="website-design-contact" className="wd-contact-number" /></div></div><div className="wd-contact-preview" data-entrance="rise"><p className="wd-eyebrow">Free design preview</p><h3>Request your free mockup.</h3><p>No payment details and no obligation. We agree on the price before building your website.</p><a className="wd-button wd-button-dark" href="#start">Request my free mockup <ArrowUpRight size={19} /></a></div></div>
+        <div className="wd-container"><div className="wd-contact-copy" data-entrance="rise"><p className="wd-eyebrow">Your new website</p><h2 id="contact-heading">Ready for a website built around your business?<br /><em>Start with a free call.</em></h2><div className="wd-contact-actions"><BookCallLink context="website-design-final" className="wd-button wd-button-dark">Book a free call <ArrowUpRight size={19} /></BookCallLink><a className="wd-button wd-button-outline" href="/work">See our work <ArrowUpRight size={19} /></a></div><div className="wd-contact-direct"><span>Prefer to talk?</span><CallLink context="website-design-contact" className="wd-contact-number" /></div></div></div>
       </section>
     </main>
-    <StudioFooter focused={focused} /><StudioStickyContact /><TubesCursor mobileAmbient /><StudioMotion /><RecoveryFunnel />
+    <StudioFooter focused={focused} /><StudioStickyContact book /><TubesCursor mobileAmbient /><StudioMotion /><RecoveryFunnel />
   </div></LandingPolicyProvider>;
 }

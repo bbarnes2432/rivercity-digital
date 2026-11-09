@@ -5,14 +5,34 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Button from "./Button";
+import BookCallLink from "./BookCallLink";
 import CallLink from "./CallLink";
 
 const SERVICES = [
-  { href: "/ai-search-visibility", label: "AI Search Visibility", desc: "Be the answer ChatGPT, Gemini and Perplexity give." },
+  { href: "/ai-search-visibility", label: "AI Search Visibility", desc: "Help AI tools find and recommend you." },
   { href: "/local-seo-optimization", label: "Local SEO", desc: "Page 1 and the Map Pack in your zip code." },
   { href: "/website-design", label: "Website Design", desc: "Custom websites that make contacting you easy." },
   { href: "/digital-marketing", label: "Digital Marketing", desc: "Google Ads, Meta, social and email — managed personally." },
 ];
+
+const ABOUT = [
+  { href: "/about", label: "About us", desc: "A family-owned marketing agency in St. Louis." },
+  { href: "/service-areas", label: "Service Areas", desc: "Where we work across Missouri and the Midwest." },
+];
+
+type Menu = "services" | "about";
+
+/* The header button on every page is "Book a free call" (Brandon's Nov 2026
+ * site kit). It opens Calendly through BookCallLink so the click is tracked.
+ * Focused paid pages can still pass their own label and on-page anchor. */
+const BOOK_LABEL = "Book a free call";
+
+const ButtonArrow = () => (
+  <svg className="btn-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+);
 
 type Props = {
   /** Use light text/colors over dark hero overlap. Defaults to dark text on cream. */
@@ -26,11 +46,11 @@ type Props = {
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/contact", primaryLabel = "Free Audit", sectionLinks, brandHref = "/" }: Props) {
+export default function Nav({ overlayMode = "light-on-dark", primaryHref, primaryLabel, sectionLinks, brandHref = "/" }: Props) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [ddOpen, setDdOpen] = useState(false);
+  const [ddOpen, setDdOpen] = useState<Menu | null>(null);
   const [lastPathname, setLastPathname] = useState(pathname);
   const ddCloseTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const drawerPanelRef = useRef<HTMLDivElement | null>(null);
@@ -106,13 +126,13 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
   if (pathname !== lastPathname) {
     setLastPathname(pathname);
     setDrawerOpen(false);
-    setDdOpen(false);
+    setDdOpen(null);
   }
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setDdOpen(false);
+        setDdOpen(null);
         setDrawerOpen(false);
       }
     };
@@ -122,6 +142,45 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
 
   const isCurrent = (href: string) => pathname === href;
   const isOnService = SERVICES.some((s) => s.href === pathname);
+  const isOnAbout = ABOUT.some((s) => s.href === pathname);
+  const ctaLabel = primaryHref ? (primaryLabel ?? BOOK_LABEL) : BOOK_LABEL;
+  const cta = (size: "sm" | "lg", className?: string, onClick?: () => void) => primaryHref
+    ? <Button href={primaryHref} size={size} arrow className={className} onClick={onClick}>{ctaLabel}</Button>
+    : <BookCallLink context={size === "sm" ? "nav" : "nav-drawer"} onClick={onClick} className={`btn btn-primary btn-${size}${className ? " " + className : ""}`}>{BOOK_LABEL}<ButtonArrow /></BookCallLink>;
+  const dropdown = (id: Menu, label: string, items: { href: string; label: string; desc: string }[], active: boolean) => (
+    <li
+      className={`rcd-nav-dd${ddOpen === id ? " open" : ""}`}
+      onMouseEnter={() => {
+        if (ddCloseTimer.current) clearTimeout(ddCloseTimer.current);
+        setDdOpen(id);
+      }}
+      onMouseLeave={() => {
+        if (ddCloseTimer.current) clearTimeout(ddCloseTimer.current);
+        ddCloseTimer.current = setTimeout(() => setDdOpen(null), 180);
+      }}
+    >
+      <button
+        type="button"
+        aria-haspopup="true"
+        aria-expanded={ddOpen === id}
+        data-active={active || undefined}
+        onClick={(e) => {
+          e.stopPropagation();
+          setDdOpen((o) => (o === id ? null : id));
+        }}
+      >
+        {label} <span className="chev" aria-hidden="true" />
+      </button>
+      <div className="rcd-nav-dd-menu" role="menu">
+        {items.map((s) => (
+          <Link key={s.href} href={s.href} role="menuitem" className="rcd-nav-dd-item" aria-current={isCurrent(s.href) ? "page" : undefined}>
+            <span className="rcd-nav-dd-label">{s.label}</span>
+            <span className="rcd-nav-dd-desc">{s.desc}</span>
+          </Link>
+        ))}
+      </div>
+    </li>
+  );
   // Use native fragment navigation for paid-page logos, including repeated clicks.
   const BrandLink = brandHref.includes("#") ? "a" : Link;
 
@@ -147,48 +206,13 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
 
           <ul className="rcd-nav-links">
             {sectionLinks ? sectionLinks.map(link => <li key={link.href}><a href={link.href}>{link.label}</a></li>) : <>
+            {dropdown("services", "Services", SERVICES, isOnService)}
             <li>
-              <Link href="/about" aria-current={isCurrent("/about") ? "page" : undefined}>
-                About
+              <Link href="/work" aria-current={pathname?.startsWith("/work") ? "page" : undefined}>
+                Work
               </Link>
             </li>
-            <li
-              className={`rcd-nav-dd${ddOpen ? " open" : ""}`}
-              onMouseEnter={() => {
-                if (ddCloseTimer.current) clearTimeout(ddCloseTimer.current);
-                setDdOpen(true);
-              }}
-              onMouseLeave={() => {
-                if (ddCloseTimer.current) clearTimeout(ddCloseTimer.current);
-                ddCloseTimer.current = setTimeout(() => setDdOpen(false), 180);
-              }}
-            >
-              <button
-                type="button"
-                aria-haspopup="true"
-                aria-expanded={ddOpen}
-                data-active={isOnService || undefined}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setDdOpen((o) => !o);
-                }}
-              >
-                Services <span className="chev" aria-hidden="true" />
-              </button>
-              <div className="rcd-nav-dd-menu" role="menu">
-                {SERVICES.map((s) => (
-                  <Link key={s.href} href={s.href} role="menuitem" className="rcd-nav-dd-item">
-                    <span className="rcd-nav-dd-label">{s.label}</span>
-                    <span className="rcd-nav-dd-desc">{s.desc}</span>
-                  </Link>
-                ))}
-              </div>
-            </li>
-            <li>
-              <Link href="/service-areas" aria-current={isCurrent("/service-areas") ? "page" : undefined}>
-                Service Areas
-              </Link>
-            </li>
+            {dropdown("about", "About", ABOUT, isOnAbout)}
             <li>
               <Link href="/contact" aria-current={isCurrent("/contact") ? "page" : undefined}>
                 Contact
@@ -197,13 +221,13 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
             </>}
           </ul>
 
-          {/* The number sits left of the Free Audit button so the cheapest
+          {/* The number sits left of the header button so the cheapest
               action to take is also the first one read. Desktop only — this
               whole block is display:none under 920px, where the call shortcut
               is the sticky bar instead. */}
           <div className="rcd-nav-cta">
             <CallLink context="nav" className="rcd-nav-call" />
-            <Button href={primaryHref} size="sm" arrow>{primaryLabel}</Button>
+            {cta("sm")}
           </div>
 
           <button
@@ -261,20 +285,25 @@ export default function Nav({ overlayMode = "light-on-dark", primaryHref = "/con
 
           <nav className="rcd-drawer-nav" aria-label="Mobile">
             {sectionLinks ? sectionLinks.map(link => <a key={link.href} href={link.href} onClick={() => setDrawerOpen(false)}>{link.label}</a>) : <>
-            <Link href="/about" onClick={() => setDrawerOpen(false)}>About</Link>
             <p className="rcd-drawer-section-label">Services</p>
             {SERVICES.map((s) => (
               <Link key={s.href} href={s.href} onClick={() => setDrawerOpen(false)}>
                 {s.label}
               </Link>
             ))}
-            <Link href="/service-areas" onClick={() => setDrawerOpen(false)}>Service Areas</Link>
+            <Link href="/work" onClick={() => setDrawerOpen(false)}>Work</Link>
+            <p className="rcd-drawer-section-label">About</p>
+            {ABOUT.map((s) => (
+              <Link key={s.href} href={s.href} onClick={() => setDrawerOpen(false)}>
+                {s.label}
+              </Link>
+            ))}
             <Link href="/contact" onClick={() => setDrawerOpen(false)}>Contact</Link>
             </>}
           </nav>
 
           <div className="rcd-drawer-foot">
-            <Button href={primaryHref} size="lg" arrow className="rcd-drawer-cta" onClick={() => setDrawerOpen(false)}>{primaryLabel}</Button>
+            {cta("lg", "rcd-drawer-cta", () => setDrawerOpen(false))}
             <a href="mailto:hello@rivercitydigitalco.com" className="rcd-drawer-mail">
               hello@rivercitydigitalco.com
             </a>

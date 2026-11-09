@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useMotionPaused } from "./motion-pause";
@@ -82,30 +82,41 @@ function Card({ review }: { review: ReviewCard }) {
   );
 }
 
-/** Two rows drifting in opposite directions; they stop on hover, on tap, and
+const noopSubscribe = () => () => {};
+
+/* Two drifting rows need at least this many reviews to fill wide screens. */
+const TWO_ROW_MINIMUM = 12;
+
+/** Rows drifting in opposite directions; they stop on hover, on tap, and
  *  with the site-wide pause. Reduced motion gets plain swipeable rows. */
 export function ReviewRows({ reviews }: { reviews: ReviewCard[] }) {
   const sitePaused = useMotionPaused();
   const reduced = useReducedMotion();
   const [held, setHeld] = useState(false);
-  // Both rows carry every review (each row must be wider than the screen to
-  // loop), offset so the same card never sits above itself. Only the first
-  // row's first copy is exposed to screen readers and keyboards.
-  const shift = Math.floor(reviews.length / 2);
-  const rows = [reviews, [...reviews.slice(shift), ...reviews.slice(0, shift)]];
+  // Each review shows once per loop. A row has to be wider than the screen to
+  // loop, so the reviews only split into two rows once there are enough to
+  // fill both; until then they share one row.
+  const rows = reviews.length >= TWO_ROW_MINIMUM
+    ? [reviews.filter((_, i) => i % 2 === 0), reviews.filter((_, i) => i % 2 === 1)]
+    : [reviews];
+  // The second copy that makes the loop seamless is added after hydration and
+  // hidden from assistive tech, so the page source and text views list each
+  // review exactly once.
+  const looping = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
   return (
     <div
       className={styles.rows}
       data-paused={sitePaused || held}
       data-static={reduced}
+      data-looping={looping}
       onPointerDown={event => { if (event.pointerType !== "mouse") setHeld(value => !value); }}
     >
-      {rows.map((row, r) => (reduced && r > 0) ? null : (
-        <div className={styles.row} key={r} data-direction={r ? "right" : "left"} aria-hidden={r > 0 || undefined} inert={r > 0 || undefined}>
+      {rows.map((row, r) => (
+        <div className={styles.row} key={r} data-direction={r ? "right" : "left"}>
           <div className={styles.track}>
             <div className={styles.group}>{row.map(review => <Card key={review.author} review={review} />)}</div>
-            {!reduced && <div className={styles.group} aria-hidden="true" inert>{row.map(review => <Card key={review.author} review={review} />)}</div>}
+            {looping && !reduced && <div className={styles.group} aria-hidden="true" inert>{row.map(review => <Card key={review.author} review={review} />)}</div>}
           </div>
         </div>
       ))}

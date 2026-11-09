@@ -301,7 +301,7 @@ export default function PopupForm() {
 
         {step === "curious" && (
           <div className="rcd-popup-step">
-            <p className="t-eyebrow rcd-popup-eyebrow">The studio note</p>
+            <p className="t-eyebrow rcd-popup-eyebrow">The monthly note</p>
             <h2 id="rcd-popup-title" className="rcd-popup-title">
               One email a month. No pitches.
             </h2>

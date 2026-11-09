@@ -77,7 +77,8 @@
 
 /* Reduced motion: one row the visitor can swipe or scroll. */
 .rows[data-static="true"] .row { overflow-x: auto; -webkit-mask-image: none; mask-image: none; padding-inline: 20px; }
-.rows[data-static="true"] .track { animation: none; }
+.rows[data-static="true"] .track,
+.rows[data-looping="false"] .track { animation: none; }
 @media (prefers-reduced-motion: reduce) { .track { animation: none; } }
 
 .card {

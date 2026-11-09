@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import StudioLandingPage from "./StudioLandingPage";
 
 export const metadata: Metadata = {
-  title: "Custom Website Design in St. Louis",
-  description: "St. Louis website design and custom development. Compare custom websites with Wix and WordPress templates, explore our work, and request a free mockup.",
+  title: "Custom Website Design for Small Businesses",
+  description: "Custom websites designed and built from scratch for small businesses across the Midwest. Book a free call to get started.",
   alternates: { canonical: "/website-design" },
   openGraph: {
-    title: "Custom website design and development | River City Digital",
-    description: "Custom websites for local businesses. Meet your St. Louis team and request a free mockup.",
+    title: "Custom Website Design for Small Businesses | River City Digital",
+    description: "Custom websites designed and built from scratch for small businesses across the Midwest. Book a free call to get started.",
     url: "/website-design",
     images: [{ url: "/assets/portfolio-wellness-collective.webp", width: 1440, height: 798, alt: "The Wellness Collective website, designed by River City Digital" }],
   },

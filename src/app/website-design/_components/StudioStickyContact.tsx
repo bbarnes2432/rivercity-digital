@@ -3,8 +3,11 @@
 import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import CallLink from "@/app/_components/CallLink";
+import BookCallLink from "@/app/_components/BookCallLink";
 
-export default function StudioStickyContact({ primaryLabel = "Free mockup" }: { primaryLabel?: string }) {
+/* `book` is the service-page version: "Book a free call" opens Calendly. The
+ * focused paid pages keep an anchor to their own on-page form. */
+export default function StudioStickyContact({ primaryLabel = "Free mockup", book = false }: { primaryLabel?: string; book?: boolean }) {
   const [formVisible, setFormVisible] = useState(true);
   useEffect(() => {
     const targets = document.querySelectorAll(".wd-hero, #wd-mockup-form, #final-request");
@@ -20,7 +23,9 @@ export default function StudioStickyContact({ primaryLabel = "Free mockup" }: { 
     return () => observer.disconnect();
   }, []);
   return <div className={`wd-sticky-contact${formVisible ? " is-hidden" : ""}`} aria-label="Quick contact">
-    <a href="#start" className="wd-button wd-button-mint">{primaryLabel} <ArrowUpRight size={16} /></a>
-    <CallLink context="website-design-mobile-sticky" className="wd-sticky-call">Call River City</CallLink>
+    {book
+      ? <BookCallLink context="website-design-mobile-sticky" className="wd-button wd-button-mint">Book a free call <ArrowUpRight size={16} /></BookCallLink>
+      : <a href="#start" className="wd-button wd-button-mint">{primaryLabel} <ArrowUpRight size={16} /></a>}
+    <CallLink context="website-design-mobile-sticky" className="wd-sticky-call">{book ? "Call us" : "Call River City"}</CallLink>
   </div>;
 }

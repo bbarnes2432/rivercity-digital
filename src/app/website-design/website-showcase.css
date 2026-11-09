@@ -21,3 +21,44 @@
   .wd-hero-bottom { gap: 12px; flex-wrap: wrap; }
   .wd-hero-bottom-actions, .ch-hero-footnote-actions { gap: 12px; }
 }
+
+/* Preview fixes (Brandon's Nov 8, 2026 notes). */
+
+/* Hero without the form: copy runs full width, two buttons and a trust line. */
+.wd-hero-no-form .wd-hero-copy { max-width: 860px; }
+.wd-hero-no-form h1 { font-size: clamp(46px, 5.6vw, 84px); margin-block: 22px; line-height: 1.02; }
+.wd-hero-no-form .wd-hero-description { max-width: 640px; font-size: clamp(17px, 1.5vw, 21px); }
+.wd-hero-no-form .wd-hero-call { border-color: var(--rcd-teal-300); color: #fff; background: #ffffff08; }
+.wd-hero-no-form .wd-hero-call:hover { background: #ffffff18; }
+
+/* Project form after the featured builds: copy and promises beside the form. */
+.wd-project-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 520px); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.wd-project-copy h2 { margin-top: 14px; }
+.wd-project-copy > p:not(.wd-eyebrow) { margin-top: 20px; max-width: 520px; line-height: 1.8; color: var(--wd-muted); }
+.wd-project-promises { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 14px; }
+.wd-project-promises li { display: flex; gap: 12px; align-items: flex-start; color: var(--wd-ink); line-height: 1.6; }
+.wd-project-promises svg { flex: none; margin-top: 3px; color: var(--accent); }
+.wd-project-direct { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; color: var(--wd-muted); font-size: 14px; }
+.wd-project .wd-form { padding: 28px; }
+
+@media (max-width: 900px) {
+  .wd-project-grid { grid-template-columns: 1fr; }
+}
+
+/* Final call to action: two buttons in place of the old mockup panel. */
+.wd-contact-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+/* Custom vs. template: two columns instead of three. */
+.wd-comparison-two .wd-comparison-columns,
+.wd-comparison-two .wd-comparison-row { grid-template-columns: .72fr repeat(2, minmax(0, 1fr)); }
+.wd-comparison-two .wd-comparison-note { grid-template-columns: 1fr; }
+@media (max-width: 900px) {
+  .wd-comparison-two .wd-comparison-cell { grid-column: 1 / -1; }
+  /* Without the column headers, label each cell so "custom" and "template" stay clear. */
+  .wd-comparison-two .wd-comparison-cell h4 { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; margin-bottom: 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--wd-muted); }
+  .wd-comparison-two .wd-comparison-cell-ours h4 { color: var(--rcd-teal-200); }
+}
+.wd-button-outline { border-color: var(--wd-navy); color: var(--wd-navy) !important; background: transparent; }
+.wd-button-outline:hover { background: var(--rcd-navy-050); }
+.wd-contact h2 em { font-style: normal; color: var(--accent); }
+.wd-site .wd-form-logo-line { margin-top: 4px; font-size: 13px; }

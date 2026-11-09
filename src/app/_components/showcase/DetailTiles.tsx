@@ -30,7 +30,7 @@ const clip = (id: string, width: number, height: number) => ({
 });
 
 const TILES: Tile[] = [
-  { id: "seth", client: "Seth Anthony Atelier", headline: "Spin the ring before you buy it", size: "large", url: "https://sethanthony.com/", media: clip("seth", 800, 632) },
+  { id: "seth", client: "Seth Anthony", headline: "Spin the ring before you buy it", size: "large", url: "https://sethanthony.com/", media: clip("seth", 800, 632) },
   { id: "alwaysclean", client: "Always Clean", headline: "A hero that wipes itself clean", size: "standard", url: "https://www.alwaysclean.biz/", media: clip("alwaysclean", 640, 480) },
   { id: "wellness", client: "The Wellness Collective", headline: "A calm, animated welcome", size: "standard", url: "https://www.wellnesscollectivehub.com/", media: clip("wellness", 640, 426) },
   { id: "lindas", client: "Linda’s Specialty Cheesecakes", headline: "A flavor menu that makes you hungry", size: "standard", url: "https://lindascheesecakes.com/", media: { kind: "still", src: "/assets/builds/lindas-tile.webp", width: 900, height: 1069 } },

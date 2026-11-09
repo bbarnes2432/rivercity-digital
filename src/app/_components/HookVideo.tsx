@@ -16,6 +16,8 @@ type Props = {
   ctaSub?: string;
   /** Landing pages can defer the media download until the visitor presses play. */
   preload?: "none" | "metadata" | "auto";
+  /** WebVTT captions, shown by default when the video plays. */
+  captions?: string;
 };
 
 /**
@@ -32,6 +34,7 @@ export default function HookVideo({
   ctaLabel = "Watch the video",
   ctaSub = "Tap to play with sound",
   preload = "metadata",
+  captions,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const previewRef = useRef<HTMLVideoElement>(null);
@@ -61,7 +64,11 @@ export default function HookVideo({
   const play = () => {
     const v = videoRef.current;
     if (!v) return;
+    // The file is attached on play rather than in the markup, so text-only
+    // views of the page never show its path as plain text.
+    if (!v.getAttribute("src")) v.src = src;
     v.controls = true;
+    for (const track of Array.from(v.textTracks)) track.mode = "showing";
     v.currentTime = 0;
     v.play().catch(() => {});
     setPreviewing(false);
@@ -73,12 +80,14 @@ export default function HookVideo({
       <video
         ref={videoRef}
         className="rcd-hook-video-el"
-        src={src}
         poster={poster}
         playsInline
         preload={preload}
         aria-label={ctaLabel}
-      />
+      >
+        {captions && <track kind="captions" src={captions} srcLang="en" label="English" default />}
+        Your browser can’t play this video.
+      </video>
       {previewSrc && !playing && (
         <video
           ref={previewRef}

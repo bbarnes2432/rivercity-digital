@@ -108,7 +108,7 @@ export default function Footer() {
           </div>
 
           <div className="rcd-footer-col">
-            <p className="rcd-footer-label">Studio</p>
+            <p className="rcd-footer-label">Company</p>
             <ul>
               {COMPANY.map((s) => (
                 <li key={s.href}><Link href={s.href}>{s.label}</Link></li>
