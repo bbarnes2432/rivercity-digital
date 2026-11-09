@@ -17,7 +17,7 @@ import { useStage, type ShowcaseKind } from "@/components/three/stage-context";
  * describes — a screenshot, or the word set in type. */
 
 const SAUCE = PROJECTS.find((p) => p.slug === "the-sauce-fix")!;
-const PET = PROJECTS.find((p) => p.slug === "pet-planet")!;
+const PET = PROJECTS.find((p) => p.slug === "mend-health")!;
 
 type Demo = { kind: ShowcaseKind; n: string; t: string; d: string; hint: string; src?: string; alt?: string };
 

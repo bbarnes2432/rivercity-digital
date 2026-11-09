@@ -34,11 +34,7 @@ import { texUrl } from "./tex";
 const ORDER = [
   "mend-health",
   "the-wellness-collective",
-  "lovely-nails",
-  "pet-planet",
   "the-sauce-fix",
-  "lucky-puppy",
-  "shear-fantasy",
   "confetti-and-co",
 ];
 const SITES = ORDER.map((slug) => PROJECTS.find((p) => p.slug === slug)!);

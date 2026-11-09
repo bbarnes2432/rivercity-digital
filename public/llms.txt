@@ -24,11 +24,7 @@
 ## Work
 
 - [Selected Work | River City Digital Co.](https://rivercitydigitalco.com/work): A short selection of websites and search visibility projects River City Digital has shipped for St. Louis businesses
-- [Pet Planet — Pet retail in St. Charles, MO | River City Digital Co.](https://rivercitydigitalco.com/work/pet-planet): New e-commerce build + Meta and Google Ads. First quarter outperformed the prior year by 38%
-- [Shear Fantasy Salon — Hair salon in Kirkwood, MO | River City Digital Co.](https://rivercitydigitalco.com/work/shear-fantasy): New site + reworked Google Ads campaigns. Cost-per-booking dropped from $42 to $14
-- [Lucky Puppy Custom Cuts — Pet grooming in Webster Groves, MO | River City Digital Co.](https://rivercitydigitalco.com/work/lucky-puppy): Rebuilt a slow, template-driven site into a fast custom storefront. Phone calls up 60% in the first month
 - [The Sauce Fix — Small-batch hot sauce in Iowa | River City Digital Co.](https://rivercitydigitalco.com/work/the-sauce-fix): A custom direct-to-consumer storefront for a maker who grows, ferments, and bottles every batch by hand — built to sell out drops and grow the list between them
-- [Lovely Nails — Nail salon in Clayton, MO | River City Digital Co.](https://rivercitydigitalco.com/work/lovely-nails): Page 4 to Page 1 in 90 days. Now cited by ChatGPT and Perplexity for the category
 - [The Wellness Collective — Therapy & wellness in St. Louis, MO | River City Digital Co.](https://rivercitydigitalco.com/work/the-wellness-collective): A brand-led build for a practice that spans clinical therapy and spiritual work — custom illustration, its own type system, and booking on the page
 - [Mend Health — Chiropractic & soft tissue in Kirkwood, MO | River City Digital Co.](https://rivercitydigitalco.com/work/mend-health): A custom site for a solo chiropractic and soft tissue practice — a page per service, six service-area pages, and booking from anywhere on the site
 - [Confetti & Co. — Event styling & party rentals in Troy, MO | River City Digital Co.](https://rivercitydigitalco.com/work/confetti-and-co): A bright, bookable site for a family-run party styling business — balloon garlands and luxury teepee sleepovers across the St. Louis metro
