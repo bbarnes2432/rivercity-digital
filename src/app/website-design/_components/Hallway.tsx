@@ -22,11 +22,7 @@ import { world } from "@/components/three/world-state";
 const ORDER = [
   "mend-health",
   "the-wellness-collective",
-  "lovely-nails",
-  "pet-planet",
   "the-sauce-fix",
-  "lucky-puppy",
-  "shear-fantasy",
   "confetti-and-co",
 ];
 const LIVE: Record<string, string> = {
