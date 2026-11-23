@@ -25,9 +25,9 @@ import {
 import "../styles/inner.css";
 
 export const metadata: Metadata = {
-  title: "Local SEO for St. Louis — Page 1 in Your Zip Code",
+  title: { absolute: "Local SEO Services Agency & Company St. Charles & St. Louis MO - River City Digital Co." },
   description:
-    "Local SEO for St. Louis businesses. Map Pack rankings, Google Business Profile optimization, citation building, review strategy. Free audit.",
+    "Strengthen Google Maps rankings with local SEO, Google Business Profile optimization, and citation building from River City Digital Co. in St. Louis, MO. Explore your options today.",
   alternates: { canonical: "/local-seo-optimization" },
   openGraph: {
     title: "Local SEO — River City Digital",

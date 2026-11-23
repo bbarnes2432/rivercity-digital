@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import StudioLandingPage from "./StudioLandingPage";
 
 export const metadata: Metadata = {
-  title: "Custom Website Design in St. Louis",
+  title: { absolute: "Custom Web Design Company & Local Website Designer St. Charles & St. Louis MO - River City Digital Co." },
   description: "St. Louis website design and custom development. Compare custom websites with Wix and WordPress templates, explore our work, and request a free mockup.",
   alternates: { canonical: "/website-design" },
   openGraph: {

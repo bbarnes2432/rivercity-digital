@@ -12,7 +12,7 @@ import { NOTES as POSTS } from "./_data";
 
 export const metadata: Metadata = {
   title: "Field Notes",
-  description: "Writing on local search, AI search visibility, websites, and the work, from a family-owned St. Louis marketing agency.",
+  description: "Read digital marketing insights, SEO tips, and website guidance from River City Digital Co. for businesses across St. Louis, MO. Apply fresh ideas to your online strategy today!",
   alternates: { canonical: "/notes" },
   openGraph: {
     title: "Field Notes — River City Digital",

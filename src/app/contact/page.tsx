@@ -15,7 +15,7 @@ const SITE_URL = "https://rivercitydigitalco.com";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Talk to a real St. Louis person. Free audit, honest scope, response within a day. Email, phone, or book a 15-minute call.",
+    "Discuss SEO, website design, and digital marketing services with River City Digital Co. for your business in St. Louis, MO. Share your project details and take the next step today!",
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "Contact — River City Digital",

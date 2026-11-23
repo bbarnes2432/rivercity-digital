@@ -16,9 +16,9 @@ import MobileStickyCta from "../_components/MobileStickyCta";
 import "../styles/inner.css";
 
 export const metadata: Metadata = {
-  title: "AI Search Visibility for St. Louis Businesses",
+  title: "AI Search Visibility for St. Charles & St. Louis Businesses",
   description:
-    "Get recommended by ChatGPT, Gemini, and Perplexity. AI search visibility audits and optimization for St. Louis local businesses.",
+    "Improve how AI tools recommend your business with AI search visibility strategies from River City Digital Co., earning citations for businesses in St. Louis, MO. Request an audit today.",
   alternates: { canonical: "/ai-search-visibility" },
   openGraph: {
     title: "AI Search Visibility — River City Digital",

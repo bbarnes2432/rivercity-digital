@@ -14,9 +14,9 @@ import { Search, MessageCircle, Megaphone, Mail } from "lucide-react";
 import "../styles/inner.css";
 
 export const metadata: Metadata = {
-  title: "Digital Marketing for St. Louis Businesses",
+  title: "Digital Marketing for St. Charles & St. Louis Businesses",
   description:
-    "Google Ads, Meta, social, and email — managed personally by St. Louis people. We treat your ad budget like our own.",
+    "Plan targeted campaigns with Google Ads, Meta Ads, social media, and email marketing from River City Digital Co. for businesses in St. Louis, MO. Start your marketing plan today.",
   alternates: { canonical: "/digital-marketing" },
   openGraph: {
     title: "Digital Marketing — River City Digital",

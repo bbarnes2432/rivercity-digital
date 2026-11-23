@@ -15,7 +15,7 @@ import MobileStickyCta from "../_components/MobileStickyCta";
 export const metadata: Metadata = {
   title: "About — Two of Us. One City. The Work.",
   description:
-    "We're River City Digital — a family-owned St. Louis marketing agency building websites and search visibility for local businesses. Personally handled, here.",
+    "Learn how River City Digital Co. delivers personalized digital marketing, website design, and SEO solutions for businesses in St. Louis, MO. Find out what sets the team apart today!",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About — River City Digital",
