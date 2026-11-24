@@ -13,7 +13,7 @@ import InlineContactSection from "../_components/InlineContactSection";
 import MobileStickyCta from "../_components/MobileStickyCta";
 
 export const metadata: Metadata = {
-  title: "About — Two of Us. One City. The Work.",
+  title: { absolute: "About River City Digital | Family-Owned Marketing Agency" },
   description:
     "Learn how River City Digital Co. delivers personalized digital marketing, website design, and SEO solutions for businesses in St. Louis, MO. Find out what sets the team apart today!",
   alternates: { canonical: "/about" },
