@@ -214,7 +214,7 @@ export const NOTES: Note[] = [
       {
         type: "p",
         text:
-          "You work directly with our team from the first mockup to launch, with no account managers and no handoffs. Most projects launch in 2 to 4 weeks.",
+          "You work directly with our team from the first conversation to launch, with no account managers and no handoffs. Most projects launch in 2 to 4 weeks.",
       },
       { type: "h2", text: "Frequently asked questions" },
       {

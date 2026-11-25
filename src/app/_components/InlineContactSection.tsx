@@ -62,7 +62,7 @@ export default function InlineContactSection({
               Book a 30-min call
             </BookCallLink>
             <span className="rcd-inline-contact-or" aria-hidden="true">
-              <span>{formVariant === "website-mockup" ? "or request your free mockup below" : "or write us below"}</span>
+              <span>{formVariant === "website-mockup" ? "or tell us about your project below" : "or write us below"}</span>
             </span>
           </div>
 

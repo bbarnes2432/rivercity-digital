@@ -21,3 +21,7 @@ The user adopted the owner's explicit request to rebuild `/st-louis-web-design` 
 ## Chicago offer test — October 10, 2026
 
 The user approved the researched Chicago-first consultation offer and coordinated publication. This supersedes the mandatory primary free-mockup CTA for `/chicago-web-design` only. Primary CTA: Discuss my website. Explain goals, pages/features, options and written scope/price before committing. Keep calls, existing design/media/proof and a secondary mockup FAQ; no pricing minimum. Shared components default to the original mockup offer for STL and organic routes. Preserve successful-delivery tracking and legacy analytics IDs. See docs/CHICAGO-CONSULTATION-2026-10-10.md and management change receipts.
+
+## No free mockups anywhere — November 24, 2026
+
+The client (Brandon) confirmed River City does not offer free mockups on the site, and the owner approved removing the offer and publishing. This supersedes the older "keep the free-mockup offer/form" notes above (September 18, September 28, October 10) for `/st-louis-web-design`, `/website-design`, case-study pages and every other route. St. Louis now uses the same `offer="consultation"` pattern as Chicago (Discuss my website; scope and price before building), and the shared components default to consultation. Design, videos, sections, calls, conversion tracking IDs, attribution and legacy `mockup_*` analytics event names are unchanged. No Google Ads changes were made or authorized by this website change.

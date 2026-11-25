@@ -47,7 +47,7 @@ function DesignReveal() {
   </div>;
 }
 
-export function MockupJourney({ offer = "mockup" }: { offer?: "mockup" | "consultation" }) {
+export function MockupJourney({ offer = "consultation" }: { offer?: "mockup" | "consultation" }) {
   const consultation = offer === "consultation";
   return <section className={styles.section} id="mockup-preview" aria-labelledby="chicago-journey-heading"><div className={styles.container}>
     <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>{consultation ? "From conversation to launch" : "See it before you build it"}</p><h2 id="chicago-journey-heading">Your idea.<br />Your next website.</h2></div><p>{consultation ? "Talk through your goals with the people who will build your website. Agree on a clear plan before the work begins." : "Start with a free mockup. Make the decision to build when you know what you’re getting."}</p></div>
@@ -60,7 +60,7 @@ export function MockupJourney({ offer = "mockup" }: { offer?: "mockup" | "consul
         <div className={styles.stepCopy}><span className={styles.stepNumber}>01</span><div><h3>Tell us what you do.</h3><p>Share your business, your ideas, and what you want your website to help people do.</p></div></div>
       </li>
       <li className={`${styles.journeyStep} ${styles.designStep}`}>
-        <div className={styles.designStage}><DesignReveal /><p className={styles.projectCredit}>Example mockup · Fictional business</p></div>
+        <div className={styles.designStage}><DesignReveal /><p className={styles.projectCredit}>Example design · Fictional business</p></div>
         <div className={styles.stepCopy}><span className={styles.stepNumber}>02</span><div><h3>{consultation ? "Agree on the plan." : "See your free mockup."}</h3><p>{consultation ? "Discuss the pages, features and design direction. Get a written scope and price before you decide to build." : "Review a design direction. Get a written scope and price before you decide to build."}</p></div></div>
       </li>
       <li className={styles.journeyStep}>

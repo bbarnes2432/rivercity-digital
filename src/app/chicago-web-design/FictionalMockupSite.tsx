@@ -2,7 +2,7 @@ import styles from "./ChicagoStorySections.module.css";
 
 /** An original UI illustration, not a client site, testimonial or working store. */
 export default function FictionalMockupSite({ mobile = false }: { mobile?: boolean }) {
-  return <div className={styles.conceptSite} data-mobile={mobile} role="img" aria-label={`Fictional Juniper Bakehouse ${mobile ? "mobile website" : "website mockup"}: a cream and berry-colored design with an illustrated celebration cake`}>
+  return <div className={styles.conceptSite} data-mobile={mobile} role="img" aria-label={`Fictional Juniper Bakehouse ${mobile ? "mobile website" : "website design"}: a cream and berry-colored design with an illustrated celebration cake`}>
     <div className={styles.conceptPage} aria-hidden="true">
       <div className={styles.conceptNav}><strong>juniper<span>BAKEHOUSE</span></strong><span>Our cakes &nbsp; Our story</span><i>Say hello ↗</i></div>
       <div className={styles.conceptHero}>

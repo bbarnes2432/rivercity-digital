@@ -75,7 +75,7 @@ export default function ContactForm({ defaultService = "", variant = "contact" }
 
   return (
     <form name="contact" method="POST" className="rcd-contact-form" onSubmit={handleSubmit}>
-      {isMockup && <input type="hidden" name="source" value="Website design — free mockup request" />}
+      {isMockup && <input type="hidden" name="source" value="Website design — project consultation" />}
       {/* Honeypot */}
       <input
         type="text"
@@ -138,7 +138,7 @@ export default function ContactForm({ defaultService = "", variant = "contact" }
       </div>
 
       <button type="submit" className="btn btn-primary btn-lg rcd-contact-submit" disabled={status === "submitting"}>
-        {status === "submitting" ? "Sending…" : status === "success" ? "Sent — we'll be in touch" : isMockup ? "Request my free mockup →" : "Send →"}
+        {status === "submitting" ? "Sending…" : status === "success" ? "Sent — we'll be in touch" : isMockup ? "Discuss my website →" : "Send →"}
       </button>
 
       <p

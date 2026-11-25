@@ -1,6 +1,6 @@
 import Nav from "@/app/_components/Nav";
 
-export default function StudioNavigation({ confirmation = false, focused = false, landingPath = "/website-design", primaryLabel = "Free mockup" }: { confirmation?: boolean; focused?: boolean; landingPath?: string; primaryLabel?: string }) {
+export default function StudioNavigation({ confirmation = false, focused = false, landingPath = "/website-design", primaryLabel = "Discuss my website" }: { confirmation?: boolean; focused?: boolean; landingPath?: string; primaryLabel?: string }) {
   const base = confirmation ? landingPath : "";
   return <div className="wd-global-navigation"><Nav
     overlayMode="light-on-dark"
