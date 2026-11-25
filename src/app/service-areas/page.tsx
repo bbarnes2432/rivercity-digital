@@ -14,7 +14,7 @@ import "../styles/service-areas.css";
 export const metadata: Metadata = {
   title: "Service Areas — Every Block. Every Neighborhood.",
   description:
-    "We work with businesses across the greater St. Louis metro — Soulard, Clayton, Webster Groves, Kirkwood, Chesterfield, O'Fallon, St. Charles, and beyond.",
+    "Discover marketing services from River City Digital Co. across St. Louis, Soulard, Clayton, Webster Groves, Kirkwood, Chesterfield, O'Fallon, St. Charles, MO and beyond. Call today!",
   alternates: { canonical: "/service-areas" },
   openGraph: {
     title: "Service Areas — River City Digital",

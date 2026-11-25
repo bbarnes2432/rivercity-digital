@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import CallLink from "@/app/_components/CallLink";
 
-export default function StudioStickyContact({ primaryLabel = "Free mockup" }: { primaryLabel?: string }) {
+export default function StudioStickyContact({ primaryLabel = "Discuss my website" }: { primaryLabel?: string }) {
   const [formVisible, setFormVisible] = useState(true);
   useEffect(() => {
     const targets = document.querySelectorAll(".wd-hero, #wd-mockup-form, #final-request");

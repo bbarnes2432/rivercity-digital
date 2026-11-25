@@ -70,7 +70,7 @@ export default async function WorkCaseStudy({ params }: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
       />
-      <Nav overlayMode="dark-on-light" primaryHref="/website-design#start" primaryLabel="Free mockup" />
+      <Nav overlayMode="dark-on-light" primaryHref="/website-design#start" primaryLabel="Discuss my website" />
 
       <main id="main">
         {/* Hero — editorial cover spread */}
@@ -209,10 +209,10 @@ export default async function WorkCaseStudy({ params }: { params: Params }) {
 
         <CtaBand
           eyebrow="Your website project"
-          title="See a design direction for your business."
-          lede="Request a free mockup. We’ll talk through your business, the website you need, and a possible design direction. No obligation to build."
+          title="Let’s plan your website project."
+          lede="Tell us about your business and the website you need. We’ll talk through your goals and options, then give you a written scope and price. No obligation to build."
           primaryHref="/website-design#start"
-          primaryLabel="Get a free mockup"
+          primaryLabel="Discuss my website"
           secondaryHref="/website-design#work"
           secondaryLabel="Back to website examples"
         />

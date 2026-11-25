@@ -14,9 +14,9 @@ import HookVideo from "./_components/HookVideo";
 import { getGoogleReviews } from "@/lib/google-reviews";
 
 export const metadata: Metadata = {
-  title: "St. Louis Family-Owned Marketing Agency — Local Roots. Built to Be Found.",
+  title: "Custom Website Designer & Local SEO Services Company St. Charles & St. Louis MO - River City Digital Co.",
   description:
-    "River City Digital — a family-owned St. Louis marketing agency building modern, search-ready websites and AI search visibility for local businesses. Custom work, personally handled.",
+    "Grow your online presence with custom website design, local SEO, AI search visibility, and digital marketing from River City Digital Co. for businesses in St. Louis, MO. Connect today!",
   alternates: { canonical: "/" },
   openGraph: {
     title: "River City Digital Co. — Local Roots. Built to Be Found.",

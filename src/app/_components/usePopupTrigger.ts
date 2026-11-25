@@ -5,7 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 const SUPPRESS_PATHS = new Set<string>([
   "/contact",
-  // This page has its own free mockup offer and inline request form.
+  // These pages have their own consultation offer and inline request form.
   "/website-design",
   "/website-design/thank-you",
   "/st-louis-web-design",

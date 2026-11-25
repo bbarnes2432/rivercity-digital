@@ -36,7 +36,7 @@ import ChicagoHeroBackground, { type HeroVideoClip } from "./_components/Chicago
 
 const FAQS = [
   ["What does a custom website cost?", "The price depends on the pages and features you need. We give you a written price and plan before you decide to build."],
-  ["What happens when I request a free mockup?", "We get in touch about your business, ideas, and logo. Then we create a preview of what your website could look like. The mockup is free, with no obligation. Building the working website is a separate paid project, with the price agreed first."],
+  ["What happens when I get in touch?", "We’ll contact you to discuss your business, what you need from a new website or redesign, and your options. You receive a written scope and price before deciding to build. There’s no obligation."],
   ["Can you redesign my existing website?", "Yes. Share your current website so we can see what to keep and what to improve."],
   ["How long does a project take?", "It depends on the size of the website and how soon your content is ready. We agree on a schedule before the build."],
   ["Will I own my website?", "Yes. You own your website’s code and domain. Hosting, maintenance, and other ongoing costs are listed separately in your proposal."],
@@ -65,11 +65,11 @@ export default function StudioLandingPage({ market = "st-louis", focused = false
           <div className="wd-hero-copy">
             <p className="wd-eyebrow"><span className="wd-status-dot" /> {chicago ? "Family-owned in St. Louis · Serving Chicago remotely" : "Local & family-owned · St. Louis"}</p>
             <h1 id="hero-heading">{city}<br /><em>website design.</em></h1>
-            <p className="wd-hero-description">A custom website, built around your business by our family-owned team.<br className="wd-desktop-break" /> Start with a <strong>free mockup.</strong></p>
-            <p className="wd-hero-detail">Work directly with us. See your ideas and logo in a design preview before you decide to build. No payment details. No obligation.</p>
-            <div className="wd-actions"><a className="wd-button wd-button-mint" href="#start">Request my free mockup <ArrowUpRight size={19} /></a><CallLink context="website-design-hero" className="wd-button wd-hero-call">Call our St. Louis team</CallLink></div>
+            <p className="wd-hero-description">A custom website, built around your business by our family-owned team.<br className="wd-desktop-break" /> Start with a <strong>conversation.</strong></p>
+            <p className="wd-hero-detail">Work directly with us. We’ll talk through your goals, pages and features, then give you a clear scope and price before you decide to build. No obligation.</p>
+            <div className="wd-actions"><a className="wd-button wd-button-mint" href="#start">Discuss my website <ArrowUpRight size={19} /></a><CallLink context="website-design-hero" className="wd-button wd-hero-call">Call our St. Louis team</CallLink></div>
           </div>
-          <MockupRequestForm focused={focused} landingPath={landingPath} />
+          <MockupRequestForm focused={focused} landingPath={landingPath} offer="consultation" />
         </div>
         <div className="wd-container wd-hero-bottom"><span>Custom design · Built for phones · A website you own</span><a href="#work">Explore the work <ArrowDown size={15} /></a></div>
       </section>
@@ -77,7 +77,7 @@ export default function StudioLandingPage({ market = "st-louis", focused = false
         <div className="wd-container">
           <div className="wd-section-heading" data-entrance="rise">
             <div><p className="wd-eyebrow">Meet River City Digital</p><h2 id="why-river-city-heading">See how we build<br />your new website.</h2></div>
-            <p>A short look at how we design your website, help customers find and call you, and how your free mockup works.</p>
+            <p>A short look at how we design your website, help customers find and call you, and how we plan your project with you.</p>
           </div>
           <div className="wd-vsl-player" data-entrance="image">
             <HookVideo
@@ -100,9 +100,9 @@ export default function StudioLandingPage({ market = "st-louis", focused = false
       <BuildProcess />
       <section className="wd-section wd-faq rcd-light" id="faq" aria-labelledby="faq-heading"><div className="wd-container wd-faq-grid"><div data-entrance="rise"><p className="wd-eyebrow">Frequently asked questions</p><h2 id="faq-heading">Questions about<br />the build.</h2></div><div>{FAQS.map(([question, answer]) => <details className="wd-faq-item" data-entrance="unfold" key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
       <section className="wd-section wd-contact rcd-light" id="final-request" aria-labelledby="contact-heading">
-        <div className="wd-container wd-contact-grid"><div className="wd-contact-copy" data-entrance="rise"><p className="wd-eyebrow">Your business. Your website.</p><h2 id="contact-heading">See what your website<br />could look like.</h2><p>Share your ideas. Get a free mockup. Decide on the full website when you’re ready.</p><div className="wd-contact-direct"><span>Prefer to talk?</span><CallLink context="website-design-contact" className="wd-contact-number" /></div></div><div className="wd-contact-preview" data-entrance="rise"><p className="wd-eyebrow">Free design preview</p><h3>Request your free mockup.</h3><p>No payment details and no obligation. We agree on the price before building your website.</p><a className="wd-button wd-button-dark" href="#start">Request my free mockup <ArrowUpRight size={19} /></a></div></div>
+        <div className="wd-container wd-contact-grid"><div className="wd-contact-copy" data-entrance="rise"><p className="wd-eyebrow">Your business. Your website.</p><h2 id="contact-heading">Let’s talk about<br />your next website.</h2><p>Share your ideas. Get a clear scope and price. Decide on the full website when you’re ready.</p><div className="wd-contact-direct"><span>Prefer to talk?</span><CallLink context="website-design-contact" className="wd-contact-number" /></div></div><div className="wd-contact-preview" data-entrance="rise"><p className="wd-eyebrow">Project consultation</p><h3>Discuss your website.</h3><p>No obligation. We agree on the scope and price before building your website.</p><a className="wd-button wd-button-dark" href="#start">Discuss my website <ArrowUpRight size={19} /></a></div></div>
       </section>
     </main>
-    <StudioFooter focused={focused} /><StudioStickyContact /><TubesCursor mobileAmbient /><StudioMotion /><RecoveryFunnel />
+    <StudioFooter focused={focused} /><StudioStickyContact primaryLabel="Discuss my website" /><TubesCursor mobileAmbient /><StudioMotion /><RecoveryFunnel />
   </div></LandingPolicyProvider>;
 }

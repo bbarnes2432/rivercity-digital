@@ -13,7 +13,7 @@ import { PROJECTS } from "./_data";
 
 export const metadata: Metadata = {
   title: "Selected Work",
-  description: "A short selection of websites and search visibility projects River City Digital has shipped for St. Louis businesses.",
+  description: "View website and marketing projects by River City Digital Co., featuring custom design and search strategies for businesses in St. Louis, MO. Browse the online portfolio today!",
   alternates: { canonical: "/work" },
   openGraph: {
     title: "Selected Work — River City Digital",

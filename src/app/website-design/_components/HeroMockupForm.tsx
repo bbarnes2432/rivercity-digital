@@ -81,7 +81,7 @@ export default function HeroMockupForm() {
       {/* The API requires a service and uses source to tell the forms apart in
           the inbox; neither is worth a field here. */}
       <input type="hidden" name="service" value="New website" />
-      <input type="hidden" name="source" value="Website design — hero mockup request" />
+      <input type="hidden" name="source" value="Website design — project consultation" />
       {/* Honeypot: a bot fills it, a person never sees it. */}
       <p className="rcd-hero-form-hp" aria-hidden="true">
         <label>
@@ -104,7 +104,7 @@ export default function HeroMockupForm() {
           <input type="tel" name="phone" placeholder="(314) 555-0100" autoComplete="tel" />
         </label>
         <button type="submit" className="rcd-hero-form-btn" disabled={status === "submitting"}>
-          {status === "submitting" ? "Sending…" : "Get my free mockup"}
+          {status === "submitting" ? "Sending…" : "Discuss my website"}
         </button>
       </div>
 
